@@ -9,9 +9,41 @@ import { CheckoutPage } from './pages/checkout.js';
 import { CustomProjectPage } from './pages/customProject.js';
 import { DashboardPage } from './pages/dashboard.js';
 import { AdminPage } from './pages/admin.js';
+import { LoginPage } from './pages/login.js';
+import { AdminLoginPage } from './pages/adminLogin.js';
+import { socketManager } from './socket/socket.js';
 
 // Setup basic app shell
 const app = document.getElementById('app');
+
+// Inject toast notification container
+const toastContainer = document.createElement('div');
+toastContainer.id = 'toast-container';
+toastContainer.className = 'toast-container';
+document.body.appendChild(toastContainer);
+
+function showToast(message, type = 'info') {
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type} reveal`;
+  
+  let icon = 'info';
+  if (type === 'order') icon = 'package';
+  if (type === 'quote') icon = 'file-text';
+  if (type === 'success') icon = 'check-circle';
+  
+  toast.innerHTML = `
+    <div class="toast-icon"><i data-lucide="${icon}"></i></div>
+    <div class="toast-content">${message}</div>
+    <button class="toast-close" onclick="this.parentElement.remove()"><i data-lucide="x"></i></button>
+  `;
+  toastContainer.appendChild(toast);
+  if (window.lucide) window.lucide.createIcons();
+  
+  setTimeout(() => {
+    toast.style.animation = 'slideOutRight 0.3s forwards';
+    setTimeout(() => toast.remove(), 300);
+  }, 5000);
+}
 
 function renderNavbar() {
   const navbar = document.getElementById('navbar');
@@ -29,9 +61,10 @@ function renderNavbar() {
           <a href="#/custom-project" class="nav-link ${router.currentRoute === '/custom-project' ? 'active' : ''}">Custom Project</a>
         </div>
         <div class="nav-actions">
-          <a href="#/dashboard" class="btn btn-ghost btn-sm" title="Dashboard">
-            <i data-lucide="user"></i>
-          </a>
+          ${store.get('user')?.loggedIn 
+            ? `<a href="#/dashboard" class="btn btn-ghost btn-sm" title="Dashboard"><i data-lucide="user"></i></a>`
+            : `<a href="#/login" class="btn btn-ghost btn-sm" style="font-size:var(--fs-sm); gap: 6px;"><i data-lucide="log-in"></i> Sign In</a>`
+          }
           <a href="#/cart" class="cart-btn" title="Cart">
             <i data-lucide="shopping-cart"></i>
             ${store.getCartCount() > 0 ? `<span class="cart-badge">${store.getCartCount()}</span>` : ''}
@@ -51,7 +84,7 @@ function renderNavbar() {
         <a href="#/customizer" class="nav-link" onclick="document.querySelector('.mobile-menu-btn').click()">Build Your Project</a>
         <a href="#/custom-project" class="nav-link" onclick="document.querySelector('.mobile-menu-btn').click()">Custom Project</a>
         <a href="#/dashboard" class="nav-link" onclick="document.querySelector('.mobile-menu-btn').click()">Dashboard</a>
-        <a href="#/admin" class="nav-link" onclick="document.querySelector('.mobile-menu-btn').click()">Admin (Demo)</a>
+        <a href="#" class="nav-link" onclick="window.logout(); document.querySelector('.mobile-menu-btn').click()">Logout</a>
       </div>
     `;
     if (window.lucide) window.lucide.createIcons();
@@ -111,7 +144,6 @@ function renderFooter() {
           <div>&copy; ${new Date().getFullYear()} CircuitKart. All rights reserved.</div>
           <div class="flex gap-md">
             <span><i data-lucide="shield-check" style="width:14px; vertical-align:middle;"></i> Secure Checkout</span>
-            <a href="#/admin" class="hover-text text-tertiary">Admin</a>
           </div>
         </div>
       </div>
@@ -137,13 +169,49 @@ window.appEvents = {
   }
 };
 
-function initApp() {
+  function initApp() {
+  // Restore user session from localStorage
+  const savedUser = localStorage.getItem('ck_user');
+  const savedAdmin = localStorage.getItem('ck_admin_user');
+  const isAdminRoute = window.location.hash.startsWith('#/admin');
+  
+  // Connect socket based on context
+  if (isAdminRoute && savedAdmin) {
+    try {
+      const user = JSON.parse(savedAdmin);
+      store.set('user', { ...user, loggedIn: true });
+      socketManager.connect(localStorage.getItem('ck_admin_token'), 'admin');
+    } catch (e) {}
+  } else if (!isAdminRoute && savedUser) {
+    try {
+      const user = JSON.parse(savedUser);
+      store.set('user', { ...user, loggedIn: true });
+      socketManager.connect(localStorage.getItem('ck_token'), 'customer');
+    } catch (e) {}
+  }
+
+  // Global logout function
+  window.logout = () => {
+    localStorage.removeItem('ck_token');
+    localStorage.removeItem('ck_user');
+    localStorage.removeItem('ck_admin_token');
+    localStorage.removeItem('ck_admin_user');
+    store.set('user', null);
+    socketManager.disconnect();
+    window.location.hash = '/login';
+  };
+
   // Add a hook to update navbar active state on route change
   router.after(() => renderNavbar());
   
   renderNavbar();
   renderFooter();
   store.on('cart', () => renderNavbar());
+  
+  // Listen for global notifications
+  store.on('notification', (notif) => {
+    showToast(notif.message, notif.type);
+  });
 
   // Setup Routes
   router.on('/', HomePage);
@@ -155,9 +223,11 @@ function initApp() {
   router.on('/custom-project', CustomProjectPage);
   router.on('/dashboard', DashboardPage);
   router.on('/admin', AdminPage);
+  router.on('/login', LoginPage);
+  router.on('/admin-login', AdminLoginPage);
   
   // Placeholder routes for remaining static pages
-  ['/about', '/contact', '/login'].forEach(path => {
+  ['/about', '/contact'].forEach(path => {
     router.on(path, (container, params) => {
       container.innerHTML = `<div class="container section text-center" style="padding-top: calc(var(--nav-height) + var(--space-4xl)); min-height: 100vh;">
         <h1 class="heading-xl" style="text-transform: capitalize;">${path.substring(1)} Page</h1>

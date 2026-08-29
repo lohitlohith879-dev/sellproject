@@ -17,7 +17,9 @@ function initDb() {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       email TEXT UNIQUE NOT NULL,
-      role TEXT DEFAULT 'customer'
+      password_hash TEXT NOT NULL,
+      role TEXT DEFAULT 'customer',
+      created_at TEXT DEFAULT (datetime('now'))
     );
 
     CREATE TABLE IF NOT EXISTS orders (
@@ -46,6 +48,21 @@ function initDb() {
       budget TEXT,
       timeline TEXT,
       status TEXT DEFAULT 'pending',
+      date TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS notifications (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      userId INTEGER, -- NULL means global admin notification
+      type TEXT NOT NULL,
+      message TEXT NOT NULL,
+      isRead INTEGER DEFAULT 0,
+      date TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS activities (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      type TEXT NOT NULL,
+      description TEXT NOT NULL,
       date TEXT NOT NULL
     );
   `;

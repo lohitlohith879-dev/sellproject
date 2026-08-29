@@ -1,6 +1,18 @@
 import { store } from '../store.js';
 
 export function AdminPage(container, params) {
+  // Check if admin is logged in
+  const adminToken = localStorage.getItem('ck_admin_token');
+  const adminUser = JSON.parse(localStorage.getItem('ck_admin_user') || '{}');
+  
+  if (!adminToken || adminUser.role !== 'admin') {
+    window.location.hash = '/admin-login';
+    return;
+  }
+  
+  // Fetch initial activity feed
+  store.fetchAdminFeed();
+
   const activeTab = params.tab || 'overview';
   
   window.switchAdminTab = (tab) => {
@@ -85,37 +97,24 @@ export function AdminPage(container, params) {
             `}
           </div>
           
-          <!-- Pending Quotes -->
-          <div class="glass-card" style="padding: 0; overflow: hidden;">
+          <!-- Live Activity Feed -->
+          <div class="glass-card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column; max-height: 400px;">
             <div style="padding: var(--space-lg); border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center;">
-              <h3 class="heading-sm">Pending Custom Requests</h3>
-              <a href="#/admin?tab=quotes" class="text-xs text-accent">View All</a>
+              <h3 class="heading-sm"><i data-lucide="activity" style="width:16px; margin-right:8px; vertical-align:middle; color:var(--primary);"></i>Live Activity Feed</h3>
             </div>
             
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Req ID</th>
-                  <th>Customer</th>
-                  <th>Budget</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="font-mono text-accent">REQ-847291</td>
-                  <td>Rahul S.</td>
-                  <td>₹15k - ₹50k</td>
-                  <td><button class="btn btn-ghost btn-sm">Review</button></td>
-                </tr>
-                <tr>
-                  <td class="font-mono text-accent">REQ-392810</td>
-                  <td>Anjali M.</td>
-                  <td>Under ₹5k</td>
-                  <td><button class="btn btn-ghost btn-sm">Review</button></td>
-                </tr>
-              </tbody>
-            </table>
+            <div style="padding: var(--space-md); overflow-y: auto; flex: 1;">
+              ${(store.get('activities') || []).length > 0 ? (store.get('activities') || []).slice(0, 15).map(act => `
+                <div style="display: flex; gap: 12px; margin-bottom: 16px; font-size: var(--fs-sm);">
+                  <div style="color: var(--text-tertiary); font-family: monospace; white-space: nowrap;">
+                    ${new Date(act.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                  </div>
+                  <div style="color: var(--text-secondary); line-height: 1.4;">
+                    ${act.description}
+                  </div>
+                </div>
+              `).join('') : '<div class="text-secondary text-center" style="padding:2rem;">No recent activity</div>'}
+            </div>
           </div>
         </div>
       </div>
@@ -204,6 +203,7 @@ export function AdminPage(container, params) {
   };
 
   store.on('orders', reRender);
+  store.on('activities', reRender);
 
 
   container.innerHTML = `

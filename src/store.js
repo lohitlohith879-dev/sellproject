@@ -1,4 +1,4 @@
-import { io } from 'socket.io-client';
+import { socketManager } from './socket/socket.js';
 
 class Store {
   constructor() {
@@ -6,30 +6,21 @@ class Store {
       cart: JSON.parse(localStorage.getItem('circuitkart_cart')) || [],
       orders: [],
       quotes: [],
+      activities: [],
       isConnected: false
     };
     this.listeners = {};
     
-    // Initialize Socket.IO connection to the backend
-    this.socket = io(); // Defaults to host, which proxy maps to :3001
-    
-    this.socket.on('connect', () => {
-      console.log('Connected to real-time backend');
-      this.state.isConnected = true;
-      this.emit('connection', true);
-      
-      // Fetch initial data once connected
-      this.fetchOrders();
+    // Bind global socket events
+    socketManager.on('connection', (status) => {
+      this.state.isConnected = status;
+      this.emit('connection', status);
+      if (status) {
+        this.fetchOrders();
+      }
     });
     
-    this.socket.on('disconnect', () => {
-      console.log('Disconnected from backend');
-      this.state.isConnected = false;
-      this.emit('connection', false);
-    });
-
-    // Listen for real-time order updates
-    this.socket.on('order:status_update', (data) => {
+    socketManager.on('order:status_update', (data) => {
       console.log('Real-time update received:', data);
       const order = this.state.orders.find(o => o.id === data.id);
       if (order) {
@@ -39,17 +30,28 @@ class Store {
       }
     });
     
+    socketManager.on('order:created', (data) => {
+      // Customer new order
+      this.state.orders.unshift(data);
+      this.emit('orders', this.state.orders);
+    });
+
     // Admin events
-    this.socket.on('admin:new_order', (data) => {
+    socketManager.on('admin:new_order', (data) => {
       this.state.orders.unshift(data);
       this.emit('orders', this.state.orders);
       this.emit('notification', { type: 'order', message: `New order received: ${data.id}` });
     });
     
-    this.socket.on('admin:new_quote', (data) => {
+    socketManager.on('admin:new_quote', (data) => {
       this.state.quotes.unshift(data);
       this.emit('quotes', this.state.quotes);
       this.emit('notification', { type: 'quote', message: `New quote requested by ${data.name}` });
+    });
+
+    socketManager.on('admin:activity', (data) => {
+      this.state.activities.unshift(data);
+      this.emit('activities', this.state.activities);
     });
   }
 
@@ -67,6 +69,11 @@ class Store {
 
   get(key) {
     return this.state[key];
+  }
+
+  set(key, value) {
+    this.state[key] = value;
+    this.emit(key, value);
   }
   
   // ----------------------------------------------------
@@ -124,9 +131,23 @@ class Store {
   // BACKEND API LOGIC
   // ----------------------------------------------------
   
+  getToken() {
+    // Determine token context based on current route
+    if (window.location.hash.startsWith('#/admin')) {
+      return localStorage.getItem('ck_admin_token');
+    }
+    return localStorage.getItem('ck_token');
+  }
+
   async fetchOrders() {
     try {
-      const response = await fetch('/api/orders');
+      const token = this.getToken();
+      if (!token) return;
+
+      const endpoint = window.location.hash.startsWith('#/admin') ? '/api/orders/all' : '/api/orders';
+      const response = await fetch(endpoint, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
       if (response.ok) {
         this.state.orders = await response.json();
         this.emit('orders', this.state.orders);
@@ -138,9 +159,13 @@ class Store {
 
   async addOrder(orderData) {
     try {
+      const token = this.getToken();
       const response = await fetch('/api/orders', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify(orderData)
       });
       
@@ -160,9 +185,13 @@ class Store {
   
   async updateOrderStatus(id, status) {
     try {
+      const token = this.getToken();
       const response = await fetch(`/api/orders/${id}/status`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({ status })
       });
       return response.ok;
@@ -174,15 +203,34 @@ class Store {
   
   async submitCustomQuote(quoteData) {
     try {
+      const token = this.getToken();
       const response = await fetch('/api/quotes', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify(quoteData)
       });
       return response.ok;
     } catch (e) {
       console.error(e);
       return false;
+    }
+  }
+  async fetchAdminFeed() {
+    try {
+      const token = localStorage.getItem('ck_admin_token');
+      if (!token) return;
+      const response = await fetch('/api/admin/feed', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (response.ok) {
+        this.state.activities = await response.json();
+        this.emit('activities', this.state.activities);
+      }
+    } catch (e) {
+      console.error(e);
     }
   }
 }
