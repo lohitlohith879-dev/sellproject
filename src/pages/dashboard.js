@@ -20,78 +20,117 @@ export function DashboardPage(container, params) {
         </div>
       `;
     }
-    
+
+    const STATUS_FLOW = [
+      { key: 'placed',            label: 'Order Placed',      color: '#00d4ff' },
+      { key: 'payment_confirmed', label: 'Payment Confirmed', color: '#7c3aed' },
+      { key: 'confirmed',         label: 'Order Confirmed',   color: '#3b82f6' },
+      { key: 'processing',        label: 'Processing',        color: '#f59e0b' },
+      { key: 'packed',            label: 'Packed',            color: '#f97316' },
+      { key: 'shipped',           label: 'Shipped',           color: '#8b5cf6' },
+      { key: 'out_for_delivery',  label: 'Out for Delivery',  color: '#06b6d4' },
+      { key: 'delivered',         label: 'Delivered',         color: '#10b981' },
+    ];
+
+    const SPECIAL = {
+      cancelled: '#ef4444', payment_failed: '#ef4444',
+      return_requested: '#f59e0b', returned: '#f59e0b',
+      refund_processing: '#8b5cf6', refunded: '#10b981',
+      received: '#3b82f6', payment_submitted: '#f59e0b',
+    };
+
+    function statusBadgeColor(s) {
+      return SPECIAL[s] || STATUS_FLOW.find(f => f.key === s)?.color || '#9ca3af';
+    }
+    function statusLabel(s) {
+      const map = {
+        placed:'Order Placed', payment_confirmed:'Payment Confirmed', confirmed:'Order Confirmed',
+        processing:'Processing', packed:'Packed', shipped:'Shipped', out_for_delivery:'Out for Delivery',
+        delivered:'Delivered', cancelled:'Cancelled', payment_failed:'Payment Failed',
+        return_requested:'Return Requested', returned:'Returned', refund_processing:'Refund Processing',
+        refunded:'Refunded', received:'Order Received', payment_submitted:'Payment Submitted',
+      };
+      return map[s] || s;
+    }
+
     return `
       <div>
         <h2 class="heading-md" style="margin-bottom: var(--space-xl);">My Orders</h2>
-        
         <div class="orders-list">
           ${orders.map(order => {
-            
-            // Define timeline steps based on status
-            // Statuses: received, design, development, testing, ready, shipped, delivered
-            const statuses = ['received', 'design', 'development', 'testing', 'ready', 'shipped', 'delivered'];
-            const labels = ['Order Received', 'Designing', 'Development', 'Testing', 'Ready', 'Shipped', 'Delivered'];
-            
-            let currentIndex = statuses.indexOf(order.status);
-            if (currentIndex === -1) currentIndex = 0; // Default if not found
-            
+            const currentFlowIdx = STATUS_FLOW.findIndex(s => s.key === order.status);
+            const isSpecial = !!SPECIAL[order.status] && currentFlowIdx === -1;
+            const color = statusBadgeColor(order.status);
+
             return `
-              <div class="order-card glass-card">
-                <div class="order-header border-bottom padding-bottom">
+              <div class="order-card glass-card" style="margin-bottom:var(--space-md);">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:var(--space-md);padding-bottom:var(--space-md);border-bottom:1px solid var(--border-subtle);">
                   <div>
-                    <div class="flex gap-sm align-center">
-                      <span class="order-id-tag">${order.id}</span>
-                      <span class="badge badge-${order.status === 'delivered' ? 'green' : 'blue'}">${order.status.toUpperCase()}</span>
+                    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                      <span class="order-id-tag font-mono" style="color:var(--primary);font-weight:700;">${order.id}</span>
+                      <span style="background:${color}22;color:${color};border:1px solid ${color}44;padding:3px 10px;border-radius:12px;font-size:.75rem;font-weight:700;">${statusLabel(order.status)}</span>
                     </div>
-                    <div class="order-date">Placed on ${new Date(order.date).toLocaleDateString()}</div>
+                    <div class="text-secondary text-sm" style="margin-top:4px;">Placed on ${new Date(order.date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</div>
                   </div>
-                  <div class="text-right">
-                    <div class="text-sm text-secondary">Total</div>
-                    <div class="font-mono font-bold text-accent">₹${new Intl.NumberFormat('en-IN').format(order.total)}</div>
+                  <div style="text-align:right;">
+                    <div class="text-secondary text-sm">Total</div>
+                    <div class="font-mono font-bold" style="color:var(--primary);font-size:1.1rem;">₹${new Intl.NumberFormat('en-IN').format(order.total)}</div>
                   </div>
                 </div>
-                
-                <div class="order-items-list" style="margin: var(--space-md) 0; border-bottom: 1px solid var(--border-subtle); padding-bottom: var(--space-md);">
-                  ${order.items.map(item => `
-                    <div class="order-item-row">
-                      <div class="item-thumb"></div>
-                      <div class="flex-1">
-                        <div class="font-medium">${item.name}</div>
-                        <div class="text-xs text-tertiary">Qty: ${item.quantity || 1}</div>
+
+                <!-- Items -->
+                <div style="margin-bottom:var(--space-md);">
+                  ${(order.items||[]).map(item => `
+                    <div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border-subtle);">
+                      <div style="width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.05);border:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">📦</div>
+                      <div style="flex:1;">
+                        <div style="font-size:.85rem;font-weight:500;color:var(--text-heading);">${item.name}</div>
+                        <div style="font-size:.75rem;color:var(--text-tertiary);">Qty: ${item.quantity||1} · ₹${new Intl.NumberFormat('en-IN').format(item.price*(item.quantity||1))}</div>
                       </div>
-                    </div>
-                  `).join('')}
+                    </div>`).join('')}
                 </div>
-                
-                <div>
-                  <h4 class="text-sm font-semibold" style="margin-bottom: var(--space-sm);">Order Status</h4>
-                  <div class="order-timeline">
-                    ${statuses.map((status, index) => `
-                      <div class="timeline-step">
-                        <div class="flex-col align-center">
-                          <div class="timeline-dot ${index < currentIndex ? 'completed' : ''} ${index === currentIndex ? 'active' : ''}"></div>
-                          <div class="timeline-label">${labels[index]}</div>
-                        </div>
-                        ${index < statuses.length - 1 ? `
-                          <div class="timeline-line ${index < currentIndex ? 'completed' : ''}"></div>
-                        ` : ''}
-                      </div>
-                    `).join('')}
+
+                <!-- Mini Timeline -->
+                <div style="margin-bottom:var(--space-md);">
+                  <div style="display:flex;align-items:center;gap:0;overflow-x:auto;padding-bottom:4px;">
+                    ${STATUS_FLOW.map((step, idx) => {
+                      const done = currentFlowIdx >= 0 && idx < currentFlowIdx;
+                      const active = idx === currentFlowIdx;
+                      return `
+                        <div style="display:flex;align-items:center;gap:0;flex-shrink:0;">
+                          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+                            <div style="width:24px;height:24px;border-radius:50%;
+                              background:${done ? step.color : active ? step.color : 'rgba(255,255,255,0.06)'};
+                              border:2px solid ${done||active ? step.color : 'var(--border-subtle)'};
+                              display:flex;align-items:center;justify-content:center;font-size:10px;
+                              ${active ? `box-shadow:0 0 0 3px ${step.color}33;` : ''}">
+                              ${done ? '✓' : active ? '●' : ''}
+                            </div>
+                            <span style="font-size:.6rem;color:${done||active ? 'var(--text-secondary)' : 'var(--text-tertiary)'};white-space:nowrap;max-width:52px;text-align:center;line-height:1.2;">${step.label}</span>
+                          </div>
+                          ${idx < STATUS_FLOW.length-1 ? `<div style="width:20px;height:2px;background:${done ? step.color : 'var(--border-subtle)'};flex-shrink:0;margin:0 0 18px;"></div>` : ''}
+                        </div>`;
+                    }).join('')}
                   </div>
                 </div>
-                
-                <div class="text-right" style="margin-top: var(--space-md);">
-                  <button class="btn btn-secondary btn-sm"><i data-lucide="download"></i> Invoice</button>
-                  ${order.status === 'delivered' ? `<button class="btn btn-primary btn-sm"><i data-lucide="star"></i> Leave Review</button>` : ''}
+
+                <!-- Actions -->
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                  <a href="#/track/${order.id}" class="btn btn-primary btn-sm">
+                    <i data-lucide="map-pin" style="width:14px;"></i> Track Order
+                  </a>
+                  <button class="btn btn-secondary btn-sm">
+                    <i data-lucide="download" style="width:14px;"></i> Invoice
+                  </button>
+                  ${order.status === 'delivered' ? `<button class="btn btn-ghost btn-sm"><i data-lucide="star" style="width:14px;"></i> Review</button>` : ''}
                 </div>
-              </div>
-            `;
+              </div>`;
           }).join('')}
         </div>
       </div>
     `;
   }
+
   
   function renderDownloadsTab() {
     // Mock downloads based on orders
@@ -175,215 +214,71 @@ export function DashboardPage(container, params) {
   }
   
   function renderProfileTab() {
-    return `
-      <div class="light-dashboard" style="padding: var(--space-xl); font-family: 'Inter', sans-serif;">
-        <h2 class="heading-lg" style="margin-bottom: var(--space-xl); color: #1a202c;">Profile Dashboard</h2>
+    const user = store.get('user') || {};
+    
+    window.updateProfile = async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('profile-save-btn');
+      btn.disabled = true;
+      btn.innerHTML = 'Saving...';
+      
+      const payload = {
+        name: document.getElementById('prof-name').value,
+        phone: document.getElementById('prof-phone').value,
+        college: document.getElementById('prof-college').value,
+        address: document.getElementById('prof-address').value
+      };
+      
+      try {
+        const token = localStorage.getItem('ck_token');
+        const res = await fetch('/api/users/profile', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(payload)
+        });
         
-        <!-- Top Row -->
-        <div class="profile-grid">
+        if (res.ok) {
+          await store.fetchUserProfile();
+          showToast('Profile updated successfully!', 'success');
+        } else {
+          showToast('Failed to update profile', 'error');
+        }
+      } catch (err) {
+        showToast('Error connecting to server', 'error');
+      }
+      
+      btn.disabled = false;
+      btn.innerHTML = '<i data-lucide="save" style="width:16px;"></i> Save Changes';
+    };
+
+    return `
+      <div class="light-dashboard" style="padding: var(--space-xl); font-family: 'Inter', sans-serif; max-width: 900px; margin: 0 auto;">
+        <h2 class="heading-lg" style="margin-bottom: var(--space-xl); color: #1a202c;">My Profile</h2>
+        
+        <div style="display: grid; grid-template-columns: 300px 1fr; gap: var(--space-xl); align-items: start;">
           
-          <!-- Profile Card -->
-          <div class="glass-card profile-card" style="padding:0; display: flex; flex-direction: column;">
-            <div class="profile-banner"></div>
-            <div class="profile-avatar-wrap">
-              <img src="https://ui-avatars.com/api/?name=Lohith+R&background=random&color=fff&size=100" class="profile-avatar" alt="User Avatar">
+          <!-- Left: Avatar Card -->
+          <div class="glass-card profile-card" style="padding:0; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-secondary); border: 1px solid var(--border-subtle); border-radius: 16px;">
+            <div style="height: 100px; background: var(--gradient-primary);"></div>
+            <div style="margin-top: -50px; display: flex; justify-content: center;">
+              <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(user.name||'User')}&background=random&color=fff&size=100" style="width: 100px; height: 100px; border-radius: 50%; border: 4px solid var(--bg-secondary); background: var(--bg-secondary);" alt="User Avatar">
             </div>
-            <h3 class="profile-name">Lohith R</h3>
-            <div><span class="profile-badge">Administrator</span></div>
-            <p style="color: #718096; font-size: var(--fs-sm); margin-bottom: var(--space-xs);">lohith@example.com</p>
-            <p style="color: #718096; font-size: var(--fs-sm); margin-bottom: var(--space-md);">+91 98765 43210</p>
-            <div style="margin-top: auto; border-top: 1px solid #f0f0f0; padding: var(--space-md);">
-              <span style="color: #718096; font-size: var(--fs-sm);">User ID: <span style="color: #0066ff; font-weight: 600;">PGU1001</span></span>
+            <div style="padding: var(--space-xl) var(--space-lg); text-align: center;">
+              <h3 style="font-size: var(--fs-lg); font-weight: 700; color: var(--text-heading); margin-bottom: 4px;">${user.name || '—'}</h3>
+              <div style="margin-bottom: 12px;"><span style="background: rgba(0,212,255,0.1); color: var(--primary); padding: 4px 12px; border-radius: 20px; font-size: var(--fs-xs); font-weight: 600; text-transform: capitalize;">${user.role || 'Customer'}</span></div>
+              <p style="color: var(--text-secondary); font-size: var(--fs-sm); margin-bottom: 4px;">${user.email || '—'}</p>
+              <p style="color: var(--text-secondary); font-size: var(--fs-sm); margin-bottom: 4px;">Joined ${user.created_at ? new Date(user.created_at).toLocaleDateString() : 'recently'}</p>
             </div>
           </div>
           
-          <!-- Personal Info -->
-          <div class="glass-card" style="padding: var(--space-xl);">
-            <h4 style="color: #0066ff; font-size: var(--fs-md); margin-bottom: var(--space-lg); display: flex; align-items: center; gap: 8px;">
+          <!-- Right: Edit Form -->
+          <div class="glass-card" style="padding: var(--space-xl); background: var(--bg-secondary); border: 1px solid var(--border-subtle); border-radius: 16px;">
+            <h4 style="color: var(--primary); font-size: var(--fs-md); margin-bottom: var(--space-lg); display: flex; align-items: center; gap: 8px; font-weight: 600;">
               <i data-lucide="user" style="width: 18px;"></i> Personal Information
             </h4>
-            <div class="info-list">
-              <div class="info-row"><span class="info-label">Full Name</span><span class="info-val">Lohith R</span></div>
-              <div class="info-row"><span class="info-label">Email</span><span class="info-val">lohith@example.com</span></div>
-              <div class="info-row"><span class="info-label">Mobile Number</span><span class="info-val">+91 98765 43210</span></div>
-              <div class="info-row"><span class="info-label">User ID</span><span class="info-val">PGU1001</span></div>
-              <div class="info-row"><span class="info-label">Role</span><span class="info-val" style="color: #48bb78;">Administrator</span></div>
-              <div class="info-row"><span class="info-label">Location</span><span class="info-val">Bellary, Karnataka, India</span></div>
-              <div class="info-row"><span class="info-label">Joined On</span><span class="info-val">15 Jan 2024</span></div>
-              <div class="info-row"><span class="info-label">Last Login</span><span class="info-val">29 Aug 2025 06:45 PM</span></div>
-              <div class="info-row"><span class="info-label">Account Status</span><span class="info-val"><span style="background:#e6fffa; color:#38b2ac; padding: 2px 8px; border-radius: 4px;">Active</span></span></div>
-            </div>
-          </div>
-          
-          <!-- System Info -->
-          <div class="glass-card" style="padding: var(--space-xl);">
-            <h4 style="color: #0066ff; font-size: var(--fs-md); margin-bottom: var(--space-lg); display: flex; align-items: center; gap: 8px;">
-              <i data-lucide="monitor" style="width: 18px;"></i> System Information
-            </h4>
-            <div class="info-list">
-              <div class="info-row"><span class="info-label">Substation / Location</span><span class="info-val">Bellary Substation</span></div>
-              <div class="info-row"><span class="info-label">Connected Transformer</span><span class="info-val">TRF-11KV-01</span></div>
-              <div class="info-row"><span class="info-label">System Type</span><span class="info-val">11kV Distribution</span></div>
-              <div class="info-row"><span class="info-label">Monitoring Since</span><span class="info-val">15 Jan 2024</span></div>
-              <div class="info-row"><span class="info-label">Firmware Version</span><span class="info-val">v2.4.1</span></div>
-              <div class="info-row"><span class="info-label">Gateway ID</span><span class="info-val">GW-11KV-01</span></div>
-              <div class="info-row"><span class="info-label">Number of Connected Devices</span><span class="info-val" style="color: #48bb78;">12</span></div>
-              <div class="info-row"><span class="info-label">System Status</span><span class="info-val"><span style="background:#e6fffa; color:#38b2ac; padding: 2px 8px; border-radius: 4px;">Online</span></span></div>
-            </div>
-          </div>
-          
-        </div>
-
-        <!-- Middle Row -->
-        <div class="middle-grid">
-          
-          <!-- Connected Devices Table -->
-          <div class="glass-card" style="padding: var(--space-xl);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg);">
-              <h4 style="color: #0066ff; font-size: var(--fs-md); display: flex; align-items: center; gap: 8px;">
-                <i data-lucide="share-2" style="width: 18px;"></i> Connected Devices
-              </h4>
-              <button style="background: #edf2f7; color: #4299e1; padding: 4px 12px; border-radius: 4px; border: none; font-size: var(--fs-xs); font-weight: 600; cursor: pointer;">View All</button>
-            </div>
-            
-            <table class="dash-table">
-              <thead>
-                <tr>
-                  <th>Device Name</th>
-                  <th>Device ID</th>
-                  <th>Status</th>
-                  <th>Last Active</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="font-weight: 500;">Fault Detector 1</td>
-                  <td style="color: #718096;">FD-1001</td>
-                  <td><span class="status-dot online"></span> <span style="color: #48bb78; font-weight: 600;">Online</span></td>
-                  <td style="color: #718096;">29 Aug 2025 06:40 PM</td>
-                </tr>
-                <tr>
-                  <td style="font-weight: 500;">Voltage Sensor 1</td>
-                  <td style="color: #718096;">VS-1002</td>
-                  <td><span class="status-dot online"></span> <span style="color: #48bb78; font-weight: 600;">Online</span></td>
-                  <td style="color: #718096;">29 Aug 2025 06:41 PM</td>
-                </tr>
-                <tr>
-                  <td style="font-weight: 500;">Current Sensor 1</td>
-                  <td style="color: #718096;">CS-1003</td>
-                  <td><span class="status-dot online"></span> <span style="color: #48bb78; font-weight: 600;">Online</span></td>
-                  <td style="color: #718096;">29 Aug 2025 06:42 PM</td>
-                </tr>
-                <tr>
-                  <td style="font-weight: 500;">Voltage Booster 1</td>
-                  <td style="color: #718096;">VB-1004</td>
-                  <td><span class="status-dot online"></span> <span style="color: #48bb78; font-weight: 600;">Online</span></td>
-                  <td style="color: #718096;">29 Aug 2025 06:43 PM</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Recent Activity -->
-          <div class="glass-card" style="padding: var(--space-xl);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg);">
-              <h4 style="color: #0066ff; font-size: var(--fs-md); display: flex; align-items: center; gap: 8px;">
-                <i data-lucide="clock" style="width: 18px;"></i> Recent Activity
-              </h4>
-              <button style="background: #edf2f7; color: #4299e1; padding: 4px 12px; border-radius: 4px; border: none; font-size: var(--fs-xs); font-weight: 600; cursor: pointer;">View All</button>
-            </div>
-            
-            <div class="timeline">
-              <div class="timeline-item">
-                <div class="timeline-dot green"></div>
-                <div class="timeline-content">
-                  <div class="timeline-title">Logged in successfully</div>
-                  <div class="timeline-time">29 Aug 2025 06:45 PM <span style="float:right;">Web</span></div>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-dot blue"></div>
-                <div class="timeline-content">
-                  <div class="timeline-title">Viewed Real-time Monitor</div>
-                  <div class="timeline-time">29 Aug 2025 06:30 PM <span style="float:right;">Web</span></div>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-dot orange"></div>
-                <div class="timeline-content">
-                  <div class="timeline-title">Fault Alert Acknowledged</div>
-                  <div class="timeline-time">29 Aug 2025 05:55 PM <span style="float:right;">Web</span></div>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="timeline-dot purple"></div>
-                <div class="timeline-content">
-                  <div class="timeline-title">Settings Updated</div>
-                  <div class="timeline-time">29 Aug 2025 05:20 PM <span style="float:right;">Web</span></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-
-        <!-- Bottom Row -->
-        <div class="bottom-grid">
-          
-          <!-- Notification Settings -->
-          <div class="glass-card" style="padding: var(--space-xl);">
-            <h4 style="color: #0066ff; font-size: var(--fs-md); margin-bottom: var(--space-lg); display: flex; align-items: center; gap: 8px;">
-              <i data-lucide="bell" style="width: 18px;"></i> Notification Settings
-            </h4>
-            
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md); border-bottom: 1px solid #f0f0f0; padding-bottom: var(--space-md);">
-              <div>
-                <div style="font-weight: 600; font-size: var(--fs-sm); color: #2d3748;">Fault Alerts</div>
-                <div style="font-size: var(--fs-xs); color: #718096;">Receive alerts for all faults</div>
-              </div>
-              <label class="toggle-switch">
-                <input type="checkbox" checked>
-                <span class="toggle-slider"></span>
-              </label>
-            </div>
-            
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md); border-bottom: 1px solid #f0f0f0; padding-bottom: var(--space-md);">
-              <div>
-                <div style="font-weight: 600; font-size: var(--fs-sm); color: #2d3748;">Voltage Alerts</div>
-                <div style="font-size: var(--fs-xs); color: #718096;">Receive alerts for high/low voltage</div>
-              </div>
-              <label class="toggle-switch">
-                <input type="checkbox" checked>
-                <span class="toggle-slider"></span>
-              </label>
-            </div>
-            
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md); border-bottom: 1px solid #f0f0f0; padding-bottom: var(--space-md);">
-              <div>
-                <div style="font-weight: 600; font-size: var(--fs-sm); color: #2d3748;">System Notifications</div>
-                <div style="font-size: var(--fs-xs); color: #718096;">Receive system & maintenance updates</div>
-              </div>
-              <label class="toggle-switch">
-                <input type="checkbox" checked>
-                <span class="toggle-slider"></span>
-              </label>
-            </div>
-            
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <div>
-                <div style="font-weight: 600; font-size: var(--fs-sm); color: #2d3748;">Email Notifications</div>
-                <div style="font-size: var(--fs-xs); color: #718096;">Receive notifications via email</div>
-              </div>
-              <label class="toggle-switch">
-                <input type="checkbox" checked>
-                <span class="toggle-slider"></span>
-              </label>
-            </div>
-          </div>
-
-          <!-- Security -->
-          <div class="glass-card" style="padding: var(--space-xl);">
-            <h4 style="color: #0066ff; font-size: var(--fs-md); margin-bottom: var(--space-lg); display: flex; align-items: center; gap: 8px;">
               <i data-lucide="shield" style="width: 18px;"></i> Security
             </h4>
             

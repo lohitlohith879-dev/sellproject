@@ -11,6 +11,7 @@ import { DashboardPage } from './pages/dashboard.js';
 import { AdminPage } from './pages/admin.js';
 import { LoginPage } from './pages/login.js';
 import { AdminLoginPage } from './pages/adminLogin.js';
+import { OrderTrackingPage } from './pages/orderTracking.js';
 import { socketManager } from './socket/socket.js';
 
 // Setup basic app shell
@@ -62,7 +63,14 @@ function renderNavbar() {
         </div>
         <div class="nav-actions">
           ${store.get('user')?.loggedIn 
-            ? `<a href="#/dashboard" class="btn btn-ghost btn-sm" title="Dashboard"><i data-lucide="user"></i></a>`
+            ? `
+              <a href="#/dashboard" class="btn btn-ghost btn-sm" title="Dashboard"><i data-lucide="user"></i></a>
+              <button id="notif-bell-btn" class="btn btn-ghost btn-sm" style="position:relative;" onclick="window.toggleNotifPanel()" title="Notifications">
+                <i data-lucide="bell" style="width:18px;"></i>
+                ${store.get('unreadNotifCount') > 0
+                  ? `<span style="position:absolute;top:2px;right:2px;background:#ef4444;color:#fff;border-radius:50%;width:16px;height:16px;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;">${store.get('unreadNotifCount')}</span>`
+                  : ''}
+              </button>`
             : `<a href="#/login" class="btn btn-ghost btn-sm" style="font-size:var(--fs-sm); gap: 6px;"><i data-lucide="log-in"></i> Sign In</a>`
           }
           <a href="#/cart" class="cart-btn" title="Cart">
@@ -169,7 +177,7 @@ window.appEvents = {
   }
 };
 
-  function initApp() {
+async function initApp() {
   // Restore user session from localStorage
   const savedUser = localStorage.getItem('ck_user');
   const savedAdmin = localStorage.getItem('ck_admin_user');
@@ -210,8 +218,59 @@ window.appEvents = {
   
   // Listen for global notifications
   store.on('notification', (notif) => {
-    showToast(notif.message, notif.type);
+    showToast(notif.message || notif.title, notif.type || 'info');
   });
+
+  // Notification bell toggle
+  window.toggleNotifPanel = async () => {
+    let panel = document.getElementById('notif-panel');
+    if (panel) { panel.remove(); return; }
+
+    const token = localStorage.getItem('ck_token');
+    if (!token) return;
+    let notifs = [];
+    try {
+      const res = await fetch('/api/notifications', { headers: { Authorization: `Bearer ${token}` } });
+      if (res.ok) notifs = await res.json();
+    } catch(e) {}
+
+    panel = document.createElement('div');
+    panel.id = 'notif-panel';
+    panel.style.cssText = 'position:fixed;top:60px;right:16px;width:340px;max-height:420px;overflow-y:auto;background:var(--bg-secondary);border:1px solid var(--border-subtle);border-radius:14px;z-index:9998;box-shadow:0 8px 32px rgba(0,0,0,.4);padding:0;';
+    panel.innerHTML = `
+      <div style="padding:14px 16px;border-bottom:1px solid var(--border-subtle);display:flex;justify-content:space-between;align-items:center;">
+        <h4 style="font-weight:700;font-size:.9rem;color:var(--text-heading);">Notifications</h4>
+        <button onclick="document.getElementById('notif-panel').remove()" style="background:none;border:none;color:var(--text-tertiary);cursor:pointer;font-size:18px;">✕</button>
+      </div>
+      ${notifs.length === 0 
+        ? '<div style="padding:2rem;text-align:center;color:var(--text-tertiary);font-size:.85rem;">No notifications</div>'
+        : notifs.map(n => `
+          <div style="padding:12px 16px;border-bottom:1px solid var(--border-subtle);background:${n.isRead ? 'transparent' : 'rgba(0,212,255,0.05)'};" onclick="this.style.background='transparent';">
+            <div style="font-size:.83rem;font-weight:${n.isRead ? '400' : '600'};color:var(--text-heading);">${n.title || 'Update'}</div>
+            <div style="font-size:.78rem;color:var(--text-secondary);margin-top:3px;">${n.message}</div>
+            <div style="font-size:.72rem;color:var(--text-tertiary);margin-top:4px;">${new Date(n.date).toLocaleString('en-IN',{dateStyle:'short',timeStyle:'short'})}</div>
+          </div>`).join('')
+      }
+    `;
+    document.body.appendChild(panel);
+    // Mark all as read
+    if (token) {
+      notifs.filter(n => !n.isRead).forEach(n => {
+        fetch(`/api/notifications/${n.id}/read`, { method: 'PATCH', headers: { Authorization: `Bearer ${token}` } }).catch(()=>{});
+      });
+      store.set('unreadNotifCount', 0);
+      renderNavbar();
+    }
+    // Close on outside click
+    setTimeout(() => {
+      document.addEventListener('click', function outside(e) {
+        if (!panel.contains(e.target) && e.target.id !== 'notif-bell-btn') {
+          panel.remove();
+          document.removeEventListener('click', outside);
+        }
+      });
+    }, 50);
+  };
 
   // Setup Routes
   router.on('/', HomePage);
@@ -225,6 +284,7 @@ window.appEvents = {
   router.on('/admin', AdminPage);
   router.on('/login', LoginPage);
   router.on('/admin-login', AdminLoginPage);
+  router.on('/track/:id', OrderTrackingPage);
   
   // Placeholder routes for remaining static pages
   ['/about', '/contact'].forEach(path => {
@@ -236,6 +296,9 @@ window.appEvents = {
       </div>`;
     });
   });
+
+  // Fetch all base data from the backend before rendering any page
+  await store.init();
 
   router.resolve();
   

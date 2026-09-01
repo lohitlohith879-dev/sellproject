@@ -26,7 +26,7 @@ export function ProjectCard(project) {
         <div style="width: 100%; height: 100%; background-color: ${project.imageColor || '#0f3460'}; display: flex; align-items: center; justify-content: center; position: absolute;">
           <span style="opacity: 0.1; font-size: 80px;">⚡</span>
         </div>
-        ${project.image ? `<img src="${project.image}" alt="${project.name}" loading="lazy" />` : ''}
+        ${project.image ? `<img src="${project.image}" alt="${project.name}" loading="lazy" style="position:absolute; width:100%; height:100%; object-fit:cover; top:0; left:0;" />` : ''}
         
         <div class="card-badge">
           <span class="badge badge-${diffColor}">${project.difficulty}</span>

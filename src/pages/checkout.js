@@ -49,13 +49,18 @@ export function CheckoutPage(container) {
   };
   
   window.finalizeOrder = async (orderData) => {
-    // Add transaction ID if it was a UPI payment
     const upiRef = document.getElementById('upi-ref')?.value;
-    if (orderData.paymentMethod === 'upi' && upiRef) {
-      orderData.transactionId = upiRef;
-    }
 
     const order = await store.addOrder(orderData);
+    if (!order) {
+      alert("Failed to submit order. Please try again.");
+      return;
+    }
+    
+    // Submit payment proof if UPI
+    if (orderData.paymentMethod === 'upi' && upiRef) {
+      await store.submitPaymentProof(order.id, upiRef);
+    }
     if (!order) {
       alert("Failed to submit order. Please try again.");
       return;
@@ -73,6 +78,9 @@ export function CheckoutPage(container) {
     
     if (successMsg && orderIdEl) {
       orderIdEl.innerText = order.id;
+      // Add track button dynamically
+      const trackBtn = document.getElementById('track-order-btn');
+      if (trackBtn) trackBtn.href = `#/track/${order.id}`;
       successMsg.style.display = 'block';
       successMsg.classList.add('animate-scale-in');
     }
@@ -92,6 +100,9 @@ export function CheckoutPage(container) {
       `;
       return;
     }
+
+    const settings = store.get('settings') || {};
+    const upiId = settings.upi_id || 'test@upi';
 
     container.innerHTML = `
       <div class="checkout-page container section">
@@ -243,8 +254,8 @@ export function CheckoutPage(container) {
             </p>
             
             <div class="flex-center gap-md">
-              <a href="#/dashboard" class="btn btn-primary">Go to Dashboard</a>
-              <a href="#/" class="btn btn-secondary">Return Home</a>
+              <a href="#/dashboard" class="btn btn-secondary">Go to Dashboard</a>
+              <a href="#" id="track-order-btn" class="btn btn-primary">Track Order</a>
             </div>
           </div>
         </div>
@@ -259,8 +270,18 @@ export function CheckoutPage(container) {
             </p>
             
             <div style="background: white; padding: var(--space-md); border-radius: var(--radius-md); display: inline-block; margin-bottom: var(--space-xl);">
-              <!-- Placeholder QR Code - User can replace src with '/payment-qr.png' once they upload their own -->
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi://pay?pa=store@upi&pn=CircuitKart&am=${total}" alt="UPI QR Code" style="width: 250px; height: 250px; object-fit: contain;">
+              <!-- Dynamic QR Code using settings UPI ID -->
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(`upi://pay?pa=${upiId}&pn=CircuitKart&am=${total}&cu=INR`)}" 
+                   alt="UPI QR Code" style="width: 250px; height: 250px; display: block;">
+            </div>
+            
+            <div style="margin-bottom: var(--space-xl);">
+              <p class="text-secondary text-sm" style="margin-bottom: var(--space-xs);">Or pay directly to UPI ID:</p>
+              <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-sm); background: rgba(255,255,255,0.05); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--space-sm) var(--space-md);">
+                <span style="font-family: var(--font-mono); font-weight: bold; font-size: var(--fs-lg); color: var(--text-heading);">${upiId}</span>
+                <button onclick="navigator.clipboard.writeText('${upiId}').then(()=>this.textContent='✓ Copied!').catch(()=>{})" 
+                        style="background: var(--accent-cyan); color: #000; border: none; border-radius: var(--radius-sm); padding: 4px 10px; font-size: var(--fs-xs); cursor: pointer; font-weight: 600;">Copy</button>
+              </div>
             </div>
             
             <div class="form-group" style="text-align: left; margin-bottom: var(--space-xl);">

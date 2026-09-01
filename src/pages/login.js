@@ -65,13 +65,16 @@ export function LoginPage(container) {
     const email = document.getElementById('reg-email').value.trim();
     const password = document.getElementById('reg-password').value;
     const confirm = document.getElementById('reg-confirm').value;
+    const phone = document.getElementById('reg-phone')?.value.trim() || '';
+    const college = document.getElementById('reg-college')?.value.trim() || '';
+    const address = document.getElementById('reg-address')?.value.trim() || '';
     const btn = document.getElementById('reg-btn');
     const error = document.getElementById('reg-error');
 
     error.style.display = 'none';
 
     if (!name || !email || !password || !confirm) {
-      error.textContent = 'Please fill in all fields.';
+      error.textContent = 'Please fill in all required fields (Name, Email, Password).';
       error.style.display = 'block';
       return;
     }
@@ -93,7 +96,7 @@ export function LoginPage(container) {
       const res = await fetch(`${API}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password })
+        body: JSON.stringify({ name, email, password, phone, college, address })
       });
 
       const data = await res.json();
@@ -258,24 +261,48 @@ export function LoginPage(container) {
               <form onsubmit="handleRegister(event)">
                 <div class="auth-error" id="reg-error" style="display:none;"></div>
 
-                <div class="form-group" style="margin-bottom: var(--space-lg);">
-                  <label class="auth-label">Full Name</label>
+                <div class="form-group" style="margin-bottom: var(--space-md);">
+                  <label class="auth-label">Full Name *</label>
                   <div class="auth-input-wrap">
                     <i data-lucide="user" class="auth-input-icon"></i>
                     <input id="reg-name" type="text" class="auth-input" placeholder="Lohith R" required autocomplete="name">
                   </div>
                 </div>
 
-                <div class="form-group" style="margin-bottom: var(--space-lg);">
-                  <label class="auth-label">Email Address</label>
+                <div class="form-group" style="margin-bottom: var(--space-md);">
+                  <label class="auth-label">Email Address *</label>
                   <div class="auth-input-wrap">
                     <i data-lucide="mail" class="auth-input-icon"></i>
                     <input id="reg-email" type="email" class="auth-input" placeholder="you@example.com" required autocomplete="email">
                   </div>
                 </div>
 
-                <div class="form-group" style="margin-bottom: var(--space-lg);">
-                  <label class="auth-label">Password</label>
+                <div class="form-group" style="margin-bottom: var(--space-md);">
+                  <label class="auth-label">Phone Number (Optional)</label>
+                  <div class="auth-input-wrap">
+                    <i data-lucide="phone" class="auth-input-icon"></i>
+                    <input id="reg-phone" type="tel" class="auth-input" placeholder="+91 9876543210">
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: var(--space-md);">
+                  <label class="auth-label">College / Institution (Optional)</label>
+                  <div class="auth-input-wrap">
+                    <i data-lucide="building" class="auth-input-icon"></i>
+                    <input id="reg-college" type="text" class="auth-input" placeholder="e.g. NIT Trichy">
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: var(--space-md);">
+                  <label class="auth-label">Delivery Address (Optional)</label>
+                  <div class="auth-input-wrap">
+                    <i data-lucide="map-pin" class="auth-input-icon"></i>
+                    <input id="reg-address" type="text" class="auth-input" placeholder="Full address for shipping">
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: var(--space-md);">
+                  <label class="auth-label">Password *</label>
                   <div class="auth-input-wrap">
                     <i data-lucide="lock" class="auth-input-icon"></i>
                     <input id="reg-password" type="password" class="auth-input" placeholder="Min. 6 characters" required>

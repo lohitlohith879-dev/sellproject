@@ -1,8 +1,17 @@
-import { projects } from '../data/projects.js';
-import { categories } from '../data/categories.js';
 import { ProjectCard } from '../components/projectCard.js';
+import { store } from '../store.js';
 
 export function ProjectsPage(container, params = {}) {
+  const projects = store.get('projects');
+  
+  // Derive categories dynamically
+  const categoryNames = [...new Set(projects.map(p => p.category).filter(Boolean))];
+  const categories = categoryNames.map(name => ({
+    id: name,
+    name: name.charAt(0).toUpperCase() + name.slice(1).replace('-', ' '),
+    count: projects.filter(p => p.category === name).length
+  }));
+
   // Extract query parameters
   const activeCategory = params.category || 'all';
   const searchQuery = params.q || '';

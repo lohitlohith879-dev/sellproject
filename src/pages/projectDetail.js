@@ -1,7 +1,7 @@
-import { projects } from '../data/projects.js';
 import { store } from '../store.js';
 
 export function ProjectDetailPage(container, params) {
+  const projects = store.get('projects');
   const project = projects.find(p => p.slug === params.slug);
   
   if (!project) {

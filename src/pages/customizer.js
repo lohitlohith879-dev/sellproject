@@ -1,9 +1,29 @@
-import { customizationOptions } from '../data/customization.js';
-import { pricing } from '../data/pricing.js';
-import { projects } from '../data/projects.js';
 import { store } from '../store.js';
 
 export function CustomizerPage(container, params) {
+  const projects = store.get('projects');
+  
+  // Reconstruct pricing object from dynamic components API data
+  const components = store.get('components');
+  const settings = store.get('settings');
+  
+  const pricing = { customizationBaseCharge: Number(settings.customizationBaseCharge) || 500 };
+  
+  const customizationOptions = {
+    controllers: [], sensors: [], communication: [],
+    displays: [], software: [], power: [], hardware: []
+  };
+  
+  // Group components back into categories
+  components.forEach(c => {
+    if (!pricing[c.category]) pricing[c.category] = {};
+    pricing[c.category][c.name] = c.price;
+    
+    if (customizationOptions[c.category]) {
+      customizationOptions[c.category].push({ id: c.name, name: c.name, icon: 'cpu' });
+    }
+  });
+
   // Try to load base project if specified in URL (?base=project-id)
   const baseProject = params.base ? projects.find(p => p.id === params.base) : null;
   
@@ -153,9 +173,12 @@ export function CustomizerPage(container, params) {
                   <div class="sel-check"><i data-lucide="check" style="width: 12px;"></i></div>
                   <div class="sel-icon"><i data-lucide="${item.icon}"></i></div>
                   <div class="sel-name">${item.name}</div>
-                  ${!baseProject && pricing[step.key === 'display' ? 'displays' : step.key][item.id] ? `
-                    <div class="sel-price">+₹${pricing[step.key === 'display' ? 'displays' : step.key][item.id]}</div>
-                  ` : ''}
+                  ${(() => {
+                    const pricingKey = step.key === 'display' ? 'displays' : step.key === 'controller' ? 'controllers' : step.key;
+                    return !baseProject && pricing[pricingKey] && pricing[pricingKey][item.id] ? `
+                      <div class="sel-price">+₹${pricing[pricingKey][item.id]}</div>
+                    ` : '';
+                  })()}
                 </div>
               `;
             }).join('')}
@@ -311,14 +334,14 @@ export function CustomizerPage(container, params) {
   function render() {
     container.innerHTML = `
       <div class="customizer-page container section">
-        <div class="customizer-header reveal">
+        <div class="customizer-header">
           <h1 class="heading-xl">Build Your Project</h1>
           <p class="text-secondary" style="max-width: 600px; margin: 0 auto;">
             Customize every aspect of your project. We'll build it exactly the way you want.
           </p>
         </div>
 
-        <div class="customizer-body reveal delay-1">
+        <div class="customizer-body">
           ${renderStepper()}
           
           <div style="min-height: 400px; padding-bottom: 100px;">

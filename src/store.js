@@ -7,7 +7,13 @@ class Store {
       orders: [],
       quotes: [],
       activities: [],
-      isConnected: false
+      projects: [],
+      components: [],
+      settings: {},
+      notifications: [],
+      unreadNotifCount: 0,
+      isConnected: false,
+      isInitialized: false
     };
     this.listeners = {};
     
@@ -21,12 +27,24 @@ class Store {
     });
     
     socketManager.on('order:status_update', (data) => {
-      console.log('Real-time update received:', data);
+      console.log('[Store] Real-time order update:', data);
       const order = this.state.orders.find(o => o.id === data.id);
       if (order) {
-        order.status = data.status;
+        order.status = data.status || order.status;
+        if (data.trackingNumber !== undefined) order.trackingNumber = data.trackingNumber;
+        if (data.estimatedDelivery !== undefined) order.estimatedDelivery = data.estimatedDelivery;
+        if (data.history) order.history = data.history;
+        if (data.paymentStatus) order.paymentStatus = data.paymentStatus;
         this.emit('orders', this.state.orders);
-        this.emit(`order_${data.id}`, order); // Specific event for that order
+        this.emit(`order_${data.id}`, order);
+      }
+      // Update unread count if there's a new notification
+      if (data.notification && data.notification.userId) {
+        const myId = JSON.parse(localStorage.getItem('ck_user') || '{}').id;
+        if (String(data.notification.userId) === String(myId)) {
+          this.state.unreadNotifCount = (this.state.unreadNotifCount || 0) + 1;
+          this.emit('unreadNotifCount', this.state.unreadNotifCount);
+        }
       }
     });
     
@@ -34,6 +52,23 @@ class Store {
       // Customer new order
       this.state.orders.unshift(data);
       this.emit('orders', this.state.orders);
+    });
+
+    socketManager.on('project:updated', async () => {
+      const res = await fetch('/api/projects');
+      if (res.ok) {
+        this.state.projects = await res.json();
+        this.emit('projects', this.state.projects);
+      }
+    });
+
+    socketManager.on('settings:updated', (settings) => {
+      this.state.settings = settings;
+      this.emit('settings', this.state.settings);
+    });
+
+    socketManager.on('notification', (data) => {
+      this.emit('notification', data);
     });
 
     // Admin events
@@ -64,6 +99,27 @@ class Store {
   emit(event, data) {
     if (this.listeners[event]) {
       this.listeners[event].forEach(cb => cb(data));
+    }
+  }
+  
+  async init() {
+    if (this.state.isInitialized) return;
+    try {
+      const [projectsRes, componentsRes, settingsRes] = await Promise.all([
+        fetch('/api/projects'),
+        fetch('/api/components'),
+        fetch('/api/settings')
+      ]);
+      
+      this.state.projects = await projectsRes.json();
+      this.state.components = await componentsRes.json();
+      this.state.settings = await settingsRes.json();
+      
+      this.state.isInitialized = true;
+      window.__storeInitialized = true;
+      this.emit('initialized', true);
+    } catch (e) {
+      console.error('Failed to initialize app data:', e);
     }
   }
 
@@ -199,6 +255,74 @@ class Store {
       console.error(e);
       return false;
     }
+  }
+
+  async submitPaymentProof(orderId, transactionId) {
+    try {
+      const token = this.getToken();
+      const response = await fetch(`/api/orders/${orderId}/payment`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ transactionId })
+      });
+      return response.ok;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  }
+
+  async fetchOrder(orderId) {
+    try {
+      const token = localStorage.getItem('ck_token');
+      if (!token) return null;
+      const res = await fetch(`/api/orders/${orderId}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) return await res.json();
+      return null;
+    } catch(e) { return null; }
+  }
+
+  async fetchNotifications() {
+    try {
+      const token = localStorage.getItem('ck_token');
+      if (!token) return [];
+      const res = await fetch('/api/notifications', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const notifs = await res.json();
+        this.state.notifications = notifs;
+        this.state.unreadNotifCount = notifs.filter(n => !n.isRead).length;
+        this.emit('unreadNotifCount', this.state.unreadNotifCount);
+        return notifs;
+      }
+      return [];
+    } catch(e) { return []; }
+  }
+
+  async fetchUserProfile() {
+    try {
+      const token = localStorage.getItem('ck_token');
+      if (!token) return null;
+      const res = await fetch('/api/users/profile', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const profile = await res.json();
+        const currentUser = this.state.user || {};
+        const updatedUser = { ...currentUser, ...profile, loggedIn: true };
+        this.state.user = updatedUser;
+        localStorage.setItem('ck_user', JSON.stringify(updatedUser));
+        this.emit('user', updatedUser);
+        return updatedUser;
+      }
+      return null;
+    } catch(e) { return null; }
   }
   
   async submitCustomQuote(quoteData) {

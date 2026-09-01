@@ -9,8 +9,11 @@ class Router {
     this.currentRoute = null;
     this.beforeHooks = [];
     this.afterHooks = [];
-    window.addEventListener('hashchange', () => this.resolve());
-    window.addEventListener('load', () => this.resolve());
+    // Only resolve on hashchange after store has been initialized
+    window.addEventListener('hashchange', () => {
+      if (window.__storeInitialized) this.resolve();
+    });
+    // Do NOT auto-resolve on 'load' — initApp calls router.resolve() explicitly after awaiting store.init()
   }
 
   on(path, handler) {

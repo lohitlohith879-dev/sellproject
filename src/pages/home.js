@@ -1,12 +1,22 @@
-import { projects } from '../data/projects.js';
-import { categories } from '../data/categories.js';
+import { store } from '../store.js';
 import { ProjectCard } from '../components/projectCard.js';
 import { CategoryCard } from '../components/categoryCard.js';
 
 export function HomePage(container) {
-  // Get featured projects (first 4 for demo)
+  const projects = store.get('projects');
+  // Get featured projects
   const featuredProjects = projects.filter(p => p.featured).slice(0, 4);
   const newProjects = [...projects].sort((a, b) => b.price - a.price).slice(0, 4);
+
+  // Derive categories dynamically
+  const categoryNames = [...new Set(projects.map(p => p.category).filter(Boolean))];
+  const categories = categoryNames.map(name => ({
+    id: name,
+    name: name.charAt(0).toUpperCase() + name.slice(1).replace('-', ' '),
+    slug: name,
+    icon: name === 'arduino' ? 'cpu' : name === 'esp32' ? 'wifi' : name === 'robotics' ? 'bot' : 'box',
+    projectCount: projects.filter(p => p.category === name).length
+  }));
 
   container.innerHTML = `
     <!-- Hero Section -->
