@@ -1,9 +1,11 @@
 import { store } from '../store.js';
 
-const API = '/api';
+const API = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/api`
+  : '/api';
 
 function authHeaders() {
-  return { 
+  return {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${localStorage.getItem('ck_admin_token')}`
   };
@@ -54,20 +56,20 @@ export function AdminPage(container, params) {
         <!-- Sidebar -->
         <nav id="admin-sidebar" style="width:220px; background:var(--bg-secondary); border-right:1px solid var(--border-subtle); padding:var(--space-md) 0; display:flex; flex-direction:column; gap:2px; min-height:calc(100vh - 60px); flex-shrink:0;">
           ${[
-            ['overview', 'layout-dashboard', 'Dashboard'],
-            ['orders', 'shopping-bag', 'Orders'],
-            ['live-tracking', 'map-pin', 'Live Tracking'],
-            ['projects', 'cpu', 'Projects'],
-            ['add-project', 'plus-circle', 'Add Project'],
-            ['components', 'box', 'Components'],
-            ['pricing', 'indian-rupee', 'Pricing'],
-            ['payment', 'qr-code', 'Payment Settings'],
-            ['users', 'users', 'Users'],
-            ['quotes', 'file-text', 'Custom Quotes'],
-            ['activity', 'activity', 'Activity Log'],
-          ].map(([tab, icon, label]) => `
+      ['overview', 'layout-dashboard', 'Dashboard'],
+      ['orders', 'shopping-bag', 'Orders'],
+      ['live-tracking', 'map-pin', 'Live Tracking'],
+      ['projects', 'cpu', 'Projects'],
+      ['add-project', 'plus-circle', 'Add Project'],
+      ['components', 'box', 'Components'],
+      ['pricing', 'indian-rupee', 'Pricing'],
+      ['payment', 'qr-code', 'Payment Settings'],
+      ['users', 'users', 'Users'],
+      ['quotes', 'file-text', 'Custom Quotes'],
+      ['activity', 'activity', 'Activity Log'],
+    ].map(([tab, icon, label]) => `
             <a href="#/admin?tab=${tab}" onclick="event.preventDefault(); switchAdminTab('${tab}')"
-               style="display:flex; align-items:center; gap:10px; padding:10px 20px; font-size:var(--fs-sm); font-weight:500; text-decoration:none; border-radius:0; transition:all 0.2s; color:${activeTab===tab ? 'var(--primary)' : 'var(--text-secondary)'}; background:${activeTab===tab ? 'rgba(0,212,255,0.08)' : 'transparent'}; border-left:3px solid ${activeTab===tab ? 'var(--primary)' : 'transparent'};">
+               style="display:flex; align-items:center; gap:10px; padding:10px 20px; font-size:var(--fs-sm); font-weight:500; text-decoration:none; border-radius:0; transition:all 0.2s; color:${activeTab === tab ? 'var(--primary)' : 'var(--text-secondary)'}; background:${activeTab === tab ? 'rgba(0,212,255,0.08)' : 'transparent'}; border-left:3px solid ${activeTab === tab ? 'var(--primary)' : 'transparent'};">
               <i data-lucide="${icon}" style="width:16px;flex-shrink:0;"></i> ${label}
               ${tab === 'live-tracking' ? '<span style="background:#10b981;color:#000;font-size:9px;font-weight:700;padding:2px 5px;border-radius:4px;margin-left:auto;">LIVE</span>' : ''}
             </a>
@@ -95,20 +97,20 @@ async function renderTab(tab) {
   const content = document.getElementById('admin-tab-content');
   if (!content) return;
   content.innerHTML = `<div class="text-center text-secondary" style="padding:3rem;"><div class="auth-spinner" style="display:inline-block;"></div><br>Loading...</div>`;
-  
+
   switch (tab) {
-    case 'overview':   content.innerHTML = await renderOverview(); break;
-    case 'orders':     content.innerHTML = await renderOrders(); break;
-    case 'projects':   content.innerHTML = await renderProjects(); break;
-    case 'add-project':content.innerHTML = await renderAddProject(); break;
+    case 'overview': content.innerHTML = await renderOverview(); break;
+    case 'orders': content.innerHTML = await renderOrders(); break;
+    case 'projects': content.innerHTML = await renderProjects(); break;
+    case 'add-project': content.innerHTML = await renderAddProject(); break;
     case 'components': content.innerHTML = await renderComponents(); break;
-    case 'pricing':    content.innerHTML = await renderPricing(); break;
-    case 'payment':    content.innerHTML = await renderPaymentSettings(); break;
-    case 'users':      content.innerHTML = await renderUsers(); break;
-    case 'quotes':     content.innerHTML = await renderQuotes(); break;
-    case 'activity':   content.innerHTML = await renderActivity(); break;
+    case 'pricing': content.innerHTML = await renderPricing(); break;
+    case 'payment': content.innerHTML = await renderPaymentSettings(); break;
+    case 'users': content.innerHTML = await renderUsers(); break;
+    case 'quotes': content.innerHTML = await renderQuotes(); break;
+    case 'activity': content.innerHTML = await renderActivity(); break;
     case 'live-tracking': await renderLiveTracking(content); break;
-    default:           content.innerHTML = `<h2>Unknown tab</h2>`;
+    default: content.innerHTML = `<h2>Unknown tab</h2>`;
   }
   if (window.lucide) window.lucide.createIcons();
 }
@@ -127,12 +129,12 @@ async function renderOverview() {
     users = await uRes.json(); if (!Array.isArray(users)) users = [];
     quotes = await qRes.json(); if (!Array.isArray(quotes)) quotes = [];
     projects = await pRes.json(); if (!Array.isArray(projects)) projects = [];
-  } catch(e) { console.error(e); }
+  } catch (e) { console.error(e); }
 
-  const totalRevenue = orders.reduce((s,o) => s + (o.total||0), 0);
+  const totalRevenue = orders.reduce((s, o) => s + (o.total || 0), 0);
   const pendingOrders = orders.filter(o => o.status === 'received').length;
   const activeProjects = projects.filter(p => p.active).length;
-  const recentOrders = orders.slice(0,5);
+  const recentOrders = orders.slice(0, 5);
 
   return `
     <div>
@@ -144,13 +146,13 @@ async function renderOverview() {
       <!-- Stats Grid -->
       <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:var(--space-md); margin-bottom:var(--space-xl);">
         ${[
-          ['Total Revenue', `₹${(totalRevenue/1000).toFixed(1)}k`, 'indian-rupee', '#00d4ff'],
-          ['Total Orders', orders.length, 'shopping-bag', '#7c3aed'],
-          ['Customers', users.filter(u=>u.role==='customer').length, 'users', '#f59e0b'],
-          ['Custom Quotes', quotes.length, 'file-text', '#10b981'],
-          ['Active Projects', activeProjects, 'cpu', '#3b82f6'],
-          ['Pending Orders', pendingOrders, 'clock', '#ef4444'],
-        ].map(([label, val, icon, color]) => `
+      ['Total Revenue', `₹${(totalRevenue / 1000).toFixed(1)}k`, 'indian-rupee', '#00d4ff'],
+      ['Total Orders', orders.length, 'shopping-bag', '#7c3aed'],
+      ['Customers', users.filter(u => u.role === 'customer').length, 'users', '#f59e0b'],
+      ['Custom Quotes', quotes.length, 'file-text', '#10b981'],
+      ['Active Projects', activeProjects, 'cpu', '#3b82f6'],
+      ['Pending Orders', pendingOrders, 'clock', '#ef4444'],
+    ].map(([label, val, icon, color]) => `
           <div class="glass-card" style="padding:var(--space-lg);">
             <div style="display:flex; align-items:center; gap:12px; margin-bottom:var(--space-sm);">
               <div style="width:40px;height:40px;border-radius:10px;background:${color}22;display:flex;align-items:center;justify-content:center;color:${color};">
@@ -178,7 +180,7 @@ async function renderOverview() {
                   <td class="font-mono text-accent">${o.id}</td>
                   <td>${(o.contactInfo?.name || o.contactInfo?.email || 'Guest').split('@')[0]}</td>
                   <td>${new Date(o.date).toLocaleDateString('en-IN')}</td>
-                  <td><span class="badge badge-${o.status==='delivered'?'green':o.status==='received'?'blue':'orange'}">${o.status}</span></td>
+                  <td><span class="badge badge-${o.status === 'delivered' ? 'green' : o.status === 'received' ? 'blue' : 'orange'}">${o.status}</span></td>
                   <td class="font-mono">₹${new Intl.NumberFormat('en-IN').format(o.total)}</td>
                 </tr>
               `).join('') : `<tr><td colspan="5" class="text-center text-secondary" style="padding:2rem;">No orders yet</td></tr>`}
@@ -196,28 +198,28 @@ async function renderOrders() {
   try {
     const res = await fetch(`${API}/orders/all`, { headers: authHeaders() });
     orders = await res.json(); if (!Array.isArray(orders)) orders = [];
-  } catch(e) {}
+  } catch (e) { }
 
   const ALL_STATUSES = [
-    'placed','payment_confirmed','confirmed','processing','packed',
-    'shipped','out_for_delivery','delivered',
-    'cancelled','payment_failed','return_requested','returned','refund_processing','refunded'
+    'placed', 'payment_confirmed', 'confirmed', 'processing', 'packed',
+    'shipped', 'out_for_delivery', 'delivered',
+    'cancelled', 'payment_failed', 'return_requested', 'returned', 'refund_processing', 'refunded'
   ];
 
   const STATUS_LABELS = {
-    placed:'Order Placed', payment_confirmed:'Payment Confirmed', confirmed:'Order Confirmed',
-    processing:'Processing', packed:'Packed', shipped:'Shipped', out_for_delivery:'Out for Delivery',
-    delivered:'Delivered', cancelled:'Cancelled', payment_failed:'Payment Failed',
-    return_requested:'Return Requested', returned:'Returned', refund_processing:'Refund Processing',
-    refunded:'Refunded', received:'Order Received', payment_submitted:'Payment Submitted',
+    placed: 'Order Placed', payment_confirmed: 'Payment Confirmed', confirmed: 'Order Confirmed',
+    processing: 'Processing', packed: 'Packed', shipped: 'Shipped', out_for_delivery: 'Out for Delivery',
+    delivered: 'Delivered', cancelled: 'Cancelled', payment_failed: 'Payment Failed',
+    return_requested: 'Return Requested', returned: 'Returned', refund_processing: 'Refund Processing',
+    refunded: 'Refunded', received: 'Order Received', payment_submitted: 'Payment Submitted',
   };
 
   const STATUS_COLORS = {
-    placed:'#00d4ff', payment_confirmed:'#7c3aed', confirmed:'#3b82f6',
-    processing:'#f59e0b', packed:'#f97316', shipped:'#8b5cf6',
-    out_for_delivery:'#06b6d4', delivered:'#10b981', cancelled:'#ef4444',
-    payment_failed:'#ef4444', return_requested:'#f59e0b', returned:'#f59e0b',
-    refund_processing:'#8b5cf6', refunded:'#10b981', received:'#3b82f6', payment_submitted:'#f59e0b',
+    placed: '#00d4ff', payment_confirmed: '#7c3aed', confirmed: '#3b82f6',
+    processing: '#f59e0b', packed: '#f97316', shipped: '#8b5cf6',
+    out_for_delivery: '#06b6d4', delivered: '#10b981', cancelled: '#ef4444',
+    payment_failed: '#ef4444', return_requested: '#f59e0b', returned: '#f59e0b',
+    refund_processing: '#8b5cf6', refunded: '#10b981', received: '#3b82f6', payment_submitted: '#f59e0b',
   };
 
   // ---- Handlers ----
@@ -243,14 +245,14 @@ async function renderOrders() {
     try {
       const res = await fetch(`${API}/orders/${orderId}/history`, { headers: authHeaders() });
       if (res.ok) history = await res.json();
-    } catch(e) {}
+    } catch (e) { }
 
     // If no dedicated history endpoint, try fetching from /api/admin/orders/:id
     if (history.length === 0) {
       try {
         const res = await fetch(`${API}/admin/orders/${orderId}`, { headers: authHeaders() });
         if (res.ok) { const d = await res.json(); history = d.history || []; }
-      } catch(e) {}
+      } catch (e) { }
     }
 
     if (!order) return;
@@ -265,7 +267,7 @@ async function renderOrders() {
         <h2 style="font-size:var(--fs-xl);font-weight:700;color:var(--text-heading);margin-bottom:4px;">Order Details</h2>
         <p class="text-secondary text-sm" style="margin-bottom:1.5rem;">
           <span class="font-mono" style="color:var(--primary);">${order.id}</span> ·
-          ${new Date(order.date).toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'})}
+          ${new Date(order.date).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}
         </p>
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
@@ -281,7 +283,7 @@ async function renderOrders() {
             <h4 style="font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-tertiary);margin-bottom:.75rem;">Payment</h4>
             <div style="display:flex;align-items:center;gap:8px;">
               <span style="font-size:1.1rem;font-weight:800;color:var(--primary);">₹${new Intl.NumberFormat('en-IN').format(order.total)}</span>
-              <span style="background:${order.paymentStatus==='paid'?'#10b98122':'#f59e0b22'};color:${order.paymentStatus==='paid'?'#10b981':'#f59e0b'};border-radius:8px;padding:2px 8px;font-size:.75rem;font-weight:700;">${order.paymentStatus||'pending'}</span>
+              <span style="background:${order.paymentStatus === 'paid' ? '#10b98122' : '#f59e0b22'};color:${order.paymentStatus === 'paid' ? '#10b981' : '#f59e0b'};border-radius:8px;padding:2px 8px;font-size:.75rem;font-weight:700;">${order.paymentStatus || 'pending'}</span>
             </div>
             <div style="font-size:.82rem;color:var(--text-secondary);margin-top:4px;">${order.paymentMethod || '—'}</div>
           </div>
@@ -290,13 +292,13 @@ async function renderOrders() {
         <!-- Items -->
         <div style="background:rgba(255,255,255,.03);border:1px solid var(--border-subtle);border-radius:10px;padding:1rem;margin-bottom:1.5rem;">
           <h4 style="font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-tertiary);margin-bottom:.75rem;">Items</h4>
-          ${(order.items||[]).map(item => `
+          ${(order.items || []).map(item => `
             <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border-subtle);">
               <div>
                 <div style="font-size:.85rem;font-weight:500;color:var(--text-heading);">${item.name}</div>
-                <div style="font-size:.75rem;color:var(--text-tertiary);">Qty: ${item.quantity||1}</div>
+                <div style="font-size:.75rem;color:var(--text-tertiary);">Qty: ${item.quantity || 1}</div>
               </div>
-              <div class="font-mono text-sm">₹${new Intl.NumberFormat('en-IN').format(item.price*(item.quantity||1))}</div>
+              <div class="font-mono text-sm">₹${new Intl.NumberFormat('en-IN').format(item.price * (item.quantity || 1))}</div>
             </div>`).join('')}
         </div>
 
@@ -314,19 +316,19 @@ async function renderOrders() {
         <div style="background:rgba(255,255,255,.03);border:1px solid var(--border-subtle);border-radius:10px;padding:1rem;margin-bottom:1.5rem;">
           <h4 style="font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-tertiary);margin-bottom:.75rem;">Status History</h4>
           ${history.length === 0
-            ? '<p class="text-secondary text-sm">No history recorded yet.</p>'
-            : [...history].reverse().map(h => `
+        ? '<p class="text-secondary text-sm">No history recorded yet.</p>'
+        : [...history].reverse().map(h => `
               <div style="display:flex;gap:10px;align-items:flex-start;padding:8px;background:rgba(255,255,255,.02);border-radius:6px;margin-bottom:6px;border-left:3px solid var(--primary);">
                 <div style="flex:1;">
                   <div style="font-size:.83rem;font-weight:600;color:var(--text-heading);">
-                    ${h.previousStatus ? `<span style="color:var(--text-tertiary);">${STATUS_LABELS[h.previousStatus]||h.previousStatus}</span> → ` : ''}
-                    <span style="color:var(--primary);">${STATUS_LABELS[h.newStatus]||h.newStatus}</span>
+                    ${h.previousStatus ? `<span style="color:var(--text-tertiary);">${STATUS_LABELS[h.previousStatus] || h.previousStatus}</span> → ` : ''}
+                    <span style="color:var(--primary);">${STATUS_LABELS[h.newStatus] || h.newStatus}</span>
                   </div>
                   ${h.note ? `<div style="font-size:.78rem;color:var(--text-secondary);margin-top:2px;">Note: ${h.note}</div>` : ''}
-                  <div style="font-size:.72rem;color:var(--text-tertiary);margin-top:3px;">${new Date(h.createdAt).toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'})} · by ${h.changedBy}</div>
+                  <div style="font-size:.72rem;color:var(--text-tertiary);margin-top:3px;">${new Date(h.createdAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })} · by ${h.changedBy}</div>
                 </div>
               </div>`).join('')
-          }
+      }
         </div>
 
         <!-- Update Status Form -->
@@ -336,18 +338,18 @@ async function renderOrders() {
             <div class="form-group">
               <label class="form-label">New Status *</label>
               <select id="modal-status-select" class="form-input">
-                ${ALL_STATUSES.map(s => `<option value="${s}" ${order.status===s?'selected':''}>${STATUS_LABELS[s]||s}</option>`).join('')}
+                ${ALL_STATUSES.map(s => `<option value="${s}" ${order.status === s ? 'selected' : ''}>${STATUS_LABELS[s] || s}</option>`).join('')}
               </select>
             </div>
             <div class="form-group">
               <label class="form-label">Tracking Number</label>
-              <input type="text" id="modal-tracking" class="form-input" placeholder="e.g. DTDC123456789" value="${order.trackingNumber||''}">
+              <input type="text" id="modal-tracking" class="form-input" placeholder="e.g. DTDC123456789" value="${order.trackingNumber || ''}">
             </div>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
             <div class="form-group">
               <label class="form-label">Estimated Delivery</label>
-              <input type="text" id="modal-est-delivery" class="form-input" placeholder="e.g. 3-5 Business Days" value="${order.estimatedDelivery||''}">
+              <input type="text" id="modal-est-delivery" class="form-input" placeholder="e.g. 3-5 Business Days" value="${order.estimatedDelivery || ''}">
             </div>
             <div class="form-group">
               <label class="form-label">Admin Note (sent to customer)</label>
@@ -382,7 +384,7 @@ async function renderOrders() {
     });
 
     if (res.ok) {
-      showAdminToast(`Order ${orderId} updated to "${STATUS_LABELS[status]||status}"`, 'success');
+      showAdminToast(`Order ${orderId} updated to "${STATUS_LABELS[status] || status}"`, 'success');
       document.getElementById('admin-order-modal').remove();
 
       // Update row in table without full reload
@@ -408,7 +410,7 @@ async function renderOrders() {
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-xl);">
         <div>
           <h1 style="font-size:var(--fs-2xl);font-weight:700;color:var(--text-heading);">Orders</h1>
-          <span class="text-secondary text-sm">${orders.length} total · ${orders.filter(o=>o.status==='placed'||o.status==='received').length} new</span>
+          <span class="text-secondary text-sm">${orders.length} total · ${orders.filter(o => o.status === 'placed' || o.status === 'received').length} new</span>
         </div>
       </div>
 
@@ -417,7 +419,7 @@ async function renderOrders() {
         <input id="order-search" type="text" placeholder="🔍 Search by order ID, customer…" class="form-input" style="max-width:280px;" oninput="filterOrders()">
         <select id="order-filter-status" class="form-input" style="max-width:200px;" onchange="filterOrders()">
           <option value="">All Statuses</option>
-          ${ALL_STATUSES.map(s => `<option value="${s}">${STATUS_LABELS[s]||s}</option>`).join('')}
+          ${ALL_STATUSES.map(s => `<option value="${s}">${STATUS_LABELS[s] || s}</option>`).join('')}
         </select>
       </div>
 
@@ -432,32 +434,32 @@ async function renderOrders() {
             </thead>
             <tbody id="orders-tbody">
               ${orders.length > 0 ? orders.map(o => {
-                const color = STATUS_COLORS[o.status] || '#9ca3af';
-                const searchText = `${o.id} ${o.contactInfo?.name||''} ${o.contactInfo?.email||''} ${o.contactInfo?.phone||''}`;
-                return `
+    const color = STATUS_COLORS[o.status] || '#9ca3af';
+    const searchText = `${o.id} ${o.contactInfo?.name || ''} ${o.contactInfo?.email || ''} ${o.contactInfo?.phone || ''}`;
+    return `
                 <tr data-order-id="${o.id}" data-status="${o.status}" data-search="${searchText.toLowerCase()}">
                   <td class="font-mono" style="white-space:nowrap;color:var(--primary);font-weight:700;">${o.id}</td>
                   <td>
                     <div style="font-weight:500;">${o.contactInfo?.name || '—'}</div>
                     <div style="font-size:.75rem;color:var(--text-tertiary);">${o.contactInfo?.email || ''}</div>
                   </td>
-                  <td style="font-size:.78rem;max-width:180px;">${(o.items||[]).map(i=>i.name).join(', ').substring(0,50)}${((o.items||[]).length>1)?'…':''}</td>
+                  <td style="font-size:.78rem;max-width:180px;">${(o.items || []).map(i => i.name).join(', ').substring(0, 50)}${((o.items || []).length > 1) ? '…' : ''}</td>
                   <td class="font-mono font-bold">₹${new Intl.NumberFormat('en-IN').format(o.total)}</td>
                   <td>
-                    <span style="font-size:.75rem;background:${o.paymentStatus==='paid'?'#10b98122':'#f59e0b22'};color:${o.paymentStatus==='paid'?'#10b981':'#f59e0b'};border-radius:6px;padding:2px 8px;font-weight:600;">${o.paymentStatus||'pending'}</span>
-                    ${o.paymentMethod&&o.paymentMethod.includes('Txn')?`<div style="font-size:.68rem;color:var(--text-tertiary);font-family:monospace;margin-top:2px;">${o.paymentMethod.match(/\((.*?)\)/)?.[1]||''}</div>`:''}
+                    <span style="font-size:.75rem;background:${o.paymentStatus === 'paid' ? '#10b98122' : '#f59e0b22'};color:${o.paymentStatus === 'paid' ? '#10b981' : '#f59e0b'};border-radius:6px;padding:2px 8px;font-weight:600;">${o.paymentStatus || 'pending'}</span>
+                    ${o.paymentMethod && o.paymentMethod.includes('Txn') ? `<div style="font-size:.68rem;color:var(--text-tertiary);font-family:monospace;margin-top:2px;">${o.paymentMethod.match(/\((.*?)\)/)?.[1] || ''}</div>` : ''}
                   </td>
                   <td>
-                    <span class="status-badge" style="background:${color}22;color:${color};border-radius:8px;padding:3px 8px;font-size:.75rem;font-weight:700;">${STATUS_LABELS[o.status]||o.status}</span>
+                    <span class="status-badge" style="background:${color}22;color:${color};border-radius:8px;padding:3px 8px;font-size:.75rem;font-weight:700;">${STATUS_LABELS[o.status] || o.status}</span>
                   </td>
-                  <td style="font-size:.75rem;white-space:nowrap;color:var(--text-secondary);">${new Date(o.date).toLocaleString('en-IN',{dateStyle:'short',timeStyle:'short'})}</td>
+                  <td style="font-size:.75rem;white-space:nowrap;color:var(--text-secondary);">${new Date(o.date).toLocaleString('en-IN', { dateStyle: 'short', timeStyle: 'short' })}</td>
                   <td>
                     <button class="btn btn-primary btn-sm" onclick="openOrderModal('${o.id}')" style="font-size:11px;">
                       <i data-lucide="edit" style="width:13px;"></i> Manage
                     </button>
                   </td>
                 </tr>`;
-              }).join('') : `<tr><td colspan="8" class="text-center text-secondary" style="padding:2rem;">No orders found</td></tr>`}
+  }).join('') : `<tr><td colspan="8" class="text-center text-secondary" style="padding:2rem;">No orders found</td></tr>`}
             </tbody>
           </table>
         </div>
@@ -473,7 +475,7 @@ async function renderProjects() {
   try {
     const res = await fetch(`${API}/admin/projects`, { headers: authHeaders() });
     projects = await res.json(); if (!Array.isArray(projects)) projects = [];
-  } catch(e) {}
+  } catch (e) { }
 
   window.toggleProjectActive = async (id, btn) => {
     const current = btn.dataset.active === '1';
@@ -495,7 +497,7 @@ async function renderProjects() {
     if (newPrice === null) return;
     const parsed = parseInt(newPrice);
     if (isNaN(parsed) || parsed < 0) { alert('Invalid price'); return; }
-    
+
     fetch(`${API}/admin/projects/${id}`, {
       method: 'PUT',
       headers: authHeaders(),
@@ -561,11 +563,11 @@ async function renderProjects() {
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md);">
             <div class="form-group">
               <label class="form-label">Project Name *</label>
-              <input name="name" class="form-input" required value="${(p.name||'').replace(/"/g,'&quot;')}" placeholder="e.g. Smart Home System">
+              <input name="name" class="form-input" required value="${(p.name || '').replace(/"/g, '&quot;')}" placeholder="e.g. Smart Home System">
             </div>
             <div class="form-group">
               <label class="form-label">Slug (URL) *</label>
-              <input name="slug" class="form-input" required value="${(p.slug||'').replace(/"/g,'&quot;')}" placeholder="e.g. smart-home-system">
+              <input name="slug" class="form-input" required value="${(p.slug || '').replace(/"/g, '&quot;')}" placeholder="e.g. smart-home-system">
             </div>
           </div>
 
@@ -573,47 +575,47 @@ async function renderProjects() {
             <div class="form-group">
               <label class="form-label">Category</label>
               <select name="category" class="form-input">
-                ${['arduino','esp32','esp8266','raspberry-pi','robotics','iot','misc'].map(c =>
-                  `<option value="${c}" ${p.category===c?'selected':''}>${c}</option>`
-                ).join('')}
+                ${['arduino', 'esp32', 'esp8266', 'raspberry-pi', 'robotics', 'iot', 'misc'].map(c =>
+      `<option value="${c}" ${p.category === c ? 'selected' : ''}>${c}</option>`
+    ).join('')}
               </select>
             </div>
             <div class="form-group">
               <label class="form-label">Price (₹) *</label>
-              <input name="price" type="number" class="form-input" required min="0" value="${p.price||0}">
+              <input name="price" type="number" class="form-input" required min="0" value="${p.price || 0}">
             </div>
             <div class="form-group">
               <label class="form-label">Difficulty</label>
               <select name="difficulty" class="form-input">
-                ${['Beginner','Intermediate','Advanced'].map(d =>
-                  `<option value="${d}" ${p.difficulty===d?'selected':''}>${d}</option>`
-                ).join('')}
+                ${['Beginner', 'Intermediate', 'Advanced'].map(d =>
+      `<option value="${d}" ${p.difficulty === d ? 'selected' : ''}>${d}</option>`
+    ).join('')}
               </select>
             </div>
           </div>
 
           <div class="form-group">
             <label class="form-label">Short Description</label>
-            <input name="shortDescription" class="form-input" value="${(p.shortDescription||'').replace(/"/g,'&quot;')}" placeholder="One-line summary shown in cards">
+            <input name="shortDescription" class="form-input" value="${(p.shortDescription || '').replace(/"/g, '&quot;')}" placeholder="One-line summary shown in cards">
           </div>
 
           <div class="form-group">
             <label class="form-label">Full Description</label>
-            <textarea name="description" class="form-input" rows="4" placeholder="Detailed project description...">${p.description||''}</textarea>
+            <textarea name="description" class="form-input" rows="4" placeholder="Detailed project description...">${p.description || ''}</textarea>
           </div>
 
           <div class="form-group">
             <label class="form-label">Main Image URL</label>
-            <input name="image" type="url" class="form-input" value="${(p.image||'').replace(/"/g,'&quot;')}" placeholder="https://example.com/image.jpg">
+            <input name="image" type="url" class="form-input" value="${(p.image || '').replace(/"/g, '&quot;')}" placeholder="https://example.com/image.jpg">
           </div>
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md);">
             <div class="form-group" style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.03);border:1px solid var(--border-subtle);border-radius:10px;padding:14px 16px;">
-              <input type="checkbox" name="featured" id="edit-featured" ${p.featured?'checked':''} style="width:18px;height:18px;accent-color:var(--primary);cursor:pointer;">
+              <input type="checkbox" name="featured" id="edit-featured" ${p.featured ? 'checked' : ''} style="width:18px;height:18px;accent-color:var(--primary);cursor:pointer;">
               <label for="edit-featured" style="cursor:pointer;font-weight:500;color:var(--text-heading);">⭐ Mark as Featured</label>
             </div>
             <div class="form-group" style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.03);border:1px solid var(--border-subtle);border-radius:10px;padding:14px 16px;">
-              <input type="checkbox" name="active" id="edit-active" ${p.active?'checked':''} style="width:18px;height:18px;accent-color:#10b981;cursor:pointer;">
+              <input type="checkbox" name="active" id="edit-active" ${p.active ? 'checked' : ''} style="width:18px;height:18px;accent-color:#10b981;cursor:pointer;">
               <label for="edit-active" style="cursor:pointer;font-weight:500;color:var(--text-heading);">✅ Active (visible to customers)</label>
             </div>
           </div>
@@ -636,7 +638,7 @@ async function renderProjects() {
     e.preventDefault();
     const btn = document.getElementById('save-edit-btn');
     btn.disabled = true; btn.textContent = 'Saving...';
-    
+
     const form = e.target;
     const data = {
       name: form.name.value,
@@ -673,7 +675,7 @@ async function renderProjects() {
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-xl);">
         <div>
           <h1 style="font-size:var(--fs-2xl); font-weight:700; color:var(--text-heading);">Projects</h1>
-          <span class="text-secondary text-sm">${projects.length} total · ${projects.filter(p=>p.active).length} active</span>
+          <span class="text-secondary text-sm">${projects.length} total · ${projects.filter(p => p.active).length} active</span>
         </div>
         <div style="display:flex;gap:10px;align-items:center;">
           <button class="btn btn-secondary btn-sm" onclick="sendNotification()">
@@ -700,16 +702,16 @@ async function renderProjects() {
             </thead>
             <tbody id="projects-tbody">
               ${projects.map(p => {
-                const safe = encodeURIComponent(JSON.stringify({
-                  id: p.id, name: p.name, slug: p.slug, category: p.category,
-                  price: p.price, difficulty: p.difficulty, shortDescription: p.shortDescription,
-                  description: p.description, image: p.image, featured: p.featured, active: p.active
-                }));
-                return `
+    const safe = encodeURIComponent(JSON.stringify({
+      id: p.id, name: p.name, slug: p.slug, category: p.category,
+      price: p.price, difficulty: p.difficulty, shortDescription: p.shortDescription,
+      description: p.description, image: p.image, featured: p.featured, active: p.active
+    }));
+    return `
                 <tr data-project-id="${p.id}">
                   <td style="font-weight:600; max-width:220px;">
                     <span class="proj-name">${p.name}</span>
-                    ${p.image ? `<br><span class="text-xs text-tertiary font-mono">${p.image.substring(0,30)}…</span>` : ''}
+                    ${p.image ? `<br><span class="text-xs text-tertiary font-mono">${p.image.substring(0, 30)}…</span>` : ''}
                   </td>
                   <td><span class="badge badge-blue proj-cat">${p.category}</span></td>
                   <td class="font-mono" style="font-weight:600;">₹${new Intl.NumberFormat('en-IN').format(p.price)}</td>
@@ -733,7 +735,7 @@ async function renderProjects() {
                     </div>
                   </td>
                 </tr>`;
-              }).join('')}
+  }).join('')}
             </tbody>
           </table>
         </div>
@@ -749,10 +751,10 @@ async function renderAddProject() {
     const form = e.target;
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
-    
+
     // Format basic fields
     data.price = parseFloat(data.price) || 0;
-    
+
     try {
       const res = await fetch(`${API}/admin/projects`, {
         method: 'POST',
@@ -849,10 +851,10 @@ async function renderComponents() {
   try {
     const res = await fetch(`${API}/admin/components`, { headers: authHeaders() });
     components = await res.json(); if (!Array.isArray(components)) components = [];
-  } catch(e) {}
+  } catch (e) { }
 
   const grouped = {};
-  components.forEach(c => { 
+  components.forEach(c => {
     if (!grouped[c.category]) grouped[c.category] = [];
     grouped[c.category].push(c);
   });
@@ -911,7 +913,7 @@ async function renderPricing() {
   try {
     const res = await fetch(`${API}/admin/projects`, { headers: authHeaders() });
     projects = await res.json(); if (!Array.isArray(projects)) projects = [];
-  } catch(e) {}
+  } catch (e) { }
 
   window.saveProjectPrice = async (id, inputEl) => {
     const price = parseInt(inputEl.value);
@@ -965,14 +967,14 @@ async function renderPaymentSettings() {
   try {
     const res = await fetch(`${API}/settings`);
     settings = await res.json();
-  } catch(e) {}
+  } catch (e) { }
 
   const upiId = settings.upi_id || '8123670980@ybl';
 
   window.savePaymentSettings = async () => {
     const upi_id = document.getElementById('admin-upi-id').value.trim();
     if (!upi_id) { alert('UPI ID cannot be empty'); return; }
-    
+
     const res = await fetch(`${API}/admin/settings`, {
       method: 'PUT',
       headers: authHeaders(),
@@ -1026,7 +1028,7 @@ async function renderUsers() {
   try {
     const res = await fetch(`${API}/admin/users`, { headers: authHeaders() });
     users = await res.json(); if (!Array.isArray(users)) users = [];
-  } catch(e) {}
+  } catch (e) { }
 
   const customers = users.filter(u => u.role === 'customer');
   const admins = users.filter(u => u.role === 'admin');
@@ -1050,7 +1052,7 @@ async function renderUsers() {
               <tr>
                 <td style="font-weight:500;">${u.name}</td>
                 <td>${u.email}</td>
-                <td><span class="badge badge-${u.role==='admin'?'orange':'blue'}">${u.role}</span></td>
+                <td><span class="badge badge-${u.role === 'admin' ? 'orange' : 'blue'}">${u.role}</span></td>
                 <td style="font-size:var(--fs-xs); color:var(--text-tertiary);">${new Date(u.created_at).toLocaleDateString('en-IN')}</td>
               </tr>
             `).join('') : `<tr><td colspan="4" class="text-center text-secondary" style="padding:2rem;">No users found</td></tr>`}
@@ -1067,7 +1069,7 @@ async function renderQuotes() {
   try {
     const res = await fetch(`${API}/admin/quotes`, { headers: authHeaders() });
     quotes = await res.json(); if (!Array.isArray(quotes)) quotes = [];
-  } catch(e) {}
+  } catch (e) { }
 
   window.updateQuoteStatus = async (id, selectEl) => {
     const status = selectEl.value;
@@ -1083,7 +1085,7 @@ async function renderQuotes() {
     <div>
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-xl);">
         <h1 style="font-size:var(--fs-2xl); font-weight:700; color:var(--text-heading);">Custom Project Quotes</h1>
-        <span class="text-secondary text-sm">${quotes.length} total · ${quotes.filter(q=>q.status==='pending').length} pending</span>
+        <span class="text-secondary text-sm">${quotes.length} total · ${quotes.filter(q => q.status === 'pending').length} pending</span>
       </div>
       <div class="glass-card" style="padding:0; overflow:hidden;">
         <div style="overflow-x:auto;">
@@ -1104,9 +1106,9 @@ async function renderQuotes() {
                   <td>${q.timeline || '—'}</td>
                   <td>
                     <select class="form-input" style="padding:4px 8px;font-size:12px;min-width:150px;" onchange="updateQuoteStatus('${q.id}', this)">
-                      ${['pending','under_review','approved','quotation_sent','customer_confirmed','in_progress','completed','rejected'].map(s =>
-                        `<option ${q.status===s?'selected':''}>${s.replace(/_/g,' ')}</option>`
-                      ).join('')}
+                      ${['pending', 'under_review', 'approved', 'quotation_sent', 'customer_confirmed', 'in_progress', 'completed', 'rejected'].map(s =>
+    `<option ${q.status === s ? 'selected' : ''}>${s.replace(/_/g, ' ')}</option>`
+  ).join('')}
                     </select>
                   </td>
                   <td style="font-size:var(--fs-xs);">${new Date(q.date).toLocaleDateString('en-IN')}</td>
@@ -1126,7 +1128,7 @@ async function renderActivity() {
   try {
     const res = await fetch(`${API}/admin/feed`, { headers: authHeaders() });
     activities = await res.json(); if (!Array.isArray(activities)) activities = [];
-  } catch(e) {}
+  } catch (e) { }
 
   return `
     <div>
@@ -1138,10 +1140,10 @@ async function renderActivity() {
         ${activities.length > 0 ? activities.map(a => `
           <div style="display:flex; gap:var(--space-md); padding:var(--space-sm) 0; border-bottom:1px solid var(--border-subtle);">
             <div style="color:var(--text-tertiary); font-family:monospace; white-space:nowrap; font-size:var(--fs-xs); padding-top:2px;">
-              ${new Date(a.date).toLocaleString('en-IN',{dateStyle:'short',timeStyle:'short'})}
+              ${new Date(a.date).toLocaleString('en-IN', { dateStyle: 'short', timeStyle: 'short' })}
             </div>
             <div>
-              <span class="badge badge-${a.type==='order'?'blue':a.type==='project'?'orange':'green'}" style="margin-right:8px;">${a.type}</span>
+              <span class="badge badge-${a.type === 'order' ? 'blue' : a.type === 'project' ? 'orange' : 'green'}" style="margin-right:8px;">${a.type}</span>
               ${a.description}
             </div>
           </div>
@@ -1151,7 +1153,7 @@ async function renderActivity() {
   `;
 }
 
-function showAdminToast(message, type='success') {
+function showAdminToast(message, type = 'success') {
   const tc = document.getElementById('toast-container') || document.body;
   const el = document.createElement('div');
   el.className = `toast toast-${type}`;
