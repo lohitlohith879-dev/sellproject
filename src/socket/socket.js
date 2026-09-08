@@ -12,7 +12,11 @@ class SocketManager {
       this.socket.disconnect();
     }
 
-    this.socket = io({
+    const SOCKET_URL =
+      import.meta.env.VITE_API_URL ||
+      window.location.origin;
+
+    this.socket = io(SOCKET_URL, {
       auth: { token },
       reconnectionAttempts: Infinity,
       reconnectionDelay: 1000,
@@ -31,13 +35,17 @@ class SocketManager {
     });
 
     this.socket.on('connect_error', (err) => {
-      console.error(`[Socket] Connection Error: ${err.message}`);
+      console.error(
+        `[Socket] Connection Error: ${err.message}`
+      );
     });
 
     // Re-bind external listeners to new socket instance
-    for (const [event, callbacks] of Object.entries(this.listeners)) {
+    for (const [event, callbacks] of Object.entries(
+      this.listeners
+    )) {
       if (event !== 'connection') {
-        callbacks.forEach(cb => {
+        callbacks.forEach((cb) => {
           this.socket.on(event, cb);
         });
       }
@@ -55,8 +63,9 @@ class SocketManager {
     if (!this.listeners[event]) {
       this.listeners[event] = [];
     }
+
     this.listeners[event].push(callback);
-    
+
     // Bind immediately if socket exists
     if (this.socket && event !== 'connection') {
       this.socket.on(event, callback);
@@ -66,7 +75,7 @@ class SocketManager {
   emit(event, data) {
     // Local emission
     if (this.listeners[event]) {
-      this.listeners[event].forEach(cb => cb(data));
+      this.listeners[event].forEach((cb) => cb(data));
     }
   }
 

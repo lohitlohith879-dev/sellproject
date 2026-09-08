@@ -122,7 +122,7 @@ export function DashboardPage(container, params) {
                   <button class="btn btn-secondary btn-sm">
                     <i data-lucide="download" style="width:14px;"></i> Invoice
                   </button>
-                  ${order.status === 'delivered' ? `<button class="btn btn-ghost btn-sm"><i data-lucide="star" style="width:14px;"></i> Review</button>` : ''}
+                  ${order.status === 'delivered' ? `<button class="btn btn-ghost btn-sm" onclick="openReviewModal('${order.id}')"><i data-lucide="star" style="width:14px;"></i> Review</button>` : ''}
                 </div>
               </div>`;
           }).join('')}
@@ -366,6 +366,74 @@ export function DashboardPage(container, params) {
 
   store.on('orders', reRender);
 
+  window.openReviewModal = (orderId) => {
+    const orders = store.get('orders');
+    const order = orders.find(o => o.id === orderId);
+    if (!order) return;
+    
+    // We'll review the first item for simplicity, or we can list them
+    const item = order.items && order.items[0];
+    if (!item) return;
+
+    window.currentReviewContext = { orderId, projectId: item.id };
+    
+    const modal = document.getElementById('review-modal');
+    document.getElementById('review-item-name').innerText = item.name;
+    modal.style.display = 'flex';
+  };
+
+  window.closeReviewModal = () => {
+    document.getElementById('review-modal').style.display = 'none';
+  };
+
+  window.setReviewRating = (rating) => {
+    window.currentReviewRating = rating;
+    const stars = document.querySelectorAll('.review-star');
+    stars.forEach((s, idx) => {
+      if (idx < rating) {
+        s.style.color = 'var(--accent-orange)';
+        s.style.fill = 'var(--accent-orange)';
+      } else {
+        s.style.color = 'var(--text-tertiary)';
+        s.style.fill = 'transparent';
+      }
+    });
+  };
+
+  window.submitReviewForm = async (e) => {
+    e.preventDefault();
+    if (!window.currentReviewRating) {
+      alert("Please select a star rating");
+      return;
+    }
+    const comment = document.getElementById('review-comment').value;
+    const { orderId, projectId } = window.currentReviewContext;
+    
+    const btn = document.getElementById('submit-review-btn');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = 'Submitting...';
+    btn.disabled = true;
+
+    const success = await store.submitReview({
+      orderId,
+      projectId,
+      rating: window.currentReviewRating,
+      comment
+    });
+
+    if (success) {
+      alert("Review submitted successfully!");
+      closeReviewModal();
+      document.getElementById('review-comment').value = '';
+      setReviewRating(0);
+    } else {
+      alert("Failed to submit review");
+    }
+
+    btn.innerHTML = originalText;
+    btn.disabled = false;
+  };
+
   container.innerHTML = `
     <div class="dashboard-page container section">
       <div class="dashboard-header reveal">
@@ -402,6 +470,32 @@ export function DashboardPage(container, params) {
           ${activeTab === 'saved' ? renderSavedTab() : ''}
           ${activeTab === 'profile' ? renderProfileTab() : ''}
         </div>
+      </div>
+    </div>
+
+    <!-- Review Modal -->
+    <div id="review-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+      <div class="glass-card" style="width: 100%; max-width: 450px; padding: var(--space-2xl); position: relative;">
+        <button class="btn btn-ghost" style="position: absolute; top: var(--space-sm); right: var(--space-sm); padding: 4px;" onclick="closeReviewModal()">
+          <i data-lucide="x" style="width: 20px;"></i>
+        </button>
+        <h3 class="heading-lg" style="margin-bottom: var(--space-sm);">Write a Review</h3>
+        <p class="text-secondary text-sm" style="margin-bottom: var(--space-xl);">How was <strong id="review-item-name" style="color: var(--text-heading);">this item</strong>?</p>
+        
+        <form onsubmit="submitReviewForm(event)">
+          <div style="display: flex; gap: 8px; margin-bottom: var(--space-lg); justify-content: center;">
+            ${[1, 2, 3, 4, 5].map(i => `
+              <i data-lucide="star" class="review-star" style="width: 32px; height: 32px; color: var(--text-tertiary); cursor: pointer;" onclick="setReviewRating(${i})"></i>
+            `).join('')}
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Review Comment (Optional)</label>
+            <textarea id="review-comment" class="form-input" rows="4" placeholder="Share your experience with this project..."></textarea>
+          </div>
+          
+          <button id="submit-review-btn" type="submit" class="btn btn-primary" style="width: 100%; margin-top: var(--space-md);">Submit Review</button>
+        </form>
       </div>
     </div>
   `;

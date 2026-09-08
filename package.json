@@ -5,6 +5,7 @@
   "type": "module",
   "description": "CircuitKart — Embedded Systems, IoT & Electronics Project Store",
   "scripts": {
+    "start": "node server/server.js",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:client": "vite",
     "dev:server": "node server/server.js",

@@ -5,14 +5,18 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import db from './db.js';
 import { initSocket, getIo } from './socket/index.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const JWT_SECRET = process.env.JWT_SECRET || 'circuitkart-secret-key-2025';
 
 const app = express();
 const httpServer = createServer(app);
 
-// Use a dynamic port, defaulting to 3001
-const port = process.env.PORT || 3001;
+// Use a dynamic port, defaulting to 3000
+const port = process.env.PORT || 3000;
 
 // Setup Socket.IO modular connection
 initSocket(httpServer);
@@ -419,11 +423,30 @@ app.put('/api/admin/settings', authMiddleware, requireAdmin, (req, res) => {
   }
 });
 
-app.post('/api/orders', authMiddleware, requireCustomer, (req, res) => {
+// Optional auth middleware — attaches user if token present, allows guests through
+function optionalAuth(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    try {
+      const token = authHeader.split(' ')[1];
+      req.user = jwt.verify(token, JWT_SECRET);
+    } catch (err) {
+      // Invalid token — treat as guest
+      req.user = null;
+    }
+  } else {
+    req.user = null;
+  }
+  next();
+}
+
+app.post('/api/orders', optionalAuth, (req, res) => {
   try {
     const { items, total, contactInfo, shippingInfo, paymentMethod } = req.body;
     const orderId = 'ORD-' + Date.now().toString().slice(-6);
     const date = new Date().toISOString();
+    const userId = req.user ? req.user.id : null;
+    const userEmail = req.user ? req.user.email : (contactInfo?.email || 'Guest');
     
     const stmt = db.prepare(`
       INSERT INTO orders (id, userId, items, total, date, contactInfo, shippingInfo, paymentMethod)
@@ -432,7 +455,7 @@ app.post('/api/orders', authMiddleware, requireCustomer, (req, res) => {
     
     stmt.run(
       orderId, 
-      req.user.id,
+      userId,
       JSON.stringify(items), 
       total, 
       date, 
@@ -441,7 +464,7 @@ app.post('/api/orders', authMiddleware, requireCustomer, (req, res) => {
       paymentMethod
     );
     
-    const newOrder = { id: orderId, userId: req.user.id, items, total, date, status: 'placed', paymentStatus: 'pending', contactInfo, shippingInfo, paymentMethod };
+    const newOrder = { id: orderId, userId, items, total, date, status: 'placed', paymentStatus: 'pending', contactInfo, shippingInfo, paymentMethod };
     
     // Insert initial order history
     db.prepare(`
@@ -454,12 +477,12 @@ app.post('/api/orders', authMiddleware, requireCustomer, (req, res) => {
     io.to('admins').emit('admin:new_order', newOrder);
 
     // Also insert into activities feed
-    const desc = `New order ${orderId} placed by ${req.user.email} (₹${total})`;
+    const desc = `New order ${orderId} placed by ${userEmail} (₹${total})`;
     db.prepare('INSERT INTO activities (type, description, date) VALUES (?, ?, ?)').run('order', desc, date);
     io.to('admins').emit('admin:activity', { type: 'order', description: desc, date });
     
-    // Broadcast to customer so their dashboard updates
-    io.to(`customer:${req.user.id}`).emit('order:created', newOrder);
+    // Broadcast to customer so their dashboard updates (if logged in)
+    if (userId) io.to(`customer:${userId}`).emit('order:created', newOrder);
 
     res.status(201).json(newOrder);
   } catch (error) {
@@ -736,11 +759,252 @@ app.patch('/api/notifications/:id/read', authMiddleware, (req, res) => {
   }
 });
 
+// ---------------------------------------------------------
+// REVIEWS API
+// ---------------------------------------------------------
+
+// Submit a review for a project
+app.post('/api/reviews', authMiddleware, requireCustomer, (req, res) => {
+  try {
+    const { orderId, projectId, rating, comment } = req.body;
+    
+    // Insert the review
+    db.prepare(`
+      INSERT INTO reviews (userId, orderId, projectId, rating, comment)
+      VALUES (?, ?, ?, ?, ?)
+    `).run(req.user.id, orderId, projectId, rating, comment);
+
+    // Update project overall rating
+    const reviews = db.prepare("SELECT rating FROM reviews WHERE projectId = ?").all(projectId);
+    const avgRating = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+    
+    db.prepare(`
+      UPDATE projects 
+      SET rating = ?, reviewCount = ? 
+      WHERE id = ?
+    `).run(avgRating.toFixed(1), reviews.length, projectId);
+
+    res.status(201).json({ success: true });
+  } catch (error) {
+    console.error('Error submitting review:', error);
+    res.status(500).json({ error: 'Failed to submit review' });
+  }
+});
+
+// Get reviews for a specific project
+app.get('/api/reviews/:projectId', (req, res) => {
+  try {
+    const reviews = db.prepare(`
+      SELECT r.*, u.name as userName 
+      FROM reviews r 
+      JOIN users u ON r.userId = u.id 
+      WHERE r.projectId = ? 
+      ORDER BY r.createdAt DESC
+    `).all(req.params.projectId);
+    res.json(reviews);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch reviews' });
+  }
+});
+
+// ---------------------------------------------------------
+// LIVE TRACKING API
+// ---------------------------------------------------------
+
+// POST /api/tracking/location — Driver submits GPS coordinates (REST fallback for Socket.IO)
+app.post('/api/tracking/location', authMiddleware, (req, res) => {
+  try {
+    const { orderId, latitude, longitude } = req.body;
+    if (!orderId || latitude == null || longitude == null) {
+      return res.status(400).json({ error: 'orderId, latitude, and longitude are required.' });
+    }
+
+    const timestamp = new Date().toISOString();
+    const assignment = db.prepare('SELECT driver_name FROM delivery_assignments WHERE order_id = ?').get(orderId);
+    const driverName = assignment?.driver_name || req.user.name || req.user.email;
+
+    db.prepare(`
+      INSERT INTO driver_locations (order_id, driver_name, latitude, longitude, is_online, timestamp)
+      VALUES (?, ?, ?, ?, 1, ?)
+    `).run(orderId, driverName, latitude, longitude, timestamp);
+
+    const payload = { orderId, latitude, longitude, timestamp, driverName, isOnline: true };
+    const io = getIo();
+    io.to(`order_${orderId}`).emit('tracking:location', payload);
+    io.to('admins').emit('tracking:location', payload);
+
+    res.json({ success: true, timestamp });
+  } catch (error) {
+    console.error('Error saving location:', error);
+    res.status(500).json({ error: 'Failed to save location.' });
+  }
+});
+
+// GET /api/tracking/location/:orderId — Get latest driver location for an order
+app.get('/api/tracking/location/:orderId', authMiddleware, (req, res) => {
+  try {
+    const { orderId } = req.params;
+
+    // Authorization: customers can only see their own order's location
+    if (req.user.role === 'customer') {
+      const order = db.prepare('SELECT userId FROM orders WHERE id = ?').get(orderId);
+      if (!order) return res.status(404).json({ error: 'Order not found.' });
+      if (String(order.userId) !== String(req.user.id)) {
+        return res.status(403).json({ error: 'Access denied.' });
+      }
+    }
+
+    const location = db.prepare(`
+      SELECT * FROM driver_locations WHERE order_id = ? ORDER BY timestamp DESC LIMIT 1
+    `).get(orderId);
+
+    if (!location) return res.json({ location: null });
+
+    res.json({
+      location: {
+        orderId,
+        latitude: location.latitude,
+        longitude: location.longitude,
+        timestamp: location.timestamp,
+        driverName: location.driver_name,
+        isOnline: location.is_online === 1,
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching location:', error);
+    res.status(500).json({ error: 'Failed to fetch location.' });
+  }
+});
+
+// GET /api/tracking/active — All active deliveries with latest driver locations (Admin only)
+app.get('/api/tracking/active', authMiddleware, requireAdmin, (req, res) => {
+  try {
+    const activeOrders = db.prepare(`
+      SELECT o.id, o.status, o.delivery_lat, o.delivery_lng, o.shippingInfo, o.contactInfo,
+             u.name as customerName,
+             da.driver_name, da.driver_phone,
+             dl.latitude, dl.longitude, dl.timestamp as locationTimestamp, dl.is_online
+      FROM orders o
+      LEFT JOIN users u ON o.userId = u.id
+      LEFT JOIN delivery_assignments da ON da.order_id = o.id
+      LEFT JOIN driver_locations dl ON dl.order_id = o.id
+        AND dl.id = (SELECT id FROM driver_locations WHERE order_id = o.id ORDER BY timestamp DESC LIMIT 1)
+      WHERE o.status IN ('shipped', 'out_for_delivery')
+      ORDER BY o.date DESC
+    `).all();
+
+    const result = activeOrders.map(o => ({
+      orderId: o.id,
+      status: o.status,
+      customerName: o.customerName,
+      shippingInfo: JSON.parse(o.shippingInfo || '{}'),
+      contactInfo: JSON.parse(o.contactInfo || '{}'),
+      deliveryLat: o.delivery_lat,
+      deliveryLng: o.delivery_lng,
+      driverName: o.driver_name,
+      driverPhone: o.driver_phone,
+      driverLocation: o.latitude != null ? {
+        latitude: o.latitude,
+        longitude: o.longitude,
+        timestamp: o.locationTimestamp,
+        isOnline: o.is_online === 1,
+      } : null,
+    }));
+
+    res.json(result);
+  } catch (error) {
+    console.error('Error fetching active deliveries:', error);
+    res.status(500).json({ error: 'Failed to fetch active deliveries.' });
+  }
+});
+
+// POST /api/tracking/assign — Assign a driver to an order (Admin only)
+app.post('/api/tracking/assign', authMiddleware, requireAdmin, (req, res) => {
+  try {
+    const { orderId, driverName, driverPhone, deliveryLat, deliveryLng } = req.body;
+    if (!orderId || !driverName) {
+      return res.status(400).json({ error: 'orderId and driverName are required.' });
+    }
+
+    // Upsert assignment
+    db.prepare(`
+      INSERT INTO delivery_assignments (order_id, driver_name, driver_phone, assigned_at)
+      VALUES (?, ?, ?, datetime('now'))
+      ON CONFLICT(order_id) DO UPDATE SET
+        driver_name = excluded.driver_name,
+        driver_phone = excluded.driver_phone,
+        assigned_at = excluded.assigned_at
+    `).run(orderId, driverName, driverPhone || null);
+
+    // Store delivery coordinates on the order
+    if (deliveryLat != null && deliveryLng != null) {
+      db.prepare('UPDATE orders SET delivery_lat = ?, delivery_lng = ? WHERE id = ?').run(deliveryLat, deliveryLng, orderId);
+    }
+
+    // Notify admin room
+    getIo().to('admins').emit('tracking:driver_assigned', { orderId, driverName, driverPhone });
+
+    const date = new Date().toISOString();
+    const desc = `Driver "${driverName}" assigned to order ${orderId}`;
+    db.prepare('INSERT INTO activities (type, description, date) VALUES (?, ?, ?)').run('order', desc, date);
+    getIo().to('admins').emit('admin:activity', { type: 'order', description: desc, date });
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error assigning driver:', error);
+    res.status(500).json({ error: 'Failed to assign driver.' });
+  }
+});
+
+// GET /api/tracking/assignment/:orderId — Get driver assignment for an order
+app.get('/api/tracking/assignment/:orderId', authMiddleware, (req, res) => {
+  try {
+    const { orderId } = req.params;
+
+    // Customers can only see their own order
+    if (req.user.role === 'customer') {
+      const order = db.prepare('SELECT userId FROM orders WHERE id = ?').get(orderId);
+      if (!order || String(order.userId) !== String(req.user.id)) {
+        return res.status(403).json({ error: 'Access denied.' });
+      }
+    }
+
+    const assignment = db.prepare('SELECT * FROM delivery_assignments WHERE order_id = ?').get(orderId);
+    res.json({ assignment: assignment || null });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch assignment.' });
+  }
+});
+
+// PATCH /api/tracking/delivery-coords/:orderId — Admin sets delivery lat/lng
+app.patch('/api/tracking/delivery-coords/:orderId', authMiddleware, requireAdmin, (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const { deliveryLat, deliveryLng } = req.body;
+    if (deliveryLat == null || deliveryLng == null) {
+      return res.status(400).json({ error: 'deliveryLat and deliveryLng are required.' });
+    }
+    db.prepare('UPDATE orders SET delivery_lat = ?, delivery_lng = ? WHERE id = ?').run(deliveryLat, deliveryLng, orderId);
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to update delivery coordinates.' });
+  }
+});
+
+// Serve Vite frontend in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../dist')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../dist/index.html'));
+  });
+}
+
 // Start the server
-httpServer.listen(port, async () => {
+
+httpServer.listen(port, '0.0.0.0', async () => {
   console.log(`=================================`);
   console.log(`🚀 CircuitKart Backend API is running`);
-  console.log(`🔗 http://localhost:${port}`);
+  console.log(`🔗 http://0.0.0.0:${port}`);
   console.log(`=================================`);
 
   // Seed default admin user if not exists

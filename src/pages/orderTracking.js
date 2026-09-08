@@ -1,8 +1,40 @@
-// src/pages/orderTracking.js — Real-time Order Tracking Page
+// src/pages/orderTracking.js — Real-time Order Tracking Page with Live Map
 import { store } from '../store.js';
 import { socketManager } from '../socket/socket.js';
 
 const API = '/api';
+
+// Haversine formula — returns distance in km
+function haversineKm(lat1, lng1, lat2, lng2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) ** 2 +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function etaMinutes(km) {
+  const avgKmh = 20; // Average local delivery speed
+  return Math.round((km / avgKmh) * 60);
+}
+
+function formatEta(mins) {
+  if (mins <= 0) return 'Arriving now';
+  if (mins < 60) return `~${mins} min`;
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  return `~${h}h ${m}m`;
+}
+
+function timeAgo(isoStr) {
+  if (!isoStr) return 'Never';
+  const diffSec = Math.floor((Date.now() - new Date(isoStr).getTime()) / 1000);
+  if (diffSec < 60) return `${diffSec}s ago`;
+  if (diffSec < 3600) return `${Math.floor(diffSec / 60)}m ago`;
+  return `${Math.floor(diffSec / 3600)}h ago`;
+}
 
 // Full status definitions
 const STATUS_FLOW = [
@@ -25,16 +57,20 @@ const SPECIAL_STATUSES = {
   refunded:           { label: 'Refunded',              color: '#10b981', icon: 'wallet' },
 };
 
-// Status labels map (incl legacy ones from old code)
 const STATUS_LABEL = {};
 STATUS_FLOW.forEach(s => STATUS_LABEL[s.key] = s.label);
-Object.entries(SPECIAL_STATUSES).forEach(([k,v]) => STATUS_LABEL[k] = v.label);
+Object.entries(SPECIAL_STATUSES).forEach(([k, v]) => STATUS_LABEL[k] = v.label);
 STATUS_LABEL['received'] = 'Order Received';
 STATUS_LABEL['payment_submitted'] = 'Payment Submitted';
 
+// Indicates if the live map should be shown
+function shouldShowMap(status) {
+  return ['shipped', 'out_for_delivery'].includes(status);
+}
+
 export async function OrderTrackingPage(container, params) {
   const orderId = params.id;
-  const token   = localStorage.getItem('ck_token');
+  const token = localStorage.getItem('ck_token');
 
   if (!token) {
     container.innerHTML = `
@@ -46,25 +82,19 @@ export async function OrderTrackingPage(container, params) {
     return;
   }
 
-  // Render loading skeleton
+  // Loading skeleton
   container.innerHTML = `
     <div class="container section" style="padding-top:calc(var(--nav-height) + 2rem); min-height:80vh; max-width:900px;">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:2rem;">
-        <a href="#/dashboard" class="btn btn-ghost btn-sm"><i data-lucide="arrow-left" style="width:16px;"></i> My Orders</a>
-      </div>
       <div class="text-center" style="padding:4rem 0;">
         <div class="auth-spinner" style="display:inline-block;"></div>
         <p class="text-secondary" style="margin-top:1rem;">Loading order details…</p>
       </div>
     </div>`;
-  if (window.lucide) window.lucide.createIcons();
 
-  // Fetch order from backend
+  // Fetch order
   let order;
   try {
-    const res = await fetch(`${API}/orders/${orderId}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const res = await fetch(`${API}/orders/${orderId}`, { headers: { Authorization: `Bearer ${token}` } });
     if (!res.ok) throw new Error('Not found');
     order = await res.json();
   } catch (e) {
@@ -79,18 +109,177 @@ export async function OrderTrackingPage(container, params) {
     return;
   }
 
+  // Map state
+  let leafletMap = null;
+  let driverMarker = null;
+  let customerMarker = null;
+  let routeLine = null;
+  let driverLocation = null;
+  let assignment = null;
+  let driverOnline = false;
+  let staleTimer = null;
+
+  // Fetch initial tracking data
+  async function loadTrackingData() {
+    try {
+      const [locRes, asnRes] = await Promise.all([
+        fetch(`${API}/tracking/location/${orderId}`, { headers: { Authorization: `Bearer ${token}` } }),
+        fetch(`${API}/tracking/assignment/${orderId}`, { headers: { Authorization: `Bearer ${token}` } }),
+      ]);
+      if (locRes.ok) {
+        const data = await locRes.json();
+        if (data.location) driverLocation = data.location;
+      }
+      if (asnRes.ok) {
+        const data = await asnRes.json();
+        if (data.assignment) assignment = data.assignment;
+      }
+    } catch (e) {}
+  }
+
+  // Load Leaflet JS dynamically
+  async function loadLeaflet() {
+    if (window.L) return;
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      script.integrity = 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN2GqaA=';
+      script.crossOrigin = '';
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+  }
+
+  // Build custom icon
+  function makeIcon(emoji, size = 36) {
+    return window.L.divIcon({
+      html: `<div style="font-size:${size}px;line-height:1;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.6));">${emoji}</div>`,
+      className: '',
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size / 2],
+      popupAnchor: [0, -size / 2],
+    });
+  }
+
+  // Initialize or update Leaflet map
+  async function initMap(deliveryLat, deliveryLng) {
+    if (!shouldShowMap(order.status)) return;
+
+    await loadLeaflet();
+    const mapEl = document.getElementById('live-map-container');
+    if (!mapEl) return;
+
+    if (!leafletMap) {
+      // Default center: India center if no coords yet
+      const centerLat = driverLocation?.latitude || deliveryLat || 20.5937;
+      const centerLng = driverLocation?.longitude || deliveryLng || 78.9629;
+
+      leafletMap = window.L.map('live-map-container', { zoomControl: true }).setView([centerLat, centerLng], 14);
+
+      window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        maxZoom: 19,
+      }).addTo(leafletMap);
+    }
+
+    // Customer delivery marker
+    if (deliveryLat && deliveryLng) {
+      if (!customerMarker) {
+        customerMarker = window.L.marker([deliveryLat, deliveryLng], { icon: makeIcon('🏠', 32) })
+          .addTo(leafletMap)
+          .bindPopup('<strong>Delivery Location</strong>');
+      } else {
+        customerMarker.setLatLng([deliveryLat, deliveryLng]);
+      }
+    }
+
+    // Driver marker
+    if (driverLocation?.latitude && driverLocation?.longitude) {
+      const dLat = driverLocation.latitude;
+      const dLng = driverLocation.longitude;
+
+      if (!driverMarker) {
+        driverMarker = window.L.marker([dLat, dLng], { icon: makeIcon('🚚', 34) })
+          .addTo(leafletMap)
+          .bindPopup(`<strong>${assignment?.driver_name || 'Delivery Person'}</strong><br>Live Location`);
+      } else {
+        // Smooth marker movement
+        driverMarker.setLatLng([dLat, dLng]);
+      }
+
+      // Draw route line
+      if (deliveryLat && deliveryLng) {
+        const latLngs = [[dLat, dLng], [deliveryLat, deliveryLng]];
+        if (!routeLine) {
+          routeLine = window.L.polyline(latLngs, {
+            color: '#00d4ff',
+            weight: 3,
+            opacity: 0.7,
+            dashArray: '8, 8',
+          }).addTo(leafletMap);
+        } else {
+          routeLine.setLatLngs(latLngs);
+        }
+        leafletMap.fitBounds(window.L.latLngBounds(latLngs), { padding: [40, 40] });
+      }
+
+      // Update distance & ETA
+      if (deliveryLat && deliveryLng) {
+        const km = haversineKm(dLat, dLng, deliveryLat, deliveryLng);
+        const mins = etaMinutes(km);
+        const distEl = document.getElementById('track-distance');
+        const etaEl = document.getElementById('track-eta');
+        if (distEl) distEl.textContent = km < 1 ? `${Math.round(km * 1000)}m` : `${km.toFixed(1)} km`;
+        if (etaEl) etaEl.textContent = formatEta(mins);
+      }
+    }
+
+    // Stale location warning: if no update for 5 min, show warning
+    if (staleTimer) clearTimeout(staleTimer);
+    staleTimer = setTimeout(() => {
+      const staleEl = document.getElementById('track-stale-warn');
+      if (staleEl) staleEl.style.display = 'flex';
+    }, 5 * 60 * 1000);
+
+    // Last update
+    const luEl = document.getElementById('track-last-update');
+    if (luEl && driverLocation?.timestamp) {
+      luEl.textContent = `Updated ${timeAgo(driverLocation.timestamp)}`;
+    }
+  }
+
+  // Update driver info panel
+  function updateDriverPanel() {
+    const onlineEl = document.getElementById('driver-online-badge');
+    const nameEl = document.getElementById('driver-assigned-name');
+    if (onlineEl) {
+      onlineEl.style.background = driverOnline ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.1)';
+      onlineEl.style.borderColor = driverOnline ? 'rgba(16,185,129,0.4)' : 'rgba(239,68,68,0.3)';
+      onlineEl.style.color = driverOnline ? '#10b981' : '#ef4444';
+      onlineEl.innerHTML = driverOnline ? '● Online' : '○ Offline';
+    }
+    if (nameEl && assignment?.driver_name) {
+      nameEl.textContent = assignment.driver_name;
+    }
+    const luEl = document.getElementById('track-last-update');
+    if (luEl && driverLocation?.timestamp) {
+      luEl.textContent = `Updated ${timeAgo(driverLocation.timestamp)}`;
+    }
+  }
+
   function renderPage(o) {
     const isSpecial = !!SPECIAL_STATUSES[o.status];
     const specialInfo = SPECIAL_STATUSES[o.status];
     const currentFlowIdx = STATUS_FLOW.findIndex(s => s.key === o.status);
     const historyMap = {};
     (o.history || []).forEach(h => { historyMap[h.newStatus] = h.createdAt; });
-
     const payStatusColor = o.paymentStatus === 'paid' ? '#10b981' : o.paymentStatus === 'failed' ? '#ef4444' : '#f59e0b';
     const payStatusLabel = o.paymentStatus === 'paid' ? 'Paid' : o.paymentStatus === 'failed' ? 'Failed' : 'Pending';
+    const showMap = shouldShowMap(o.status);
 
     container.innerHTML = `
-      <div class="container section" style="padding-top:calc(var(--nav-height) + 1.5rem); padding-bottom:4rem; max-width:900px;">
+      <div class="container section" style="padding-top:calc(var(--nav-height) + 1.5rem); padding-bottom:4rem; max-width:960px;">
 
         <!-- Header -->
         <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;">
@@ -119,7 +308,67 @@ export async function OrderTrackingPage(container, params) {
           </div>
         </div>
 
-        <!-- Grid: Tracking + Details -->
+        ${showMap ? `
+        <!-- Live Map Section -->
+        <div class="glass-card" style="margin-bottom:1.5rem;overflow:hidden;border-radius:16px;">
+          <!-- Map header -->
+          <div style="padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;border-bottom:1px solid var(--border-subtle);">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:36px;height:36px;background:rgba(0,212,255,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+                🗺️
+              </div>
+              <div>
+                <div style="font-weight:700;color:var(--text-heading);font-size:.95rem;">Live Delivery Map</div>
+                <div style="font-size:.75rem;color:var(--text-tertiary);">Real-time driver location</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <!-- Driver status -->
+              <div id="driver-online-badge" style="padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:600;border:1px solid;background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.3);color:#ef4444;">
+                ○ Offline
+              </div>
+              <!-- Last update -->
+              <div id="track-last-update" style="font-size:.75rem;color:var(--text-tertiary);">No location yet</div>
+            </div>
+          </div>
+
+          <!-- Stale warning -->
+          <div id="track-stale-warn" style="display:none;background:rgba(245,158,11,0.1);border-bottom:1px solid rgba(245,158,11,0.3);padding:8px 1.25rem;align-items:center;gap:8px;">
+            <i data-lucide="alert-triangle" style="width:15px;color:#f59e0b;flex-shrink:0;"></i>
+            <span style="font-size:.8rem;color:#f59e0b;">Driver location hasn't updated in a while. The driver may be temporarily offline.</span>
+          </div>
+
+          <!-- Map -->
+          <div id="live-map-container" style="height:340px;width:100%;background:#1a1a2e;"></div>
+
+          <!-- Stats row -->
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:1rem 1.25rem;gap:1rem;border-top:1px solid var(--border-subtle);">
+            <div style="text-align:center;">
+              <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-tertiary);margin-bottom:4px;">Distance</div>
+              <div id="track-distance" style="font-size:1.1rem;font-weight:700;color:var(--primary);font-family:'JetBrains Mono',monospace;">—</div>
+            </div>
+            <div style="text-align:center;border-left:1px solid var(--border-subtle);border-right:1px solid var(--border-subtle);">
+              <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-tertiary);margin-bottom:4px;">ETA</div>
+              <div id="track-eta" style="font-size:1.1rem;font-weight:700;color:#10b981;font-family:'JetBrains Mono',monospace;">—</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-tertiary);margin-bottom:4px;">Driver</div>
+              <div id="driver-assigned-name" style="font-size:.88rem;font-weight:600;color:var(--text-heading);">${assignment?.driver_name || '—'}</div>
+            </div>
+          </div>
+
+          <!-- Map legend -->
+          <div style="padding:.75rem 1.25rem;display:flex;gap:1.5rem;border-top:1px solid var(--border-subtle);background:rgba(0,0,0,0.15);">
+            <div style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-tertiary);">🚚 Delivery Person</div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-tertiary);">🏠 Your Location</div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text-tertiary);">
+              <div style="width:20px;height:2px;background:#00d4ff;border-top:2px dashed #00d4ff;"></div> Route
+            </div>
+          </div>
+        </div>
+        ` : ''}
+
+        <!-- Grid: Timeline + Details -->
         <div style="display:grid;grid-template-columns:1fr 340px;gap:1.5rem;">
 
           <!-- Left: Timeline -->
@@ -145,8 +394,7 @@ export async function OrderTrackingPage(container, params) {
                     const active = idx === currentFlowIdx;
                     const ts = historyMap[step.key];
                     return `
-                      <div style="display:flex;gap:16px;margin-bottom:${idx < STATUS_FLOW.length-1 ? '0' : '0'};">
-                        <!-- Dot + line -->
+                      <div style="display:flex;gap:16px;margin-bottom:0;">
                         <div style="display:flex;flex-direction:column;align-items:center;min-width:36px;">
                           <div style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;
                             background:${done ? step.color : active ? step.color+'22' : 'rgba(255,255,255,0.05)'};
@@ -158,12 +406,11 @@ export async function OrderTrackingPage(container, params) {
                               : `<i data-lucide="${step.icon}" style="width:16px;height:16px;color:${active ? step.color : 'var(--text-tertiary)'};"></i>`
                             }
                           </div>
-                          ${idx < STATUS_FLOW.length-1
+                          ${idx < STATUS_FLOW.length - 1
                             ? `<div style="width:2px;flex:1;min-height:28px;background:${done ? step.color : 'var(--border-subtle)'};transition:background 0.4s;margin:4px 0;"></div>`
                             : ''}
                         </div>
-                        <!-- Label -->
-                        <div style="padding-top:6px;padding-bottom:${idx < STATUS_FLOW.length-1 ? '12px' : '0'};">
+                        <div style="padding-top:6px;padding-bottom:${idx < STATUS_FLOW.length - 1 ? '12px' : '0'};">
                           <div style="font-weight:${active ? '700' : '500'};color:${done || active ? 'var(--text-heading)' : 'var(--text-tertiary)'};font-size:.9rem;">${step.label}</div>
                           ${ts
                             ? `<div style="font-size:.75rem;color:var(--text-tertiary);margin-top:2px;">${new Date(ts).toLocaleString('en-IN',{dateStyle:'short',timeStyle:'short'})}</div>`
@@ -184,14 +431,14 @@ export async function OrderTrackingPage(container, params) {
                 <i data-lucide="clock" style="width:18px;color:var(--primary);"></i> Status History
               </h3>
               <div id="history-log" style="display:flex;flex-direction:column;gap:10px;">
-                ${(o.history||[]).length === 0
+                ${(o.history || []).length === 0
                   ? `<p class="text-secondary text-sm">No history yet.</p>`
-                  : [...(o.history||[])].reverse().map(h => `
+                  : [...(o.history || [])].reverse().map(h => `
                     <div style="display:flex;gap:12px;align-items:flex-start;padding:10px;background:rgba(255,255,255,0.03);border-radius:8px;border-left:3px solid var(--primary);">
                       <div style="flex:1;">
                         <div style="font-size:.85rem;font-weight:600;color:var(--text-heading);">
-                          ${h.previousStatus ? `<span class="text-tertiary">${STATUS_LABEL[h.previousStatus]||h.previousStatus}</span> → ` : ''}
-                          <span style="color:var(--primary);">${STATUS_LABEL[h.newStatus]||h.newStatus}</span>
+                          ${h.previousStatus ? `<span class="text-tertiary">${STATUS_LABEL[h.previousStatus] || h.previousStatus}</span> → ` : ''}
+                          <span style="color:var(--primary);">${STATUS_LABEL[h.newStatus] || h.newStatus}</span>
                         </div>
                         ${h.note ? `<div style="font-size:.8rem;color:var(--text-secondary);margin-top:2px;">Note: ${h.note}</div>` : ''}
                         <div style="font-size:.75rem;color:var(--text-tertiary);margin-top:4px;">${new Date(h.createdAt).toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'})}</div>
@@ -238,13 +485,13 @@ export async function OrderTrackingPage(container, params) {
             <!-- Items -->
             <div class="glass-card" style="padding:1.25rem;">
               <h4 style="font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-tertiary);margin-bottom:.75rem;">Items Ordered</h4>
-              ${(o.items||[]).map(item => `
+              ${(o.items || []).map(item => `
                 <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:.5rem 0;border-bottom:1px solid var(--border-subtle);">
                   <div>
                     <div style="font-weight:500;font-size:.85rem;color:var(--text-heading);">${item.name}</div>
-                    <div style="font-size:.75rem;color:var(--text-tertiary);">Qty: ${item.quantity||1}</div>
+                    <div style="font-size:.75rem;color:var(--text-tertiary);">Qty: ${item.quantity || 1}</div>
                   </div>
-                  <div class="font-mono text-sm">₹${new Intl.NumberFormat('en-IN').format(item.price*(item.quantity||1))}</div>
+                  <div class="font-mono text-sm">₹${new Intl.NumberFormat('en-IN').format(item.price * (item.quantity || 1))}</div>
                 </div>`).join('')}
             </div>
 
@@ -258,7 +505,7 @@ export async function OrderTrackingPage(container, params) {
               </div>
             </div>` : ''}
 
-            <!-- Need Help -->
+            <!-- Support -->
             <div class="glass-card" style="padding:1.25rem;text-align:center;">
               <i data-lucide="headphones" style="width:28px;height:28px;color:var(--primary);margin-bottom:.5rem;"></i>
               <p class="text-sm text-secondary">Need help with your order?</p>
@@ -270,51 +517,99 @@ export async function OrderTrackingPage(container, params) {
     `;
 
     if (window.lucide) window.lucide.createIcons();
+
+    // Init map if needed
+    if (showMap) {
+      const deliveryLat = o.delivery_lat || null;
+      const deliveryLng = o.delivery_lng || null;
+      initMap(deliveryLat, deliveryLng);
+      updateDriverPanel();
+    }
   }
 
   // Initial render
+  if (shouldShowMap(order.status)) await loadTrackingData();
   renderPage(order);
 
-  // Real-time listener for this specific order
+  // Subscribe to live location updates via Socket.IO
+  if (shouldShowMap(order.status)) {
+    socketManager._socket?.emit('tracking:subscribe', { orderId });
+  }
+
+  // Handle incoming driver location
+  function handleLocation(data) {
+    if (data.orderId !== orderId) return;
+    driverLocation = data;
+    driverOnline = data.isOnline;
+
+    // Hide stale warning if we got a fresh update
+    const staleEl = document.getElementById('track-stale-warn');
+    if (staleEl) staleEl.style.display = 'none';
+
+    const deliveryLat = order.delivery_lat || null;
+    const deliveryLng = order.delivery_lng || null;
+    initMap(deliveryLat, deliveryLng);
+    updateDriverPanel();
+
+    // Restart stale timer
+    if (staleTimer) clearTimeout(staleTimer);
+    staleTimer = setTimeout(() => {
+      const el = document.getElementById('track-stale-warn');
+      if (el) el.style.display = 'flex';
+    }, 5 * 60 * 1000);
+  }
+
+  // Handle driver online/offline status changes
+  function handleDriverStatus(data) {
+    if (data.orderId !== orderId) return;
+    driverOnline = data.isOnline;
+    updateDriverPanel();
+  }
+
+  socketManager.on('tracking:location', handleLocation);
+  socketManager.on('tracking:driver_status', handleDriverStatus);
+
+  // Handle order status updates
   function handleStatusUpdate(data) {
     if (data.id !== orderId) return;
-
-    // Merge updates into our local order object
     order.status = data.status || order.status;
     if (data.trackingNumber !== undefined) order.trackingNumber = data.trackingNumber;
     if (data.estimatedDelivery !== undefined) order.estimatedDelivery = data.estimatedDelivery;
     if (data.history) order.history = data.history;
     if (data.paymentStatus) order.paymentStatus = data.paymentStatus;
 
-    // Re-render with updated state
-    renderPage(order);
+    // If now out for delivery, fetch tracking data and re-render
+    if (shouldShowMap(data.status)) {
+      loadTrackingData().then(() => renderPage(order));
+    } else {
+      renderPage(order);
+    }
 
-    // Show toast notification
     const label = STATUS_LABEL[data.status] || data.status;
     showTrackingToast(`Your order is now: <strong>${label}</strong>`, '🎉');
   }
 
   socketManager.on('order:status_update', handleStatusUpdate);
 
-  // On reconnect, re-fetch latest state
+  // On reconnect, re-fetch latest
   socketManager.on('connection', async (connected) => {
     if (connected) {
       try {
-        const res = await fetch(`${API}/orders/${orderId}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const res = await fetch(`${API}/orders/${orderId}`, { headers: { Authorization: `Bearer ${token}` } });
         if (res.ok) {
           order = await res.json();
+          if (shouldShowMap(order.status)) await loadTrackingData();
           renderPage(order);
+          socketManager._socket?.emit('tracking:subscribe', { orderId });
         }
-      } catch(e) {}
+      } catch (e) {}
     }
   });
 }
 
 function showTrackingToast(msg, emoji = '📦') {
-  const container = document.getElementById('toast-container');
-  if (!container) return;
+  const toastCont = document.getElementById('toast-container');
+  if (!toastCont) return;
   const t = document.createElement('div');
   t.className = 'toast toast-order';
   t.style.cssText = 'animation:slideInRight 0.35s forwards;';
@@ -323,7 +618,7 @@ function showTrackingToast(msg, emoji = '📦') {
     <div class="toast-content">${msg}</div>
     <button class="toast-close" onclick="this.parentElement.remove()">✕</button>
   `;
-  container.appendChild(t);
+  toastCont.appendChild(t);
   setTimeout(() => {
     t.style.animation = 'slideOutRight 0.3s forwards';
     setTimeout(() => t.remove(), 300);

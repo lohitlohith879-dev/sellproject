@@ -3,7 +3,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const dbPath = join(__dirname, 'circuitkart.db');
+const dbPath = process.env.DB_PATH || join(__dirname, 'circuitkart.db');
 
 const db = new Database(dbPath);
 db.pragma('journal_mode = WAL');
@@ -35,6 +35,26 @@ function initDb() {
       trackingNumber TEXT,
       deliveryNote TEXT,
       FOREIGN KEY(userId) REFERENCES users(id)
+    );
+
+    CREATE TABLE IF NOT EXISTS driver_locations (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      order_id TEXT NOT NULL,
+      driver_name TEXT,
+      latitude REAL NOT NULL,
+      longitude REAL NOT NULL,
+      is_online INTEGER DEFAULT 1,
+      timestamp TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY(order_id) REFERENCES orders(id)
+    );
+
+    CREATE TABLE IF NOT EXISTS delivery_assignments (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      order_id TEXT NOT NULL UNIQUE,
+      driver_name TEXT NOT NULL,
+      driver_phone TEXT,
+      assigned_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY(order_id) REFERENCES orders(id)
     );
 
     CREATE TABLE IF NOT EXISTS order_status_history (
@@ -138,6 +158,16 @@ function initDb() {
       key TEXT PRIMARY KEY,
       value TEXT NOT NULL
     );
+
+    CREATE TABLE IF NOT EXISTS reviews (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      userId INTEGER,
+      orderId TEXT,
+      projectId TEXT,
+      rating INTEGER NOT NULL,
+      comment TEXT,
+      createdAt TEXT DEFAULT (datetime('now'))
+    );
   `;
 
   db.exec(initSql);
@@ -156,6 +186,12 @@ function initDb() {
     if (!hasEstimatedDelivery) db.prepare("ALTER TABLE orders ADD COLUMN estimatedDelivery TEXT").run();
     if (!hasTrackingNumber) db.prepare("ALTER TABLE orders ADD COLUMN trackingNumber TEXT").run();
     if (!hasDeliveryNote) db.prepare("ALTER TABLE orders ADD COLUMN deliveryNote TEXT").run();
+
+    // Live tracking migrations
+    const hasDeliveryLat = ordersCols.some(c => c.name === 'delivery_lat');
+    const hasDeliveryLng = ordersCols.some(c => c.name === 'delivery_lng');
+    if (!hasDeliveryLat) db.prepare("ALTER TABLE orders ADD COLUMN delivery_lat REAL").run();
+    if (!hasDeliveryLng) db.prepare("ALTER TABLE orders ADD COLUMN delivery_lng REAL").run();
 
     // Notifications migration
     const notifCols = db.prepare("PRAGMA table_info(notifications)").all();

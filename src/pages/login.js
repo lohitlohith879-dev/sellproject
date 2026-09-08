@@ -1,6 +1,6 @@
 import { store } from '../store.js';
 
-const API = 'http://localhost:3001';
+const API = import.meta.env.VITE_API_URL || '';
 
 export function LoginPage(container) {
 

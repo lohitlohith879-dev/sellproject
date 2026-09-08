@@ -56,6 +56,7 @@ export function AdminPage(container, params) {
           ${[
             ['overview', 'layout-dashboard', 'Dashboard'],
             ['orders', 'shopping-bag', 'Orders'],
+            ['live-tracking', 'map-pin', 'Live Tracking'],
             ['projects', 'cpu', 'Projects'],
             ['add-project', 'plus-circle', 'Add Project'],
             ['components', 'box', 'Components'],
@@ -68,6 +69,7 @@ export function AdminPage(container, params) {
             <a href="#/admin?tab=${tab}" onclick="event.preventDefault(); switchAdminTab('${tab}')"
                style="display:flex; align-items:center; gap:10px; padding:10px 20px; font-size:var(--fs-sm); font-weight:500; text-decoration:none; border-radius:0; transition:all 0.2s; color:${activeTab===tab ? 'var(--primary)' : 'var(--text-secondary)'}; background:${activeTab===tab ? 'rgba(0,212,255,0.08)' : 'transparent'}; border-left:3px solid ${activeTab===tab ? 'var(--primary)' : 'transparent'};">
               <i data-lucide="${icon}" style="width:16px;flex-shrink:0;"></i> ${label}
+              ${tab === 'live-tracking' ? '<span style="background:#10b981;color:#000;font-size:9px;font-weight:700;padding:2px 5px;border-radius:4px;margin-left:auto;">LIVE</span>' : ''}
             </a>
           `).join('')}
           <div style="flex:1;"></div>
@@ -105,6 +107,7 @@ async function renderTab(tab) {
     case 'users':      content.innerHTML = await renderUsers(); break;
     case 'quotes':     content.innerHTML = await renderQuotes(); break;
     case 'activity':   content.innerHTML = await renderActivity(); break;
+    case 'live-tracking': await renderLiveTracking(content); break;
     default:           content.innerHTML = `<h2>Unknown tab</h2>`;
   }
   if (window.lucide) window.lucide.createIcons();
