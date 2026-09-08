@@ -274,7 +274,7 @@ app.post('/api/admin/projects', authMiddleware, requireAdmin, (req, res) => {
     const project = req.body;
     const id = project.slug || 'proj-' + Date.now();
     const date = new Date().toISOString();
-    
+
     const stmt = db.prepare(`
       INSERT INTO projects (
         id, name, slug, category, subcategory, description, shortDescription, 
@@ -289,7 +289,7 @@ app.post('/api/admin/projects', authMiddleware, requireAdmin, (req, res) => {
       id, project.name, project.slug || id, project.category || 'misc', project.subcategory || '',
       project.description || '', project.shortDescription || '', project.difficulty || 'Beginner',
       project.price || 0, project.image || 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80', JSON.stringify(project.images || []),
-      project.controller || '', JSON.stringify(project.sensors || []), 
+      project.controller || '', JSON.stringify(project.sensors || []),
       JSON.stringify(project.communication || []), JSON.stringify(project.display || []),
       JSON.stringify(project.software || []), JSON.stringify(project.features || []),
       JSON.stringify(project.applications || []), JSON.stringify(project.components || []),
@@ -299,7 +299,7 @@ app.post('/api/admin/projects', authMiddleware, requireAdmin, (req, res) => {
     const desc = `Admin added new project: ${project.name}`;
     db.prepare('INSERT INTO activities (type, description, date) VALUES (?, ?, ?)').run('project', desc, date);
     getIo().to('admins').emit('admin:activity', { type: 'project', description: desc, date });
-    
+
     // Broadcast to all clients
     getIo().emit('project:updated', { id });
 
@@ -314,7 +314,7 @@ app.put('/api/admin/projects/:id', authMiddleware, requireAdmin, (req, res) => {
   try {
     const { id } = req.params;
     const project = req.body;
-    
+
     const stmt = db.prepare(`
       UPDATE projects SET
         name = COALESCE(?, name),
@@ -329,7 +329,7 @@ app.put('/api/admin/projects/:id', authMiddleware, requireAdmin, (req, res) => {
         featured = COALESCE(?, featured)
       WHERE id = ?
     `);
-    
+
     stmt.run(
       project.name, project.slug, project.category,
       project.description, project.shortDescription,
@@ -338,7 +338,7 @@ app.put('/api/admin/projects/:id', authMiddleware, requireAdmin, (req, res) => {
       project.featured !== undefined ? (project.featured ? 1 : 0) : null,
       id
     );
-    
+
     const date = new Date().toISOString();
     const desc = `Admin updated project ${id}`;
     db.prepare('INSERT INTO activities (type, description, date) VALUES (?, ?, ?)').run('project', desc, date);
@@ -357,12 +357,12 @@ app.delete('/api/admin/projects/:id', authMiddleware, requireAdmin, (req, res) =
   try {
     const { id } = req.params;
     db.prepare('DELETE FROM projects WHERE id = ?').run(id);
-    
+
     const date = new Date().toISOString();
     const desc = `Admin deleted project ${id}`;
     db.prepare('INSERT INTO activities (type, description, date) VALUES (?, ?, ?)').run('project', desc, date);
     getIo().to('admins').emit('admin:activity', { type: 'project', description: desc, date });
-    
+
     getIo().emit('project:updated', { id });
 
     res.json({ success: true });
@@ -385,11 +385,11 @@ app.put('/api/admin/components/:id', authMiddleware, requireAdmin, (req, res) =>
   try {
     const { id } = req.params;
     const { price, stock, active } = req.body;
-    
+
     if (price !== undefined) {
       db.prepare('UPDATE components SET price = ? WHERE id = ?').run(price, id);
     }
-    
+
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: 'Failed to update component' });
@@ -400,21 +400,21 @@ app.put('/api/admin/settings', authMiddleware, requireAdmin, (req, res) => {
   try {
     const settings = req.body; // Object of key-value pairs
     const stmt = db.prepare('INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)');
-    
+
     // Use transaction for multiple inserts
     const updateSettings = db.transaction((settingsObj) => {
       for (const [key, value] of Object.entries(settingsObj)) {
         stmt.run(key, String(value));
       }
     });
-    
+
     updateSettings(settings);
-    
+
     const date = new Date().toISOString();
     const desc = `Admin updated website settings`;
     db.prepare('INSERT INTO activities (type, description, date) VALUES (?, ?, ?)').run('settings', desc, date);
     getIo().to('admins').emit('admin:activity', { type: 'settings', description: desc, date });
-    
+
     getIo().emit('settings:updated', settings);
 
     res.json({ success: true });
@@ -447,31 +447,31 @@ app.post('/api/orders', optionalAuth, (req, res) => {
     const date = new Date().toISOString();
     const userId = req.user ? req.user.id : null;
     const userEmail = req.user ? req.user.email : (contactInfo?.email || 'Guest');
-    
+
     const stmt = db.prepare(`
       INSERT INTO orders (id, userId, items, total, date, contactInfo, shippingInfo, paymentMethod)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `);
-    
+
     stmt.run(
-      orderId, 
+      orderId,
       userId,
-      JSON.stringify(items), 
-      total, 
-      date, 
-      JSON.stringify(contactInfo), 
-      JSON.stringify(shippingInfo), 
+      JSON.stringify(items),
+      total,
+      date,
+      JSON.stringify(contactInfo),
+      JSON.stringify(shippingInfo),
       paymentMethod
     );
-    
+
     const newOrder = { id: orderId, userId, items, total, date, status: 'placed', paymentStatus: 'pending', contactInfo, shippingInfo, paymentMethod };
-    
+
     // Insert initial order history
     db.prepare(`
       INSERT INTO order_status_history (orderId, newStatus, changedBy, note)
       VALUES (?, ?, ?, ?)
     `).run(orderId, 'placed', 'customer', 'Order placed successfully');
-    
+
     const io = getIo();
     // Broadcast to all connected admin clients that a new order was placed
     io.to('admins').emit('admin:new_order', newOrder);
@@ -480,7 +480,7 @@ app.post('/api/orders', optionalAuth, (req, res) => {
     const desc = `New order ${orderId} placed by ${userEmail} (₹${total})`;
     db.prepare('INSERT INTO activities (type, description, date) VALUES (?, ?, ?)').run('order', desc, date);
     io.to('admins').emit('admin:activity', { type: 'order', description: desc, date });
-    
+
     // Broadcast to customer so their dashboard updates (if logged in)
     if (userId) io.to(`customer:${userId}`).emit('order:created', newOrder);
 
@@ -495,23 +495,23 @@ app.post('/api/orders/:id/payment', authMiddleware, requireCustomer, (req, res) 
   try {
     const { id } = req.params;
     const { transactionId } = req.body;
-    
+
     const order = db.prepare("SELECT * FROM orders WHERE id = ? AND userId = ?").get(id, req.user.id);
     if (!order) return res.status(404).json({ error: 'Order not found' });
-    
+
     const paymentDesc = `UPI (Txn: ${transactionId})`;
     db.prepare("UPDATE orders SET status = ?, paymentMethod = ?, paymentStatus = ?, updatedAt = ? WHERE id = ?").run('payment_confirmed', paymentDesc, 'paid', new Date().toISOString(), id);
-    
+
     // Insert history
     db.prepare(`
       INSERT INTO order_status_history (orderId, previousStatus, newStatus, changedBy, note)
       VALUES (?, ?, ?, ?, ?)
     `).run(id, order.status, 'payment_confirmed', 'customer', 'Payment proof submitted');
-    
+
     const io = getIo();
     io.to(`customer:${req.user.id}`).emit('order:status_update', { id, status: 'payment_confirmed', paymentMethod: paymentDesc, paymentStatus: 'paid' });
     io.to('admins').emit('order:status_update', { id, status: 'payment_confirmed', paymentMethod: paymentDesc, paymentStatus: 'paid' });
-    
+
     const date = new Date().toISOString();
     const desc = `Customer submitted payment proof for order ${id}`;
     db.prepare('INSERT INTO activities (type, description, date) VALUES (?, ?, ?)').run('order', desc, date);
@@ -576,17 +576,17 @@ app.get('/api/orders/:id', authMiddleware, requireCustomer, (req, res) => {
   try {
     const { id } = req.params;
     const order = db.prepare("SELECT * FROM orders WHERE id = ? AND userId = ?").get(id, req.user.id);
-    
+
     if (!order) {
       return res.status(404).json({ error: 'Order not found' });
     }
-    
+
     order.items = JSON.parse(order.items || '[]');
     order.contactInfo = JSON.parse(order.contactInfo || '{}');
     order.shippingInfo = JSON.parse(order.shippingInfo || '{}');
-    
+
     const history = db.prepare("SELECT * FROM order_status_history WHERE orderId = ? ORDER BY createdAt ASC").all(id);
-    
+
     res.json({ ...order, history });
   } catch (error) {
     console.error('Error fetching order details:', error);
@@ -599,7 +599,7 @@ app.patch('/api/orders/:id/status', authMiddleware, requireAdmin, (req, res) => 
   try {
     const { id } = req.params;
     const { status, note, trackingNumber, estimatedDelivery } = req.body;
-    
+
     // Get order to find userId
     const order = db.prepare("SELECT userId, status FROM orders WHERE id = ?").get(id);
     if (!order) {
@@ -608,7 +608,7 @@ app.patch('/api/orders/:id/status', authMiddleware, requireAdmin, (req, res) => 
 
     const updates = ['status = ?', 'updatedAt = ?'];
     const params = [status, new Date().toISOString()];
-    
+
     if (trackingNumber !== undefined) {
       updates.push('trackingNumber = ?');
       params.push(trackingNumber);
@@ -617,12 +617,12 @@ app.patch('/api/orders/:id/status', authMiddleware, requireAdmin, (req, res) => 
       updates.push('estimatedDelivery = ?');
       params.push(estimatedDelivery);
     }
-    
+
     params.push(id); // for WHERE id = ?
 
     const stmt = db.prepare(`UPDATE orders SET ${updates.join(', ')} WHERE id = ?`);
     const result = stmt.run(...params);
-    
+
     if (result.changes > 0) {
       // Add to history
       db.prepare(`
@@ -634,20 +634,20 @@ app.patch('/api/orders/:id/status', authMiddleware, requireAdmin, (req, res) => 
       let notifTitle = 'Order Update';
       let notifMsg = `Your order ${id} is now ${status.replace('_', ' ')}.`;
       if (status === 'shipped' && trackingNumber) notifMsg += ` Tracking Number: ${trackingNumber}`;
-      
+
       const notifId = db.prepare('INSERT INTO notifications (userId, orderId, type, title, message, date) VALUES (?, ?, ?, ?, ?, ?)').run(
         order.userId, id, 'order_update', notifTitle, notifMsg, new Date().toISOString()
       ).lastInsertRowid;
-      
+
       const newNotif = db.prepare('SELECT * FROM notifications WHERE id = ?').get(notifId);
 
       // Get full updated history to send in the real-time event
       const history = db.prepare("SELECT * FROM order_status_history WHERE orderId = ? ORDER BY createdAt ASC").all(id);
-      
-      const payload = { 
-        id, 
-        status, 
-        trackingNumber, 
+
+      const payload = {
+        id,
+        status,
+        trackingNumber,
         estimatedDelivery,
         history,
         notification: newNotif
@@ -656,7 +656,7 @@ app.patch('/api/orders/:id/status', authMiddleware, requireAdmin, (req, res) => 
       const io = getIo();
       // Emit real-time event to customer
       io.to(`customer:${order.userId}`).emit('order:status_update', payload);
-      
+
       // Also broadcast to other admins to sync dashboards
       io.to('admins').emit('order:status_update', payload);
 
@@ -682,22 +682,22 @@ app.post('/api/quotes', authMiddleware, requireCustomer, (req, res) => {
     const quote = req.body;
     const quoteId = 'REQ-' + Date.now().toString().slice(-6);
     const date = new Date().toISOString();
-    
+
     const stmt = db.prepare(`
       INSERT INTO quotes (id, name, email, phone, role, projectName, category, controller, description, budget, timeline, date)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
-    
+
     stmt.run(
       quoteId, quote.name, quote.email, quote.phone, quote.role,
       quote.projectName, quote.category, quote.controller, quote.description,
       quote.budget, quote.timeline, date
     );
-    
+
     const io = getIo();
     // Broadcast to admins
     io.to('admins').emit('admin:new_quote', { id: quoteId, ...quote, date });
-    
+
     const desc = `New custom quote requested by ${req.user.email}`;
     db.prepare('INSERT INTO activities (type, description, date) VALUES (?, ?, ?)').run('quote', desc, date);
     io.to('admins').emit('admin:activity', { type: 'quote', description: desc, date });
@@ -723,15 +723,15 @@ app.post('/api/admin/notifications', authMiddleware, requireAdmin, (req, res) =>
   try {
     const { userId, message, type } = req.body;
     const date = new Date().toISOString();
-    
+
     db.prepare('INSERT INTO notifications (userId, type, message, date) VALUES (?, ?, ?, ?)').run(userId || null, type || 'info', message, date);
-    
+
     if (userId) {
       getIo().to(`customer:${userId}`).emit('notification', { message, type: type || 'info' });
     } else {
       getIo().emit('notification', { message, type: type || 'info' });
     }
-    
+
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: 'Failed to send notification' });
@@ -767,7 +767,7 @@ app.patch('/api/notifications/:id/read', authMiddleware, (req, res) => {
 app.post('/api/reviews', authMiddleware, requireCustomer, (req, res) => {
   try {
     const { orderId, projectId, rating, comment } = req.body;
-    
+
     // Insert the review
     db.prepare(`
       INSERT INTO reviews (userId, orderId, projectId, rating, comment)
@@ -777,7 +777,7 @@ app.post('/api/reviews', authMiddleware, requireCustomer, (req, res) => {
     // Update project overall rating
     const reviews = db.prepare("SELECT rating FROM reviews WHERE projectId = ?").all(projectId);
     const avgRating = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
-    
+
     db.prepare(`
       UPDATE projects 
       SET rating = ?, reviewCount = ? 
@@ -990,15 +990,14 @@ app.patch('/api/tracking/delivery-coords/:orderId', authMiddleware, requireAdmin
     res.status(500).json({ error: 'Failed to update delivery coordinates.' });
   }
 });
-
 // Serve Vite frontend in production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../dist')));
-  app.get('*', (req, res) => {
+
+  app.get('/*splat', (req, res) => {
     res.sendFile(path.join(__dirname, '../dist/index.html'));
   });
 }
-
 // Start the server
 
 httpServer.listen(port, '0.0.0.0', async () => {
