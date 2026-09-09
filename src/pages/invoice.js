@@ -1,781 +1,43 @@
-// src/pages/invoice.js
+// ============================================================
+// CircuitKart — Invoice Page
+// ============================================================
+
+import { store } from '../store.js';
 
 const API = import.meta.env.VITE_API_URL || '';
 
 export async function InvoicePage(container, params = {}) {
+
+    // ==========================================================
+    // ORDER ID
+    // ==========================================================
+
     const orderId =
         params.id ||
         params.orderId ||
-        new URLSearchParams(window.location.hash.split('?')[1] || '').get('id');
+        '';
 
     const token =
         localStorage.getItem('ck_token') ||
         localStorage.getItem('ck_admin_token');
 
-    if (!token) {
-        container.innerHTML = `
-      <div style="
-        min-height:100vh;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        background:#09090f;
-        color:#fff;
-        padding:2rem;
-      ">
-        <div style="text-align:center;">
-          <div style="font-size:3rem;margin-bottom:1rem;">🔒</div>
-          <h2>Sign In Required</h2>
-          <p style="color:#9ca3af;margin:1rem 0 2rem;">
-            Please sign in to view your invoice.
-          </p>
-          <a
-            href="#/login"
-            style="
-              display:inline-flex;
-              padding:12px 22px;
-              border-radius:10px;
-              background:#00d4ff;
-              color:#000;
-              text-decoration:none;
-              font-weight:700;
-            "
-          >
-            Sign In
-          </a>
-        </div>
-      </div>
-    `;
 
-        return;
-    }
-
-    if (!orderId) {
-        container.innerHTML = `
-      <div style="
-        min-height:100vh;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        background:#09090f;
-        color:#fff;
-        padding:2rem;
-      ">
-        <div style="text-align:center;">
-          <div style="font-size:3rem;margin-bottom:1rem;">📄</div>
-          <h2>Invoice Not Found</h2>
-          <p style="color:#9ca3af;margin:1rem 0 2rem;">
-            No order ID was provided.
-          </p>
-          <a
-            href="#/dashboard"
-            style="
-              display:inline-flex;
-              padding:12px 22px;
-              border-radius:10px;
-              background:#00d4ff;
-              color:#000;
-              text-decoration:none;
-              font-weight:700;
-            "
-          >
-            Back to Orders
-          </a>
-        </div>
-      </div>
-    `;
-
-        return;
-    }
-
-    container.innerHTML = `
-    <div style="
-      min-height:100vh;
-      background:#08080d;
-      color:#f8fafc;
-      padding:30px 16px 60px;
-      font-family:Inter,Arial,sans-serif;
-    ">
-
-      <div style="
-        max-width:950px;
-        margin:0 auto;
-      ">
-
-        <!-- ACTION BAR -->
-        <div
-          class="invoice-actions"
-          style="
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            gap:12px;
-            flex-wrap:wrap;
-            margin-bottom:22px;
-          "
-        >
-
-          <a
-            href="#/dashboard"
-            style="
-              display:inline-flex;
-              align-items:center;
-              gap:8px;
-              padding:11px 16px;
-              border:1px solid rgba(255,255,255,.12);
-              border-radius:10px;
-              color:#cbd5e1;
-              text-decoration:none;
-              background:rgba(255,255,255,.04);
-              font-size:14px;
-              font-weight:600;
-            "
-          >
-            <span>←</span>
-            Back to Orders
-          </a>
-
-          <div style="
-            display:flex;
-            gap:10px;
-            flex-wrap:wrap;
-          ">
-
-            <button
-              id="invoice-print"
-              style="
-                border:1px solid rgba(255,255,255,.12);
-                background:rgba(255,255,255,.05);
-                color:#fff;
-                padding:11px 16px;
-                border-radius:10px;
-                cursor:pointer;
-                font-weight:600;
-              "
-            >
-              🖨 Print
-            </button>
-
-            <button
-              id="invoice-download"
-              style="
-                border:none;
-                background:#00d4ff;
-                color:#000;
-                padding:11px 18px;
-                border-radius:10px;
-                cursor:pointer;
-                font-weight:800;
-              "
-            >
-              ↓ Download PDF
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- INVOICE -->
-        <div
-          id="invoice-document"
-          style="
-            background:#ffffff;
-            color:#111827;
-            border-radius:18px;
-            overflow:hidden;
-            box-shadow:0 25px 70px rgba(0,0,0,.45);
-          "
-        >
-
-          <!-- HEADER -->
-          <div style="
-            padding:30px 34px;
-            display:flex;
-            justify-content:space-between;
-            align-items:flex-start;
-            gap:20px;
-            border-bottom:1px solid #e5e7eb;
-          ">
-
-            <div style="
-              display:flex;
-              align-items:center;
-              gap:14px;
-            ">
-
-              <div style="
-                width:68px;
-                height:68px;
-                border-radius:14px;
-                overflow:hidden;
-                background:#050505;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-              ">
-                <img
-                  src="/logo.png"
-                  alt="CircuitKart"
-                  style="
-                    width:100%;
-                    height:100%;
-                    object-fit:contain;
-                  "
-                  onerror="
-                    this.style.display='none';
-                    this.parentElement.innerHTML='<span style=&quot;color:white;font-size:30px;font-weight:900;&quot;>T</span>';
-                  "
-                />
-              </div>
-
-              <div>
-                <h1 style="
-                  margin:0;
-                  font-size:25px;
-                  font-weight:900;
-                  letter-spacing:-.5px;
-                ">
-                  CircuitKart
-                </h1>
-
-                <p style="
-                  margin:4px 0 0;
-                  color:#6b7280;
-                  font-size:13px;
-                ">
-                  IoT Projects & Electronics
-                </p>
-              </div>
-
-            </div>
-
-            <div style="
-              text-align:right;
-            ">
-
-              <div style="
-                font-size:28px;
-                font-weight:900;
-                letter-spacing:-1px;
-              ">
-                TAX INVOICE
-              </div>
-
-              <div
-                id="invoice-payment-status"
-                style="
-                  display:inline-flex;
-                  margin-top:8px;
-                  padding:5px 12px;
-                  border-radius:999px;
-                  background:#dcfce7;
-                  color:#166534;
-                  font-size:12px;
-                  font-weight:800;
-                "
-              >
-                PAID
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <!-- META -->
-          <div style="
-            padding:24px 34px;
-            display:grid;
-            grid-template-columns:repeat(2,minmax(0,1fr));
-            gap:18px;
-            border-bottom:1px solid #e5e7eb;
-          ">
-
-            <div>
-
-              <div style="
-                font-size:11px;
-                text-transform:uppercase;
-                letter-spacing:.08em;
-                color:#9ca3af;
-                font-weight:800;
-                margin-bottom:6px;
-              ">
-                Invoice Number
-              </div>
-
-              <div
-                id="invoice-number"
-                style="
-                  font-size:14px;
-                  font-weight:800;
-                "
-              >
-                Loading...
-              </div>
-
-            </div>
-
-            <div>
-
-              <div style="
-                font-size:11px;
-                text-transform:uppercase;
-                letter-spacing:.08em;
-                color:#9ca3af;
-                font-weight:800;
-                margin-bottom:6px;
-              ">
-                Order ID
-              </div>
-
-              <div
-                id="invoice-order-id"
-                style="
-                  font-size:14px;
-                  font-weight:800;
-                  font-family:monospace;
-                "
-              >
-                Loading...
-              </div>
-
-            </div>
-
-            <div>
-
-              <div style="
-                font-size:11px;
-                text-transform:uppercase;
-                letter-spacing:.08em;
-                color:#9ca3af;
-                font-weight:800;
-                margin-bottom:6px;
-              ">
-                Invoice Date
-              </div>
-
-              <div
-                id="invoice-date"
-                style="
-                  font-size:14px;
-                  font-weight:700;
-                "
-              >
-                Loading...
-              </div>
-
-            </div>
-
-            <div>
-
-              <div style="
-                font-size:11px;
-                text-transform:uppercase;
-                letter-spacing:.08em;
-                color:#9ca3af;
-                font-weight:800;
-                margin-bottom:6px;
-              ">
-                Payment Method
-              </div>
-
-              <div
-                id="invoice-payment-method"
-                style="
-                  font-size:14px;
-                  font-weight:700;
-                "
-              >
-                Loading...
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <!-- CUSTOMER -->
-          <div style="
-            padding:26px 34px;
-            display:grid;
-            grid-template-columns:1fr 1fr;
-            gap:28px;
-            border-bottom:1px solid #e5e7eb;
-          ">
-
-            <div>
-
-              <h3 style="
-                margin:0 0 10px;
-                font-size:12px;
-                text-transform:uppercase;
-                letter-spacing:.08em;
-                color:#6b7280;
-              ">
-                Bill To
-              </h3>
-
-              <div
-                id="invoice-customer"
-                style="
-                  line-height:1.7;
-                  font-size:14px;
-                "
-              >
-                Loading...
-              </div>
-
-            </div>
-
-            <div>
-
-              <h3 style="
-                margin:0 0 10px;
-                font-size:12px;
-                text-transform:uppercase;
-                letter-spacing:.08em;
-                color:#6b7280;
-              ">
-                Ship To
-              </h3>
-
-              <div
-                id="invoice-shipping"
-                style="
-                  line-height:1.7;
-                  font-size:14px;
-                "
-              >
-                Loading...
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <!-- ITEMS -->
-          <div style="
-            padding:26px 34px;
-          ">
-
-            <h3 style="
-              margin:0 0 14px;
-              font-size:16px;
-              font-weight:900;
-            ">
-              Order Items
-            </h3>
-
-            <div style="
-              overflow-x:auto;
-            ">
-
-              <table style="
-                width:100%;
-                border-collapse:collapse;
-                min-width:600px;
-              ">
-
-                <thead>
-
-                  <tr style="
-                    background:#f8fafc;
-                  ">
-
-                    <th style="
-                      text-align:left;
-                      padding:13px;
-                      font-size:11px;
-                      text-transform:uppercase;
-                      color:#6b7280;
-                      border-bottom:1px solid #e5e7eb;
-                    ">
-                      Product
-                    </th>
-
-                    <th style="
-                      text-align:center;
-                      padding:13px;
-                      font-size:11px;
-                      text-transform:uppercase;
-                      color:#6b7280;
-                      border-bottom:1px solid #e5e7eb;
-                    ">
-                      Qty
-                    </th>
-
-                    <th style="
-                      text-align:right;
-                      padding:13px;
-                      font-size:11px;
-                      text-transform:uppercase;
-                      color:#6b7280;
-                      border-bottom:1px solid #e5e7eb;
-                    ">
-                      Price
-                    </th>
-
-                    <th style="
-                      text-align:right;
-                      padding:13px;
-                      font-size:11px;
-                      text-transform:uppercase;
-                      color:#6b7280;
-                      border-bottom:1px solid #e5e7eb;
-                    ">
-                      Total
-                    </th>
-
-                  </tr>
-
-                </thead>
-
-                <tbody id="invoice-items">
-
-                  <tr>
-                    <td
-                      colspan="4"
-                      style="
-                        padding:25px;
-                        text-align:center;
-                        color:#6b7280;
-                      "
-                    >
-                      Loading order items...
-                    </td>
-                  </tr>
-
-                </tbody>
-
-              </table>
-
-            </div>
-
-          </div>
-
-
-          <!-- TOTAL -->
-          <div style="
-            padding:0 34px 30px;
-            display:flex;
-            justify-content:flex-end;
-          ">
-
-            <div style="
-              width:min(390px,100%);
-            ">
-
-              <div style="
-                display:flex;
-                justify-content:space-between;
-                padding:9px 0;
-                color:#6b7280;
-                font-size:14px;
-              ">
-                <span>Subtotal</span>
-                <strong
-                  id="invoice-subtotal"
-                  style="color:#111827;"
-                >
-                  ₹0
-                </strong>
-              </div>
-
-              <div style="
-                display:flex;
-                justify-content:space-between;
-                padding:9px 0;
-                color:#6b7280;
-                font-size:14px;
-              ">
-                <span>Discount</span>
-                <strong
-                  id="invoice-discount"
-                  style="color:#16a34a;"
-                >
-                  - ₹0
-                </strong>
-              </div>
-
-              <div style="
-                display:flex;
-                justify-content:space-between;
-                padding:9px 0;
-                color:#6b7280;
-                font-size:14px;
-              ">
-                <span>GST</span>
-                <strong
-                  id="invoice-gst"
-                  style="color:#111827;"
-                >
-                  ₹0
-                </strong>
-              </div>
-
-              <div style="
-                display:flex;
-                justify-content:space-between;
-                padding:9px 0;
-                color:#6b7280;
-                font-size:14px;
-              ">
-                <span>Shipping</span>
-                <strong
-                  id="invoice-shipping-charge"
-                  style="color:#111827;"
-                >
-                  ₹0
-                </strong>
-              </div>
-
-              <div style="
-                margin-top:10px;
-                padding-top:15px;
-                border-top:2px solid #111827;
-                display:flex;
-                justify-content:space-between;
-                align-items:center;
-              ">
-
-                <span style="
-                  font-size:17px;
-                  font-weight:900;
-                ">
-                  Grand Total
-                </span>
-
-                <strong
-                  id="invoice-total"
-                  style="
-                    font-size:22px;
-                    font-weight:900;
-                  "
-                >
-                  ₹0
-                </strong>
-
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <!-- PAYMENT -->
-          <div style="
-            margin:0 34px 28px;
-            padding:18px;
-            border-radius:12px;
-            background:#f8fafc;
-            border:1px solid #e5e7eb;
-          ">
-
-            <div style="
-              display:flex;
-              align-items:center;
-              gap:10px;
-              margin-bottom:8px;
-            ">
-
-              <div style="
-                width:32px;
-                height:32px;
-                border-radius:8px;
-                background:#dcfce7;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-              ">
-                ✓
-              </div>
-
-              <strong>
-                Payment Information
-              </strong>
-
-            </div>
-
-            <div
-              id="invoice-payment-info"
-              style="
-                color:#6b7280;
-                font-size:13px;
-                line-height:1.7;
-              "
-            >
-              Payment details loading...
-            </div>
-
-          </div>
-
-
-          <!-- FOOTER -->
-          <div style="
-            padding:25px 34px;
-            background:#111827;
-            color:#fff;
-            display:flex;
-            justify-content:space-between;
-            gap:20px;
-            flex-wrap:wrap;
-          ">
-
-            <div>
-
-              <strong style="
-                font-size:15px;
-              ">
-                Thank you for shopping with CircuitKart!
-              </strong>
-
-              <p style="
-                margin:6px 0 0;
-                color:#9ca3af;
-                font-size:12px;
-              ">
-                IoT Projects • Electronics • Components
-              </p>
-
-            </div>
-
-            <div style="
-              text-align:right;
-              color:#9ca3af;
-              font-size:12px;
-              line-height:1.6;
-            ">
-              CircuitKart<br>
-              Digital Invoice
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-  `;
-
-
-    // -----------------------------
+    // ==========================================================
     // HELPERS
-    // -----------------------------
+    // ==========================================================
 
-    const money = value => {
+    const money = (value) => {
         return `₹${Number(value || 0).toLocaleString(
             'en-IN',
             {
+                minimumFractionDigits: 0,
                 maximumFractionDigits: 2
             }
         )}`;
     };
 
-    const escapeHTML = value => {
+
+    const escapeHTML = (value) => {
         return String(value ?? '')
             .replaceAll('&', '&amp;')
             .replaceAll('<', '&lt;')
@@ -784,7 +46,9 @@ export async function InvoicePage(container, params = {}) {
             .replaceAll("'", '&#039;');
     };
 
-    const formatDate = value => {
+
+    const formatDate = (value) => {
+
         if (!value) {
             return new Date().toLocaleDateString(
                 'en-IN',
@@ -813,112 +77,259 @@ export async function InvoicePage(container, params = {}) {
     };
 
 
-    // -----------------------------
-    // FETCH ORDER
-    // -----------------------------
+    // ==========================================================
+    // VALIDATE ORDER ID
+    // ==========================================================
 
-    let order;
-
-    try {
-
-        const response = await fetch(
-            `${API}/api/orders/${encodeURIComponent(orderId)}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }
-        );
-
-        if (!response.ok) {
-            throw new Error(
-                `Unable to load order (${response.status})`
-            );
-        }
-
-        order = await response.json();
-
-    } catch (error) {
-
-        console.error(
-            'Invoice order error:',
-            error
-        );
+    if (!orderId) {
 
         container.innerHTML = `
-      <div style="
-        min-height:100vh;
-        background:#09090f;
-        color:#fff;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        padding:2rem;
-        text-align:center;
-      ">
+      <div
+        class="container section text-center"
+        style="
+          min-height:70vh;
+          padding-top:
+            calc(var(--nav-height) + 5rem);
+        "
+      >
 
-        <div>
-
-          <div style="
-            font-size:4rem;
-            margin-bottom:1rem;
-          ">
-            📄
-          </div>
-
-          <h2>
-            Unable to Load Invoice
-          </h2>
-
-          <p style="
-            color:#9ca3af;
-            margin:10px 0 25px;
-          ">
-            ${escapeHTML(error.message)}
-          </p>
-
-          <a
-            href="#/dashboard"
-            style="
-              display:inline-flex;
-              padding:12px 20px;
-              border-radius:10px;
-              background:#00d4ff;
-              color:#000;
-              text-decoration:none;
-              font-weight:800;
-            "
-          >
-            Back to Orders
-          </a>
-
+        <div
+          style="
+            font-size:64px;
+            margin-bottom:20px;
+          "
+        >
+          📄
         </div>
+
+        <h1
+          class="heading-lg"
+          style="
+            margin-bottom:10px;
+          "
+        >
+          Invoice Not Found
+        </h1>
+
+        <p
+          class="text-secondary"
+          style="
+            margin-bottom:25px;
+          "
+        >
+          No order was selected.
+        </p>
+
+        <a
+          href="#/dashboard"
+          class="btn btn-primary"
+        >
+          ← Back to Orders
+        </a>
 
       </div>
     `;
+
+        if (window.lucide) {
+            window.lucide.createIcons();
+        }
 
         return;
     }
 
 
-    // -----------------------------
+    // ==========================================================
+    // LOADING
+    // ==========================================================
+
+    container.innerHTML = `
+    <div
+      class="container section text-center"
+      style="
+        min-height:70vh;
+        padding-top:
+          calc(var(--nav-height) + 5rem);
+      "
+    >
+
+      <div
+        class="auth-spinner"
+        style="
+          display:inline-block;
+          width:42px;
+          height:42px;
+          border-radius:50%;
+          border:3px solid rgba(255,255,255,.12);
+          border-top-color:var(--primary);
+          animation:spin 1s linear infinite;
+        "
+      ></div>
+
+      <p
+        class="text-secondary"
+        style="
+          margin-top:18px;
+        "
+      >
+        Loading invoice...
+      </p>
+
+    </div>
+  `;
+
+
+    // ==========================================================
+    // FIND ORDER FROM STORE FIRST
+    // ==========================================================
+
+    let orders = [];
+
+    try {
+        orders = store.get('orders') || [];
+    } catch (error) {
+        console.warn(
+            'Unable to read orders from store:',
+            error
+        );
+    }
+
+
+    let order =
+        orders.find(
+            item =>
+                String(item.id) ===
+                String(orderId)
+        ) || null;
+
+
+    // ==========================================================
+    // FALLBACK TO API
+    // ==========================================================
+
+    // The store should normally contain the order.
+    // We only call the API if it isn't already available.
+
+    if (!order && token) {
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API}/api/orders/${encodeURIComponent(orderId)}`,
+                    {
+                        headers: {
+                            Authorization:
+                                `Bearer ${token}`
+                        }
+                    }
+                );
+
+            if (response.ok) {
+
+                order =
+                    await response.json();
+
+            }
+
+        } catch (error) {
+
+            console.warn(
+                'Invoice API fallback failed:',
+                error
+            );
+
+        }
+
+    }
+
+
+    // ==========================================================
+    // ORDER NOT FOUND
+    // ==========================================================
+
+    if (!order) {
+
+        container.innerHTML = `
+      <div
+        class="container section text-center"
+        style="
+          min-height:70vh;
+          padding-top:
+            calc(var(--nav-height) + 5rem);
+        "
+      >
+
+        <div
+          style="
+            font-size:64px;
+            margin-bottom:20px;
+          "
+        >
+          📄
+        </div>
+
+        <h1
+          class="heading-lg"
+          style="
+            margin-bottom:10px;
+          "
+        >
+          Invoice Not Found
+        </h1>
+
+        <p
+          class="text-secondary"
+          style="
+            max-width:500px;
+            margin:
+              0 auto 25px;
+          "
+        >
+          We couldn't find order
+          <strong>
+            ${escapeHTML(orderId)}
+          </strong>
+          in your account.
+        </p>
+
+        <a
+          href="#/dashboard"
+          class="btn btn-primary"
+        >
+          ← Back to Orders
+        </a>
+
+      </div>
+    `;
+
+        if (window.lucide) {
+            window.lucide.createIcons();
+        }
+
+        return;
+    }
+
+
+    // ==========================================================
     // ORDER DATA
-    // -----------------------------
+    // ==========================================================
+
+    const items =
+        Array.isArray(order.items)
+            ? order.items
+            : [];
+
 
     const contact =
         order.contactInfo ||
         order.customer ||
         {};
 
+
     const shipping =
         order.shippingInfo ||
         {};
 
-    const items =
-        order.items ||
-        order.products ||
-        order.cart ||
-        [];
 
     const customerName =
         contact.name ||
@@ -926,46 +337,51 @@ export async function InvoicePage(container, params = {}) {
         order.customerName ||
         'Customer';
 
+
     const customerEmail =
         contact.email ||
         order.email ||
         '';
+
 
     const customerPhone =
         contact.phone ||
         order.phone ||
         '';
 
-    const addressParts = [
+
+    const shippingAddress = [
         shipping.address1,
         shipping.address2,
         shipping.address,
         shipping.city,
         shipping.state,
-        shipping.zip ||
-        shipping.pincode ||
+        shipping.pincode,
+        shipping.zip,
         shipping.postalCode,
         shipping.country
-    ].filter(Boolean);
+    ]
+        .filter(Boolean)
+        .filter(
+            (value, index, array) =>
+                array.indexOf(value) === index
+        )
+        .join(', ');
+
 
     const address =
-        addressParts.length
-            ? addressParts.join(', ')
-            : 'Shipping address not available';
+        shippingAddress ||
+        'Shipping address not available';
 
 
-    // -----------------------------
-    // CALCULATE TOTALS
-    // -----------------------------
+    // ==========================================================
+    // TOTALS
+    // ==========================================================
 
     let calculatedSubtotal = 0;
 
-    const normalizedItems =
-        Array.isArray(items)
-            ? items
-            : [];
 
-    normalizedItems.forEach(item => {
+    items.forEach(item => {
 
         const quantity =
             Number(
@@ -973,6 +389,7 @@ export async function InvoicePage(container, params = {}) {
                 item.qty ??
                 1
             );
+
 
         const price =
             Number(
@@ -982,8 +399,10 @@ export async function InvoicePage(container, params = {}) {
                 0
             );
 
+
         calculatedSubtotal +=
             price * quantity;
+
     });
 
 
@@ -993,12 +412,14 @@ export async function InvoicePage(container, params = {}) {
             calculatedSubtotal
         );
 
+
     const discount =
         Number(
             order.discount ??
             order.discountAmount ??
             0
         );
+
 
     const gst =
         Number(
@@ -1008,6 +429,7 @@ export async function InvoicePage(container, params = {}) {
             0
         );
 
+
     const shippingCharge =
         Number(
             order.shippingCharge ??
@@ -1016,21 +438,26 @@ export async function InvoicePage(container, params = {}) {
             0
         );
 
+
+    const calculatedTotal =
+        subtotal -
+        discount +
+        gst +
+        shippingCharge;
+
+
     const total =
         Number(
             order.total ??
             order.grandTotal ??
             order.amount ??
-            subtotal -
-            discount +
-            gst +
-            shippingCharge
+            calculatedTotal
         );
 
 
-    // -----------------------------
+    // ==========================================================
     // PAYMENT
-    // -----------------------------
+    // ==========================================================
 
     const paymentStatus =
         String(
@@ -1043,6 +470,7 @@ export async function InvoicePage(container, params = {}) {
             )
         ).toLowerCase();
 
+
     const paymentMethod =
         order.paymentMethod ||
         order.payment_method ||
@@ -1050,165 +478,609 @@ export async function InvoicePage(container, params = {}) {
         'Online Payment';
 
 
-    // -----------------------------
-    // POPULATE
-    // -----------------------------
+    const transactionId =
+        order.transactionId ||
+        order.transaction_id ||
+        '';
+
+
+    // ==========================================================
+    // INVOICE NUMBER
+    // ==========================================================
 
     const invoiceNumber =
         `CK-INV-${String(orderId)
-            .replace(/[^a-zA-Z0-9]/g, '')
+            .replace(
+                /[^a-zA-Z0-9]/g,
+                ''
+            )
             .slice(-12)
-            .toUpperCase()}`;
+            .toUpperCase()
+        }`;
 
 
-    document.getElementById(
-        'invoice-number'
-    ).textContent =
-        invoiceNumber;
+    // ==========================================================
+    // PAGE
+    // ==========================================================
 
-    document.getElementById(
-        'invoice-order-id'
-    ).textContent =
-        orderId;
+    container.innerHTML = `
 
-    document.getElementById(
-        'invoice-date'
-    ).textContent =
+    <div
+      class="invoice-page"
+      style="
+        min-height:100vh;
+        background:#08090e;
+        padding:
+          calc(var(--nav-height) + 28px)
+          16px
+          60px;
+      "
+    >
+
+      <div
+        style="
+          max-width:980px;
+          margin:0 auto;
+        "
+      >
+
+
+        <!-- ==================================================
+             ACTION BAR
+        =================================================== -->
+
+        <div
+          class="invoice-actions"
+          style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:12px;
+            flex-wrap:wrap;
+            margin-bottom:20px;
+          "
+        >
+
+          <a
+            href="#/dashboard"
+            class="btn btn-ghost btn-sm"
+            style="
+              display:inline-flex;
+              align-items:center;
+              gap:7px;
+              text-decoration:none;
+            "
+          >
+            ← Back to Orders
+          </a>
+
+
+          <div
+            style="
+              display:flex;
+              gap:9px;
+              flex-wrap:wrap;
+            "
+          >
+
+            <button
+              id="invoice-print"
+              class="btn btn-secondary btn-sm"
+              type="button"
+            >
+              <i
+                data-lucide="printer"
+                style="width:15px;"
+              ></i>
+              Print
+            </button>
+
+
+            <button
+              id="invoice-download"
+              class="btn btn-primary btn-sm"
+              type="button"
+            >
+              <i
+                data-lucide="download"
+                style="width:15px;"
+              ></i>
+              Download PDF
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             INVOICE DOCUMENT
+        =================================================== -->
+
+        <div
+          id="invoice-document"
+          style="
+            background:#ffffff;
+            color:#111827;
+            border-radius:18px;
+            overflow:hidden;
+            box-shadow:
+              0 25px 70px
+              rgba(0,0,0,.45);
+          "
+        >
+
+
+          <!-- HEADER -->
+
+          <div
+            style="
+              padding:30px 34px;
+              display:flex;
+              justify-content:space-between;
+              align-items:flex-start;
+              gap:20px;
+              border-bottom:
+                1px solid #e5e7eb;
+            "
+          >
+
+            <div
+              style="
+                display:flex;
+                align-items:center;
+                gap:14px;
+              "
+            >
+
+              <div
+                style="
+                  width:72px;
+                  height:72px;
+                  border-radius:14px;
+                  background:#050505;
+                  display:flex;
+                  align-items:center;
+                  justify-content:center;
+                  overflow:hidden;
+                  flex-shrink:0;
+                "
+              >
+
+                <img
+                  src="/logo.png"
+                  alt="CircuitKart"
+                  style="
+                    width:100%;
+                    height:100%;
+                    object-fit:contain;
+                  "
+                  onerror="
+                    this.style.display='none';
+                    this.parentElement.innerHTML =
+                      '<span style=&quot;color:white;font-size:34px;font-weight:900;&quot;>T</span>';
+                  "
+                >
+
+              </div>
+
+
+              <div>
+
+                <h1
+                  style="
+                    margin:0;
+                    font-size:27px;
+                    font-weight:900;
+                    letter-spacing:-.7px;
+                  "
+                >
+                  CircuitKart
+                </h1>
+
+                <p
+                  style="
+                    margin:
+                      4px 0 0;
+                    color:#6b7280;
+                    font-size:13px;
+                  "
+                >
+                  IoT Projects & Electronics
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div
+              style="
+                text-align:right;
+              "
+            >
+
+              <div
+                style="
+                  font-size:27px;
+                  font-weight:900;
+                  letter-spacing:-1px;
+                "
+              >
+                TAX INVOICE
+              </div>
+
+
+              <div
+                id="invoice-payment-status"
+                style="
+                  display:inline-flex;
+                  margin-top:8px;
+                  padding:
+                    5px 12px;
+                  border-radius:999px;
+                  font-size:11px;
+                  font-weight:800;
+                  background:#dcfce7;
+                  color:#166534;
+                "
+              >
+                PAID
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- META -->
+
+          <div
+            style="
+              padding:24px 34px;
+              display:grid;
+              grid-template-columns:
+                repeat(
+                  2,
+                  minmax(0,1fr)
+                );
+              gap:18px;
+              border-bottom:
+                1px solid #e5e7eb;
+            "
+          >
+
+            <div>
+
+              <div
+                style="
+                  font-size:10px;
+                  text-transform:uppercase;
+                  letter-spacing:.08em;
+                  color:#9ca3af;
+                  font-weight:800;
+                  margin-bottom:6px;
+                "
+              >
+                Invoice Number
+              </div>
+
+              <strong
+                id="invoice-number"
+              >
+                ${escapeHTML(invoiceNumber)}
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <div
+                style="
+                  font-size:10px;
+                  text-transform:uppercase;
+                  letter-spacing:.08em;
+                  color:#9ca3af;
+                  font-weight:800;
+                  margin-bottom:6px;
+                "
+              >
+                Order ID
+              </div>
+
+              <strong
+                id="invoice-order-id"
+                style="
+                  font-family:monospace;
+                "
+              >
+                ${escapeHTML(orderId)}
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <div
+                style="
+                  font-size:10px;
+                  text-transform:uppercase;
+                  letter-spacing:.08em;
+                  color:#9ca3af;
+                  font-weight:800;
+                  margin-bottom:6px;
+                "
+              >
+                Invoice Date
+              </div>
+
+              <strong
+                id="invoice-date"
+              >
+                ${escapeHTML(
         formatDate(
             order.date ||
             order.created_at ||
             order.createdAt
-        );
+        )
+    )}
+              </strong>
 
-    document.getElementById(
-        'invoice-payment-method'
-    ).textContent =
-        String(paymentMethod)
-            .replaceAll('_', ' ')
-            .replace(
-                /\b\w/g,
-                char => char.toUpperCase()
-            );
+            </div>
 
 
-    // Customer
+            <div>
 
-    document.getElementById(
-        'invoice-customer'
-    ).innerHTML = `
-    <strong>
-      ${escapeHTML(customerName)}
-    </strong>
+              <div
+                style="
+                  font-size:10px;
+                  text-transform:uppercase;
+                  letter-spacing:.08em;
+                  color:#9ca3af;
+                  font-weight:800;
+                  margin-bottom:6px;
+                "
+              >
+                Payment Method
+              </div>
 
-    ${customerEmail
-            ? `<br>${escapeHTML(customerEmail)}`
+              <strong
+                id="invoice-payment-method"
+              >
+                ${escapeHTML(
+        String(
+            paymentMethod
+        )
+            .replaceAll(
+                '_',
+                ' '
+            )
+    )}
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <!-- CUSTOMER -->
+
+          <div
+            style="
+              padding:26px 34px;
+              display:grid;
+              grid-template-columns:
+                1fr 1fr;
+              gap:28px;
+              border-bottom:
+                1px solid #e5e7eb;
+            "
+          >
+
+            <div>
+
+              <h3
+                style="
+                  margin:
+                    0 0 10px;
+                  font-size:11px;
+                  text-transform:uppercase;
+                  letter-spacing:.08em;
+                  color:#6b7280;
+                "
+              >
+                Bill To
+              </h3>
+
+              <div
+                style="
+                  line-height:1.7;
+                  font-size:14px;
+                "
+              >
+
+                <strong>
+                  ${escapeHTML(
+        customerName
+    )}
+                </strong>
+
+                ${customerEmail
+            ? `
+                      <br>
+                      ${escapeHTML(
+                customerEmail
+            )}
+                    `
             : ''
         }
 
-    ${customerPhone
-            ? `<br>${escapeHTML(customerPhone)}`
+                ${customerPhone
+            ? `
+                      <br>
+                      ${escapeHTML(
+                customerPhone
+            )}
+                    `
             : ''
         }
-  `;
+
+              </div>
+
+            </div>
 
 
-    // Shipping
+            <div>
 
-    document.getElementById(
-        'invoice-shipping'
-    ).innerHTML = `
-    <strong>
-      ${escapeHTML(customerName)}
-    </strong>
+              <h3
+                style="
+                  margin:
+                    0 0 10px;
+                  font-size:11px;
+                  text-transform:uppercase;
+                  letter-spacing:.08em;
+                  color:#6b7280;
+                "
+              >
+                Ship To
+              </h3>
 
-    <br>
-    ${escapeHTML(address)}
-  `;
+              <div
+                style="
+                  line-height:1.7;
+                  font-size:14px;
+                "
+              >
 
+                <strong>
+                  ${escapeHTML(
+            customerName
+        )}
+                </strong>
 
-    // Payment badge
+                <br>
 
-    const paymentBadge =
-        document.getElementById(
-            'invoice-payment-status'
-        );
+                ${escapeHTML(
+            address
+        )}
 
-    if (
-        paymentStatus === 'paid' ||
-        paymentStatus === 'success' ||
-        paymentStatus === 'completed'
-    ) {
+              </div>
 
-        paymentBadge.textContent =
-            'PAID';
+            </div>
 
-        paymentBadge.style.background =
-            '#dcfce7';
-
-        paymentBadge.style.color =
-            '#166534';
-
-    } else if (
-        paymentStatus === 'failed'
-    ) {
-
-        paymentBadge.textContent =
-            'PAYMENT FAILED';
-
-        paymentBadge.style.background =
-            '#fee2e2';
-
-        paymentBadge.style.color =
-            '#991b1b';
-
-    } else {
-
-        paymentBadge.textContent =
-            'PAYMENT PENDING';
-
-        paymentBadge.style.background =
-            '#fef3c7';
-
-        paymentBadge.style.color =
-            '#92400e';
-    }
+          </div>
 
 
-    // Items
+          <!-- ITEMS -->
 
-    const itemsContainer =
-        document.getElementById(
-            'invoice-items'
-        );
+          <div
+            style="
+              padding:26px 34px;
+            "
+          >
 
-    if (!normalizedItems.length) {
+            <h3
+              style="
+                margin:
+                  0 0 14px;
+                font-size:16px;
+                font-weight:900;
+              "
+            >
+              Order Items
+            </h3>
 
-        itemsContainer.innerHTML = `
-      <tr>
-        <td
-          colspan="4"
-          style="
-            padding:25px;
-            text-align:center;
-            color:#6b7280;
-          "
-        >
-          No item details available.
-        </td>
-      </tr>
-    `;
 
-    } else {
+            <div
+              style="
+                overflow-x:auto;
+              "
+            >
 
-        itemsContainer.innerHTML =
-            normalizedItems
-                .map(item => {
+              <table
+                style="
+                  width:100%;
+                  border-collapse:collapse;
+                  min-width:600px;
+                "
+              >
 
-                    const name =
-                        item.name ||
-                        item.title ||
-                        item.productName ||
-                        'Product';
+                <thead>
+
+                  <tr
+                    style="
+                      background:#f8fafc;
+                    "
+                  >
+
+                    <th
+                      style="
+                        text-align:left;
+                        padding:13px;
+                        font-size:10px;
+                        text-transform:uppercase;
+                        color:#6b7280;
+                        border-bottom:
+                          1px solid #e5e7eb;
+                      "
+                    >
+                      Product
+                    </th>
+
+                    <th
+                      style="
+                        text-align:center;
+                        padding:13px;
+                        font-size:10px;
+                        text-transform:uppercase;
+                        color:#6b7280;
+                        border-bottom:
+                          1px solid #e5e7eb;
+                      "
+                    >
+                      Qty
+                    </th>
+
+                    <th
+                      style="
+                        text-align:right;
+                        padding:13px;
+                        font-size:10px;
+                        text-transform:uppercase;
+                        color:#6b7280;
+                        border-bottom:
+                          1px solid #e5e7eb;
+                      "
+                    >
+                      Price
+                    </th>
+
+                    <th
+                      style="
+                        text-align:right;
+                        padding:13px;
+                        font-size:10px;
+                        text-transform:uppercase;
+                        color:#6b7280;
+                        border-bottom:
+                          1px solid #e5e7eb;
+                      "
+                    >
+                      Total
+                    </th>
+
+                  </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                  ${items.length
+            ? items.map(
+                item => {
 
                     const quantity =
                         Number(
@@ -1226,137 +1098,536 @@ export async function InvoicePage(container, params = {}) {
                         );
 
                     const lineTotal =
-                        price * quantity;
+                        quantity *
+                        price;
+
+                    const name =
+                        item.name ||
+                        item.title ||
+                        item.productName ||
+                        'Product';
+
 
                     return `
-            <tr>
 
-              <td style="
-                padding:15px 13px;
-                border-bottom:1px solid #e5e7eb;
-              ">
+                              <tr>
 
-                <strong>
-                  ${escapeHTML(name)}
+                                <td
+                                  style="
+                                    padding:
+                                      15px 13px;
+                                    border-bottom:
+                                      1px solid #e5e7eb;
+                                  "
+                                >
+
+                                  <strong>
+                                    ${escapeHTML(
+                        name
+                    )}
+                                  </strong>
+
+                                </td>
+
+
+                                <td
+                                  style="
+                                    padding:
+                                      15px 13px;
+                                    text-align:center;
+                                    border-bottom:
+                                      1px solid #e5e7eb;
+                                  "
+                                >
+                                  ${quantity}
+                                </td>
+
+
+                                <td
+                                  style="
+                                    padding:
+                                      15px 13px;
+                                    text-align:right;
+                                    border-bottom:
+                                      1px solid #e5e7eb;
+                                  "
+                                >
+                                  ${money(price)}
+                                </td>
+
+
+                                <td
+                                  style="
+                                    padding:
+                                      15px 13px;
+                                    text-align:right;
+                                    border-bottom:
+                                      1px solid #e5e7eb;
+                                    font-weight:800;
+                                  "
+                                >
+                                  ${money(lineTotal)}
+                                </td>
+
+                              </tr>
+
+                            `;
+
+                }
+            ).join('')
+            : `
+                        <tr>
+
+                          <td
+                            colspan="4"
+                            style="
+                              padding:25px;
+                              text-align:center;
+                              color:#6b7280;
+                            "
+                          >
+                            No item details available.
+                          </td>
+
+                        </tr>
+                      `
+        }
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+          </div>
+
+
+          <!-- TOTALS -->
+
+          <div
+            style="
+              padding:
+                0 34px 30px;
+              display:flex;
+              justify-content:flex-end;
+            "
+          >
+
+            <div
+              style="
+                width:
+                  min(
+                    390px,
+                    100%
+                  );
+              "
+            >
+
+              <div
+                style="
+                  display:flex;
+                  justify-content:space-between;
+                  padding:8px 0;
+                  color:#6b7280;
+                  font-size:14px;
+                "
+              >
+
+                <span>
+                  Subtotal
+                </span>
+
+                <strong
+                  id="invoice-subtotal"
+                  style="color:#111827;"
+                >
+                  ${money(subtotal)}
                 </strong>
 
-                ${item.category
-                            ? `
-                      <div style="
-                        color:#9ca3af;
-                        font-size:11px;
-                        margin-top:3px;
-                      ">
-                        ${escapeHTML(
-                                item.category
-                            )}
-                      </div>
-                    `
-                            : ''
-                        }
-
-              </td>
-
-              <td style="
-                padding:15px 13px;
-                text-align:center;
-                border-bottom:1px solid #e5e7eb;
-              ">
-                ${quantity}
-              </td>
-
-              <td style="
-                padding:15px 13px;
-                text-align:right;
-                border-bottom:1px solid #e5e7eb;
-              ">
-                ${money(price)}
-              </td>
-
-              <td style="
-                padding:15px 13px;
-                text-align:right;
-                border-bottom:1px solid #e5e7eb;
-                font-weight:800;
-              ">
-                ${money(lineTotal)}
-              </td>
-
-            </tr>
-          `;
-
-                })
-                .join('');
-    }
+              </div>
 
 
-    // Totals
+              <div
+                style="
+                  display:flex;
+                  justify-content:space-between;
+                  padding:8px 0;
+                  color:#6b7280;
+                  font-size:14px;
+                "
+              >
 
-    document.getElementById(
-        'invoice-subtotal'
-    ).textContent =
-        money(subtotal);
+                <span>
+                  Discount
+                </span>
 
-    document.getElementById(
-        'invoice-discount'
-    ).textContent =
-        `- ${money(discount)}`;
+                <strong
+                  id="invoice-discount"
+                  style="color:#16a34a;"
+                >
+                  - ${money(discount)}
+                </strong>
 
-    document.getElementById(
-        'invoice-gst'
-    ).textContent =
-        money(gst);
-
-    document.getElementById(
-        'invoice-shipping-charge'
-    ).textContent =
-        money(shippingCharge);
-
-    document.getElementById(
-        'invoice-total'
-    ).textContent =
-        money(total);
+              </div>
 
 
-    document.getElementById(
-        'invoice-payment-info'
-    ).innerHTML = `
-    Payment Method:
-    <strong style="color:#111827;">
-      ${escapeHTML(
-        String(paymentMethod)
-            .replaceAll('_', ' ')
-    )}
-    </strong>
-    <br>
+              <div
+                style="
+                  display:flex;
+                  justify-content:space-between;
+                  padding:8px 0;
+                  color:#6b7280;
+                  font-size:14px;
+                "
+              >
 
-    Payment Status:
-    <strong style="color:#111827;">
-      ${escapeHTML(
-        paymentStatus
-    )}
-    </strong>
+                <span>
+                  GST
+                </span>
 
-    ${order.transactionId ||
-            order.transaction_id
+                <strong
+                  id="invoice-gst"
+                  style="color:#111827;"
+                >
+                  ${money(gst)}
+                </strong>
+
+              </div>
+
+
+              <div
+                style="
+                  display:flex;
+                  justify-content:space-between;
+                  padding:8px 0;
+                  color:#6b7280;
+                  font-size:14px;
+                "
+              >
+
+                <span>
+                  Shipping
+                </span>
+
+                <strong
+                  id="invoice-shipping-charge"
+                  style="color:#111827;"
+                >
+                  ${money(
+            shippingCharge
+        )}
+                </strong>
+
+              </div>
+
+
+              <div
+                style="
+                  margin-top:10px;
+                  padding-top:15px;
+                  border-top:
+                    2px solid #111827;
+                  display:flex;
+                  justify-content:space-between;
+                  align-items:center;
+                "
+              >
+
+                <span
+                  style="
+                    font-size:17px;
+                    font-weight:900;
+                  "
+                >
+                  Grand Total
+                </span>
+
+                <strong
+                  id="invoice-total"
+                  style="
+                    font-size:22px;
+                    font-weight:900;
+                  "
+                >
+                  ${money(total)}
+                </strong>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- PAYMENT INFORMATION -->
+
+          <div
+            style="
+              margin:
+                0 34px 28px;
+              padding:18px;
+              border-radius:12px;
+              background:#f8fafc;
+              border:
+                1px solid #e5e7eb;
+            "
+          >
+
+            <div
+              style="
+                display:flex;
+                align-items:center;
+                gap:10px;
+                margin-bottom:8px;
+              "
+            >
+
+              <div
+                style="
+                  width:32px;
+                  height:32px;
+                  border-radius:8px;
+                  background:#dcfce7;
+                  color:#166534;
+                  display:flex;
+                  align-items:center;
+                  justify-content:center;
+                  font-weight:900;
+                "
+              >
+                ✓
+              </div>
+
+              <strong>
+                Payment Information
+              </strong>
+
+            </div>
+
+
+            <div
+              style="
+                color:#6b7280;
+                font-size:13px;
+                line-height:1.8;
+              "
+            >
+
+              Payment Method:
+              <strong
+                style="color:#111827;"
+              >
+                ${escapeHTML(
+            paymentMethod
+        )}
+              </strong>
+
+              <br>
+
+              Payment Status:
+              <strong
+                style="color:#111827;"
+              >
+                ${escapeHTML(
+            paymentStatus
+        )}
+              </strong>
+
+              ${transactionId
             ? `
-          <br>
-          Transaction ID:
-          <strong style="color:#111827;">
-            ${escapeHTML(
-                order.transactionId ||
-                order.transaction_id
+                    <br>
+                    Transaction ID:
+                    <strong
+                      style="
+                        color:#111827;
+                        font-family:monospace;
+                      "
+                    >
+                      ${escapeHTML(
+                transactionId
             )}
-          </strong>
-        `
+                    </strong>
+                  `
             : ''
         }
+
+            </div>
+
+          </div>
+
+
+          <!-- FOOTER -->
+
+          <div
+            style="
+              padding:
+                25px 34px;
+              background:#111827;
+              color:#fff;
+              display:flex;
+              justify-content:space-between;
+              gap:20px;
+              flex-wrap:wrap;
+            "
+          >
+
+            <div>
+
+              <strong>
+                Thank you for shopping
+                with CircuitKart!
+              </strong>
+
+              <p
+                style="
+                  margin:
+                    6px 0 0;
+                  color:#9ca3af;
+                  font-size:12px;
+                "
+              >
+                IoT Projects • Electronics •
+                Components
+              </p>
+
+            </div>
+
+
+            <div
+              style="
+                text-align:right;
+                color:#9ca3af;
+                font-size:12px;
+                line-height:1.6;
+              "
+            >
+              CircuitKart
+              <br>
+              Digital Invoice
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <style>
+
+      @keyframes spin {
+        from {
+          transform:rotate(0deg);
+        }
+
+        to {
+          transform:rotate(360deg);
+        }
+      }
+
+
+      @media print {
+
+        body {
+          background:#fff !important;
+        }
+
+        #navbar,
+        #footer,
+        .invoice-actions {
+          display:none !important;
+        }
+
+        .invoice-page {
+          padding:0 !important;
+          background:#fff !important;
+        }
+
+        #invoice-document {
+          box-shadow:none !important;
+          border-radius:0 !important;
+        }
+
+      }
+
+
+      @media (max-width:700px) {
+
+        #invoice-document > div:first-child {
+          flex-direction:column !important;
+        }
+
+        #invoice-document > div:nth-child(2) {
+          grid-template-columns:1fr !important;
+        }
+
+        #invoice-document > div:nth-child(3) {
+          grid-template-columns:1fr !important;
+        }
+
+      }
+
+    </style>
   `;
 
 
-    // -----------------------------
-    // PRINT
-    // -----------------------------
+    // ==========================================================
+    // PAYMENT BADGE
+    // ==========================================================
+
+    const statusElement =
+        document.getElementById(
+            'invoice-payment-status'
+        );
+
+
+    if (
+        paymentStatus === 'paid' ||
+        paymentStatus === 'success' ||
+        paymentStatus === 'completed'
+    ) {
+
+        statusElement.textContent =
+            'PAID';
+
+        statusElement.style.background =
+            '#dcfce7';
+
+        statusElement.style.color =
+            '#166534';
+
+    } else if (
+        paymentStatus === 'failed'
+    ) {
+
+        statusElement.textContent =
+            'PAYMENT FAILED';
+
+        statusElement.style.background =
+            '#fee2e2';
+
+        statusElement.style.color =
+            '#991b1b';
+
+    } else {
+
+        statusElement.textContent =
+            'PAYMENT PENDING';
+
+        statusElement.style.background =
+            '#fef3c7';
+
+        statusElement.style.color =
+            '#92400e';
+
+    }
+
+
+    // ==========================================================
+    // PRINT BUTTON
+    // ==========================================================
 
     document
         .getElementById(
@@ -1375,12 +1646,14 @@ export async function InvoicePage(container, params = {}) {
                     return;
                 }
 
+
                 const printWindow =
                     window.open(
                         '',
                         '_blank',
                         'width=1000,height=800'
                     );
+
 
                 if (!printWindow) {
 
@@ -1391,6 +1664,7 @@ export async function InvoicePage(container, params = {}) {
                     return;
                 }
 
+
                 printWindow.document.write(`
           <!DOCTYPE html>
 
@@ -1399,13 +1673,18 @@ export async function InvoicePage(container, params = {}) {
           <head>
 
             <title>
-              ${invoiceNumber}
+              ${escapeHTML(
+                    invoiceNumber
+                )}
             </title>
 
             <meta
               name="viewport"
-              content="width=device-width,initial-scale=1"
-            />
+              content="
+                width=device-width,
+                initial-scale=1
+              "
+            >
 
             <style>
 
@@ -1415,13 +1694,16 @@ export async function InvoicePage(container, params = {}) {
 
               body {
                 margin:0;
-                background:white;
-                font-family:Arial,sans-serif;
+                background:#fff;
+                font-family:
+                  Arial,
+                  Helvetica,
+                  sans-serif;
               }
 
               @page {
                 size:A4;
-                margin:12mm;
+                margin:10mm;
               }
 
               @media print {
@@ -1446,7 +1728,9 @@ export async function InvoicePage(container, params = {}) {
           </html>
         `);
 
+
                 printWindow.document.close();
+
 
                 setTimeout(
                     () => {
@@ -1457,13 +1741,14 @@ export async function InvoicePage(container, params = {}) {
                     },
                     500
                 );
+
             }
         );
 
 
-    // -----------------------------
+    // ==========================================================
     // DOWNLOAD PDF
-    // -----------------------------
+    // ==========================================================
 
     document
         .getElementById(
@@ -1478,19 +1763,41 @@ export async function InvoicePage(container, params = {}) {
                         'invoice-download'
                     );
 
-                const originalText =
+
+                if (!button) {
+                    return;
+                }
+
+
+                const originalHTML =
                     button.innerHTML;
+
 
                 button.disabled = true;
 
-                button.innerHTML =
-                    'Preparing PDF...';
+                button.innerHTML = `
+          <i
+            data-lucide="loader"
+            style="
+              width:15px;
+              animation:
+                spin 1s linear infinite;
+            "
+          ></i>
+          Preparing...
+        `;
+
+
+                if (window.lucide) {
+                    window.lucide.createIcons();
+                }
+
 
                 try {
 
-                    if (
-                        !window.html2pdf
-                    ) {
+                    // Load html2pdf only when needed
+
+                    if (!window.html2pdf) {
 
                         await new Promise(
                             (
@@ -1503,50 +1810,62 @@ export async function InvoicePage(container, params = {}) {
                                         'script[data-html2pdf]'
                                     );
 
+
                                 if (existing) {
 
                                     existing.addEventListener(
                                         'load',
-                                        resolve
+                                        resolve,
+                                        {
+                                            once: true
+                                        }
                                     );
 
                                     existing.addEventListener(
                                         'error',
-                                        reject
+                                        reject,
+                                        {
+                                            once: true
+                                        }
                                     );
 
                                     return;
                                 }
+
 
                                 const script =
                                     document.createElement(
                                         'script'
                                     );
 
+
                                 script.src =
                                     'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+
 
                                 script.dataset.html2pdf =
                                     'true';
 
+
                                 script.onload =
                                     resolve;
+
 
                                 script.onerror =
                                     reject;
 
+
                                 document.head.appendChild(
                                     script
                                 );
+
                             }
                         );
 
                     }
 
 
-                    if (
-                        !window.html2pdf
-                    ) {
+                    if (!window.html2pdf) {
                         throw new Error(
                             'PDF library could not be loaded.'
                         );
@@ -1558,8 +1877,10 @@ export async function InvoicePage(container, params = {}) {
                             'invoice-document'
                         );
 
+
                     await window.html2pdf()
                         .set({
+
                             margin: 8,
 
                             filename:
@@ -1567,21 +1888,19 @@ export async function InvoicePage(container, params = {}) {
 
                             image: {
                                 type: 'jpeg',
-                                quality: 0.98
+                                quality: .98
                             },
 
                             html2canvas: {
                                 scale: 2,
                                 useCORS: true,
-                                backgroundColor:
-                                    '#ffffff'
+                                backgroundColor: '#ffffff'
                             },
 
                             jsPDF: {
                                 unit: 'mm',
                                 format: 'a4',
-                                orientation:
-                                    'portrait'
+                                orientation: 'portrait'
                             },
 
                             pagebreak: {
@@ -1599,25 +1918,42 @@ export async function InvoicePage(container, params = {}) {
                 } catch (error) {
 
                     console.error(
-                        'PDF generation error:',
+                        'Invoice PDF error:',
                         error
                     );
 
+
                     alert(
-                        'Unable to generate PDF. Please try Print → Save as PDF.'
+                        'PDF download failed. Use Print → Save as PDF.'
                     );
+
 
                 } finally {
 
                     button.disabled = false;
 
                     button.innerHTML =
-                        originalText;
+                        originalHTML;
+
+
+                    if (window.lucide) {
+                        window.lucide.createIcons();
+                    }
 
                 }
 
             }
         );
+
+
+    // ==========================================================
+    // LUCIDE ICONS
+    // ==========================================================
+
+    if (window.lucide) {
+        window.lucide.createIcons();
+    }
+
 }
 
 
