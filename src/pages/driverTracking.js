@@ -19,6 +19,7 @@ export async function DriverTrackingPage(container, params) {
           <p style="color:var(--text-secondary);margin-bottom:1.5rem;">Please sign in to use the driver tracking feature.</p>
           <a href="#/login" class="btn btn-primary">Sign In</a>
         </div>
+        
       </div>`;
     return;
   }

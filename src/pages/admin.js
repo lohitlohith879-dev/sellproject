@@ -1,4 +1,5 @@
 import { store } from '../store.js';
+import { socketManager } from '../socket/socket.js';
 
 const API = import.meta.env.VITE_API_URL
   ? `${import.meta.env.VITE_API_URL}/api`
@@ -11,1154 +12,5109 @@ function authHeaders() {
   };
 }
 
-// ============================================================
-// Main Admin Page entry point
-// ============================================================
-export function AdminPage(container, params) {
-  const adminToken = localStorage.getItem('ck_admin_token');
-  const adminUser = JSON.parse(localStorage.getItem('ck_admin_user') || '{}');
+export async function AdminPage() {
+  const app = document.getElementById('app');
 
-  if (!adminToken || adminUser.role !== 'admin') {
-    window.location.hash = '/admin-login';
+  const token = localStorage.getItem('ck_admin_token');
+
+  if (!token) {
+    window.location.hash = '#/admin-login';
     return;
   }
 
-  const activeTab = params.tab || 'overview';
+  let activeTab = 'overview';
 
-  // -- Global admin action handlers --
-  window.switchAdminTab = (tab) => { window.location.hash = `/admin?tab=${tab}`; };
-
-  window.adminLogout = () => {
-    localStorage.removeItem('ck_admin_token');
-    localStorage.removeItem('ck_admin_user');
-    window.location.hash = '/';
+  const switchAdminTab = async (tab) => {
+    activeTab = tab;
+    render();
   };
 
-  // Fetch activity feed
-  store.fetchAdminFeed();
-
-  // Render shell
-  container.innerHTML = `
-    <div class="admin-layout" style="min-height:100vh; display:flex; flex-direction:column;">
-      <!-- Top Bar -->
-      <div style="height:60px; background:var(--bg-secondary); border-bottom:1px solid var(--border-subtle); display:flex; align-items:center; padding:0 var(--space-xl); gap:var(--space-md); position:sticky; top:0; z-index:200;">
-        <a href="#/" style="display:flex; align-items:center; gap:8px; text-decoration:none; margin-right:auto;">
-          <div style="width:32px;height:32px;background:var(--gradient-primary);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;">⚡</div>
-          <span style="font-weight:700; color:var(--text-heading);">CircuitKart <span style="color:var(--primary); font-size:var(--fs-xs); font-weight:500; background:rgba(0,212,255,0.1); padding:2px 8px; border-radius:4px; border:1px solid var(--primary);">ADMIN</span></span>
-        </a>
-        <span style="color:var(--text-tertiary); font-size:var(--fs-sm);">Welcome, ${adminUser.name || 'Admin'}</span>
-        <button onclick="window.adminLogout()" class="btn btn-ghost btn-sm" style="color:var(--text-tertiary);">
-          <i data-lucide="log-out" style="width:16px;"></i> Logout
-        </button>
-      </div>
-
-      <div style="display:flex; flex:1;">
-        <!-- Sidebar -->
-        <nav id="admin-sidebar" style="width:220px; background:var(--bg-secondary); border-right:1px solid var(--border-subtle); padding:var(--space-md) 0; display:flex; flex-direction:column; gap:2px; min-height:calc(100vh - 60px); flex-shrink:0;">
-          ${[
-      ['overview', 'layout-dashboard', 'Dashboard'],
-      ['orders', 'shopping-bag', 'Orders'],
-      ['live-tracking', 'map-pin', 'Live Tracking'],
-      ['projects', 'cpu', 'Projects'],
-      ['add-project', 'plus-circle', 'Add Project'],
-      ['components', 'box', 'Components'],
-      ['pricing', 'indian-rupee', 'Pricing'],
-      ['payment', 'qr-code', 'Payment Settings'],
-      ['users', 'users', 'Users'],
-      ['quotes', 'file-text', 'Custom Quotes'],
-      ['activity', 'activity', 'Activity Log'],
-    ].map(([tab, icon, label]) => `
-            <a href="#/admin?tab=${tab}" onclick="event.preventDefault(); switchAdminTab('${tab}')"
-               style="display:flex; align-items:center; gap:10px; padding:10px 20px; font-size:var(--fs-sm); font-weight:500; text-decoration:none; border-radius:0; transition:all 0.2s; color:${activeTab === tab ? 'var(--primary)' : 'var(--text-secondary)'}; background:${activeTab === tab ? 'rgba(0,212,255,0.08)' : 'transparent'}; border-left:3px solid ${activeTab === tab ? 'var(--primary)' : 'transparent'};">
-              <i data-lucide="${icon}" style="width:16px;flex-shrink:0;"></i> ${label}
-              ${tab === 'live-tracking' ? '<span style="background:#10b981;color:#000;font-size:9px;font-weight:700;padding:2px 5px;border-radius:4px;margin-left:auto;">LIVE</span>' : ''}
-            </a>
-          `).join('')}
-          <div style="flex:1;"></div>
-          <a href="#/" style="display:flex; align-items:center; gap:10px; padding:10px 20px; font-size:var(--fs-sm); font-weight:500; text-decoration:none; color:var(--text-tertiary);">
-            <i data-lucide="external-link" style="width:16px;"></i> View Website
-          </a>
-        </nav>
-
-        <!-- Main Content -->
-        <main id="admin-content" style="flex:1; padding:var(--space-xl); overflow:auto; background:var(--bg-primary);">
-          <div id="admin-tab-content">Loading...</div>
-        </main>
-      </div>
-    </div>
-  `;
-
-  if (window.lucide) window.lucide.createIcons();
-
-  renderTab(activeTab);
-}
-
-async function renderTab(tab) {
-  const content = document.getElementById('admin-tab-content');
-  if (!content) return;
-  content.innerHTML = `<div class="text-center text-secondary" style="padding:3rem;"><div class="auth-spinner" style="display:inline-block;"></div><br>Loading...</div>`;
-
-  switch (tab) {
-    case 'overview': content.innerHTML = await renderOverview(); break;
-    case 'orders': content.innerHTML = await renderOrders(); break;
-    case 'projects': content.innerHTML = await renderProjects(); break;
-    case 'add-project': content.innerHTML = await renderAddProject(); break;
-    case 'components': content.innerHTML = await renderComponents(); break;
-    case 'pricing': content.innerHTML = await renderPricing(); break;
-    case 'payment': content.innerHTML = await renderPaymentSettings(); break;
-    case 'users': content.innerHTML = await renderUsers(); break;
-    case 'quotes': content.innerHTML = await renderQuotes(); break;
-    case 'activity': content.innerHTML = await renderActivity(); break;
-    case 'live-tracking': await renderLiveTracking(content); break;
-    default: content.innerHTML = `<h2>Unknown tab</h2>`;
-  }
-  if (window.lucide) window.lucide.createIcons();
-}
-
-// ===== OVERVIEW =====
-async function renderOverview() {
-  let orders = [], users = [], quotes = [], projects = [];
-  try {
-    const [oRes, uRes, qRes, pRes] = await Promise.all([
-      fetch(`${API}/orders/all`, { headers: authHeaders() }),
-      fetch(`${API}/admin/users`, { headers: authHeaders() }),
-      fetch(`${API}/admin/quotes`, { headers: authHeaders() }),
-      fetch(`${API}/admin/projects`, { headers: authHeaders() }),
-    ]);
-    orders = await oRes.json(); if (!Array.isArray(orders)) orders = [];
-    users = await uRes.json(); if (!Array.isArray(users)) users = [];
-    quotes = await qRes.json(); if (!Array.isArray(quotes)) quotes = [];
-    projects = await pRes.json(); if (!Array.isArray(projects)) projects = [];
-  } catch (e) { console.error(e); }
-
-  const totalRevenue = orders.reduce((s, o) => s + (o.total || 0), 0);
-  const pendingOrders = orders.filter(o => o.status === 'received').length;
-  const activeProjects = projects.filter(p => p.active).length;
-  const recentOrders = orders.slice(0, 5);
-
-  return `
-    <div>
-      <div style="margin-bottom:var(--space-xl);">
-        <h1 style="font-size:var(--fs-2xl); font-weight:700; color:var(--text-heading);">Dashboard</h1>
-        <p class="text-secondary">CircuitKart Admin Overview</p>
-      </div>
-
-      <!-- Stats Grid -->
-      <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:var(--space-md); margin-bottom:var(--space-xl);">
-        ${[
-      ['Total Revenue', `₹${(totalRevenue / 1000).toFixed(1)}k`, 'indian-rupee', '#00d4ff'],
-      ['Total Orders', orders.length, 'shopping-bag', '#7c3aed'],
-      ['Customers', users.filter(u => u.role === 'customer').length, 'users', '#f59e0b'],
-      ['Custom Quotes', quotes.length, 'file-text', '#10b981'],
-      ['Active Projects', activeProjects, 'cpu', '#3b82f6'],
-      ['Pending Orders', pendingOrders, 'clock', '#ef4444'],
-    ].map(([label, val, icon, color]) => `
-          <div class="glass-card" style="padding:var(--space-lg);">
-            <div style="display:flex; align-items:center; gap:12px; margin-bottom:var(--space-sm);">
-              <div style="width:40px;height:40px;border-radius:10px;background:${color}22;display:flex;align-items:center;justify-content:center;color:${color};">
-                <i data-lucide="${icon}" style="width:20px;"></i>
-              </div>
-              <span class="text-secondary text-sm">${label}</span>
-            </div>
-            <div style="font-size:var(--fs-2xl); font-weight:700; color:var(--text-heading);">${val}</div>
-          </div>
-        `).join('')}
-      </div>
-
-      <!-- Recent Orders -->
-      <div class="glass-card" style="padding:0; overflow:hidden; margin-bottom:var(--space-xl);">
-        <div style="padding:var(--space-lg); border-bottom:1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center;">
-          <h3 style="font-weight:600;">Recent Orders</h3>
-          <a href="#/admin?tab=orders" onclick="switchAdminTab('orders'); event.preventDefault()" class="text-accent text-sm">View All →</a>
-        </div>
-        <div style="overflow-x:auto;">
-          <table class="admin-table">
-            <thead><tr><th>Order ID</th><th>Customer</th><th>Date</th><th>Status</th><th>Total</th></tr></thead>
-            <tbody>
-              ${recentOrders.length > 0 ? recentOrders.map(o => `
-                <tr>
-                  <td class="font-mono text-accent">${o.id}</td>
-                  <td>${(o.contactInfo?.name || o.contactInfo?.email || 'Guest').split('@')[0]}</td>
-                  <td>${new Date(o.date).toLocaleDateString('en-IN')}</td>
-                  <td><span class="badge badge-${o.status === 'delivered' ? 'green' : o.status === 'received' ? 'blue' : 'orange'}">${o.status}</span></td>
-                  <td class="font-mono">₹${new Intl.NumberFormat('en-IN').format(o.total)}</td>
-                </tr>
-              `).join('') : `<tr><td colspan="5" class="text-center text-secondary" style="padding:2rem;">No orders yet</td></tr>`}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-// ===== ORDERS =====
-async function renderOrders() {
-  let orders = [];
-  try {
-    const res = await fetch(`${API}/orders/all`, { headers: authHeaders() });
-    orders = await res.json(); if (!Array.isArray(orders)) orders = [];
-  } catch (e) { }
-
-  const ALL_STATUSES = [
-    'placed', 'payment_confirmed', 'confirmed', 'processing', 'packed',
-    'shipped', 'out_for_delivery', 'delivered',
-    'cancelled', 'payment_failed', 'return_requested', 'returned', 'refund_processing', 'refunded'
-  ];
-
-  const STATUS_LABELS = {
-    placed: 'Order Placed', payment_confirmed: 'Payment Confirmed', confirmed: 'Order Confirmed',
-    processing: 'Processing', packed: 'Packed', shipped: 'Shipped', out_for_delivery: 'Out for Delivery',
-    delivered: 'Delivered', cancelled: 'Cancelled', payment_failed: 'Payment Failed',
-    return_requested: 'Return Requested', returned: 'Returned', refund_processing: 'Refund Processing',
-    refunded: 'Refunded', received: 'Order Received', payment_submitted: 'Payment Submitted',
-  };
-
-  const STATUS_COLORS = {
-    placed: '#00d4ff', payment_confirmed: '#7c3aed', confirmed: '#3b82f6',
-    processing: '#f59e0b', packed: '#f97316', shipped: '#8b5cf6',
-    out_for_delivery: '#06b6d4', delivered: '#10b981', cancelled: '#ef4444',
-    payment_failed: '#ef4444', return_requested: '#f59e0b', returned: '#f59e0b',
-    refund_processing: '#8b5cf6', refunded: '#10b981', received: '#3b82f6', payment_submitted: '#f59e0b',
-  };
-
-  // ---- Handlers ----
-  window.filterOrders = () => {
-    const q = (document.getElementById('order-search')?.value || '').toLowerCase();
-    const filterStatus = document.getElementById('order-filter-status')?.value || '';
-    document.querySelectorAll('#orders-tbody tr[data-order-id]').forEach(row => {
-      const text = (row.dataset.search || '').toLowerCase();
-      const status = row.dataset.status || '';
-      const matchQ = !q || text.includes(q);
-      const matchS = !filterStatus || status === filterStatus;
-      row.style.display = matchQ && matchS ? '' : 'none';
-    });
-  };
-
-  window.openOrderModal = async (orderId) => {
-    const existing = document.getElementById('admin-order-modal');
-    if (existing) existing.remove();
-
-    // Fetch order details + history from API
-    let order = orders.find(o => o.id === orderId);
-    let history = [];
-    try {
-      const res = await fetch(`${API}/orders/${orderId}/history`, { headers: authHeaders() });
-      if (res.ok) history = await res.json();
-    } catch (e) { }
-
-    // If no dedicated history endpoint, try fetching from /api/admin/orders/:id
-    if (history.length === 0) {
-      try {
-        const res = await fetch(`${API}/admin/orders/${orderId}`, { headers: authHeaders() });
-        if (res.ok) { const d = await res.json(); history = d.history || []; }
-      } catch (e) { }
-    }
-
-    if (!order) return;
-
-    const modal = document.createElement('div');
-    modal.id = 'admin-order-modal';
-    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);overflow-y:auto;padding:20px;';
-    modal.innerHTML = `
-      <div style="background:var(--bg-secondary);border:1px solid var(--border-subtle);border-radius:16px;width:min(760px,95vw);max-height:90vh;overflow-y:auto;padding:var(--space-2xl);position:relative;">
-        <button onclick="document.getElementById('admin-order-modal').remove()" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,.05);border:1px solid var(--border-subtle);color:var(--text-secondary);border-radius:8px;width:32px;height:32px;cursor:pointer;font-size:18px;">✕</button>
-
-        <h2 style="font-size:var(--fs-xl);font-weight:700;color:var(--text-heading);margin-bottom:4px;">Order Details</h2>
-        <p class="text-secondary text-sm" style="margin-bottom:1.5rem;">
-          <span class="font-mono" style="color:var(--primary);">${order.id}</span> ·
-          ${new Date(order.date).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}
-        </p>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
-          <!-- Customer Info -->
-          <div style="background:rgba(255,255,255,.03);border:1px solid var(--border-subtle);border-radius:10px;padding:1rem;">
-            <h4 style="font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-tertiary);margin-bottom:.75rem;">Customer</h4>
-            <div style="font-weight:600;color:var(--text-heading);">${order.contactInfo?.name || '—'}</div>
-            <div style="font-size:.82rem;color:var(--text-secondary);margin-top:2px;">${order.contactInfo?.email || ''}</div>
-            <div style="font-size:.82rem;color:var(--text-secondary);">${order.contactInfo?.phone || ''}</div>
-          </div>
-          <!-- Payment -->
-          <div style="background:rgba(255,255,255,.03);border:1px solid var(--border-subtle);border-radius:10px;padding:1rem;">
-            <h4 style="font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-tertiary);margin-bottom:.75rem;">Payment</h4>
-            <div style="display:flex;align-items:center;gap:8px;">
-              <span style="font-size:1.1rem;font-weight:800;color:var(--primary);">₹${new Intl.NumberFormat('en-IN').format(order.total)}</span>
-              <span style="background:${order.paymentStatus === 'paid' ? '#10b98122' : '#f59e0b22'};color:${order.paymentStatus === 'paid' ? '#10b981' : '#f59e0b'};border-radius:8px;padding:2px 8px;font-size:.75rem;font-weight:700;">${order.paymentStatus || 'pending'}</span>
-            </div>
-            <div style="font-size:.82rem;color:var(--text-secondary);margin-top:4px;">${order.paymentMethod || '—'}</div>
-          </div>
-        </div>
-
-        <!-- Items -->
-        <div style="background:rgba(255,255,255,.03);border:1px solid var(--border-subtle);border-radius:10px;padding:1rem;margin-bottom:1.5rem;">
-          <h4 style="font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-tertiary);margin-bottom:.75rem;">Items</h4>
-          ${(order.items || []).map(item => `
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border-subtle);">
-              <div>
-                <div style="font-size:.85rem;font-weight:500;color:var(--text-heading);">${item.name}</div>
-                <div style="font-size:.75rem;color:var(--text-tertiary);">Qty: ${item.quantity || 1}</div>
-              </div>
-              <div class="font-mono text-sm">₹${new Intl.NumberFormat('en-IN').format(item.price * (item.quantity || 1))}</div>
-            </div>`).join('')}
-        </div>
-
-        <!-- Shipping -->
-        ${order.shippingInfo?.name ? `
-        <div style="background:rgba(255,255,255,.03);border:1px solid var(--border-subtle);border-radius:10px;padding:1rem;margin-bottom:1.5rem;">
-          <h4 style="font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-tertiary);margin-bottom:.75rem;">Shipping Address</h4>
-          <div style="font-size:.85rem;color:var(--text-secondary);line-height:1.7;">
-            <strong style="color:var(--text-heading);">${order.shippingInfo.name}</strong><br>
-            ${[order.shippingInfo.address1, order.shippingInfo.address2, order.shippingInfo.city, order.shippingInfo.state, order.shippingInfo.zip, order.shippingInfo.country].filter(Boolean).join(', ')}
-          </div>
-        </div>` : ''}
-
-        <!-- Status History -->
-        <div style="background:rgba(255,255,255,.03);border:1px solid var(--border-subtle);border-radius:10px;padding:1rem;margin-bottom:1.5rem;">
-          <h4 style="font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-tertiary);margin-bottom:.75rem;">Status History</h4>
-          ${history.length === 0
-        ? '<p class="text-secondary text-sm">No history recorded yet.</p>'
-        : [...history].reverse().map(h => `
-              <div style="display:flex;gap:10px;align-items:flex-start;padding:8px;background:rgba(255,255,255,.02);border-radius:6px;margin-bottom:6px;border-left:3px solid var(--primary);">
-                <div style="flex:1;">
-                  <div style="font-size:.83rem;font-weight:600;color:var(--text-heading);">
-                    ${h.previousStatus ? `<span style="color:var(--text-tertiary);">${STATUS_LABELS[h.previousStatus] || h.previousStatus}</span> → ` : ''}
-                    <span style="color:var(--primary);">${STATUS_LABELS[h.newStatus] || h.newStatus}</span>
-                  </div>
-                  ${h.note ? `<div style="font-size:.78rem;color:var(--text-secondary);margin-top:2px;">Note: ${h.note}</div>` : ''}
-                  <div style="font-size:.72rem;color:var(--text-tertiary);margin-top:3px;">${new Date(h.createdAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })} · by ${h.changedBy}</div>
-                </div>
-              </div>`).join('')
-      }
-        </div>
-
-        <!-- Update Status Form -->
-        <div style="background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.2);border-radius:12px;padding:1.25rem;">
-          <h4 style="font-weight:700;color:var(--text-heading);margin-bottom:1rem;"><i data-lucide="edit" style="width:16px;display:inline;vertical-align:middle;"></i> Update Order Status</h4>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-            <div class="form-group">
-              <label class="form-label">New Status *</label>
-              <select id="modal-status-select" class="form-input">
-                ${ALL_STATUSES.map(s => `<option value="${s}" ${order.status === s ? 'selected' : ''}>${STATUS_LABELS[s] || s}</option>`).join('')}
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Tracking Number</label>
-              <input type="text" id="modal-tracking" class="form-input" placeholder="e.g. DTDC123456789" value="${order.trackingNumber || ''}">
-            </div>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-            <div class="form-group">
-              <label class="form-label">Estimated Delivery</label>
-              <input type="text" id="modal-est-delivery" class="form-input" placeholder="e.g. 3-5 Business Days" value="${order.estimatedDelivery || ''}">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Admin Note (sent to customer)</label>
-              <input type="text" id="modal-note" class="form-input" placeholder="Optional note for the customer">
-            </div>
-          </div>
-          <button onclick="window.saveOrderStatusFromModal('${order.id}')" class="btn btn-primary" style="width:100%;" id="modal-save-btn">
-            <i data-lucide="save" style="width:16px;"></i> Save & Notify Customer
-          </button>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(modal);
-    modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
-    if (window.lucide) window.lucide.createIcons();
-  };
-
-  window.saveOrderStatusFromModal = async (orderId) => {
-    const btn = document.getElementById('modal-save-btn');
-    const status = document.getElementById('modal-status-select')?.value;
-    const note = document.getElementById('modal-note')?.value;
-    const trackingNumber = document.getElementById('modal-tracking')?.value;
-    const estimatedDelivery = document.getElementById('modal-est-delivery')?.value;
-
-    if (!status) return;
-    btn.disabled = true; btn.textContent = 'Saving…';
-
-    const res = await fetch(`${API}/orders/${orderId}/status`, {
-      method: 'PATCH',
-      headers: authHeaders(),
-      body: JSON.stringify({ status, note, trackingNumber, estimatedDelivery })
-    });
-
-    if (res.ok) {
-      showAdminToast(`Order ${orderId} updated to "${STATUS_LABELS[status] || status}"`, 'success');
-      document.getElementById('admin-order-modal').remove();
-
-      // Update row in table without full reload
-      const row = document.querySelector(`tr[data-order-id="${orderId}"]`);
-      if (row) {
-        const color = STATUS_COLORS[status] || '#9ca3af';
-        const badge = row.querySelector('.status-badge');
-        if (badge) {
-          badge.textContent = STATUS_LABELS[status] || status;
-          badge.style.background = color + '22';
-          badge.style.color = color;
-        }
-        row.dataset.status = status;
-      }
-    } else {
-      showAdminToast('Failed to update status', 'error');
-      btn.disabled = false; btn.innerHTML = '<i data-lucide="save" style="width:16px;"></i> Save & Notify Customer';
-    }
-  };
-
-  return `
-    <div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-xl);">
-        <div>
-          <h1 style="font-size:var(--fs-2xl);font-weight:700;color:var(--text-heading);">Orders</h1>
-          <span class="text-secondary text-sm">${orders.length} total · ${orders.filter(o => o.status === 'placed' || o.status === 'received').length} new</span>
-        </div>
-      </div>
-
-      <!-- Filters -->
-      <div style="display:flex;gap:12px;margin-bottom:var(--space-md);flex-wrap:wrap;">
-        <input id="order-search" type="text" placeholder="🔍 Search by order ID, customer…" class="form-input" style="max-width:280px;" oninput="filterOrders()">
-        <select id="order-filter-status" class="form-input" style="max-width:200px;" onchange="filterOrders()">
-          <option value="">All Statuses</option>
-          ${ALL_STATUSES.map(s => `<option value="${s}">${STATUS_LABELS[s] || s}</option>`).join('')}
-        </select>
-      </div>
-
-      <div class="glass-card" style="padding:0;overflow:hidden;">
-        <div style="overflow-x:auto;">
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th>Order ID</th><th>Customer</th><th>Items</th>
-                <th>Total</th><th>Payment</th><th>Status</th><th>Date</th><th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="orders-tbody">
-              ${orders.length > 0 ? orders.map(o => {
-    const color = STATUS_COLORS[o.status] || '#9ca3af';
-    const searchText = `${o.id} ${o.contactInfo?.name || ''} ${o.contactInfo?.email || ''} ${o.contactInfo?.phone || ''}`;
-    return `
-                <tr data-order-id="${o.id}" data-status="${o.status}" data-search="${searchText.toLowerCase()}">
-                  <td class="font-mono" style="white-space:nowrap;color:var(--primary);font-weight:700;">${o.id}</td>
-                  <td>
-                    <div style="font-weight:500;">${o.contactInfo?.name || '—'}</div>
-                    <div style="font-size:.75rem;color:var(--text-tertiary);">${o.contactInfo?.email || ''}</div>
-                  </td>
-                  <td style="font-size:.78rem;max-width:180px;">${(o.items || []).map(i => i.name).join(', ').substring(0, 50)}${((o.items || []).length > 1) ? '…' : ''}</td>
-                  <td class="font-mono font-bold">₹${new Intl.NumberFormat('en-IN').format(o.total)}</td>
-                  <td>
-                    <span style="font-size:.75rem;background:${o.paymentStatus === 'paid' ? '#10b98122' : '#f59e0b22'};color:${o.paymentStatus === 'paid' ? '#10b981' : '#f59e0b'};border-radius:6px;padding:2px 8px;font-weight:600;">${o.paymentStatus || 'pending'}</span>
-                    ${o.paymentMethod && o.paymentMethod.includes('Txn') ? `<div style="font-size:.68rem;color:var(--text-tertiary);font-family:monospace;margin-top:2px;">${o.paymentMethod.match(/\((.*?)\)/)?.[1] || ''}</div>` : ''}
-                  </td>
-                  <td>
-                    <span class="status-badge" style="background:${color}22;color:${color};border-radius:8px;padding:3px 8px;font-size:.75rem;font-weight:700;">${STATUS_LABELS[o.status] || o.status}</span>
-                  </td>
-                  <td style="font-size:.75rem;white-space:nowrap;color:var(--text-secondary);">${new Date(o.date).toLocaleString('en-IN', { dateStyle: 'short', timeStyle: 'short' })}</td>
-                  <td>
-                    <button class="btn btn-primary btn-sm" onclick="openOrderModal('${o.id}')" style="font-size:11px;">
-                      <i data-lucide="edit" style="width:13px;"></i> Manage
-                    </button>
-                  </td>
-                </tr>`;
-  }).join('') : `<tr><td colspan="8" class="text-center text-secondary" style="padding:2rem;">No orders found</td></tr>`}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-
-// ===== PROJECTS =====
-async function renderProjects() {
-  let projects = [];
-  try {
-    const res = await fetch(`${API}/admin/projects`, { headers: authHeaders() });
-    projects = await res.json(); if (!Array.isArray(projects)) projects = [];
-  } catch (e) { }
-
-  window.toggleProjectActive = async (id, btn) => {
-    const current = btn.dataset.active === '1';
-    const res = await fetch(`${API}/admin/projects/${id}`, {
-      method: 'PUT',
-      headers: authHeaders(),
-      body: JSON.stringify({ active: !current })
-    });
-    if (res.ok) {
-      btn.dataset.active = current ? '0' : '1';
-      btn.textContent = current ? 'Enable' : 'Disable';
-      btn.style.color = current ? 'var(--accent-green)' : 'var(--accent-red, #ef4444)';
-      showAdminToast(`Project ${current ? 'disabled' : 'enabled'}`, 'success');
-    }
-  };
-
-  window.showEditPriceModal = (id, currentPrice) => {
-    const newPrice = prompt(`Enter new price for project (current: ₹${currentPrice}):`, currentPrice);
-    if (newPrice === null) return;
-    const parsed = parseInt(newPrice);
-    if (isNaN(parsed) || parsed < 0) { alert('Invalid price'); return; }
-
-    fetch(`${API}/admin/projects/${id}`, {
-      method: 'PUT',
-      headers: authHeaders(),
-      body: JSON.stringify({ price: parsed })
-    }).then(r => {
-      if (r.ok) {
-        showAdminToast(`Price updated to ₹${parsed.toLocaleString('en-IN')}`, 'success');
-        switchAdminTab('projects');
-      }
-    });
-  };
-
-  window.deleteProject = async (id) => {
-    if (!confirm('Are you sure you want to completely delete this project?')) return;
-    const res = await fetch(`${API}/admin/projects/${id}`, {
-      method: 'DELETE',
-      headers: authHeaders()
-    });
-    if (res.ok) {
-      showAdminToast('Project deleted', 'success');
-      switchAdminTab('projects');
-    }
-  };
-
-  window.sendNotification = async () => {
-    const msg = prompt('Enter notification message to broadcast to all customers:');
-    if (!msg) return;
-    const res = await fetch(`${API}/admin/notifications`, {
-      method: 'POST', headers: authHeaders(),
-      body: JSON.stringify({ message: msg, type: 'info' })
-    });
-    if (res.ok) showAdminToast('Broadcast sent to all customers!', 'success');
-  };
-
-  window.filterProjects = (query) => {
-    const q = query.toLowerCase();
-    document.querySelectorAll('#projects-tbody tr').forEach(row => {
-      const name = row.querySelector('.proj-name')?.textContent.toLowerCase() || '';
-      const cat = row.querySelector('.proj-cat')?.textContent.toLowerCase() || '';
-      row.style.display = (!q || name.includes(q) || cat.includes(q)) ? '' : 'none';
-    });
-  };
-
-  // ---- Edit Modal ----
-  window.openEditModal = (projectJson) => {
-    const p = JSON.parse(decodeURIComponent(projectJson));
-    const existing = document.getElementById('admin-edit-modal');
-    if (existing) existing.remove();
-
-    const modal = document.createElement('div');
-    modal.id = 'admin-edit-modal';
-    modal.style.cssText = `position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);`;
-    modal.innerHTML = `
-      <div style="background:var(--bg-secondary);border:1px solid var(--border-subtle);border-radius:16px;width:min(700px,95vw);max-height:90vh;overflow-y:auto;padding:var(--space-2xl);position:relative;">
-        <button onclick="document.getElementById('admin-edit-modal').remove()" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.05);border:1px solid var(--border-subtle);color:var(--text-secondary);border-radius:8px;width:32px;height:32px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;">✕</button>
-        
-        <h2 style="font-size:var(--fs-xl);font-weight:700;color:var(--text-heading);margin-bottom:4px;">Edit Project</h2>
-        <p class="text-secondary text-sm" style="margin-bottom:var(--space-xl);">ID: <span class="font-mono" style="color:var(--primary);">${p.id}</span></p>
-
-        <form id="edit-project-form" onsubmit="saveProjectEdit(event)" style="display:flex;flex-direction:column;gap:var(--space-md);">
-          <input type="hidden" name="id" value="${p.id}">
-
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md);">
-            <div class="form-group">
-              <label class="form-label">Project Name *</label>
-              <input name="name" class="form-input" required value="${(p.name || '').replace(/"/g, '&quot;')}" placeholder="e.g. Smart Home System">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Slug (URL) *</label>
-              <input name="slug" class="form-input" required value="${(p.slug || '').replace(/"/g, '&quot;')}" placeholder="e.g. smart-home-system">
-            </div>
-          </div>
-
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--space-md);">
-            <div class="form-group">
-              <label class="form-label">Category</label>
-              <select name="category" class="form-input">
-                ${['arduino', 'esp32', 'esp8266', 'raspberry-pi', 'robotics', 'iot', 'misc'].map(c =>
-      `<option value="${c}" ${p.category === c ? 'selected' : ''}>${c}</option>`
-    ).join('')}
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Price (₹) *</label>
-              <input name="price" type="number" class="form-input" required min="0" value="${p.price || 0}">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Difficulty</label>
-              <select name="difficulty" class="form-input">
-                ${['Beginner', 'Intermediate', 'Advanced'].map(d =>
-      `<option value="${d}" ${p.difficulty === d ? 'selected' : ''}>${d}</option>`
-    ).join('')}
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Short Description</label>
-            <input name="shortDescription" class="form-input" value="${(p.shortDescription || '').replace(/"/g, '&quot;')}" placeholder="One-line summary shown in cards">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Full Description</label>
-            <textarea name="description" class="form-input" rows="4" placeholder="Detailed project description...">${p.description || ''}</textarea>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Main Image URL</label>
-            <input name="image" type="url" class="form-input" value="${(p.image || '').replace(/"/g, '&quot;')}" placeholder="https://example.com/image.jpg">
-          </div>
-
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md);">
-            <div class="form-group" style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.03);border:1px solid var(--border-subtle);border-radius:10px;padding:14px 16px;">
-              <input type="checkbox" name="featured" id="edit-featured" ${p.featured ? 'checked' : ''} style="width:18px;height:18px;accent-color:var(--primary);cursor:pointer;">
-              <label for="edit-featured" style="cursor:pointer;font-weight:500;color:var(--text-heading);">⭐ Mark as Featured</label>
-            </div>
-            <div class="form-group" style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.03);border:1px solid var(--border-subtle);border-radius:10px;padding:14px 16px;">
-              <input type="checkbox" name="active" id="edit-active" ${p.active ? 'checked' : ''} style="width:18px;height:18px;accent-color:#10b981;cursor:pointer;">
-              <label for="edit-active" style="cursor:pointer;font-weight:500;color:var(--text-heading);">✅ Active (visible to customers)</label>
-            </div>
-          </div>
-
-          <div style="display:flex;gap:var(--space-md);margin-top:var(--space-md);">
-            <button type="button" onclick="document.getElementById('admin-edit-modal').remove()" class="btn btn-secondary" style="flex:1;">Cancel</button>
-            <button type="submit" class="btn btn-primary" style="flex:2;" id="save-edit-btn">
-              <i data-lucide="save" style="width:16px;"></i> Save Changes
-            </button>
-          </div>
-        </form>
-      </div>
-    `;
-    document.body.appendChild(modal);
-    modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
-    if (window.lucide) window.lucide.createIcons();
-  };
-
-  window.saveProjectEdit = async (e) => {
-    e.preventDefault();
-    const btn = document.getElementById('save-edit-btn');
-    btn.disabled = true; btn.textContent = 'Saving...';
-
-    const form = e.target;
-    const data = {
-      name: form.name.value,
-      slug: form.slug.value,
-      category: form.category.value,
-      price: parseFloat(form.price.value) || 0,
-      difficulty: form.difficulty.value,
-      shortDescription: form.shortDescription.value,
-      description: form.description.value,
-      image: form.image.value,
-      featured: form.featured.checked ? 1 : 0,
-      active: form.active.checked ? 1 : 0,
-    };
-
-    const id = form.id.value;
-    const res = await fetch(`${API}/admin/projects/${id}`, {
-      method: 'PUT', headers: authHeaders(),
-      body: JSON.stringify(data)
-    });
-
-    if (res.ok) {
-      showAdminToast('Project updated successfully!', 'success');
-      document.getElementById('admin-edit-modal').remove();
-      switchAdminTab('projects');
-    } else {
-      showAdminToast('Failed to save changes', 'error');
-      btn.disabled = false; btn.innerHTML = '<i data-lucide="save" style="width:16px;"></i> Save Changes';
-    }
-  };
-
-  // ---- Render HTML ----
-  return `
-    <div>
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-xl);">
-        <div>
-          <h1 style="font-size:var(--fs-2xl); font-weight:700; color:var(--text-heading);">Projects</h1>
-          <span class="text-secondary text-sm">${projects.length} total · ${projects.filter(p => p.active).length} active</span>
-        </div>
-        <div style="display:flex;gap:10px;align-items:center;">
-          <button class="btn btn-secondary btn-sm" onclick="sendNotification()">
-            <i data-lucide="bell" style="width:16px;"></i> Broadcast Alert
-          </button>
-          <a href="#/admin?tab=add-project" onclick="event.preventDefault();switchAdminTab('add-project')" class="btn btn-primary btn-sm">
-            <i data-lucide="plus" style="width:16px;"></i> Add Project
-          </a>
-        </div>
-      </div>
-
-      <div style="display:flex;gap:12px;margin-bottom:var(--space-md);">
-        <input type="text" placeholder="🔍  Search projects by name or category..." class="form-input" oninput="filterProjects(this.value)" style="max-width:360px;">
-      </div>
-
-      <div class="glass-card" style="padding:0; overflow:hidden;">
-        <div style="overflow-x:auto;">
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th>Name</th><th>Category</th><th>Price</th><th>Difficulty</th>
-                <th>Featured</th><th>Status</th><th style="min-width:180px;">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="projects-tbody">
-              ${projects.map(p => {
-    const safe = encodeURIComponent(JSON.stringify({
-      id: p.id, name: p.name, slug: p.slug, category: p.category,
-      price: p.price, difficulty: p.difficulty, shortDescription: p.shortDescription,
-      description: p.description, image: p.image, featured: p.featured, active: p.active
-    }));
-    return `
-                <tr data-project-id="${p.id}">
-                  <td style="font-weight:600; max-width:220px;">
-                    <span class="proj-name">${p.name}</span>
-                    ${p.image ? `<br><span class="text-xs text-tertiary font-mono">${p.image.substring(0, 30)}…</span>` : ''}
-                  </td>
-                  <td><span class="badge badge-blue proj-cat">${p.category}</span></td>
-                  <td class="font-mono" style="font-weight:600;">₹${new Intl.NumberFormat('en-IN').format(p.price)}</td>
-                  <td>${p.difficulty || '—'}</td>
-                  <td>${p.featured ? '<span class="badge badge-green">⭐ Yes</span>' : '<span style="color:var(--text-tertiary);">—</span>'}</td>
-                  <td><span class="badge badge-${p.active ? 'green' : 'orange'} status-badge">${p.active ? 'Active' : 'Disabled'}</span></td>
-                  <td>
-                    <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
-                      <button class="btn btn-primary btn-sm" onclick="openEditModal('${safe}')" title="Edit all fields" style="font-size:12px;">
-                        <i data-lucide="pencil" style="width:13px;"></i> Edit
-                      </button>
-                      <button class="btn btn-ghost btn-sm"
-                              data-active="${p.active ? '1' : '0'}"
-                              onclick="toggleProjectActive('${p.id}', this)"
-                              style="color:${p.active ? 'var(--accent-red,#ef4444)' : 'var(--accent-green)'}; font-size:12px;">
-                        ${p.active ? 'Disable' : 'Enable'}
-                      </button>
-                      <button class="btn btn-ghost btn-sm" onclick="deleteProject('${p.id}')" title="Delete" style="color:var(--accent-red,#ef4444);">
-                        <i data-lucide="trash-2" style="width:14px;"></i>
-                      </button>
-                    </div>
-                  </td>
-                </tr>`;
-  }).join('')}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-// ===== ADD PROJECT =====
-async function renderAddProject() {
-  window.submitNewProject = async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-
-    // Format basic fields
-    data.price = parseFloat(data.price) || 0;
-
-    try {
-      const res = await fetch(`${API}/admin/projects`, {
-        method: 'POST',
-        headers: authHeaders(),
-        body: JSON.stringify(data)
-      });
-      if (res.ok) {
-        showAdminToast('Project added successfully!', 'success');
-        form.reset();
-        setTimeout(() => switchAdminTab('projects'), 1000);
-      } else {
-        showAdminToast('Failed to add project', 'error');
-      }
-    } catch (err) {
-      showAdminToast('Error adding project', 'error');
-    }
-  };
-
-  return `
-    <div style="max-width:800px;">
-      <div style="margin-bottom:var(--space-xl);">
-        <h1 style="font-size:var(--fs-2xl); font-weight:700; color:var(--text-heading);">Add New Project</h1>
-        <p class="text-secondary">Create a new project entry for the store.</p>
-      </div>
-      
-      <div class="glass-card" style="padding:var(--space-2xl);">
-        <form onsubmit="submitNewProject(event)" style="display:flex; flex-direction:column; gap:var(--space-md);">
-          <div style="display:flex; gap:var(--space-md);">
-            <div class="form-group" style="flex:1;">
-              <label class="form-label">Project Name *</label>
-              <input type="text" name="name" class="form-input" required placeholder="e.g. Smart Home System">
-            </div>
-            <div class="form-group" style="flex:1;">
-              <label class="form-label">Slug (URL friendly) *</label>
-              <input type="text" name="slug" class="form-input" required placeholder="e.g. smart-home-system">
-            </div>
-          </div>
-          
-          <div style="display:flex; gap:var(--space-md);">
-            <div class="form-group" style="flex:1;">
-              <label class="form-label">Category</label>
-              <select name="category" class="form-input">
-                <option value="arduino">Arduino</option>
-                <option value="esp32">ESP32</option>
-                <option value="raspberry-pi">Raspberry Pi</option>
-                <option value="robotics">Robotics</option>
-                <option value="iot">IoT</option>
-                <option value="misc">Miscellaneous</option>
-              </select>
-            </div>
-            <div class="form-group" style="flex:1;">
-              <label class="form-label">Price (₹) *</label>
-              <input type="number" name="price" class="form-input" required min="0" placeholder="0">
-            </div>
-            <div class="form-group" style="flex:1;">
-              <label class="form-label">Difficulty</label>
-              <select name="difficulty" class="form-input">
-                <option value="Beginner">Beginner</option>
-                <option value="Intermediate">Intermediate</option>
-                <option value="Advanced">Advanced</option>
-              </select>
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label class="form-label">Short Description</label>
-            <input type="text" name="shortDescription" class="form-input" placeholder="Brief summary of the project">
-          </div>
-          
-          <div class="form-group">
-            <label class="form-label">Full Description</label>
-            <textarea name="description" class="form-input" rows="4" placeholder="Detailed project description..."></textarea>
-          </div>
-          
-          <div class="form-group">
-            <label class="form-label">Main Image URL</label>
-            <input type="url" name="image" class="form-input" placeholder="https://example.com/image.jpg">
-          </div>
-          
-          <div style="margin-top:var(--space-md);">
-            <button type="submit" class="btn btn-primary" style="width:100%;">
-              <i data-lucide="plus-circle" style="width:18px;"></i> Add Project
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  `;
-}
-
-// ===== COMPONENTS / PRICING =====
-async function renderComponents() {
-  let components = [];
-  try {
-    const res = await fetch(`${API}/admin/components`, { headers: authHeaders() });
-    components = await res.json(); if (!Array.isArray(components)) components = [];
-  } catch (e) { }
-
-  const grouped = {};
-  components.forEach(c => {
-    if (!grouped[c.category]) grouped[c.category] = [];
-    grouped[c.category].push(c);
-  });
-
-  window.saveComponentPrice = async (id, inputEl) => {
-    const price = parseInt(inputEl.value);
-    if (isNaN(price)) { alert('Invalid price'); return; }
-    const res = await fetch(`${API}/admin/components/${id}`, {
-      method: 'PUT',
-      headers: authHeaders(),
-      body: JSON.stringify({ price })
-    });
-    if (res.ok) showAdminToast('Price saved!', 'success');
-  };
-
-  return `
-    <div>
-      <div style="margin-bottom:var(--space-xl);">
-        <h1 style="font-size:var(--fs-2xl); font-weight:700; color:var(--text-heading);">Components</h1>
-        <p class="text-secondary">Edit component prices used in the Build Your Project customizer</p>
-      </div>
-      ${Object.entries(grouped).map(([category, items]) => `
-        <div class="glass-card" style="margin-bottom:var(--space-lg); padding:0; overflow:hidden;">
-          <div style="padding:var(--space-md) var(--space-lg); border-bottom:1px solid var(--border-subtle); background:rgba(0,212,255,0.04);">
-            <h3 style="font-weight:600; text-transform:capitalize;">${category}</h3>
-          </div>
-          <table class="admin-table">
-            <thead><tr><th>Name</th><th>Current Price</th><th>Edit Price</th><th>Save</th></tr></thead>
-            <tbody>
-              ${items.map(c => `
-                <tr>
-                  <td style="font-weight:500;">${c.name}</td>
-                  <td class="font-mono text-accent">₹${c.price.toLocaleString('en-IN')}</td>
-                  <td>
-                    <input type="number" id="comp-price-${c.id}" value="${c.price}" min="0"
-                           class="form-input" style="width:110px; padding:4px 8px; font-size:13px;" />
-                  </td>
-                  <td>
-                    <button class="btn btn-primary btn-sm" onclick="saveComponentPrice(${c.id}, document.getElementById('comp-price-${c.id}'))">
-                      Save
-                    </button>
-                  </td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-      `).join('')}
-    </div>
-  `;
-}
-
-// ===== PRICING (project prices quick edit) =====
-async function renderPricing() {
-  let projects = [];
-  try {
-    const res = await fetch(`${API}/admin/projects`, { headers: authHeaders() });
-    projects = await res.json(); if (!Array.isArray(projects)) projects = [];
-  } catch (e) { }
-
-  window.saveProjectPrice = async (id, inputEl) => {
-    const price = parseInt(inputEl.value);
-    if (isNaN(price) || price < 0) { alert('Invalid price'); return; }
-    const res = await fetch(`${API}/admin/projects/${id}`, {
-      method: 'PUT',
-      headers: authHeaders(),
-      body: JSON.stringify({ price })
-    });
-    if (res.ok) showAdminToast(`Price saved → ₹${price.toLocaleString('en-IN')}`, 'success');
-  };
-
-  return `
-    <div>
-      <div style="margin-bottom:var(--space-xl);">
-        <h1 style="font-size:var(--fs-2xl); font-weight:700; color:var(--text-heading);">Pricing Management</h1>
-        <p class="text-secondary">Set project prices. Changes appear on the customer website immediately.</p>
-      </div>
-      <div class="glass-card" style="padding:0; overflow:hidden;">
-        <table class="admin-table">
-          <thead>
-            <tr><th>Project Name</th><th>Category</th><th>Current Price</th><th>New Price</th><th>Save</th></tr>
-          </thead>
-          <tbody>
-            ${projects.map(p => `
-              <tr>
-                <td style="font-weight:500;">${p.name}</td>
-                <td><span class="badge badge-blue">${p.category}</span></td>
-                <td class="font-mono text-accent">₹${p.price.toLocaleString('en-IN')}</td>
-                <td>
-                  <input type="number" id="proj-price-${p.id}" value="${p.price}" min="0"
-                         class="form-input" style="width:130px; padding:4px 8px; font-size:13px;" />
-                </td>
-                <td>
-                  <button class="btn btn-primary btn-sm" onclick="saveProjectPrice('${p.id}', document.getElementById('proj-price-${p.id}'))">
-                    Save
-                  </button>
-                </td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  `;
-}
-
-// ===== PAYMENT SETTINGS =====
-async function renderPaymentSettings() {
-  let settings = {};
-  try {
-    const res = await fetch(`${API}/settings`);
-    settings = await res.json();
-  } catch (e) { }
-
-  const upiId = settings.upi_id || '8123670980@ybl';
-
-  window.savePaymentSettings = async () => {
-    const upi_id = document.getElementById('admin-upi-id').value.trim();
-    if (!upi_id) { alert('UPI ID cannot be empty'); return; }
-
-    const res = await fetch(`${API}/admin/settings`, {
-      method: 'PUT',
-      headers: authHeaders(),
-      body: JSON.stringify({ upi_id })
-    });
-    if (res.ok) {
-      showAdminToast('Payment settings saved! Customer checkout will use the new UPI ID.', 'success');
-      // Force store refresh
-      await store.init();
-    } else {
-      showAdminToast('Failed to save settings', 'error');
-    }
-  };
-
-  return `
-    <div style="max-width:600px;">
-      <div style="margin-bottom:var(--space-xl);">
-        <h1 style="font-size:var(--fs-2xl); font-weight:700; color:var(--text-heading);">Payment Settings</h1>
-        <p class="text-secondary">Changes here appear on the customer checkout page immediately.</p>
-      </div>
-
-      <div class="glass-card" style="padding:var(--space-2xl); margin-bottom:var(--space-xl);">
-        <h3 style="font-weight:600; margin-bottom:var(--space-lg);">UPI Payment</h3>
-        
-        <div class="form-group" style="margin-bottom:var(--space-xl);">
-          <label class="form-label">UPI ID</label>
-          <input type="text" id="admin-upi-id" class="form-input" value="${upiId}" placeholder="yourupi@ybl" />
-          <p class="text-xs text-tertiary" style="margin-top:var(--space-xs);">This UPI ID will be shown on the checkout QR code</p>
-        </div>
-
-        <div style="margin-bottom:var(--space-xl);">
-          <label class="form-label">Current QR Code Preview</label>
-          <div style="background:white; padding:12px; border-radius:var(--radius-md); display:inline-block;">
-            <img id="upi-qr-preview" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(`upi://pay?pa=${upiId}&pn=CircuitKart&cu=INR`)}" 
-                 alt="UPI QR Code" style="width:200px; height:200px; display:block;" />
-          </div>
-          <p class="text-xs text-tertiary" style="margin-top:var(--space-xs);">QR code updates automatically when you change the UPI ID and save.</p>
-        </div>
-
-        <button class="btn btn-primary" onclick="savePaymentSettings()">
-          <i data-lucide="save" style="width:16px;"></i> Save Payment Settings
-        </button>
-      </div>
-    </div>
-  `;
-}
-
-// ===== USERS =====
-async function renderUsers() {
-  let users = [];
-  try {
-    const res = await fetch(`${API}/admin/users`, { headers: authHeaders() });
-    users = await res.json(); if (!Array.isArray(users)) users = [];
-  } catch (e) { }
-
-  const customers = users.filter(u => u.role === 'customer');
-  const admins = users.filter(u => u.role === 'admin');
-
-  return `
-    <div>
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-xl);">
-        <h1 style="font-size:var(--fs-2xl); font-weight:700; color:var(--text-heading);">Users</h1>
-        <div style="display:flex; gap:var(--space-sm);">
-          <span class="badge badge-blue">${customers.length} customers</span>
-          <span class="badge badge-orange">${admins.length} admins</span>
-        </div>
-      </div>
-      <div class="glass-card" style="padding:0; overflow:hidden;">
-        <table class="admin-table">
-          <thead>
-            <tr><th>Name</th><th>Email</th><th>Role</th><th>Joined</th></tr>
-          </thead>
-          <tbody>
-            ${users.length > 0 ? users.map(u => `
-              <tr>
-                <td style="font-weight:500;">${u.name}</td>
-                <td>${u.email}</td>
-                <td><span class="badge badge-${u.role === 'admin' ? 'orange' : 'blue'}">${u.role}</span></td>
-                <td style="font-size:var(--fs-xs); color:var(--text-tertiary);">${new Date(u.created_at).toLocaleDateString('en-IN')}</td>
-              </tr>
-            `).join('') : `<tr><td colspan="4" class="text-center text-secondary" style="padding:2rem;">No users found</td></tr>`}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  `;
-}
-
-// ===== CUSTOM QUOTES =====
-async function renderQuotes() {
-  let quotes = [];
-  try {
-    const res = await fetch(`${API}/admin/quotes`, { headers: authHeaders() });
-    quotes = await res.json(); if (!Array.isArray(quotes)) quotes = [];
-  } catch (e) { }
-
-  window.updateQuoteStatus = async (id, selectEl) => {
-    const status = selectEl.value;
-    const res = await fetch(`${API}/admin/quotes/${id}/status`, {
-      method: 'PATCH',
-      headers: authHeaders(),
-      body: JSON.stringify({ status })
-    });
-    if (res.ok) showAdminToast(`Quote status updated to "${status}"`, 'success');
-  };
-
-  return `
-    <div>
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-xl);">
-        <h1 style="font-size:var(--fs-2xl); font-weight:700; color:var(--text-heading);">Custom Project Quotes</h1>
-        <span class="text-secondary text-sm">${quotes.length} total · ${quotes.filter(q => q.status === 'pending').length} pending</span>
-      </div>
-      <div class="glass-card" style="padding:0; overflow:hidden;">
-        <div style="overflow-x:auto;">
-          <table class="admin-table">
-            <thead>
-              <tr><th>ID</th><th>Customer</th><th>Project</th><th>Budget</th><th>Timeline</th><th>Status</th><th>Date</th></tr>
-            </thead>
-            <tbody>
-              ${quotes.length > 0 ? quotes.map(q => `
-                <tr>
-                  <td class="font-mono text-accent">${q.id}</td>
-                  <td>
-                    <div style="font-weight:500;">${q.name}</div>
-                    <div style="font-size:var(--fs-xs); color:var(--text-tertiary);">${q.email}</div>
-                  </td>
-                  <td style="max-width:200px;">${q.projectName}</td>
-                  <td class="font-mono">${q.budget || '—'}</td>
-                  <td>${q.timeline || '—'}</td>
-                  <td>
-                    <select class="form-input" style="padding:4px 8px;font-size:12px;min-width:150px;" onchange="updateQuoteStatus('${q.id}', this)">
-                      ${['pending', 'under_review', 'approved', 'quotation_sent', 'customer_confirmed', 'in_progress', 'completed', 'rejected'].map(s =>
-    `<option ${q.status === s ? 'selected' : ''}>${s.replace(/_/g, ' ')}</option>`
-  ).join('')}
-                    </select>
-                  </td>
-                  <td style="font-size:var(--fs-xs);">${new Date(q.date).toLocaleDateString('en-IN')}</td>
-                </tr>
-              `).join('') : `<tr><td colspan="7" class="text-center text-secondary" style="padding:2rem;">No quotes yet</td></tr>`}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-// ===== ACTIVITY LOG =====
-async function renderActivity() {
-  let activities = [];
-  try {
-    const res = await fetch(`${API}/admin/feed`, { headers: authHeaders() });
-    activities = await res.json(); if (!Array.isArray(activities)) activities = [];
-  } catch (e) { }
-
-  return `
-    <div>
-      <div style="margin-bottom:var(--space-xl);">
-        <h1 style="font-size:var(--fs-2xl); font-weight:700; color:var(--text-heading);">Activity Log</h1>
-        <p class="text-secondary">All admin actions and system events</p>
-      </div>
-      <div class="glass-card" style="padding:var(--space-xl);">
-        ${activities.length > 0 ? activities.map(a => `
-          <div style="display:flex; gap:var(--space-md); padding:var(--space-sm) 0; border-bottom:1px solid var(--border-subtle);">
-            <div style="color:var(--text-tertiary); font-family:monospace; white-space:nowrap; font-size:var(--fs-xs); padding-top:2px;">
-              ${new Date(a.date).toLocaleString('en-IN', { dateStyle: 'short', timeStyle: 'short' })}
+  const render = async () => {
+    app.innerHTML = `
+      <div class="admin-layout">
+
+        <aside class="admin-sidebar">
+          <div class="admin-brand">
+            <div class="admin-logo">
+              <i data-lucide="cpu"></i>
             </div>
             <div>
-              <span class="badge badge-${a.type === 'order' ? 'blue' : a.type === 'project' ? 'orange' : 'green'}" style="margin-right:8px;">${a.type}</span>
-              ${a.description}
+              <h2>CircuitKart</h2>
+              <span>Admin Panel</span>
             </div>
           </div>
-        `).join('') : `<div class="text-center text-secondary" style="padding:var(--space-2xl);">No activity recorded yet</div>`}
+
+          <nav class="admin-nav">
+
+            <button class="admin-nav-item ${activeTab === 'overview' ? 'active' : ''}"
+              data-tab="overview">
+              <i data-lucide="layout-dashboard"></i>
+              <span>Dashboard</span>
+            </button>
+
+            <button class="admin-nav-item ${activeTab === 'orders' ? 'active' : ''}"
+              data-tab="orders">
+              <i data-lucide="shopping-bag"></i>
+              <span>Orders</span>
+            </button>
+
+            <button class="admin-nav-item ${activeTab === 'live-tracking' ? 'active' : ''}"
+              data-tab="live-tracking">
+              <i data-lucide="map-pin"></i>
+              <span>Live Tracking</span>
+            </button>
+
+            <button class="admin-nav-item ${activeTab === 'projects' ? 'active' : ''}"
+              data-tab="projects">
+              <i data-lucide="cpu"></i>
+              <span>Projects</span>
+            </button>
+
+            <button class="admin-nav-item ${activeTab === 'add-project' ? 'active' : ''}"
+              data-tab="add-project">
+              <i data-lucide="plus-circle"></i>
+              <span>Add Project</span>
+            </button>
+
+            <button class="admin-nav-item ${activeTab === 'components' ? 'active' : ''}"
+              data-tab="components">
+              <i data-lucide="box"></i>
+              <span>Components</span>
+            </button>
+
+            <button class="admin-nav-item ${activeTab === 'pricing' ? 'active' : ''}"
+              data-tab="pricing">
+              <i data-lucide="indian-rupee"></i>
+              <span>Pricing</span>
+            </button>
+
+            <button class="admin-nav-item ${activeTab === 'payment' ? 'active' : ''}"
+              data-tab="payment">
+              <i data-lucide="qr-code"></i>
+              <span>Payment Settings</span>
+            </button>
+
+            <button class="admin-nav-item ${activeTab === 'users' ? 'active' : ''}"
+              data-tab="users">
+              <i data-lucide="users"></i>
+              <span>Users</span>
+            </button>
+
+            <button class="admin-nav-item ${activeTab === 'quotes' ? 'active' : ''}"
+              data-tab="quotes">
+              <i data-lucide="file-text"></i>
+              <span>Custom Quotes</span>
+            </button>
+
+            <button class="admin-nav-item ${activeTab === 'activity' ? 'active' : ''}"
+              data-tab="activity">
+              <i data-lucide="activity"></i>
+              <span>Activity Log</span>
+            </button>
+
+          </nav>
+
+          <div class="admin-sidebar-bottom">
+            <button id="admin-logout" class="admin-logout">
+              <i data-lucide="log-out"></i>
+              <span>Logout</span>
+            </button>
+          </div>
+        </aside>
+
+        <main class="admin-main">
+
+          <header class="admin-header">
+            <div>
+              <h1 id="admin-page-title">Dashboard</h1>
+              <p>Manage your CircuitKart platform</p>
+            </div>
+
+            <div class="admin-header-actions">
+              <div class="admin-status">
+                <span class="status-dot"></span>
+                System Online
+              </div>
+
+              <div class="admin-profile">
+                <div class="admin-avatar">
+                  <i data-lucide="user"></i>
+                </div>
+                <div>
+                  <strong>Administrator</strong>
+                  <span>Admin</span>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          <section id="admin-content" class="admin-content">
+            <div class="admin-loading">
+              <div class="spinner"></div>
+              <p>Loading...</p>
+            </div>
+          </section>
+
+        </main>
       </div>
-    </div>
-  `;
+    `;
+
+    document.querySelectorAll('.admin-nav-item').forEach(button => {
+      button.addEventListener('click', () => {
+        switchAdminTab(button.dataset.tab);
+      });
+    });
+
+    document.getElementById('admin-logout')?.addEventListener('click', () => {
+      localStorage.removeItem('ck_admin_token');
+      localStorage.removeItem('ck_admin_user');
+      localStorage.removeItem('ck_token');
+      localStorage.removeItem('ck_user');
+
+      window.location.hash = '#/admin-login';
+    });
+
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
+
+    const content = document.getElementById('admin-content');
+
+    switch (activeTab) {
+      case 'overview':
+        await renderOverview(content);
+        break;
+
+      case 'orders':
+        await renderOrders(content);
+        break;
+
+      case 'live-tracking':
+        await renderLiveTracking(content);
+        break;
+
+      case 'projects':
+        await renderProjects(content);
+        break;
+
+      case 'add-project':
+        await renderAddProject(content);
+        break;
+
+      case 'components':
+        await renderComponents(content);
+        break;
+
+      case 'pricing':
+        await renderPricing(content);
+        break;
+
+      case 'payment':
+        await renderPayment(content);
+        break;
+
+      case 'users':
+        await renderUsers(content);
+        break;
+
+      case 'quotes':
+        await renderQuotes(content);
+        break;
+
+      case 'activity':
+        await renderActivity(content);
+        break;
+
+      default:
+        await renderOverview(content);
+    }
+
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
+  };
+
+  const renderOverview = async (content) => {
+    try {
+      const response = await fetch(`${API}/admin/feed`, {
+        headers: authHeaders()
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to load dashboard');
+      }
+
+      const data = await response.json();
+
+      const orders = data.orders || [];
+      const projects = data.projects || [];
+      const users = data.users || [];
+      const quotes = data.quotes || [];
+
+      const totalRevenue = orders.reduce(
+        (sum, order) => sum + Number(order.total || order.amount || 0),
+        0
+      );
+
+      const pendingOrders = orders.filter(order =>
+        ['pending', 'processing', 'confirmed'].includes(
+          String(order.status || '').toLowerCase()
+        )
+      ).length;
+
+      content.innerHTML = `
+        <div class="admin-section-header">
+          <div>
+            <h2>Dashboard Overview</h2>
+            <p>Monitor your store performance and activity.</p>
+          </div>
+
+          <button class="admin-refresh-btn" id="refresh-dashboard">
+            <i data-lucide="refresh-cw"></i>
+            Refresh
+          </button>
+        </div>
+
+        <div class="admin-stats-grid">
+
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon revenue">
+              <i data-lucide="indian-rupee"></i>
+            </div>
+            <div>
+              <span>Total Revenue</span>
+              <strong>₹${totalRevenue.toLocaleString('en-IN')}</strong>
+            </div>
+          </div>
+
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon orders">
+              <i data-lucide="shopping-bag"></i>
+            </div>
+            <div>
+              <span>Total Orders</span>
+              <strong>${orders.length}</strong>
+            </div>
+          </div>
+
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon users">
+              <i data-lucide="users"></i>
+            </div>
+            <div>
+              <span>Customers</span>
+              <strong>${users.length}</strong>
+            </div>
+          </div>
+
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon quotes">
+              <i data-lucide="file-text"></i>
+            </div>
+            <div>
+              <span>Custom Quotes</span>
+              <strong>${quotes.length}</strong>
+            </div>
+          </div>
+
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon projects">
+              <i data-lucide="cpu"></i>
+            </div>
+            <div>
+              <span>Active Projects</span>
+              <strong>${projects.length}</strong>
+            </div>
+          </div>
+
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon pending">
+              <i data-lucide="clock"></i>
+            </div>
+            <div>
+              <span>Pending Orders</span>
+              <strong>${pendingOrders}</strong>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="admin-dashboard-grid">
+
+          <div class="admin-panel">
+            <div class="admin-panel-header">
+              <div>
+                <h3>Recent Orders</h3>
+                <p>Latest customer orders</p>
+              </div>
+
+              <button class="admin-link-btn" id="view-all-orders">
+                View All
+              </button>
+            </div>
+
+            <div class="admin-table-wrapper">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Order</th>
+                    <th>Customer</th>
+                    <th>Status</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  ${
+                    orders.slice(0, 8).map(order => `
+                      <tr>
+                        <td>
+                          <strong>#${order.id || order.orderId || '-'}</strong>
+                        </td>
+
+                        <td>
+                          ${order.customerName || order.name || order.customer || '-'}
+                        </td>
+
+                        <td>
+                          <span class="admin-status-badge ${String(order.status || 'pending').toLowerCase()}">
+                            ${order.status || 'Pending'}
+                          </span>
+                        </td>
+
+                        <td>
+                          ₹${Number(order.total || order.amount || 0).toLocaleString('en-IN')}
+                        </td>
+                      </tr>
+                    `).join('')
+                  }
+
+                  ${
+                    orders.length === 0
+                      ? `
+                        <tr>
+                          <td colspan="4" class="admin-empty">
+                            No orders found.
+                          </td>
+                        </tr>
+                      `
+                      : ''
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="admin-panel">
+            <div class="admin-panel-header">
+              <div>
+                <h3>Quick Actions</h3>
+                <p>Frequently used admin tools</p>
+              </div>
+            </div>
+
+            <div class="admin-quick-actions">
+
+              <button class="admin-action-card" data-action="add-project">
+                <i data-lucide="plus-circle"></i>
+                <div>
+                  <strong>Add Project</strong>
+                  <span>Create a new project</span>
+                </div>
+              </button>
+
+              <button class="admin-action-card" data-action="components">
+                <i data-lucide="box"></i>
+                <div>
+                  <strong>Manage Components</strong>
+                  <span>Update component pricing</span>
+                </div>
+              </button>
+
+              <button class="admin-action-card" data-action="live-tracking">
+                <i data-lucide="map-pin"></i>
+                <div>
+                  <strong>Live Tracking</strong>
+                  <span>Track active deliveries</span>
+                </div>
+              </button>
+
+              <button class="admin-action-card" data-action="orders">
+                <i data-lucide="shopping-bag"></i>
+                <div>
+                  <strong>Manage Orders</strong>
+                  <span>View and update orders</span>
+                </div>
+              </button>
+
+            </div>
+          </div>
+
+        </div>
+      `;
+
+      document.getElementById('refresh-dashboard')?.addEventListener(
+        'click',
+        () => render()
+      );
+
+      document.getElementById('view-all-orders')?.addEventListener(
+        'click',
+        () => switchAdminTab('orders')
+      );
+
+      document.querySelectorAll('[data-action]').forEach(button => {
+        button.addEventListener('click', () => {
+          switchAdminTab(button.dataset.action);
+        });
+      });
+
+    } catch (error) {
+      console.error(error);
+
+      content.innerHTML = `
+        <div class="admin-error">
+          <i data-lucide="alert-circle"></i>
+          <h3>Unable to load dashboard</h3>
+          <p>${error.message}</p>
+
+          <button class="admin-btn primary" id="retry-dashboard">
+            Try Again
+          </button>
+        </div>
+      `;
+
+      document.getElementById('retry-dashboard')?.addEventListener(
+        'click',
+        () => render()
+      );
+    }
+  };
+
+  const renderOrders = async (content) => {
+    try {
+      const response = await fetch(`${API}/orders/all`, {
+        headers: authHeaders()
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to load orders');
+      }
+
+      const data = await response.json();
+
+      const orders = Array.isArray(data)
+        ? data
+        : data.orders || [];
+
+      content.innerHTML = `
+        <div class="admin-section-header">
+          <div>
+            <h2>Orders</h2>
+            <p>Manage customer orders and delivery status.</p>
+          </div>
+
+          <button class="admin-refresh-btn" id="refresh-orders">
+            <i data-lucide="refresh-cw"></i>
+            Refresh
+          </button>
+        </div>
+
+        <div class="admin-panel">
+
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Contact</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Created</th>
+                </tr>
+              </thead>
+
+              <tbody>
+
+                ${
+                  orders.map(order => `
+                    <tr>
+
+                      <td>
+                        <strong>
+                          #${order.id || order.orderId || '-'}
+                        </strong>
+                      </td>
+
+                      <td>
+                        ${order.customerName || order.name || '-'}
+                      </td>
+
+                      <td>
+                        ${order.phone || order.contactInfo || '-'}
+                      </td>
+
+                      <td>
+                        ₹${Number(
+                          order.total ||
+                          order.amount ||
+                          order.totalAmount ||
+                          0
+                        ).toLocaleString('en-IN')}
+                      </td>
+
+                      <td>
+                        <select
+                          class="admin-status-select"
+                          data-order-id="${order.id || order.orderId}"
+                          data-current-status="${order.status || 'pending'}"
+                        >
+                          ${[
+                            'pending',
+                            'confirmed',
+                            'processing',
+                            'shipped',
+                            'out_for_delivery',
+                            'delivered',
+                            'cancelled'
+                          ].map(status => `
+                            <option
+                              value="${status}"
+                              ${
+                                String(order.status || 'pending').toLowerCase() === status
+                                  ? 'selected'
+                                  : ''
+                              }
+                            >
+                              ${status.replaceAll('_', ' ')}
+                            </option>
+                          `).join('')}
+                        </select>
+                      </td>
+
+                      <td>
+                        ${
+                          order.created_at
+                            ? new Date(order.created_at).toLocaleString()
+                            : '-'
+                        }
+                      </td>
+
+                    </tr>
+                  `).join('')
+                }
+
+                ${
+                  orders.length === 0
+                    ? `
+                      <tr>
+                        <td colspan="6" class="admin-empty">
+                          No orders found.
+                        </td>
+                      </tr>
+                    `
+                    : ''
+                }
+
+              </tbody>
+
+            </table>
+          </div>
+
+        </div>
+      `;
+
+      document.getElementById('refresh-orders')?.addEventListener(
+        'click',
+        () => renderOrders(content)
+      );
+
+      document.querySelectorAll('.admin-status-select').forEach(select => {
+        select.addEventListener('change', async event => {
+          const orderId = event.target.dataset.orderId;
+          const status = event.target.value;
+
+          try {
+            const response = await fetch(
+              `${API}/orders/${orderId}/status`,
+              {
+                method: 'PATCH',
+                headers: authHeaders(),
+                body: JSON.stringify({ status })
+              }
+            );
+
+            if (!response.ok) {
+              throw new Error('Failed to update order status');
+            }
+
+            showAdminToast(
+              'Order status updated successfully',
+              'success'
+            );
+
+          } catch (error) {
+            console.error(error);
+
+            showAdminToast(
+              'Failed to update order status',
+              'error'
+            );
+
+            renderOrders(content);
+          }
+        });
+      });
+
+    } catch (error) {
+      console.error(error);
+
+      content.innerHTML = `
+        <div class="admin-error">
+          <i data-lucide="alert-circle"></i>
+          <h3>Unable to load orders</h3>
+          <p>${error.message}</p>
+        </div>
+      `;
+    }
+  };
+    const renderLiveTracking = async (content) => {
+    window.__circuitKartAdminTrackingCleanup?.();
+    window.__circuitKartAdminTrackingCleanup = null;
+
+    let trackingTimer = null;
+    let trackingSocketConnected = false;
+    let trackingData = [];
+    let map = null;
+    let markers = {};
+    let leafletReady = false;
+
+    const loadLeaflet = () => {
+      return new Promise((resolve, reject) => {
+        if (window.L) {
+          resolve(window.L);
+          return;
+        }
+
+        const existingCSS = document.querySelector(
+          'link[data-circuitkart-leaflet]'
+        );
+
+        if (!existingCSS) {
+          const css = document.createElement('link');
+          css.rel = 'stylesheet';
+          css.href =
+            'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+          css.dataset.circuitkartLeaflet = 'true';
+          document.head.appendChild(css);
+        }
+
+        const existingScript = document.querySelector(
+          'script[data-circuitkart-leaflet]'
+        );
+
+        if (existingScript) {
+          existingScript.addEventListener('load', () => {
+            resolve(window.L);
+          });
+
+          existingScript.addEventListener('error', reject);
+          return;
+        }
+
+        const script = document.createElement('script');
+        script.src =
+          'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+        script.async = true;
+        script.dataset.circuitkartLeaflet = 'true';
+
+        script.onload = () => resolve(window.L);
+        script.onerror = reject;
+
+        document.head.appendChild(script);
+      });
+    };
+
+    const distanceKm = (
+      lat1,
+      lng1,
+      lat2,
+      lng2
+    ) => {
+      const a = Number(lat1);
+      const b = Number(lng1);
+      const c = Number(lat2);
+      const d = Number(lng2);
+
+      if (
+        !Number.isFinite(a) ||
+        !Number.isFinite(b) ||
+        !Number.isFinite(c) ||
+        !Number.isFinite(d)
+      ) {
+        return null;
+      }
+
+      const earthRadius = 6371;
+
+      const dLat = (c - a) * Math.PI / 180;
+      const dLng = (d - b) * Math.PI / 180;
+
+      const x =
+        Math.sin(dLat / 2) *
+        Math.sin(dLat / 2) +
+        Math.cos(a * Math.PI / 180) *
+        Math.cos(c * Math.PI / 180) *
+        Math.sin(dLng / 2) *
+        Math.sin(dLng / 2);
+
+      const y =
+        2 *
+        Math.atan2(
+          Math.sqrt(x),
+          Math.sqrt(1 - x)
+        );
+
+      return earthRadius * y;
+    };
+
+    const formatAge = timestamp => {
+      if (!timestamp) {
+        return 'No location yet';
+      }
+
+      const time = new Date(timestamp).getTime();
+
+      if (!Number.isFinite(time)) {
+        return 'Unknown';
+      }
+
+      const ageSeconds = Math.max(
+        0,
+        Math.floor((Date.now() - time) / 1000)
+      );
+
+      if (ageSeconds < 60) {
+        return `${ageSeconds}s ago`;
+      }
+
+      const minutes = Math.floor(ageSeconds / 60);
+
+      if (minutes < 60) {
+        return `${minutes}m ago`;
+      }
+
+      const hours = Math.floor(minutes / 60);
+
+      return `${hours}h ago`;
+    };
+
+    const getDeliveryCoordinates = item => {
+      const lat = Number(
+        item.deliveryLat ??
+        item.deliveryLatitude ??
+        item.shippingInfo?.latitude
+      );
+
+      const lng = Number(
+        item.deliveryLng ??
+        item.deliveryLongitude ??
+        item.shippingInfo?.longitude
+      );
+
+      if (
+        Number.isFinite(lat) &&
+        Number.isFinite(lng)
+      ) {
+        return {
+          lat,
+          lng
+        };
+      }
+
+      return null;
+    };
+
+    const getDriverCoordinates = item => {
+      const location = item.driverLocation;
+
+      if (!location) {
+        return null;
+      }
+
+      const lat = Number(location.latitude);
+      const lng = Number(location.longitude);
+
+      if (
+        Number.isFinite(lat) &&
+        Number.isFinite(lng)
+      ) {
+        return {
+          lat,
+          lng
+        };
+      }
+
+      return null;
+    };
+
+    const getStatusLabel = status => {
+      return String(status || 'pending')
+        .replaceAll('_', ' ')
+        .replace(/\b\w/g, char => char.toUpperCase());
+    };
+
+    const getStatusClass = status => {
+      return String(status || 'pending')
+        .toLowerCase()
+        .replaceAll(' ', '_');
+    };
+
+    const renderSummary = () => {
+      const active = trackingData.length;
+
+      const online = trackingData.filter(
+        item =>
+          item.driverLocation &&
+          item.driverLocation.isOnline !== false
+      ).length;
+
+      const assigned = trackingData.filter(
+        item => item.driverName
+      ).length;
+
+      const withoutDriver = trackingData.filter(
+        item => !item.driverName
+      ).length;
+
+      return `
+        <div class="admin-stats-grid">
+
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon orders">
+              <i data-lucide="truck"></i>
+            </div>
+            <div>
+              <span>Active Deliveries</span>
+              <strong>${active}</strong>
+            </div>
+          </div>
+
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon projects">
+              <i data-lucide="radio"></i>
+            </div>
+            <div>
+              <span>Drivers Online</span>
+              <strong>${online}</strong>
+            </div>
+          </div>
+
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon users">
+              <i data-lucide="user-check"></i>
+            </div>
+            <div>
+              <span>Assigned Drivers</span>
+              <strong>${assigned}</strong>
+            </div>
+          </div>
+
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon pending">
+              <i data-lucide="user-x"></i>
+            </div>
+            <div>
+              <span>Unassigned</span>
+              <strong>${withoutDriver}</strong>
+            </div>
+          </div>
+
+        </div>
+      `;
+    };
+
+    const renderTrackingList = () => {
+      if (!trackingData.length) {
+        return `
+          <div class="admin-empty-state">
+            <i data-lucide="map-pin-off"></i>
+            <h3>No active deliveries</h3>
+            <p>
+              Orders marked as shipped or out for delivery
+              will appear here.
+            </p>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="tracking-order-list">
+
+          ${trackingData.map(item => {
+
+            const driver = getDriverCoordinates(item);
+            const delivery = getDeliveryCoordinates(item);
+
+            let distance = null;
+
+            if (driver && delivery) {
+              distance = distanceKm(
+                driver.lat,
+                driver.lng,
+                delivery.lat,
+                delivery.lng
+              );
+            }
+
+            const online =
+              item.driverLocation &&
+              item.driverLocation.isOnline !== false;
+
+            const orderId =
+              item.orderId ||
+              item.id ||
+              '';
+
+            const customerName =
+              item.customerName ||
+              item.contactInfo?.name ||
+              item.shippingInfo?.name ||
+              'Customer';
+
+            const driverName =
+              item.driverName ||
+              'No driver assigned';
+
+            return `
+              <div
+                class="tracking-order-card"
+                data-tracking-order="${orderId}"
+              >
+
+                <div class="tracking-order-top">
+
+                  <div>
+                    <strong>
+                      #${orderId}
+                    </strong>
+
+                    <span class="admin-status-badge ${getStatusClass(item.status)}">
+                      ${getStatusLabel(item.status)}
+                    </span>
+                  </div>
+
+                  <button
+                    class="tracking-focus-btn"
+                    data-focus-order="${orderId}"
+                    title="Focus on map"
+                  >
+                    <i data-lucide="crosshair"></i>
+                  </button>
+
+                </div>
+
+                <div class="tracking-customer">
+                  <i data-lucide="user"></i>
+
+                  <div>
+                    <strong>${customerName}</strong>
+
+                    <span>
+                      ${
+                        item.shippingInfo?.address ||
+                        item.shippingInfo?.city ||
+                        'Delivery location'
+                      }
+                    </span>
+                  </div>
+                </div>
+
+                <div class="tracking-driver">
+
+                  <div class="tracking-driver-avatar">
+                    <i data-lucide="truck"></i>
+                  </div>
+
+                  <div class="tracking-driver-info">
+                    <strong>${driverName}</strong>
+
+                    <span>
+                      ${
+                        item.driverPhone ||
+                        'No phone number'
+                      }
+                    </span>
+                  </div>
+
+                  <span class="
+                    tracking-online-status
+                    ${online ? 'online' : 'offline'}
+                  ">
+                    <span class="tracking-status-dot"></span>
+                    ${online ? 'Online' : 'Offline'}
+                  </span>
+
+                </div>
+
+                <div class="tracking-details">
+
+                  <div>
+                    <span>Driver location</span>
+                    <strong>
+                      ${
+                        driver
+                          ? `${driver.lat.toFixed(5)}, ${driver.lng.toFixed(5)}`
+                          : 'Waiting for GPS'
+                      }
+                    </strong>
+                  </div>
+
+                  <div>
+                    <span>Last update</span>
+                    <strong>
+                      ${
+                        item.driverLocation
+                          ? formatAge(item.driverLocation.timestamp)
+                          : 'No update'
+                      }
+                    </strong>
+                  </div>
+
+                  <div>
+                    <span>Destination</span>
+                    <strong>
+                      ${
+                        delivery
+                          ? `${delivery.lat.toFixed(5)}, ${delivery.lng.toFixed(5)}`
+                          : 'Not available'
+                      }
+                    </strong>
+                  </div>
+
+                  <div>
+                    <span>Distance</span>
+                    <strong>
+                      ${
+                        distance !== null
+                          ? `${distance.toFixed(2)} km`
+                          : 'Calculating...'
+                      }
+                    </strong>
+                  </div>
+
+                </div>
+
+                <button
+                  class="admin-btn primary tracking-assign-btn"
+                  data-assign-order="${orderId}"
+                >
+                  <i data-lucide="${
+                    item.driverName
+                      ? 'user-cog'
+                      : 'user-plus'
+                  }"></i>
+
+                  ${
+                    item.driverName
+                      ? 'Reassign Driver'
+                      : 'Assign Driver'
+                  }
+                </button>
+
+              </div>
+            `;
+          }).join('')}
+
+        </div>
+      `;
+    };
+
+    const updateMap = () => {
+      if (!map || !window.L) {
+        return;
+      }
+
+      Object.values(markers).forEach(marker => {
+        try {
+          map.removeLayer(marker);
+        } catch (_) {}
+      });
+
+      markers = {};
+
+      const bounds = [];
+
+      trackingData.forEach(item => {
+        const orderId =
+          item.orderId ||
+          item.id;
+
+        const driver = getDriverCoordinates(item);
+        const delivery = getDeliveryCoordinates(item);
+
+        if (driver) {
+          const driverIcon = window.L.divIcon({
+            className: 'circuitkart-driver-marker',
+            html: `
+              <div class="driver-map-marker">
+                <span class="driver-map-pulse"></span>
+                <span class="driver-map-icon">
+                  🚚
+                </span>
+              </div>
+            `,
+            iconSize: [42, 42],
+            iconAnchor: [21, 21]
+          });
+
+          const marker = window.L.marker(
+            [driver.lat, driver.lng],
+            {
+              icon: driverIcon
+            }
+          ).addTo(map);
+
+          marker.bindPopup(`
+            <div class="tracking-popup">
+
+              <strong>
+                Driver: ${
+                  item.driverName ||
+                  'Unassigned'
+                }
+              </strong>
+
+              <div>
+                Order:
+                #${orderId}
+              </div>
+
+              <div>
+                Status:
+                ${getStatusLabel(item.status)}
+              </div>
+
+              <div>
+                Updated:
+                ${
+                  item.driverLocation
+                    ? formatAge(
+                        item.driverLocation.timestamp
+                      )
+                    : 'Unknown'
+                }
+              </div>
+
+            </div>
+          `);
+
+          markers[`driver-${orderId}`] = marker;
+
+          bounds.push([
+            driver.lat,
+            driver.lng
+          ]);
+        }
+
+        if (delivery) {
+          const deliveryIcon = window.L.divIcon({
+            className: 'circuitkart-delivery-marker',
+            html: `
+              <div class="delivery-map-marker">
+                <span>📍</span>
+              </div>
+            `,
+            iconSize: [36, 36],
+            iconAnchor: [18, 36]
+          });
+
+          const marker = window.L.marker(
+            [delivery.lat, delivery.lng],
+            {
+              icon: deliveryIcon
+            }
+          ).addTo(map);
+
+          marker.bindPopup(`
+            <div class="tracking-popup">
+
+              <strong>
+                Delivery Destination
+              </strong>
+
+              <div>
+                Order:
+                #${orderId}
+              </div>
+
+              <div>
+                Customer:
+                ${
+                  item.customerName ||
+                  'Customer'
+                }
+              </div>
+
+            </div>
+          `);
+
+          markers[`delivery-${orderId}`] = marker;
+
+          bounds.push([
+            delivery.lat,
+            delivery.lng
+          ]);
+        }
+
+        if (driver && delivery) {
+          const line = window.L.polyline(
+            [
+              [driver.lat, driver.lng],
+              [delivery.lat, delivery.lng]
+            ],
+            {
+              weight: 4,
+              opacity: 0.65,
+              dashArray: '8 8'
+            }
+          ).addTo(map);
+
+          markers[`route-${orderId}`] = line;
+        }
+      });
+
+      if (bounds.length && !map.__hasInitialBounds) {
+        map.fitBounds(bounds, {
+          padding: [40, 40],
+          maxZoom: 15
+        });
+
+        map.__hasInitialBounds = true;
+      }
+    };
+
+    const focusOrder = orderId => {
+      const driverMarker =
+        markers[`driver-${orderId}`];
+
+      const deliveryMarker =
+        markers[`delivery-${orderId}`];
+
+      const points = [];
+
+      if (driverMarker) {
+        points.push(
+          driverMarker.getLatLng()
+        );
+      }
+
+      if (deliveryMarker) {
+        points.push(
+          deliveryMarker.getLatLng()
+        );
+      }
+
+      if (!map || !points.length) {
+        return;
+      }
+
+      if (points.length === 1) {
+        map.setView(
+          points[0],
+          16
+        );
+      } else {
+        map.fitBounds(points, {
+          padding: [60, 60],
+          maxZoom: 16
+        });
+      }
+
+      if (driverMarker) {
+        driverMarker.openPopup();
+      }
+    };
+
+    const attachTrackingEvents = () => {
+      document
+        .querySelectorAll('[data-focus-order]')
+        .forEach(button => {
+          button.addEventListener(
+            'click',
+            () => {
+              focusOrder(
+                button.dataset.focusOrder
+              );
+            }
+          );
+        });
+
+      document
+        .querySelectorAll('[data-assign-order]')
+        .forEach(button => {
+          button.addEventListener(
+            'click',
+            () => {
+              openAssignDriverModal(
+                button.dataset.assignOrder
+              );
+            }
+          );
+        });
+    };
+
+    const renderContent = async () => {
+      content.innerHTML = `
+        <div class="admin-section-header">
+
+          <div>
+            <h2>Live Delivery Tracking</h2>
+            <p>
+              Monitor drivers and active deliveries
+              in real time.
+            </p>
+          </div>
+
+          <div class="admin-section-actions">
+
+            <span class="tracking-connection-status ${
+              trackingSocketConnected
+                ? 'connected'
+                : 'disconnected'
+            }">
+
+              <span class="tracking-status-dot"></span>
+
+              ${
+                trackingSocketConnected
+                  ? 'Live'
+                  : 'Updating'
+              }
+
+            </span>
+
+            <button
+              class="admin-refresh-btn"
+              id="refresh-live-tracking"
+            >
+              <i data-lucide="refresh-cw"></i>
+              Refresh
+            </button>
+
+          </div>
+
+        </div>
+
+        ${renderSummary()}
+
+        <div class="live-tracking-layout">
+
+          <div class="admin-panel live-map-panel">
+
+            <div class="admin-panel-header">
+
+              <div>
+                <h3>Live Map</h3>
+                <p>
+                  Driver and delivery locations
+                </p>
+              </div>
+
+              <div class="tracking-map-legend">
+
+                <span>
+                  <span class="legend-marker driver"></span>
+                  Driver
+                </span>
+
+                <span>
+                  <span class="legend-marker destination"></span>
+                  Destination
+                </span>
+
+              </div>
+
+            </div>
+
+            <div
+              id="admin-live-map"
+              class="admin-live-map"
+            >
+              <div class="tracking-map-loading">
+                <div class="spinner"></div>
+                <p>Loading live map...</p>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="admin-panel tracking-list-panel">
+
+            <div class="admin-panel-header">
+              <div>
+                <h3>Active Deliveries</h3>
+                <p>
+                  ${
+                    trackingData.length
+                  } active delivery${
+                    trackingData.length === 1
+                      ? ''
+                      : 'ies'
+                  }
+                </p>
+              </div>
+            </div>
+
+            ${renderTrackingList()}
+
+          </div>
+
+        </div>
+      `;
+
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+
+      document
+        .getElementById('refresh-live-tracking')
+        ?.addEventListener(
+          'click',
+          () => loadTracking()
+        );
+
+      attachTrackingEvents();
+
+      try {
+        await loadLeaflet();
+
+        leafletReady = true;
+
+        const mapElement =
+          document.getElementById(
+            'admin-live-map'
+          );
+
+        if (!mapElement) {
+          return;
+        }
+
+        mapElement.innerHTML = '';
+
+        map = window.L.map(
+          mapElement,
+          {
+            zoomControl: true
+          }
+        ).setView(
+          [20.5937, 78.9629],
+          5
+        );
+
+        window.L.tileLayer(
+          'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          {
+            maxZoom: 19,
+            attribution:
+              '&copy; OpenStreetMap contributors'
+          }
+        ).addTo(map);
+
+        updateMap();
+
+        setTimeout(() => {
+          map?.invalidateSize();
+        }, 100);
+
+      } catch (error) {
+        console.error(
+          'Leaflet loading error:',
+          error
+        );
+
+        const mapElement =
+          document.getElementById(
+            'admin-live-map'
+          );
+
+        if (mapElement) {
+          mapElement.innerHTML = `
+            <div class="tracking-map-error">
+              <i data-lucide="map-off"></i>
+              <h3>Map unavailable</h3>
+              <p>
+                Unable to load the map.
+                Check your internet connection.
+              </p>
+            </div>
+          `;
+
+          if (window.lucide) {
+            window.lucide.createIcons();
+          }
+        }
+      }
+    };
+
+    const loadTracking = async () => {
+      try {
+        const response = await fetch(
+          `${API}/tracking/active`,
+          {
+            headers: authHeaders()
+          }
+        );
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            localStorage.removeItem(
+              'ck_admin_token'
+            );
+
+            window.location.hash =
+              '#/admin-login';
+
+            return;
+          }
+
+          throw new Error(
+            `Tracking request failed: ${response.status}`
+          );
+        }
+
+        const data = await response.json();
+
+        trackingData = Array.isArray(data)
+          ? data
+          : data.orders ||
+            data.active ||
+            data.data ||
+            [];
+
+        await renderContent();
+
+      } catch (error) {
+        console.error(
+          'Live tracking error:',
+          error
+        );
+
+        content.innerHTML = `
+          <div class="admin-error">
+
+            <i data-lucide="alert-circle"></i>
+
+            <h3>
+              Unable to load live tracking
+            </h3>
+
+            <p>
+              ${error.message}
+            </p>
+
+            <button
+              class="admin-btn primary"
+              id="retry-live-tracking"
+            >
+              <i data-lucide="refresh-cw"></i>
+              Try Again
+            </button>
+
+          </div>
+        `;
+
+        document
+          .getElementById(
+            'retry-live-tracking'
+          )
+          ?.addEventListener(
+            'click',
+            () => loadTracking()
+          );
+
+        if (window.lucide) {
+          window.lucide.createIcons();
+        }
+      }
+    };
+
+    const openAssignDriverModal = orderId => {
+      const order = trackingData.find(
+        item =>
+          String(
+            item.orderId ||
+            item.id
+          ) === String(orderId)
+      );
+
+      if (!order) {
+        return;
+      }
+
+      document
+        .getElementById(
+          'circuitkart-driver-modal'
+        )
+        ?.remove();
+
+      const modal = document.createElement(
+        'div'
+      );
+
+      modal.id =
+        'circuitkart-driver-modal';
+
+      modal.className =
+        'admin-modal-overlay';
+
+      modal.innerHTML = `
+        <div class="admin-modal">
+
+          <div class="admin-modal-header">
+
+            <div>
+              <h3>
+                ${
+                  order.driverName
+                    ? 'Reassign Driver'
+                    : 'Assign Driver'
+                }
+              </h3>
+
+              <p>
+                Order #${orderId}
+              </p>
+            </div>
+
+            <button
+              class="admin-modal-close"
+              id="close-driver-modal"
+            >
+              <i data-lucide="x"></i>
+            </button>
+
+          </div>
+
+          <form
+            id="driver-assignment-form"
+            class="admin-form"
+          >
+
+            <div class="admin-form-group">
+
+              <label>
+                Driver Name
+              </label>
+
+              <input
+                type="text"
+                id="tracking-driver-name"
+                placeholder="Enter driver name"
+                value="${
+                  order.driverName || ''
+                }"
+                required
+              />
+
+            </div>
+
+            <div class="admin-form-group">
+
+              <label>
+                Driver Phone
+              </label>
+
+              <input
+                type="tel"
+                id="tracking-driver-phone"
+                placeholder="Enter driver phone"
+                value="${
+                  order.driverPhone || ''
+                }"
+              />
+
+            </div>
+
+            <div class="admin-form-grid">
+
+              <div class="admin-form-group">
+
+                <label>
+                  Delivery Latitude
+                </label>
+
+                <input
+                  type="number"
+                  step="any"
+                  id="tracking-delivery-lat"
+                  placeholder="Latitude"
+                  value="${
+                    order.deliveryLat ??
+                    ''
+                  }"
+                />
+
+              </div>
+
+              <div class="admin-form-group">
+
+                <label>
+                  Delivery Longitude
+                </label>
+
+                <input
+                  type="number"
+                  step="any"
+                  id="tracking-delivery-lng"
+                  placeholder="Longitude"
+                  value="${
+                    order.deliveryLng ??
+                    ''
+                  }"
+                />
+
+              </div>
+
+            </div>
+
+            <div class="admin-form-help">
+
+              <i data-lucide="info"></i>
+
+              <span>
+                Delivery coordinates are used
+                to calculate the driver's distance
+                from the destination.
+              </span>
+
+            </div>
+
+            <div class="admin-modal-actions">
+
+              <button
+                type="button"
+                class="admin-btn secondary"
+                id="cancel-driver-modal"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                class="admin-btn primary"
+                id="save-driver-assignment"
+              >
+                <i data-lucide="save"></i>
+                Save Assignment
+              </button>
+
+            </div>
+
+          </form>
+
+        </div>
+      `;
+
+      document.body.appendChild(modal);
+
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+
+      const close = () => {
+        modal.remove();
+      };
+
+      document
+        .getElementById(
+          'close-driver-modal'
+        )
+        ?.addEventListener(
+          'click',
+          close
+        );
+
+      document
+        .getElementById(
+          'cancel-driver-modal'
+        )
+        ?.addEventListener(
+          'click',
+          close
+        );
+
+      modal.addEventListener(
+        'click',
+        event => {
+          if (
+            event.target === modal
+          ) {
+            close();
+          }
+        }
+      );
+
+      document
+        .getElementById(
+          'driver-assignment-form'
+        )
+        ?.addEventListener(
+          'submit',
+          async event => {
+
+            event.preventDefault();
+
+            const saveButton =
+              document.getElementById(
+                'save-driver-assignment'
+              );
+
+            const driverName =
+              document
+                .getElementById(
+                  'tracking-driver-name'
+                )
+                .value.trim();
+
+            const driverPhone =
+              document
+                .getElementById(
+                  'tracking-driver-phone'
+                )
+                .value.trim();
+
+            const latValue =
+              document
+                .getElementById(
+                  'tracking-delivery-lat'
+                )
+                .value.trim();
+
+            const lngValue =
+              document
+                .getElementById(
+                  'tracking-delivery-lng'
+                )
+                .value.trim();
+
+            const deliveryLat =
+              latValue === ''
+                ? null
+                : Number(latValue);
+
+            const deliveryLng =
+              lngValue === ''
+                ? null
+                : Number(lngValue);
+
+            if (!driverName) {
+              showAdminToast(
+                'Driver name is required',
+                'error'
+              );
+
+              return;
+            }
+
+            if (
+              deliveryLat !== null &&
+              !Number.isFinite(
+                deliveryLat
+              )
+            ) {
+              showAdminToast(
+                'Invalid delivery latitude',
+                'error'
+              );
+
+              return;
+            }
+
+            if (
+              deliveryLng !== null &&
+              !Number.isFinite(
+                deliveryLng
+              )
+            ) {
+              showAdminToast(
+                'Invalid delivery longitude',
+                'error'
+              );
+
+              return;
+            }
+
+            try {
+
+              saveButton.disabled = true;
+
+              saveButton.innerHTML = `
+                <span class="spinner small"></span>
+                Saving...
+              `;
+
+              const response =
+                await fetch(
+                  `${API}/tracking/assign`,
+                  {
+                    method: 'POST',
+                    headers: authHeaders(),
+                    body: JSON.stringify({
+                      orderId,
+                      driverName,
+                      driverPhone,
+                      deliveryLat,
+                      deliveryLng
+                    })
+                  }
+                );
+
+              const result =
+                await response.json()
+                  .catch(() => ({}));
+
+              if (!response.ok) {
+                throw new Error(
+                  result.error ||
+                  'Failed to assign driver'
+                );
+              }
+
+              close();
+
+              showAdminToast(
+                'Driver assignment saved successfully',
+                'success'
+              );
+
+              await loadTracking();
+
+            } catch (error) {
+
+              console.error(
+                'Driver assignment error:',
+                error
+              );
+
+              showAdminToast(
+                error.message ||
+                'Failed to assign driver',
+                'error'
+              );
+
+              saveButton.disabled = false;
+
+              saveButton.innerHTML = `
+                <i data-lucide="save"></i>
+                Save Assignment
+              `;
+
+              if (window.lucide) {
+                window.lucide.createIcons();
+              }
+            }
+          }
+        );
+    };
+
+    const handleTrackingLocation = payload => {
+      if (!payload) {
+        return;
+      }
+
+      const orderId =
+        payload.orderId ||
+        payload.id;
+
+      if (!orderId) {
+        return;
+      }
+
+      const index =
+        trackingData.findIndex(
+          item =>
+            String(
+              item.orderId ||
+              item.id
+            ) === String(orderId)
+        );
+
+      if (index === -1) {
+        loadTracking();
+        return;
+      }
+
+      const current =
+        trackingData[index];
+
+      trackingData[index] = {
+        ...current,
+
+        driverLocation: {
+          ...(current.driverLocation || {}),
+          latitude:
+            payload.latitude ??
+            payload.location?.latitude,
+          longitude:
+            payload.longitude ??
+            payload.location?.longitude,
+          timestamp:
+            payload.timestamp ||
+            payload.location?.timestamp ||
+            new Date().toISOString(),
+          isOnline:
+            payload.isOnline ??
+            payload.location?.isOnline ??
+            true
+        }
+      };
+
+      updateMap();
+
+      const orderCard =
+        document.querySelector(
+          `[data-tracking-order="${CSS.escape(String(orderId))}"]`
+        );
+
+      if (orderCard) {
+        const details =
+          orderCard.querySelector(
+            '.tracking-details'
+          );
+
+        const driver =
+          getDriverCoordinates(
+            trackingData[index]
+          );
+
+        const delivery =
+          getDeliveryCoordinates(
+            trackingData[index]
+          );
+
+        let distance = null;
+
+        if (driver && delivery) {
+          distance = distanceKm(
+            driver.lat,
+            driver.lng,
+            delivery.lat,
+            delivery.lng
+          );
+        }
+
+        if (details) {
+          const values =
+            details.querySelectorAll(
+              'div'
+            );
+
+          if (values[0]) {
+            const strong =
+              values[0].querySelector(
+                'strong'
+              );
+
+            if (strong && driver) {
+              strong.textContent =
+                `${driver.lat.toFixed(5)}, ${driver.lng.toFixed(5)}`;
+            }
+          }
+
+          if (values[1]) {
+            const strong =
+              values[1].querySelector(
+                'strong'
+              );
+
+            if (strong) {
+              strong.textContent =
+                formatAge(
+                  trackingData[index]
+                    .driverLocation
+                    .timestamp
+                );
+            }
+          }
+
+          if (values[3]) {
+            const strong =
+              values[3].querySelector(
+                'strong'
+              );
+
+            if (
+              strong &&
+              distance !== null
+            ) {
+              strong.textContent =
+                `${distance.toFixed(2)} km`;
+            }
+          }
+        }
+      }
+    };
+
+    const handleDriverAssigned =
+      payload => {
+        if (!payload) {
+          return;
+        }
+
+        loadTracking();
+      };
+
+    try {
+      if (socketManager) {
+
+        socketManager.on?.(
+          'connection',
+          status => {
+            trackingSocketConnected =
+              Boolean(status);
+
+            const statusElement =
+              document.querySelector(
+                '.tracking-connection-status'
+              );
+
+            if (statusElement) {
+              statusElement.classList.toggle(
+                'connected',
+                trackingSocketConnected
+              );
+
+              statusElement.classList.toggle(
+                'disconnected',
+                !trackingSocketConnected
+              );
+
+              statusElement.innerHTML = `
+                <span class="tracking-status-dot"></span>
+                ${
+                  trackingSocketConnected
+                    ? 'Live'
+                    : 'Updating'
+                }
+              `;
+            }
+          }
+        );
+
+        socketManager.on?.(
+          'tracking:location',
+          handleTrackingLocation
+        );
+
+        socketManager.on?.(
+          'tracking:driver_assigned',
+          handleDriverAssigned
+        );
+
+        trackingSocketConnected =
+          Boolean(
+            socketManager.socket?.connected
+          );
+      }
+
+    } catch (error) {
+      console.warn(
+        'Unable to connect tracking socket:',
+        error
+      );
+    }
+
+    await loadTracking();
+
+    trackingTimer = setInterval(
+      () => {
+        if (
+          !trackingSocketConnected
+        ) {
+          loadTracking();
+        }
+      },
+      10000
+    );
+
+    window.__circuitKartAdminTrackingCleanup =
+      () => {
+
+        if (trackingTimer) {
+          clearInterval(
+            trackingTimer
+          );
+
+          trackingTimer = null;
+        }
+
+        try {
+          socketManager.off?.(
+            'connection'
+          );
+
+          socketManager.off?.(
+            'tracking:location',
+            handleTrackingLocation
+          );
+
+          socketManager.off?.(
+            'tracking:driver_assigned',
+            handleDriverAssigned
+          );
+        } catch (_) {}
+
+        if (map) {
+          try {
+            map.remove();
+          } catch (_) {}
+
+          map = null;
+        }
+
+        markers = {};
+        leafletReady = false;
+      };
+
+  };
+    const renderProjects = async content => {
+    try {
+      const response = await fetch(
+        `${API}/admin/projects`,
+        {
+          headers: authHeaders()
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          'Failed to load projects'
+        );
+      }
+
+      const data = await response.json();
+
+      const projects = Array.isArray(data)
+        ? data
+        : data.projects || [];
+
+      content.innerHTML = `
+        <div class="admin-section-header">
+          <div>
+            <h2>Projects</h2>
+            <p>Manage CircuitKart projects.</p>
+          </div>
+
+          <button
+            class="admin-btn primary"
+            id="add-project-from-list"
+          >
+            <i data-lucide="plus"></i>
+            Add Project
+          </button>
+        </div>
+
+        <div class="admin-panel">
+
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+
+              <thead>
+                <tr>
+                  <th>Project</th>
+                  <th>Category</th>
+                  <th>Difficulty</th>
+                  <th>Price</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+
+                ${
+                  projects.map(project => `
+                    <tr>
+
+                      <td>
+                        <div class="admin-project-cell">
+
+                          ${
+                            project.image
+                              ? `
+                                <img
+                                  src="${project.image}"
+                                  alt=""
+                                />
+                              `
+                              : `
+                                <div class="admin-project-placeholder">
+                                  <i data-lucide="cpu"></i>
+                                </div>
+                              `
+                          }
+
+                          <div>
+                            <strong>
+                              ${project.name || '-'}
+                            </strong>
+
+                            <span>
+                              ${project.slug || project.id || '-'}
+                            </span>
+                          </div>
+
+                        </div>
+                      </td>
+
+                      <td>
+                        ${project.category || '-'}
+                      </td>
+
+                      <td>
+                        ${project.difficulty || '-'}
+                      </td>
+
+                      <td>
+                        ₹${Number(
+                          project.price || 0
+                        ).toLocaleString('en-IN')}
+                      </td>
+
+                      <td>
+                        <span class="
+                          admin-status-badge
+                          ${
+                            project.active === 0
+                              ? 'cancelled'
+                              : 'delivered'
+                          }
+                        ">
+                          ${
+                            project.active === 0
+                              ? 'Inactive'
+                              : 'Active'
+                          }
+                        </span>
+                      </td>
+
+                      <td>
+
+                        <div class="admin-table-actions">
+
+                          <button
+                            class="admin-icon-btn edit-project"
+                            data-project-id="${project.id}"
+                            title="Edit"
+                          >
+                            <i data-lucide="edit"></i>
+                          </button>
+
+                          <button
+                            class="admin-icon-btn danger delete-project"
+                            data-project-id="${project.id}"
+                            title="Delete"
+                          >
+                            <i data-lucide="trash-2"></i>
+                          </button>
+
+                        </div>
+
+                      </td>
+
+                    </tr>
+                  `).join('')
+                }
+
+                ${
+                  projects.length === 0
+                    ? `
+                      <tr>
+                        <td
+                          colspan="6"
+                          class="admin-empty"
+                        >
+                          No projects found.
+                        </td>
+                      </tr>
+                    `
+                    : ''
+                }
+
+              </tbody>
+
+            </table>
+          </div>
+
+        </div>
+      `;
+
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+
+      document
+        .getElementById(
+          'add-project-from-list'
+        )
+        ?.addEventListener(
+          'click',
+          () => switchAdminTab(
+            'add-project'
+          )
+        );
+
+      document
+        .querySelectorAll(
+          '.edit-project'
+        )
+        .forEach(button => {
+
+          button.addEventListener(
+            'click',
+            () => {
+
+              const project =
+                projects.find(
+                  item =>
+                    String(item.id) ===
+                    String(
+                      button.dataset.projectId
+                    )
+                );
+
+              if (project) {
+                openProjectEditor(
+                  project
+                );
+              }
+
+            }
+          );
+
+        });
+
+      document
+        .querySelectorAll(
+          '.delete-project'
+        )
+        .forEach(button => {
+
+          button.addEventListener(
+            'click',
+            async () => {
+
+              const project =
+                projects.find(
+                  item =>
+                    String(item.id) ===
+                    String(
+                      button.dataset.projectId
+                    )
+                );
+
+              if (!project) {
+                return;
+              }
+
+              const confirmed =
+                confirm(
+                  `Delete "${project.name}"?`
+                );
+
+              if (!confirmed) {
+                return;
+              }
+
+              try {
+
+                const deleteResponse =
+                  await fetch(
+                    `${API}/admin/projects/${project.id}`,
+                    {
+                      method: 'DELETE',
+                      headers: authHeaders()
+                    }
+                  );
+
+                if (
+                  !deleteResponse.ok
+                ) {
+                  const result =
+                    await deleteResponse
+                      .json()
+                      .catch(
+                        () => ({})
+                      );
+
+                  throw new Error(
+                    result.error ||
+                    'Failed to delete project'
+                  );
+                }
+
+                showAdminToast(
+                  'Project deleted successfully',
+                  'success'
+                );
+
+                await renderProjects(
+                  content
+                );
+
+              } catch (error) {
+
+                console.error(error);
+
+                showAdminToast(
+                  error.message ||
+                  'Failed to delete project',
+                  'error'
+                );
+
+              }
+
+            }
+          );
+
+        });
+
+    } catch (error) {
+
+      console.error(error);
+
+      content.innerHTML = `
+        <div class="admin-error">
+
+          <i data-lucide="alert-circle"></i>
+
+          <h3>
+            Unable to load projects
+          </h3>
+
+          <p>
+            ${error.message}
+          </p>
+
+          <button
+            class="admin-btn primary"
+            id="retry-projects"
+          >
+            Try Again
+          </button>
+
+        </div>
+      `;
+
+      document
+        .getElementById(
+          'retry-projects'
+        )
+        ?.addEventListener(
+          'click',
+          () => renderProjects(content)
+        );
+
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    }
+  };
+
+
+  const openProjectEditor = project => {
+
+    document
+      .getElementById(
+        'circuitkart-project-modal'
+      )
+      ?.remove();
+
+    const modal =
+      document.createElement(
+        'div'
+      );
+
+    modal.id =
+      'circuitkart-project-modal';
+
+    modal.className =
+      'admin-modal-overlay';
+
+    const arrayValue = value => {
+
+      if (Array.isArray(value)) {
+        return value.join(', ');
+      }
+
+      if (
+        typeof value ===
+        'string'
+      ) {
+
+        try {
+          const parsed =
+            JSON.parse(value);
+
+          if (
+            Array.isArray(parsed)
+          ) {
+            return parsed.join(', ');
+          }
+
+        } catch (_) {}
+
+        return value;
+      }
+
+      return '';
+    };
+
+    modal.innerHTML = `
+      <div class="admin-modal admin-project-modal">
+
+        <div class="admin-modal-header">
+
+          <div>
+            <h3>Edit Project</h3>
+            <p>
+              Update project information
+            </p>
+          </div>
+
+          <button
+            class="admin-modal-close"
+            id="close-project-modal"
+          >
+            <i data-lucide="x"></i>
+          </button>
+
+        </div>
+
+        <form
+          id="edit-project-form"
+          class="admin-form"
+        >
+
+          <div class="admin-form-group">
+            <label>Project Name</label>
+
+            <input
+              id="edit-project-name"
+              type="text"
+              value="${
+                project.name || ''
+              }"
+              required
+            />
+          </div>
+
+          <div class="admin-form-grid">
+
+            <div class="admin-form-group">
+              <label>Slug</label>
+
+              <input
+                id="edit-project-slug"
+                type="text"
+                value="${
+                  project.slug || ''
+                }"
+                required
+              />
+            </div>
+
+            <div class="admin-form-group">
+              <label>Category</label>
+
+              <input
+                id="edit-project-category"
+                type="text"
+                value="${
+                  project.category || ''
+                }"
+              />
+            </div>
+
+          </div>
+
+          <div class="admin-form-grid">
+
+            <div class="admin-form-group">
+              <label>Difficulty</label>
+
+              <select
+                id="edit-project-difficulty"
+              >
+                ${[
+                  'Beginner',
+                  'Intermediate',
+                  'Advanced',
+                  'Expert'
+                ].map(level => `
+                  <option
+                    value="${level}"
+                    ${
+                      String(
+                        project.difficulty || ''
+                      ).toLowerCase() ===
+                      level.toLowerCase()
+                        ? 'selected'
+                        : ''
+                    }
+                  >
+                    ${level}
+                  </option>
+                `).join('')}
+              </select>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Price</label>
+
+              <input
+                id="edit-project-price"
+                type="number"
+                min="0"
+                step="0.01"
+                value="${
+                  project.price || 0
+                }"
+              />
+            </div>
+
+          </div>
+
+          <div class="admin-form-group">
+            <label>Short Description</label>
+
+            <input
+              id="edit-project-short-description"
+              type="text"
+              value="${
+                project.shortDescription || ''
+              }"
+            />
+          </div>
+
+          <div class="admin-form-group">
+            <label>Description</label>
+
+            <textarea
+              id="edit-project-description"
+              rows="5"
+            >${
+              project.description || ''
+            }</textarea>
+          </div>
+
+          <div class="admin-form-group">
+            <label>Image URL</label>
+
+            <input
+              id="edit-project-image"
+              type="url"
+              value="${
+                project.image || ''
+              }"
+            />
+          </div>
+
+          <div class="admin-form-group">
+            <label>Controller</label>
+
+            <input
+              id="edit-project-controller"
+              type="text"
+              value="${
+                project.controller || ''
+              }"
+            />
+          </div>
+
+          <div class="admin-form-group">
+            <label>Sensors</label>
+
+            <input
+              id="edit-project-sensors"
+              type="text"
+              value="${
+                arrayValue(
+                  project.sensors
+                )
+              }"
+              placeholder="ESP32, DHT11, PIR"
+            />
+
+            <small>
+              Separate items with commas.
+            </small>
+          </div>
+
+          <div class="admin-form-group">
+            <label>Communication</label>
+
+            <input
+              id="edit-project-communication"
+              type="text"
+              value="${
+                arrayValue(
+                  project.communication
+                )
+              }"
+              placeholder="WiFi, Bluetooth, GSM"
+            />
+          </div>
+
+          <div class="admin-form-group">
+            <label>Features</label>
+
+            <textarea
+              id="edit-project-features"
+              rows="4"
+            >${
+              arrayValue(
+                project.features
+              )
+            }</textarea>
+          </div>
+
+          <div class="admin-form-group">
+            <label>Applications</label>
+
+            <textarea
+              id="edit-project-applications"
+              rows="4"
+            >${
+              arrayValue(
+                project.applications
+              )
+            }</textarea>
+          </div>
+
+          <div class="admin-form-group">
+            <label>Tags</label>
+
+            <input
+              id="edit-project-tags"
+              type="text"
+              value="${
+                arrayValue(
+                  project.tags
+                )
+              }"
+              placeholder="IoT, Arduino, ESP32"
+            />
+          </div>
+
+          <div class="admin-modal-actions">
+
+            <button
+              type="button"
+              class="admin-btn secondary"
+              id="cancel-project-modal"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              class="admin-btn primary"
+              id="save-project"
+            >
+              <i data-lucide="save"></i>
+              Save Changes
+            </button>
+
+          </div>
+
+        </form>
+
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
+
+    const close = () => {
+      modal.remove();
+    };
+
+    document
+      .getElementById(
+        'close-project-modal'
+      )
+      ?.addEventListener(
+        'click',
+        close
+      );
+
+    document
+      .getElementById(
+        'cancel-project-modal'
+      )
+      ?.addEventListener(
+        'click',
+        close
+      );
+
+    modal.addEventListener(
+      'click',
+      event => {
+        if (
+          event.target === modal
+        ) {
+          close();
+        }
+      }
+    );
+
+    document
+      .getElementById(
+        'edit-project-form'
+      )
+      ?.addEventListener(
+        'submit',
+        async event => {
+
+          event.preventDefault();
+
+          const button =
+            document.getElementById(
+              'save-project'
+            );
+
+          const splitArray = id => {
+            return document
+              .getElementById(id)
+              .value
+              .split(',')
+              .map(
+                value =>
+                  value.trim()
+              )
+              .filter(Boolean);
+          };
+
+          const updatedProject = {
+            ...project,
+
+            name:
+              document
+                .getElementById(
+                  'edit-project-name'
+                )
+                .value.trim(),
+
+            slug:
+              document
+                .getElementById(
+                  'edit-project-slug'
+                )
+                .value.trim(),
+
+            category:
+              document
+                .getElementById(
+                  'edit-project-category'
+                )
+                .value.trim(),
+
+            difficulty:
+              document
+                .getElementById(
+                  'edit-project-difficulty'
+                )
+                .value,
+
+            price:
+              Number(
+                document
+                  .getElementById(
+                    'edit-project-price'
+                  )
+                  .value
+              ),
+
+            shortDescription:
+              document
+                .getElementById(
+                  'edit-project-short-description'
+                )
+                .value.trim(),
+
+            description:
+              document
+                .getElementById(
+                  'edit-project-description'
+                )
+                .value.trim(),
+
+            image:
+              document
+                .getElementById(
+                  'edit-project-image'
+                )
+                .value.trim(),
+
+            controller:
+              document
+                .getElementById(
+                  'edit-project-controller'
+                )
+                .value.trim(),
+
+            sensors:
+              splitArray(
+                'edit-project-sensors'
+              ),
+
+            communication:
+              splitArray(
+                'edit-project-communication'
+              ),
+
+            features:
+              splitArray(
+                'edit-project-features'
+              ),
+
+            applications:
+              splitArray(
+                'edit-project-applications'
+              ),
+
+            tags:
+              splitArray(
+                'edit-project-tags'
+              )
+          };
+
+          try {
+
+            button.disabled = true;
+
+            button.innerHTML = `
+              <span class="spinner small"></span>
+              Saving...
+            `;
+
+            const response =
+              await fetch(
+                `${API}/admin/projects/${project.id}`,
+                {
+                  method: 'PUT',
+                  headers: authHeaders(),
+                  body:
+                    JSON.stringify(
+                      updatedProject
+                    )
+                }
+              );
+
+            const result =
+              await response
+                .json()
+                .catch(
+                  () => ({})
+                );
+
+            if (!response.ok) {
+              throw new Error(
+                result.error ||
+                'Failed to update project'
+              );
+            }
+
+            close();
+
+            showAdminToast(
+              'Project updated successfully',
+              'success'
+            );
+
+            const currentContent =
+              document.getElementById(
+                'admin-content'
+              );
+
+            if (currentContent) {
+              await renderProjects(
+                currentContent
+              );
+            }
+
+          } catch (error) {
+
+            console.error(error);
+
+            showAdminToast(
+              error.message ||
+              'Failed to update project',
+              'error'
+            );
+
+            button.disabled = false;
+
+            button.innerHTML = `
+              <i data-lucide="save"></i>
+              Save Changes
+            `;
+
+            if (window.lucide) {
+              window.lucide.createIcons();
+            }
+          }
+
+        }
+      );
+  };
+
+
+  const renderAddProject = async content => {
+
+    content.innerHTML = `
+      <div class="admin-section-header">
+
+        <div>
+          <h2>Add Project</h2>
+
+          <p>
+            Add a new project to CircuitKart.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="admin-panel">
+
+        <form
+          id="add-project-form"
+          class="admin-form"
+        >
+
+          <div class="admin-form-grid">
+
+            <div class="admin-form-group">
+
+              <label>
+                Project Name *
+              </label>
+
+              <input
+                id="project-name"
+                type="text"
+                placeholder="Smart Home Automation"
+                required
+              />
+
+            </div>
+
+            <div class="admin-form-group">
+
+              <label>
+                Slug *
+              </label>
+
+              <input
+                id="project-slug"
+                type="text"
+                placeholder="smart-home-automation"
+                required
+              />
+
+            </div>
+
+          </div>
+
+          <div class="admin-form-grid">
+
+            <div class="admin-form-group">
+
+              <label>
+                Category
+              </label>
+
+              <input
+                id="project-category"
+                type="text"
+                placeholder="IoT"
+              />
+
+            </div>
+
+            <div class="admin-form-group">
+
+              <label>
+                Subcategory
+              </label>
+
+              <input
+                id="project-subcategory"
+                type="text"
+                placeholder="Home Automation"
+              />
+
+            </div>
+
+          </div>
+
+          <div class="admin-form-grid">
+
+            <div class="admin-form-group">
+
+              <label>
+                Difficulty
+              </label>
+
+              <select id="project-difficulty">
+
+                <option>
+                  Beginner
+                </option>
+
+                <option>
+                  Intermediate
+                </option>
+
+                <option>
+                  Advanced
+                </option>
+
+                <option>
+                  Expert
+                </option>
+
+              </select>
+
+            </div>
+
+            <div class="admin-form-group">
+
+              <label>
+                Price (₹)
+              </label>
+
+              <input
+                id="project-price"
+                type="number"
+                min="0"
+                step="0.01"
+                value="0"
+              />
+
+            </div>
+
+          </div>
+
+          <div class="admin-form-group">
+
+            <label>
+              Short Description
+            </label>
+
+            <input
+              id="project-short-description"
+              type="text"
+              placeholder="Short project description"
+            />
+
+          </div>
+
+          <div class="admin-form-group">
+
+            <label>
+              Full Description
+            </label>
+
+            <textarea
+              id="project-description"
+              rows="6"
+              placeholder="Describe the project..."
+            ></textarea>
+
+          </div>
+
+          <div class="admin-form-group">
+
+            <label>
+              Main Image URL
+            </label>
+
+            <input
+              id="project-image"
+              type="url"
+              placeholder="https://..."
+            />
+
+          </div>
+
+          <div class="admin-form-group">
+
+            <label>
+              Controller
+            </label>
+
+            <input
+              id="project-controller"
+              type="text"
+              placeholder="ESP32"
+            />
+
+          </div>
+
+          <div class="admin-form-group">
+
+            <label>
+              Sensors
+            </label>
+
+            <input
+              id="project-sensors"
+              type="text"
+              placeholder="DHT11, PIR, LDR"
+            />
+
+            <small>
+              Separate items with commas.
+            </small>
+
+          </div>
+
+          <div class="admin-form-group">
+
+            <label>
+              Communication
+            </label>
+
+            <input
+              id="project-communication"
+              type="text"
+              placeholder="WiFi, Bluetooth, GSM"
+            />
+
+          </div>
+
+          <div class="admin-form-group">
+
+            <label>
+              Display
+            </label>
+
+            <input
+              id="project-display"
+              type="text"
+              placeholder="LCD, OLED"
+            />
+
+          </div>
+
+          <div class="admin-form-group">
+
+            <label>
+              Software
+            </label>
+
+            <input
+              id="project-software"
+              type="text"
+              placeholder="Arduino IDE, Python"
+            />
+
+          </div>
+
+          <div class="admin-form-group">
+
+            <label>
+              Features
+            </label>
+
+            <textarea
+              id="project-features"
+              rows="5"
+              placeholder="Automatic control, alerts, monitoring"
+            ></textarea>
+
+          </div>
+
+          <div class="admin-form-group">
+
+            <label>
+              Applications
+            </label>
+
+            <textarea
+              id="project-applications"
+              rows="5"
+              placeholder="Homes, offices, industries"
+            ></textarea>
+
+          </div>
+
+          <div class="admin-form-group">
+
+            <label>
+              Components
+            </label>
+
+            <textarea
+              id="project-components"
+              rows="5"
+              placeholder="ESP32, relay, sensors"
+            ></textarea>
+
+          </div>
+
+          <div class="admin-form-group">
+
+            <label>
+              What's Included
+            </label>
+
+            <textarea
+              id="project-whats-included"
+              rows="5"
+              placeholder="Source code, documentation, components"
+            ></textarea>
+
+          </div>
+
+          <div class="admin-form-group">
+
+            <label>
+              Tags
+            </label>
+
+            <input
+              id="project-tags"
+              type="text"
+              placeholder="IoT, ESP32, Arduino"
+            />
+
+          </div>
+
+          <div class="admin-form-actions">
+
+            <button
+              type="button"
+              class="admin-btn secondary"
+              id="cancel-add-project"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              class="admin-btn primary"
+              id="submit-add-project"
+            >
+              <i data-lucide="plus"></i>
+              Add Project
+            </button>
+
+          </div>
+
+        </form>
+
+      </div>
+    `;
+
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
+
+    document
+      .getElementById(
+        'cancel-add-project'
+      )
+      ?.addEventListener(
+        'click',
+        () => switchAdminTab(
+          'projects'
+        )
+      );
+
+    document
+      .getElementById(
+        'add-project-form'
+      )
+      ?.addEventListener(
+        'submit',
+        async event => {
+
+          event.preventDefault();
+
+          const button =
+            document.getElementById(
+              'submit-add-project'
+            );
+
+          const getValue = id =>
+            document
+              .getElementById(id)
+              ?.value
+              .trim() || '';
+
+          const getArray = id =>
+            getValue(id)
+              .split(',')
+              .map(
+                value =>
+                  value.trim()
+              )
+              .filter(Boolean);
+
+          const name =
+            getValue(
+              'project-name'
+            );
+
+          const slug =
+            getValue(
+              'project-slug'
+            );
+
+          if (!name || !slug) {
+            showAdminToast(
+              'Project name and slug are required',
+              'error'
+            );
+
+            return;
+          }
+
+          const project = {
+            name,
+            slug,
+
+            category:
+              getValue(
+                'project-category'
+              ) || 'misc',
+
+            subcategory:
+              getValue(
+                'project-subcategory'
+              ),
+
+            description:
+              getValue(
+                'project-description'
+              ),
+
+            shortDescription:
+              getValue(
+                'project-short-description'
+              ),
+
+            difficulty:
+              document
+                .getElementById(
+                  'project-difficulty'
+                )
+                .value,
+
+            price:
+              Number(
+                getValue(
+                  'project-price'
+                ) || 0
+              ),
+
+            image:
+              getValue(
+                'project-image'
+              ),
+
+            controller:
+              getValue(
+                'project-controller'
+              ),
+
+            sensors:
+              getArray(
+                'project-sensors'
+              ),
+
+            communication:
+              getArray(
+                'project-communication'
+              ),
+
+            display:
+              getArray(
+                'project-display'
+              ),
+
+            software:
+              getArray(
+                'project-software'
+              ),
+
+            features:
+              getArray(
+                'project-features'
+              ),
+
+            applications:
+              getArray(
+                'project-applications'
+              ),
+
+            components:
+              getArray(
+                'project-components'
+              ),
+
+            whatsIncluded:
+              getArray(
+                'project-whats-included'
+              ),
+
+            tags:
+              getArray(
+                'project-tags'
+              )
+          };
+
+          try {
+
+            button.disabled = true;
+
+            button.innerHTML = `
+              <span class="spinner small"></span>
+              Adding...
+            `;
+
+            const response =
+              await fetch(
+                `${API}/admin/projects`,
+                {
+                  method: 'POST',
+                  headers: authHeaders(),
+                  body:
+                    JSON.stringify(project)
+                }
+              );
+
+            const result =
+              await response
+                .json()
+                .catch(
+                  () => ({})
+                );
+
+            if (!response.ok) {
+              throw new Error(
+                result.error ||
+                'Failed to add project'
+              );
+            }
+
+            showAdminToast(
+              'Project added successfully',
+              'success'
+            );
+
+            document
+              .getElementById(
+                'add-project-form'
+              )
+              .reset();
+
+            document
+              .getElementById(
+                'project-price'
+              )
+              .value = '0';
+
+          } catch (error) {
+
+            console.error(error);
+
+            showAdminToast(
+              error.message ||
+              'Failed to add project',
+              'error'
+            );
+
+          } finally {
+
+            button.disabled = false;
+
+            button.innerHTML = `
+              <i data-lucide="plus"></i>
+              Add Project
+            `;
+
+            if (window.lucide) {
+              window.lucide.createIcons();
+            }
+
+          }
+
+        }
+      );
+  };
+
+
+  const renderComponents = async content => {
+
+    try {
+
+      const response =
+        await fetch(
+          `${API}/admin/components`,
+          {
+            headers: authHeaders()
+          }
+        );
+
+      if (!response.ok) {
+        throw new Error(
+          'Failed to load components'
+        );
+      }
+
+      const data =
+        await response.json();
+
+      const components =
+        Array.isArray(data)
+          ? data
+          : data.components || [];
+
+      content.innerHTML = `
+        <div class="admin-section-header">
+
+          <div>
+            <h2>Components</h2>
+
+            <p>
+              Manage component inventory
+              and pricing.
+            </p>
+          </div>
+
+          <button
+            class="admin-refresh-btn"
+            id="refresh-components"
+          >
+            <i data-lucide="refresh-cw"></i>
+            Refresh
+          </button>
+
+        </div>
+
+        <div class="admin-panel">
+
+          <div class="admin-table-wrapper">
+
+            <table class="admin-table">
+
+              <thead>
+                <tr>
+                  <th>Component</th>
+                  <th>Category</th>
+                  <th>Stock</th>
+                  <th>Price</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+
+                ${
+                  components.map(component => `
+                    <tr>
+
+                      <td>
+                        <strong>
+                          ${
+                            component.name ||
+                            component.title ||
+                            '-'
+                          }
+                        </strong>
+                      </td>
+
+                      <td>
+                        ${
+                          component.category ||
+                          '-'
+                        }
+                      </td>
+
+                      <td>
+                        ${
+                          component.stock ??
+                          component.quantity ??
+                          0
+                        }
+                      </td>
+
+                      <td>
+
+                        <div class="admin-inline-edit">
+
+                          <span>
+                            ₹
+                          </span>
+
+                          <input
+                            type="number"
+                            min="0"
+                            step="0.01"
+                            value="${
+                              component.price ||
+                              0
+                            }"
+                            data-component-price="${
+                              component.id
+                            }"
+                          />
+
+                        </div>
+
+                      </td>
+
+                      <td>
+
+                        <button
+                          class="admin-btn small save-component-price"
+                          data-component-id="${
+                            component.id
+                          }"
+                        >
+                          <i data-lucide="save"></i>
+                          Save
+                        </button>
+
+                      </td>
+
+                    </tr>
+                  `).join('')
+                }
+
+                ${
+                  components.length === 0
+                    ? `
+                      <tr>
+                        <td
+                          colspan="5"
+                          class="admin-empty"
+                        >
+                          No components found.
+                        </td>
+                      </tr>
+                    `
+                    : ''
+                }
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+      `;
+
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+
+      document
+        .getElementById(
+          'refresh-components'
+        )
+        ?.addEventListener(
+          'click',
+          () => renderComponents(content)
+        );
+
+      document
+        .querySelectorAll(
+          '.save-component-price'
+        )
+        .forEach(button => {
+
+          button.addEventListener(
+            'click',
+            async () => {
+
+              const id =
+                button.dataset
+                  .componentId;
+
+              const input =
+                document.querySelector(
+                  `[data-component-price="${CSS.escape(String(id))}"]`
+                );
+
+              const price =
+                Number(
+                  input?.value || 0
+                );
+
+              try {
+
+                button.disabled = true;
+
+                const updateResponse =
+                  await fetch(
+                    `${API}/admin/components/${id}`,
+                    {
+                      method: 'PUT',
+                      headers:
+                        authHeaders(),
+                      body:
+                        JSON.stringify({
+                          price
+                        })
+                    }
+                  );
+
+                const result =
+                  await updateResponse
+                    .json()
+                    .catch(
+                      () => ({})
+                    );
+
+                if (
+                  !updateResponse.ok
+                ) {
+                  throw new Error(
+                    result.error ||
+                    'Failed to update component'
+                  );
+                }
+
+                showAdminToast(
+                  'Component price updated',
+                  'success'
+                );
+
+              } catch (error) {
+
+                console.error(error);
+
+                showAdminToast(
+                  error.message ||
+                  'Failed to update component',
+                  'error'
+                );
+
+              } finally {
+
+                button.disabled = false;
+
+              }
+
+            }
+          );
+
+        });
+
+    } catch (error) {
+
+      console.error(error);
+
+      content.innerHTML = `
+        <div class="admin-error">
+
+          <i data-lucide="alert-circle"></i>
+
+          <h3>
+            Unable to load components
+          </h3>
+
+          <p>
+            ${error.message}
+          </p>
+
+        </div>
+      `;
+
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    }
+  };
+
+
+  const renderPricing = async content => {
+
+    try {
+
+      const response =
+        await fetch(
+          `${API}/settings`,
+          {
+            headers: authHeaders()
+          }
+        );
+
+      let settings = {};
+
+      if (response.ok) {
+        settings =
+          await response.json();
+      }
+
+      content.innerHTML = `
+        <div class="admin-section-header">
+
+          <div>
+            <h2>Pricing</h2>
+
+            <p>
+              Configure store pricing settings.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="admin-panel">
+
+          <form
+            id="pricing-form"
+            class="admin-form"
+          >
+
+            <div class="admin-form-grid">
+
+              <div class="admin-form-group">
+
+                <label>
+                  GST (%)
+                </label>
+
+                <input
+                  id="pricing-gst"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value="${
+                    settings.gst ??
+                    settings.gstRate ??
+                    18
+                  }"
+                />
+
+              </div>
+
+              <div class="admin-form-group">
+
+                <label>
+                  Shipping Charge (₹)
+                </label>
+
+                <input
+                  id="pricing-shipping"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value="${
+                    settings.shipping ??
+                    settings.shippingCharge ??
+                    0
+                  }"
+                />
+
+              </div>
+
+            </div>
+
+            <div class="admin-form-group">
+
+              <label>
+                Free Shipping Above (₹)
+              </label>
+
+              <input
+                id="pricing-free-shipping"
+                type="number"
+                min="0"
+                step="0.01"
+                value="${
+                  settings.freeShippingAbove ??
+                  0
+                }"
+              />
+
+            </div>
+
+            <button
+              type="submit"
+              class="admin-btn primary"
+            >
+              <i data-lucide="save"></i>
+              Save Pricing
+            </button>
+
+          </form>
+
+        </div>
+      `;
+
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+
+      document
+        .getElementById(
+          'pricing-form'
+        )
+        ?.addEventListener(
+          'submit',
+          async event => {
+
+            event.preventDefault();
+
+            try {
+
+              const payload = {
+                gst:
+                  Number(
+                    document
+                      .getElementById(
+                        'pricing-gst'
+                      )
+                      .value
+                  ),
+
+                shipping:
+                  Number(
+                    document
+                      .getElementById(
+                        'pricing-shipping'
+                      )
+                      .value
+                  ),
+
+                freeShippingAbove:
+                  Number(
+                    document
+                      .getElementById(
+                        'pricing-free-shipping'
+                      )
+                      .value
+                  )
+              };
+
+              const saveResponse =
+                await fetch(
+                  `${API}/admin/settings`,
+                  {
+                    method: 'PUT',
+                    headers:
+                      authHeaders(),
+                    body:
+                      JSON.stringify(
+                        payload
+                      )
+                  }
+                );
+
+              const result =
+                await saveResponse
+                  .json()
+                  .catch(
+                    () => ({})
+                  );
+
+              if (!saveResponse.ok) {
+                throw new Error(
+                  result.error ||
+                  'Failed to save pricing'
+                );
+              }
+
+              showAdminToast(
+                'Pricing settings saved',
+                'success'
+              );
+
+            } catch (error) {
+
+              console.error(error);
+
+              showAdminToast(
+                error.message ||
+                'Failed to save pricing',
+                'error'
+              );
+
+            }
+
+          }
+        );
+
+    } catch (error) {
+
+      console.error(error);
+
+      content.innerHTML = `
+        <div class="admin-error">
+
+          <i data-lucide="alert-circle"></i>
+
+          <h3>
+            Unable to load pricing
+          </h3>
+
+          <p>
+            ${error.message}
+          </p>
+
+        </div>
+      `;
+
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    }
+  };
+
+
+  const renderPayment = async content => {
+
+    try {
+
+      const response =
+        await fetch(
+          `${API}/settings`,
+          {
+            headers: authHeaders()
+          }
+        );
+
+      let settings = {};
+
+      if (response.ok) {
+        settings =
+          await response.json();
+      }
+
+      content.innerHTML = `
+        <div class="admin-section-header">
+
+          <div>
+            <h2>Payment Settings</h2>
+
+            <p>
+              Configure payment and UPI information.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="admin-panel">
+
+          <form
+            id="payment-settings-form"
+            class="admin-form"
+          >
+
+            <div class="admin-form-group">
+
+              <label>
+                UPI ID
+              </label>
+
+              <input
+                id="payment-upi"
+                type="text"
+                placeholder="example@upi"
+                value="${
+                  settings.upiId ||
+                  settings.upi ||
+                  ''
+                }"
+              />
+
+            </div>
+
+            <div class="admin-form-group">
+
+              <label>
+                QR Code Image URL
+              </label>
+
+              <input
+                id="payment-qr"
+                type="url"
+                placeholder="https://..."
+                value="${
+                  settings.qrCode ||
+                  settings.qrCodeUrl ||
+                  ''
+                }"
+              />
+
+            </div>
+
+            <div class="admin-form-group">
+
+              <label>
+                Payment Instructions
+              </label>
+
+              <textarea
+                id="payment-instructions"
+                rows="5"
+                placeholder="Enter payment instructions"
+              >${
+                settings.paymentInstructions ||
+                ''
+              }</textarea>
+
+            </div>
+
+            <button
+              type="submit"
+              class="admin-btn primary"
+            >
+              <i data-lucide="save"></i>
+              Save Payment Settings
+            </button>
+
+          </form>
+
+        </div>
+      `;
+
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+
+      document
+        .getElementById(
+          'payment-settings-form'
+        )
+        ?.addEventListener(
+          'submit',
+          async event => {
+
+            event.preventDefault();
+
+            try {
+
+              const payload = {
+                upiId:
+                  document
+                    .getElementById(
+                      'payment-upi'
+                    )
+                    .value.trim(),
+
+                qrCode:
+                  document
+                    .getElementById(
+                      'payment-qr'
+                    )
+                    .value.trim(),
+
+                paymentInstructions:
+                  document
+                    .getElementById(
+                      'payment-instructions'
+                    )
+                    .value.trim()
+              };
+
+              const saveResponse =
+                await fetch(
+                  `${API}/admin/settings`,
+                  {
+                    method: 'PUT',
+                    headers:
+                      authHeaders(),
+                    body:
+                      JSON.stringify(
+                        payload
+                      )
+                  }
+                );
+
+              const result =
+                await saveResponse
+                  .json()
+                  .catch(
+                    () => ({})
+                  );
+
+              if (!saveResponse.ok) {
+                throw new Error(
+                  result.error ||
+                  'Failed to save payment settings'
+                );
+              }
+
+              showAdminToast(
+                'Payment settings saved',
+                'success'
+              );
+
+            } catch (error) {
+
+              console.error(error);
+
+              showAdminToast(
+                error.message ||
+                'Failed to save payment settings',
+                'error'
+              );
+
+            }
+
+          }
+        );
+
+    } catch (error) {
+
+      console.error(error);
+
+      content.innerHTML = `
+        <div class="admin-error">
+
+          <i data-lucide="alert-circle"></i>
+
+          <h3>
+            Unable to load payment settings
+          </h3>
+
+          <p>
+            ${error.message}
+          </p>
+
+        </div>
+      `;
+
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    }
+  };
+    const renderUsers = async content => {
+    try {
+      const response = await fetch(
+        `${API}/admin/feed`,
+        {
+          headers: authHeaders()
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          'Failed to load users'
+        );
+      }
+
+      const data = await response.json();
+
+      const users = data.users || [];
+
+      content.innerHTML = `
+        <div class="admin-section-header">
+
+          <div>
+            <h2>Users</h2>
+
+            <p>
+              View registered CircuitKart customers.
+            </p>
+          </div>
+
+          <button
+            class="admin-refresh-btn"
+            id="refresh-users"
+          >
+            <i data-lucide="refresh-cw"></i>
+            Refresh
+          </button>
+
+        </div>
+
+        <div class="admin-panel">
+
+          <div class="admin-table-wrapper">
+
+            <table class="admin-table">
+
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Role</th>
+                  <th>Joined</th>
+                </tr>
+              </thead>
+
+              <tbody>
+
+                ${
+                  users.map(user => `
+                    <tr>
+
+                      <td>
+                        <div class="admin-user-cell">
+
+                          <div class="admin-user-avatar">
+                            <i data-lucide="user"></i>
+                          </div>
+
+                          <div>
+                            <strong>
+                              ${
+                                user.name ||
+                                user.username ||
+                                'User'
+                              }
+                            </strong>
+                          </div>
+
+                        </div>
+                      </td>
+
+                      <td>
+                        ${
+                          user.email ||
+                          '-'
+                        }
+                      </td>
+
+                      <td>
+                        ${
+                          user.phone ||
+                          '-'
+                        }
+                      </td>
+
+                      <td>
+                        <span class="admin-status-badge delivered">
+                          ${
+                            user.role ||
+                            'customer'
+                          }
+                        </span>
+                      </td>
+
+                      <td>
+                        ${
+                          user.created_at
+                            ? new Date(
+                                user.created_at
+                              ).toLocaleDateString()
+                            : '-'
+                        }
+                      </td>
+
+                    </tr>
+                  `).join('')
+                }
+
+                ${
+                  users.length === 0
+                    ? `
+                      <tr>
+                        <td
+                          colspan="5"
+                          class="admin-empty"
+                        >
+                          No users found.
+                        </td>
+                      </tr>
+                    `
+                    : ''
+                }
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+      `;
+
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+
+      document
+        .getElementById(
+          'refresh-users'
+        )
+        ?.addEventListener(
+          'click',
+          () => renderUsers(content)
+        );
+
+    } catch (error) {
+
+      console.error(error);
+
+      content.innerHTML = `
+        <div class="admin-error">
+
+          <i data-lucide="alert-circle"></i>
+
+          <h3>
+            Unable to load users
+          </h3>
+
+          <p>
+            ${error.message}
+          </p>
+
+        </div>
+      `;
+
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    }
+  };
+
+
+  const renderQuotes = async content => {
+
+    try {
+
+      const response =
+        await fetch(
+          `${API}/admin/feed`,
+          {
+            headers: authHeaders()
+          }
+        );
+
+      if (!response.ok) {
+        throw new Error(
+          'Failed to load quotes'
+        );
+      }
+
+      const data =
+        await response.json();
+
+      const quotes =
+        data.quotes || [];
+
+      content.innerHTML = `
+        <div class="admin-section-header">
+
+          <div>
+            <h2>Custom Quotes</h2>
+
+            <p>
+              Manage customer custom project requests.
+            </p>
+          </div>
+
+          <button
+            class="admin-refresh-btn"
+            id="refresh-quotes"
+          >
+            <i data-lucide="refresh-cw"></i>
+            Refresh
+          </button>
+
+        </div>
+
+        <div class="admin-panel">
+
+          <div class="admin-table-wrapper">
+
+            <table class="admin-table">
+
+              <thead>
+                <tr>
+                  <th>Request</th>
+                  <th>Customer</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+
+              <tbody>
+
+                ${
+                  quotes.map(quote => `
+                    <tr>
+
+                      <td>
+                        <strong>
+                          #${
+                            quote.id ||
+                            quote.quoteId ||
+                            '-'
+                          }
+                        </strong>
+                      </td>
+
+                      <td>
+                        ${
+                          quote.customerName ||
+                          quote.name ||
+                          '-'
+                        }
+                      </td>
+
+                      <td>
+                        <div
+                          class="admin-description-cell"
+                        >
+                          ${
+                            quote.description ||
+                            quote.requirements ||
+                            quote.message ||
+                            '-'
+                          }
+                        </div>
+                      </td>
+
+                      <td>
+                        <span class="
+                          admin-status-badge
+                          ${
+                            String(
+                              quote.status ||
+                              'pending'
+                            ).toLowerCase()
+                          }
+                        ">
+                          ${
+                            quote.status ||
+                            'Pending'
+                          }
+                        </span>
+                      </td>
+
+                      <td>
+                        ${
+                          quote.created_at
+                            ? new Date(
+                                quote.created_at
+                              ).toLocaleString()
+                            : '-'
+                        }
+                      </td>
+
+                    </tr>
+                  `).join('')
+                }
+
+                ${
+                  quotes.length === 0
+                    ? `
+                      <tr>
+                        <td
+                          colspan="5"
+                          class="admin-empty"
+                        >
+                          No custom quote requests.
+                        </td>
+                      </tr>
+                    `
+                    : ''
+                }
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+      `;
+
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+
+      document
+        .getElementById(
+          'refresh-quotes'
+        )
+        ?.addEventListener(
+          'click',
+          () => renderQuotes(content)
+        );
+
+    } catch (error) {
+
+      console.error(error);
+
+      content.innerHTML = `
+        <div class="admin-error">
+
+          <i data-lucide="alert-circle"></i>
+
+          <h3>
+            Unable to load custom quotes
+          </h3>
+
+          <p>
+            ${error.message}
+          </p>
+
+        </div>
+      `;
+
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    }
+  };
+
+
+  const renderActivity = async content => {
+
+    try {
+
+      const response =
+        await fetch(
+          `${API}/admin/feed`,
+          {
+            headers: authHeaders()
+          }
+        );
+
+      if (!response.ok) {
+        throw new Error(
+          'Failed to load activity'
+        );
+      }
+
+      const data =
+        await response.json();
+
+      const activity =
+        data.activity ||
+        data.activities ||
+        [];
+
+      content.innerHTML = `
+        <div class="admin-section-header">
+
+          <div>
+            <h2>Activity Log</h2>
+
+            <p>
+              Recent CircuitKart platform activity.
+            </p>
+          </div>
+
+          <button
+            class="admin-refresh-btn"
+            id="refresh-activity"
+          >
+            <i data-lucide="refresh-cw"></i>
+            Refresh
+          </button>
+
+        </div>
+
+        <div class="admin-panel">
+
+          ${
+            activity.length
+              ? `
+                <div class="admin-activity-list">
+
+                  ${activity.map(item => `
+                    <div
+                      class="admin-activity-item"
+                    >
+
+                      <div class="admin-activity-icon">
+                        <i data-lucide="${
+                          item.icon ||
+                          'activity'
+                        }"></i>
+                      </div>
+
+                      <div
+                        class="admin-activity-content"
+                      >
+
+                        <strong>
+                          ${
+                            item.title ||
+                            item.action ||
+                            'Activity'
+                          }
+                        </strong>
+
+                        <p>
+                          ${
+                            item.description ||
+                            item.message ||
+                            ''
+                          }
+                        </p>
+
+                        <span>
+                          ${
+                            item.created_at
+                              ? new Date(
+                                  item.created_at
+                                ).toLocaleString()
+                              : ''
+                          }
+                        </span>
+
+                      </div>
+
+                    </div>
+                  `).join('')}
+
+                </div>
+              `
+              : `
+                <div class="admin-empty-state">
+
+                  <i data-lucide="activity"></i>
+
+                  <h3>
+                    No activity available
+                  </h3>
+
+                  <p>
+                    Recent admin activity
+                    will appear here.
+                  </p>
+
+                </div>
+              `
+          }
+
+        </div>
+      `;
+
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+
+      document
+        .getElementById(
+          'refresh-activity'
+        )
+        ?.addEventListener(
+          'click',
+          () => renderActivity(content)
+        );
+
+    } catch (error) {
+
+      console.error(error);
+
+      content.innerHTML = `
+        <div class="admin-error">
+
+          <i data-lucide="alert-circle"></i>
+
+          <h3>
+            Unable to load activity
+          </h3>
+
+          <p>
+            ${error.message}
+          </p>
+
+        </div>
+      `;
+
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    }
+  };
+
+
+  const showAdminToast = (
+    message,
+    type = 'info'
+  ) => {
+
+    document
+      .querySelectorAll(
+        '.admin-toast'
+      )
+      .forEach(
+        toast => toast.remove()
+      );
+
+    const toast =
+      document.createElement(
+        'div'
+      );
+
+    toast.className =
+      `admin-toast ${type}`;
+
+    const icon =
+      type === 'success'
+        ? 'check-circle'
+        : type === 'error'
+          ? 'alert-circle'
+          : 'info';
+
+    toast.innerHTML = `
+      <i data-lucide="${icon}"></i>
+
+      <span>
+        ${message}
+      </span>
+
+      <button
+        class="admin-toast-close"
+        aria-label="Close"
+      >
+        <i data-lucide="x"></i>
+      </button>
+    `;
+
+    document.body.appendChild(
+      toast
+    );
+
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
+
+    const closeButton =
+      toast.querySelector(
+        '.admin-toast-close'
+      );
+
+    closeButton?.addEventListener(
+      'click',
+      () => toast.remove()
+    );
+
+    setTimeout(
+      () => {
+        toast.remove();
+      },
+      4000
+    );
+  };
+
+
+  await render();
 }
 
-function showAdminToast(message, type = 'success') {
-  const tc = document.getElementById('toast-container') || document.body;
-  const el = document.createElement('div');
-  el.className = `toast toast-${type}`;
-  el.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9999;';
-  el.innerHTML = `<div class="toast-content">${message}</div>`;
-  tc.appendChild(el);
-  setTimeout(() => el.remove(), 4000);
-}
+export default AdminPage;
