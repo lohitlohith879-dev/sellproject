@@ -8,82 +8,82 @@ const API = import.meta.env.VITE_API_URL || '';
 
 export async function InvoicePage(container, params = {}) {
 
-    // ==========================================================
-    // ORDER ID
-    // ==========================================================
+  // ==========================================================
+  // ORDER ID
+  // ==========================================================
 
-    const orderId =
-        params.id ||
-        params.orderId ||
-        '';
+  const orderId =
+    params.id ||
+    params.orderId ||
+    '';
 
-    const token =
-        localStorage.getItem('ck_token') ||
-        localStorage.getItem('ck_admin_token');
-
-
-    // ==========================================================
-    // HELPERS
-    // ==========================================================
-
-    const money = (value) => {
-        return `₹${Number(value || 0).toLocaleString(
-            'en-IN',
-            {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 2
-            }
-        )}`;
-    };
+  const token =
+    localStorage.getItem('ck_token') ||
+    localStorage.getItem('ck_admin_token');
 
 
-    const escapeHTML = (value) => {
-        return String(value ?? '')
-            .replaceAll('&', '&amp;')
-            .replaceAll('<', '&lt;')
-            .replaceAll('>', '&gt;')
-            .replaceAll('"', '&quot;')
-            .replaceAll("'", '&#039;');
-    };
+  // ==========================================================
+  // HELPERS
+  // ==========================================================
+
+  const money = (value) => {
+    return `₹${Number(value || 0).toLocaleString(
+      'en-IN',
+      {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+      }
+    )}`;
+  };
 
 
-    const formatDate = (value) => {
+  const escapeHTML = (value) => {
+    return String(value ?? '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+  };
 
-        if (!value) {
-            return new Date().toLocaleDateString(
-                'en-IN',
-                {
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric'
-                }
-            );
+
+  const formatDate = (value) => {
+
+    if (!value) {
+      return new Date().toLocaleDateString(
+        'en-IN',
+        {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric'
         }
+      );
+    }
 
-        const date = new Date(value);
+    const date = new Date(value);
 
-        if (Number.isNaN(date.getTime())) {
-            return String(value);
-        }
+    if (Number.isNaN(date.getTime())) {
+      return String(value);
+    }
 
-        return date.toLocaleDateString(
-            'en-IN',
-            {
-                day: '2-digit',
-                month: 'short',
-                year: 'numeric'
-            }
-        );
-    };
+    return date.toLocaleDateString(
+      'en-IN',
+      {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      }
+    );
+  };
 
 
-    // ==========================================================
-    // VALIDATE ORDER ID
-    // ==========================================================
+  // ==========================================================
+  // VALIDATE ORDER ID
+  // ==========================================================
 
-    if (!orderId) {
+  if (!orderId) {
 
-        container.innerHTML = `
+    container.innerHTML = `
       <div
         class="container section text-center"
         style="
@@ -130,19 +130,19 @@ export async function InvoicePage(container, params = {}) {
       </div>
     `;
 
-        if (window.lucide) {
-            window.lucide.createIcons();
-        }
-
-        return;
+    if (window.lucide) {
+      window.lucide.createIcons();
     }
 
+    return;
+  }
 
-    // ==========================================================
-    // LOADING
-    // ==========================================================
 
-    container.innerHTML = `
+  // ==========================================================
+  // LOADING
+  // ==========================================================
+
+  container.innerHTML = `
     <div
       class="container section text-center"
       style="
@@ -178,78 +178,78 @@ export async function InvoicePage(container, params = {}) {
   `;
 
 
-    // ==========================================================
-    // FIND ORDER FROM STORE FIRST
-    // ==========================================================
+  // ==========================================================
+  // FIND ORDER FROM STORE FIRST
+  // ==========================================================
 
-    let orders = [];
+  let orders = [];
+
+  try {
+    orders = store.get('orders') || [];
+  } catch (error) {
+    console.warn(
+      'Unable to read orders from store:',
+      error
+    );
+  }
+
+
+  let order =
+    orders.find(
+      item =>
+        String(item.id) ===
+        String(orderId)
+    ) || null;
+
+
+  // ==========================================================
+  // FALLBACK TO API
+  // ==========================================================
+
+  // The store should normally contain the order.
+  // We only call the API if it isn't already available.
+
+  if (!order && token) {
 
     try {
-        orders = store.get('orders') || [];
-    } catch (error) {
-        console.warn(
-            'Unable to read orders from store:',
-            error
-        );
-    }
 
-
-    let order =
-        orders.find(
-            item =>
-                String(item.id) ===
-                String(orderId)
-        ) || null;
-
-
-    // ==========================================================
-    // FALLBACK TO API
-    // ==========================================================
-
-    // The store should normally contain the order.
-    // We only call the API if it isn't already available.
-
-    if (!order && token) {
-
-        try {
-
-            const response =
-                await fetch(
-                    `${API}/api/orders/${encodeURIComponent(orderId)}`,
-                    {
-                        headers: {
-                            Authorization:
-                                `Bearer ${token}`
-                        }
-                    }
-                );
-
-            if (response.ok) {
-
-                order =
-                    await response.json();
-
+      const response =
+        await fetch(
+          `${API}/api/orders/${encodeURIComponent(orderId)}`,
+          {
+            headers: {
+              Authorization:
+                `Bearer ${token}`
             }
+          }
+        );
 
-        } catch (error) {
+      if (response.ok) {
 
-            console.warn(
-                'Invoice API fallback failed:',
-                error
-            );
+        order =
+          await response.json();
 
-        }
+      }
+
+    } catch (error) {
+
+      console.warn(
+        'Invoice API fallback failed:',
+        error
+      );
 
     }
 
+  }
 
-    // ==========================================================
-    // ORDER NOT FOUND
-    // ==========================================================
 
-    if (!order) {
+  // ==========================================================
+  // ORDER NOT FOUND
+  // ==========================================================
 
-        container.innerHTML = `
+  if (!order) {
+
+    container.innerHTML = `
       <div
         class="container section text-center"
         style="
@@ -302,208 +302,208 @@ export async function InvoicePage(container, params = {}) {
       </div>
     `;
 
-        if (window.lucide) {
-            window.lucide.createIcons();
-        }
-
-        return;
+    if (window.lucide) {
+      window.lucide.createIcons();
     }
 
-
-    // ==========================================================
-    // ORDER DATA
-    // ==========================================================
-
-    const items =
-        Array.isArray(order.items)
-            ? order.items
-            : [];
+    return;
+  }
 
 
-    const contact =
-        order.contactInfo ||
-        order.customer ||
-        {};
+  // ==========================================================
+  // ORDER DATA
+  // ==========================================================
+
+  const items =
+    Array.isArray(order.items)
+      ? order.items
+      : [];
 
 
-    const shipping =
-        order.shippingInfo ||
-        {};
+  const contact =
+    order.contactInfo ||
+    order.customer ||
+    {};
 
 
-    const customerName =
-        contact.name ||
-        contact.fullName ||
-        order.customerName ||
-        'Customer';
+  const shipping =
+    order.shippingInfo ||
+    {};
 
 
-    const customerEmail =
-        contact.email ||
-        order.email ||
-        '';
+  const customerName =
+    contact.name ||
+    contact.fullName ||
+    order.customerName ||
+    'Customer';
 
 
-    const customerPhone =
-        contact.phone ||
-        order.phone ||
-        '';
+  const customerEmail =
+    contact.email ||
+    order.email ||
+    '';
 
 
-    const shippingAddress = [
-        shipping.address1,
-        shipping.address2,
-        shipping.address,
-        shipping.city,
-        shipping.state,
-        shipping.pincode,
-        shipping.zip,
-        shipping.postalCode,
-        shipping.country
-    ]
-        .filter(Boolean)
-        .filter(
-            (value, index, array) =>
-                array.indexOf(value) === index
-        )
-        .join(', ');
+  const customerPhone =
+    contact.phone ||
+    order.phone ||
+    '';
 
 
-    const address =
-        shippingAddress ||
-        'Shipping address not available';
+  const shippingAddress = [
+    shipping.address1,
+    shipping.address2,
+    shipping.address,
+    shipping.city,
+    shipping.state,
+    shipping.pincode,
+    shipping.zip,
+    shipping.postalCode,
+    shipping.country
+  ]
+    .filter(Boolean)
+    .filter(
+      (value, index, array) =>
+        array.indexOf(value) === index
+    )
+    .join(', ');
 
 
-    // ==========================================================
-    // TOTALS
-    // ==========================================================
-
-    let calculatedSubtotal = 0;
+  const address =
+    shippingAddress ||
+    'Shipping address not available';
 
 
-    items.forEach(item => {
+  // ==========================================================
+  // TOTALS
+  // ==========================================================
 
-        const quantity =
-            Number(
-                item.quantity ??
-                item.qty ??
-                1
-            );
+  let calculatedSubtotal = 0;
 
 
-        const price =
-            Number(
-                item.price ??
-                item.unitPrice ??
-                item.amount ??
-                0
-            );
+  items.forEach(item => {
+
+    const quantity =
+      Number(
+        item.quantity ??
+        item.qty ??
+        1
+      );
 
 
-        calculatedSubtotal +=
-            price * quantity;
-
-    });
-
-
-    const subtotal =
-        Number(
-            order.subtotal ??
-            calculatedSubtotal
-        );
+    const price =
+      Number(
+        item.price ??
+        item.unitPrice ??
+        item.amount ??
+        0
+      );
 
 
-    const discount =
-        Number(
-            order.discount ??
-            order.discountAmount ??
-            0
-        );
+    calculatedSubtotal +=
+      price * quantity;
+
+  });
 
 
-    const gst =
-        Number(
-            order.gst ??
-            order.tax ??
-            order.taxAmount ??
-            0
-        );
+  const subtotal =
+    Number(
+      order.subtotal ??
+      calculatedSubtotal
+    );
 
 
-    const shippingCharge =
-        Number(
-            order.shippingCharge ??
-            order.shipping ??
-            order.deliveryCharge ??
-            0
-        );
+  const discount =
+    Number(
+      order.discount ??
+      order.discountAmount ??
+      0
+    );
 
 
-    const calculatedTotal =
-        subtotal -
-        discount +
-        gst +
-        shippingCharge;
+  const gst =
+    Number(
+      order.gst ??
+      order.tax ??
+      order.taxAmount ??
+      0
+    );
 
 
-    const total =
-        Number(
-            order.total ??
-            order.grandTotal ??
-            order.amount ??
-            calculatedTotal
-        );
+  const shippingCharge =
+    Number(
+      order.shippingCharge ??
+      order.shipping ??
+      order.deliveryCharge ??
+      0
+    );
 
 
-    // ==========================================================
-    // PAYMENT
-    // ==========================================================
-
-    const paymentStatus =
-        String(
-            order.paymentStatus ||
-            order.payment_status ||
-            (
-                order.paymentConfirmed
-                    ? 'paid'
-                    : 'pending'
-            )
-        ).toLowerCase();
+  const calculatedTotal =
+    subtotal -
+    discount +
+    gst +
+    shippingCharge;
 
 
-    const paymentMethod =
-        order.paymentMethod ||
-        order.payment_method ||
-        order.method ||
-        'Online Payment';
+  const total =
+    Number(
+      order.total ??
+      order.grandTotal ??
+      order.amount ??
+      calculatedTotal
+    );
 
 
-    const transactionId =
-        order.transactionId ||
-        order.transaction_id ||
-        '';
+  // ==========================================================
+  // PAYMENT
+  // ==========================================================
+
+  const paymentStatus =
+    String(
+      order.paymentStatus ||
+      order.payment_status ||
+      (
+        order.paymentConfirmed
+          ? 'paid'
+          : 'pending'
+      )
+    ).toLowerCase();
 
 
-    // ==========================================================
-    // INVOICE NUMBER
-    // ==========================================================
-
-    const invoiceNumber =
-        `CK-INV-${String(orderId)
-            .replace(
-                /[^a-zA-Z0-9]/g,
-                ''
-            )
-            .slice(-12)
-            .toUpperCase()
-        }`;
+  const paymentMethod =
+    order.paymentMethod ||
+    order.payment_method ||
+    order.method ||
+    'Online Payment';
 
 
-    // ==========================================================
-    // PAGE
-    // ==========================================================
+  const transactionId =
+    order.transactionId ||
+    order.transaction_id ||
+    '';
 
-    container.innerHTML = `
+
+  // ==========================================================
+  // INVOICE NUMBER
+  // ==========================================================
+
+  const invoiceNumber =
+    `CK-INV-${String(orderId)
+      .replace(
+        /[^a-zA-Z0-9]/g,
+        ''
+      )
+      .slice(-12)
+      .toUpperCase()
+    }`;
+
+
+  // ==========================================================
+  // PAGE
+  // ==========================================================
+
+  container.innerHTML = `
 
     <div
       class="invoice-page"
@@ -820,12 +820,12 @@ export async function InvoicePage(container, params = {}) {
                 id="invoice-date"
               >
                 ${escapeHTML(
-        formatDate(
-            order.date ||
-            order.created_at ||
-            order.createdAt
-        )
-    )}
+    formatDate(
+      order.date ||
+      order.created_at ||
+      order.createdAt
+    )
+  )}
               </strong>
 
             </div>
@@ -850,14 +850,14 @@ export async function InvoicePage(container, params = {}) {
                 id="invoice-payment-method"
               >
                 ${escapeHTML(
-        String(
-            paymentMethod
-        )
-            .replaceAll(
-                '_',
-                ' '
-            )
-    )}
+    String(
+      paymentMethod
+    )
+      .replaceAll(
+        '_',
+        ' '
+      )
+  )}
               </strong>
 
             </div>
@@ -903,29 +903,29 @@ export async function InvoicePage(container, params = {}) {
 
                 <strong>
                   ${escapeHTML(
-        customerName
-    )}
+    customerName
+  )}
                 </strong>
 
                 ${customerEmail
-            ? `
+      ? `
                       <br>
                       ${escapeHTML(
-                customerEmail
-            )}
+        customerEmail
+      )}
                     `
-            : ''
-        }
+      : ''
+    }
 
                 ${customerPhone
-            ? `
+      ? `
                       <br>
                       ${escapeHTML(
-                customerPhone
-            )}
+        customerPhone
+      )}
                     `
-            : ''
-        }
+      : ''
+    }
 
               </div>
 
@@ -956,15 +956,15 @@ export async function InvoicePage(container, params = {}) {
 
                 <strong>
                   ${escapeHTML(
-            customerName
-        )}
+      customerName
+    )}
                 </strong>
 
                 <br>
 
                 ${escapeHTML(
-            address
-        )}
+      address
+    )}
 
               </div>
 
@@ -1079,36 +1079,36 @@ export async function InvoicePage(container, params = {}) {
                 <tbody>
 
                   ${items.length
-            ? items.map(
-                item => {
+      ? items.map(
+        item => {
 
-                    const quantity =
-                        Number(
-                            item.quantity ??
-                            item.qty ??
-                            1
-                        );
+          const quantity =
+            Number(
+              item.quantity ??
+              item.qty ??
+              1
+            );
 
-                    const price =
-                        Number(
-                            item.price ??
-                            item.unitPrice ??
-                            item.amount ??
-                            0
-                        );
+          const price =
+            Number(
+              item.price ??
+              item.unitPrice ??
+              item.amount ??
+              0
+            );
 
-                    const lineTotal =
-                        quantity *
-                        price;
+          const lineTotal =
+            quantity *
+            price;
 
-                    const name =
-                        item.name ||
-                        item.title ||
-                        item.productName ||
-                        'Product';
+          const name =
+            item.name ||
+            item.title ||
+            item.productName ||
+            'Product';
 
 
-                    return `
+          return `
 
                               <tr>
 
@@ -1123,8 +1123,8 @@ export async function InvoicePage(container, params = {}) {
 
                                   <strong>
                                     ${escapeHTML(
-                        name
-                    )}
+            name
+          )}
                                   </strong>
 
                                 </td>
@@ -1173,9 +1173,9 @@ export async function InvoicePage(container, params = {}) {
 
                             `;
 
-                }
-            ).join('')
-            : `
+        }
+      ).join('')
+      : `
                         <tr>
 
                           <td
@@ -1191,7 +1191,7 @@ export async function InvoicePage(container, params = {}) {
 
                         </tr>
                       `
-        }
+    }
 
                 </tbody>
 
@@ -1314,8 +1314,8 @@ export async function InvoicePage(container, params = {}) {
                   style="color:#111827;"
                 >
                   ${money(
-            shippingCharge
-        )}
+      shippingCharge
+    )}
                 </strong>
 
               </div>
@@ -1418,8 +1418,8 @@ export async function InvoicePage(container, params = {}) {
                 style="color:#111827;"
               >
                 ${escapeHTML(
-            paymentMethod
-        )}
+      paymentMethod
+    )}
               </strong>
 
               <br>
@@ -1429,12 +1429,12 @@ export async function InvoicePage(container, params = {}) {
                 style="color:#111827;"
               >
                 ${escapeHTML(
-            paymentStatus
-        )}
+      paymentStatus
+    )}
               </strong>
 
               ${transactionId
-            ? `
+      ? `
                     <br>
                     Transaction ID:
                     <strong
@@ -1444,12 +1444,12 @@ export async function InvoicePage(container, params = {}) {
                       "
                     >
                       ${escapeHTML(
-                transactionId
-            )}
+        transactionId
+      )}
                     </strong>
                   `
-            : ''
-        }
+      : ''
+    }
 
             </div>
 
@@ -1573,99 +1573,99 @@ export async function InvoicePage(container, params = {}) {
   `;
 
 
-    // ==========================================================
-    // PAYMENT BADGE
-    // ==========================================================
+  // ==========================================================
+  // PAYMENT BADGE
+  // ==========================================================
 
-    const statusElement =
-        document.getElementById(
-            'invoice-payment-status'
-        );
-
-
-    if (
-        paymentStatus === 'paid' ||
-        paymentStatus === 'success' ||
-        paymentStatus === 'completed'
-    ) {
-
-        statusElement.textContent =
-            'PAID';
-
-        statusElement.style.background =
-            '#dcfce7';
-
-        statusElement.style.color =
-            '#166534';
-
-    } else if (
-        paymentStatus === 'failed'
-    ) {
-
-        statusElement.textContent =
-            'PAYMENT FAILED';
-
-        statusElement.style.background =
-            '#fee2e2';
-
-        statusElement.style.color =
-            '#991b1b';
-
-    } else {
-
-        statusElement.textContent =
-            'PAYMENT PENDING';
-
-        statusElement.style.background =
-            '#fef3c7';
-
-        statusElement.style.color =
-            '#92400e';
-
-    }
+  const statusElement =
+    document.getElementById(
+      'invoice-payment-status'
+    );
 
 
-    // ==========================================================
-    // PRINT BUTTON
-    // ==========================================================
+  if (
+    paymentStatus === 'paid' ||
+    paymentStatus === 'success' ||
+    paymentStatus === 'completed'
+  ) {
 
-    document
-        .getElementById(
-            'invoice-print'
-        )
-        ?.addEventListener(
-            'click',
-            () => {
+    statusElement.textContent =
+      'PAID';
 
-                const invoice =
-                    document.getElementById(
-                        'invoice-document'
-                    );
+    statusElement.style.background =
+      '#dcfce7';
 
-                if (!invoice) {
-                    return;
-                }
+    statusElement.style.color =
+      '#166534';
+
+  } else if (
+    paymentStatus === 'failed'
+  ) {
+
+    statusElement.textContent =
+      'PAYMENT FAILED';
+
+    statusElement.style.background =
+      '#fee2e2';
+
+    statusElement.style.color =
+      '#991b1b';
+
+  } else {
+
+    statusElement.textContent =
+      'PAYMENT PENDING';
+
+    statusElement.style.background =
+      '#fef3c7';
+
+    statusElement.style.color =
+      '#92400e';
+
+  }
 
 
-                const printWindow =
-                    window.open(
-                        '',
-                        '_blank',
-                        'width=1000,height=800'
-                    );
+  // ==========================================================
+  // PRINT BUTTON
+  // ==========================================================
+
+  document
+    .getElementById(
+      'invoice-print'
+    )
+    ?.addEventListener(
+      'click',
+      () => {
+
+        const invoice =
+          document.getElementById(
+            'invoice-document'
+          );
+
+        if (!invoice) {
+          return;
+        }
 
 
-                if (!printWindow) {
-
-                    alert(
-                        'Please allow pop-ups to print the invoice.'
-                    );
-
-                    return;
-                }
+        const printWindow =
+          window.open(
+            '',
+            '_blank',
+            'width=1000,height=800'
+          );
 
 
-                printWindow.document.write(`
+        if (!printWindow) {
+
+          alert(
+            'Please allow pop-ups to print the invoice.'
+          );
+
+          return;
+        }
+
+
+        printWindow.document.write(`
           <!DOCTYPE html>
 
           <html>
@@ -1674,8 +1674,8 @@ export async function InvoicePage(container, params = {}) {
 
             <title>
               ${escapeHTML(
-                    invoiceNumber
-                )}
+          invoiceNumber
+        )}
             </title>
 
             <meta
@@ -1729,53 +1729,53 @@ export async function InvoicePage(container, params = {}) {
         `);
 
 
-                printWindow.document.close();
+        printWindow.document.close();
 
 
-                setTimeout(
-                    () => {
+        setTimeout(
+          () => {
 
-                        printWindow.focus();
-                        printWindow.print();
+            printWindow.focus();
+            printWindow.print();
 
-                    },
-                    500
-                );
-
-            }
+          },
+          500
         );
 
+      }
+    );
 
-    // ==========================================================
-    // DOWNLOAD PDF
-    // ==========================================================
 
-    document
-        .getElementById(
+  // ==========================================================
+  // DOWNLOAD PDF
+  // ==========================================================
+
+  document
+    .getElementById(
+      'invoice-download'
+    )
+    ?.addEventListener(
+      'click',
+      async () => {
+
+        const button =
+          document.getElementById(
             'invoice-download'
-        )
-        ?.addEventListener(
-            'click',
-            async () => {
-
-                const button =
-                    document.getElementById(
-                        'invoice-download'
-                    );
+          );
 
 
-                if (!button) {
-                    return;
-                }
+        if (!button) {
+          return;
+        }
 
 
-                const originalHTML =
-                    button.innerHTML;
+        const originalHTML =
+          button.innerHTML;
 
 
-                button.disabled = true;
+        button.disabled = true;
 
-                button.innerHTML = `
+        button.innerHTML = `
           <i
             data-lucide="loader"
             style="
@@ -1788,171 +1788,171 @@ export async function InvoicePage(container, params = {}) {
         `;
 
 
-                if (window.lucide) {
-                    window.lucide.createIcons();
+        if (window.lucide) {
+          window.lucide.createIcons();
+        }
+
+
+        try {
+
+          // Load html2pdf only when needed
+
+          if (!window.html2pdf) {
+
+            await new Promise(
+              (
+                resolve,
+                reject
+              ) => {
+
+                const existing =
+                  document.querySelector(
+                    'script[data-html2pdf]'
+                  );
+
+
+                if (existing) {
+
+                  existing.addEventListener(
+                    'load',
+                    resolve,
+                    {
+                      once: true
+                    }
+                  );
+
+                  existing.addEventListener(
+                    'error',
+                    reject,
+                    {
+                      once: true
+                    }
+                  );
+
+                  return;
                 }
 
 
-                try {
-
-                    // Load html2pdf only when needed
-
-                    if (!window.html2pdf) {
-
-                        await new Promise(
-                            (
-                                resolve,
-                                reject
-                            ) => {
-
-                                const existing =
-                                    document.querySelector(
-                                        'script[data-html2pdf]'
-                                    );
+                const script =
+                  document.createElement(
+                    'script'
+                  );
 
 
-                                if (existing) {
-
-                                    existing.addEventListener(
-                                        'load',
-                                        resolve,
-                                        {
-                                            once: true
-                                        }
-                                    );
-
-                                    existing.addEventListener(
-                                        'error',
-                                        reject,
-                                        {
-                                            once: true
-                                        }
-                                    );
-
-                                    return;
-                                }
+                script.src =
+                  'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
 
 
-                                const script =
-                                    document.createElement(
-                                        'script'
-                                    );
+                script.dataset.html2pdf =
+                  'true';
 
 
-                                script.src =
-                                    'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+                script.onload =
+                  resolve;
 
 
-                                script.dataset.html2pdf =
-                                    'true';
+                script.onerror =
+                  reject;
 
 
-                                script.onload =
-                                    resolve;
+                document.head.appendChild(
+                  script
+                );
+
+              }
+            );
+
+          }
 
 
-                                script.onerror =
-                                    reject;
+          if (!window.html2pdf) {
+            throw new Error(
+              'PDF library could not be loaded.'
+            );
+          }
 
 
-                                document.head.appendChild(
-                                    script
-                                );
-
-                            }
-                        );
-
-                    }
+          const invoice =
+            document.getElementById(
+              'invoice-document'
+            );
 
 
-                    if (!window.html2pdf) {
-                        throw new Error(
-                            'PDF library could not be loaded.'
-                        );
-                    }
+          await window.html2pdf()
+            .set({
+
+              margin: 8,
+
+              filename:
+                `${invoiceNumber}.pdf`,
+
+              image: {
+                type: 'jpeg',
+                quality: .98
+              },
+
+              html2canvas: {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: '#ffffff'
+              },
+
+              jsPDF: {
+                unit: 'mm',
+                format: 'a4',
+                orientation: 'portrait'
+              },
+
+              pagebreak: {
+                mode: [
+                  'css',
+                  'legacy'
+                ]
+              }
+
+            })
+            .from(invoice)
+            .save();
 
 
-                    const invoice =
-                        document.getElementById(
-                            'invoice-document'
-                        );
+        } catch (error) {
+
+          console.error(
+            'Invoice PDF error:',
+            error
+          );
 
 
-                    await window.html2pdf()
-                        .set({
-
-                            margin: 8,
-
-                            filename:
-                                `${invoiceNumber}.pdf`,
-
-                            image: {
-                                type: 'jpeg',
-                                quality: .98
-                            },
-
-                            html2canvas: {
-                                scale: 2,
-                                useCORS: true,
-                                backgroundColor: '#ffffff'
-                            },
-
-                            jsPDF: {
-                                unit: 'mm',
-                                format: 'a4',
-                                orientation: 'portrait'
-                            },
-
-                            pagebreak: {
-                                mode: [
-                                    'css',
-                                    'legacy'
-                                ]
-                            }
-
-                        })
-                        .from(invoice)
-                        .save();
+          alert(
+            'PDF download failed. Use Print → Save as PDF.'
+          );
 
 
-                } catch (error) {
+        } finally {
 
-                    console.error(
-                        'Invoice PDF error:',
-                        error
-                    );
+          button.disabled = false;
 
-
-                    alert(
-                        'PDF download failed. Use Print → Save as PDF.'
-                    );
+          button.innerHTML =
+            originalHTML;
 
 
-                } finally {
+          if (window.lucide) {
+            window.lucide.createIcons();
+          }
 
-                    button.disabled = false;
+        }
 
-                    button.innerHTML =
-                        originalHTML;
-
-
-                    if (window.lucide) {
-                        window.lucide.createIcons();
-                    }
-
-                }
-
-            }
-        );
+      }
+    );
 
 
-    // ==========================================================
-    // LUCIDE ICONS
-    // ==========================================================
+  // ==========================================================
+  // LUCIDE ICONS
+  // ==========================================================
 
-    if (window.lucide) {
-        window.lucide.createIcons();
-    }
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
 
 }
 
