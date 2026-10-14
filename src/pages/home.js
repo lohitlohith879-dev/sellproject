@@ -15,7 +15,7 @@ export function HomePage(container) {
     name: name.charAt(0).toUpperCase() + name.slice(1).replace('-', ' '),
     slug: name,
     icon: name === 'arduino' ? 'cpu' : name === 'esp32' ? 'wifi' : name === 'robotics' ? 'bot' : 'box',
-    projectCount: projects.filter(p => p.category === name).length
+    count: projects.filter(p => p.category === name).length
   }));
 
   container.innerHTML = `

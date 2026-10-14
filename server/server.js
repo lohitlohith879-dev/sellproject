@@ -16,7 +16,7 @@ const app = express();
 const httpServer = createServer(app);
 
 // Use a dynamic port, defaulting to 3000
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 // Setup Socket.IO modular connection
 initSocket(httpServer);
@@ -99,6 +99,17 @@ app.post('/api/auth/register', async (req, res) => {
     // Issue JWT
     const token = jwt.sign({ id: user.id, email: user.email, name: user.name, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
 
+    // Notify admins via socket and activity feed
+    const date = new Date().toISOString();
+    const desc = `New customer registered: ${user.name} (${user.email})`;
+    try {
+      db.prepare('INSERT INTO activities (type, description, date) VALUES (?, ?, ?)').run('customer', desc, date);
+      getIo().to('admins').emit('admin:activity', { type: 'customer', description: desc, date });
+      getIo().to('admins').emit('admin:new_user', user);
+    } catch (e) {
+      console.error('Socket emit error on register:', e);
+    }
+
     res.status(201).json({ token, user });
   } catch (error) {
     console.error('Register error:', error);
@@ -142,9 +153,51 @@ app.post('/api/auth/login', async (req, res) => {
 
 // GET CURRENT USER (protected)
 app.get('/api/auth/me', authMiddleware, (req, res) => {
-  const user = db.prepare('SELECT id, name, email, role, created_at FROM users WHERE id = ?').get(req.user.id);
+  const user = db.prepare('SELECT id, name, email, role, phone, college, address, created_at FROM users WHERE id = ?').get(req.user.id);
   if (!user) return res.status(404).json({ error: 'User not found' });
   res.json({ user });
+});
+
+// GET USER PROFILE
+app.get('/api/users/profile', authMiddleware, (req, res) => {
+  try {
+    const user = db.prepare('SELECT id, name, email, role, phone, college, address, created_at FROM users WHERE id = ?').get(req.user.id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch user profile' });
+  }
+});
+
+// UPDATE USER PROFILE
+app.put('/api/users/profile', authMiddleware, (req, res) => {
+  try {
+    const { name, phone, college, address } = req.body;
+    db.prepare(`
+      UPDATE users SET
+        name = COALESCE(?, name),
+        phone = COALESCE(?, phone),
+        college = COALESCE(?, college),
+        address = COALESCE(?, address)
+      WHERE id = ?
+    `).run(name || null, phone || null, college || null, address || null, req.user.id);
+
+    const updatedUser = db.prepare('SELECT id, name, email, role, phone, college, address, created_at FROM users WHERE id = ?').get(req.user.id);
+
+    // Notify admins of profile update
+    const date = new Date().toISOString();
+    const desc = `Customer ${updatedUser.name} (${updatedUser.email}) updated profile details`;
+    try {
+      db.prepare('INSERT INTO activities (type, description, date) VALUES (?, ?, ?)').run('customer', desc, date);
+      getIo().to('admins').emit('admin:activity', { type: 'customer', description: desc, date });
+      getIo().to('admins').emit('admin:user_updated', updatedUser);
+    } catch (e) {}
+
+    res.json(updatedUser);
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).json({ error: 'Failed to update profile' });
+  }
 });
 
 // ADMIN LOGIN (role-restricted)
@@ -526,11 +579,25 @@ app.post('/api/orders/:id/payment', authMiddleware, requireCustomer, (req, res) 
 // Get all orders (Admin view)
 app.get('/api/orders/all', authMiddleware, requireAdmin, (req, res) => {
   try {
-    const orders = db.prepare("SELECT * FROM orders ORDER BY date DESC").all();
+    const orders = db.prepare(`
+      SELECT 
+        o.*,
+        u.name as userName,
+        u.email as userEmail,
+        u.phone as userPhone
+      FROM orders o
+      LEFT JOIN users u ON o.userId = u.id
+      ORDER BY o.date DESC
+    `).all();
     orders.forEach(o => {
-      o.items = JSON.parse(o.items || '[]');
-      o.contactInfo = JSON.parse(o.contactInfo || '{}');
-      o.shippingInfo = JSON.parse(o.shippingInfo || '{}');
+      try { o.items = JSON.parse(o.items || '[]'); } catch { o.items = []; }
+      try { o.contactInfo = JSON.parse(o.contactInfo || '{}'); } catch { o.contactInfo = {}; }
+      try { o.shippingInfo = JSON.parse(o.shippingInfo || '{}'); } catch { o.shippingInfo = {}; }
+      o.customerName = o.shippingInfo?.name || o.userName || o.contactInfo?.name || 'Customer';
+      o.name = o.customerName;
+      o.phone = o.contactInfo?.phone || o.userPhone || '-';
+      o.email = o.contactInfo?.email || o.userEmail || '-';
+      o.created_at = o.date;
     });
     res.json(orders);
   } catch (error) {
@@ -709,13 +776,179 @@ app.post('/api/quotes', authMiddleware, requireCustomer, (req, res) => {
   }
 });
 
-// Admin Analytics and Feed Data
+// Admin Analytics and Feed Data (Overview, Users, Orders, Quotes, Activities)
 app.get('/api/admin/feed', authMiddleware, requireAdmin, (req, res) => {
   try {
+    // 1. All Orders with customer name, contact & shipping
+    const orders = db.prepare(`
+      SELECT 
+        o.*,
+        u.name as userName,
+        u.email as userEmail,
+        u.phone as userPhone
+      FROM orders o
+      LEFT JOIN users u ON o.userId = u.id
+      ORDER BY o.date DESC
+    `).all();
+
+    orders.forEach(o => {
+      try { o.items = JSON.parse(o.items || '[]'); } catch { o.items = []; }
+      try { o.contactInfo = JSON.parse(o.contactInfo || '{}'); } catch { o.contactInfo = {}; }
+      try { o.shippingInfo = JSON.parse(o.shippingInfo || '{}'); } catch { o.shippingInfo = {}; }
+      o.customerName = o.shippingInfo?.name || o.userName || o.contactInfo?.name || 'Customer';
+      o.name = o.customerName;
+      o.phone = o.contactInfo?.phone || o.userPhone || '-';
+      o.email = o.contactInfo?.email || o.userEmail || '-';
+      o.created_at = o.date;
+    });
+
+    // 2. Active Projects
+    const projects = db.prepare("SELECT * FROM projects WHERE active = 1").all();
+
+    // 3. Full Registered Users List
+    const users = db.prepare(`
+      SELECT 
+        u.id, 
+        u.name, 
+        u.email, 
+        u.role, 
+        u.phone, 
+        u.college, 
+        u.address, 
+        u.created_at,
+        COUNT(o.id) as orderCount,
+        COALESCE(SUM(o.total), 0) as totalSpent,
+        MAX(o.date) as lastOrderDate
+      FROM users u
+      LEFT JOIN orders o ON o.userId = u.id
+      GROUP BY u.id
+      ORDER BY u.created_at DESC
+    `).all();
+
+    // Fill missing phone and address from user orders if available
+    users.forEach(u => {
+      if (!u.phone || !u.address) {
+        const userOrder = orders.find(o => o.userId === u.id);
+        if (userOrder) {
+          if (!u.phone && userOrder.phone && userOrder.phone !== '-') {
+            u.phone = userOrder.phone;
+          }
+          if (!u.address && userOrder.shippingInfo?.address1) {
+            const ship = userOrder.shippingInfo;
+            u.address = [ship.address1, ship.address2, ship.city, ship.state, ship.zip].filter(Boolean).join(', ');
+          }
+        }
+      }
+    });
+
+    // 4. Custom Quotes
+    const quotes = db.prepare("SELECT * FROM quotes ORDER BY date DESC").all();
+    quotes.forEach(q => {
+      q.customerName = q.name;
+      q.created_at = q.date;
+      q.requirements = q.description;
+    });
+
+    // 5. Activity Log
     const activities = db.prepare("SELECT * FROM activities ORDER BY date DESC LIMIT 50").all();
-    res.json(activities);
+
+    res.json({
+      orders,
+      projects,
+      users,
+      quotes,
+      activities,
+      activity: activities
+    });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch activity feed' });
+    console.error('Failed to fetch admin feed:', error);
+    res.status(500).json({ error: 'Failed to fetch admin feed data' });
+  }
+});
+
+// Admin Users API - Full list
+app.get('/api/admin/users', authMiddleware, requireAdmin, (req, res) => {
+  try {
+    const users = db.prepare(`
+      SELECT 
+        u.id, 
+        u.name, 
+        u.email, 
+        u.role, 
+        u.phone, 
+        u.college, 
+        u.address, 
+        u.created_at,
+        COUNT(o.id) as orderCount,
+        COALESCE(SUM(o.total), 0) as totalSpent,
+        MAX(o.date) as lastOrderDate
+      FROM users u
+      LEFT JOIN orders o ON o.userId = u.id
+      GROUP BY u.id
+      ORDER BY u.created_at DESC
+    `).all();
+
+    const orders = db.prepare("SELECT userId, contactInfo, shippingInfo FROM orders ORDER BY date DESC").all();
+    users.forEach(u => {
+      if (!u.phone || !u.address) {
+        const userOrder = orders.find(o => o.userId === u.id);
+        if (userOrder) {
+          try {
+            const contact = JSON.parse(userOrder.contactInfo || '{}');
+            const ship = JSON.parse(userOrder.shippingInfo || '{}');
+            if (!u.phone && contact.phone) u.phone = contact.phone;
+            if (!u.address && ship.address1) {
+              u.address = [ship.address1, ship.address2, ship.city, ship.state, ship.zip].filter(Boolean).join(', ');
+            }
+          } catch {}
+        }
+      }
+    });
+
+    res.json(users);
+  } catch (error) {
+    console.error('Failed to fetch admin users:', error);
+    res.status(500).json({ error: 'Failed to fetch users' });
+  }
+});
+
+// Admin User Details by ID (Profile + Orders)
+app.get('/api/admin/users/:id', authMiddleware, requireAdmin, (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = db.prepare('SELECT id, name, email, role, phone, college, address, created_at FROM users WHERE id = ?').get(id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    const orders = db.prepare('SELECT * FROM orders WHERE userId = ? ORDER BY date DESC').all(id);
+    orders.forEach(o => {
+      try { o.items = JSON.parse(o.items || '[]'); } catch { o.items = []; }
+      try { o.contactInfo = JSON.parse(o.contactInfo || '{}'); } catch { o.contactInfo = {}; }
+      try { o.shippingInfo = JSON.parse(o.shippingInfo || '{}'); } catch { o.shippingInfo = {}; }
+    });
+
+    res.json({ user, orders });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch user details' });
+  }
+});
+
+// Admin Delete User
+app.delete('/api/admin/users/:id', authMiddleware, requireAdmin, (req, res) => {
+  try {
+    const { id } = req.params;
+    if (String(id) === String(req.user.id)) {
+      return res.status(400).json({ error: 'You cannot delete your own admin account.' });
+    }
+    db.prepare('DELETE FROM users WHERE id = ?').run(id);
+
+    const date = new Date().toISOString();
+    const desc = `Admin deleted user account #${id}`;
+    db.prepare('INSERT INTO activities (type, description, date) VALUES (?, ?, ?)').run('admin', desc, date);
+    getIo().to('admins').emit('admin:activity', { type: 'admin', description: desc, date });
+
+    res.json({ success: true, message: `User #${id} deleted.` });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete user' });
   }
 });
 

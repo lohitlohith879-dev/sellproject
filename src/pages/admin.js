@@ -1,3 +1,4 @@
+import '../styles/admin.css';
 import { store } from '../store.js';
 import { socketManager } from '../socket/socket.js';
 
@@ -365,8 +366,7 @@ export async function AdminPage() {
                 </thead>
 
                 <tbody>
-                  ${
-                    orders.slice(0, 8).map(order => `
+                  ${orders.slice(0, 8).map(order => `
                       <tr>
                         <td>
                           <strong>#${order.id || order.orderId || '-'}</strong>
@@ -387,19 +387,18 @@ export async function AdminPage() {
                         </td>
                       </tr>
                     `).join('')
-                  }
+        }
 
-                  ${
-                    orders.length === 0
-                      ? `
+                  ${orders.length === 0
+          ? `
                         <tr>
                           <td colspan="4" class="admin-empty">
                             No orders found.
                           </td>
                         </tr>
                       `
-                      : ''
-                  }
+          : ''
+        }
                 </tbody>
               </table>
             </div>
@@ -538,8 +537,7 @@ export async function AdminPage() {
 
               <tbody>
 
-                ${
-                  orders.map(order => `
+                ${orders.map(order => `
                     <tr>
 
                       <td>
@@ -558,11 +556,11 @@ export async function AdminPage() {
 
                       <td>
                         ₹${Number(
-                          order.total ||
-                          order.amount ||
-                          order.totalAmount ||
-                          0
-                        ).toLocaleString('en-IN')}
+        order.total ||
+        order.amount ||
+        order.totalAmount ||
+        0
+      ).toLocaleString('en-IN')}
                       </td>
 
                       <td>
@@ -572,21 +570,20 @@ export async function AdminPage() {
                           data-current-status="${order.status || 'pending'}"
                         >
                           ${[
-                            'pending',
-                            'confirmed',
-                            'processing',
-                            'shipped',
-                            'out_for_delivery',
-                            'delivered',
-                            'cancelled'
-                          ].map(status => `
+          'pending',
+          'confirmed',
+          'processing',
+          'shipped',
+          'out_for_delivery',
+          'delivered',
+          'cancelled'
+        ].map(status => `
                             <option
                               value="${status}"
-                              ${
-                                String(order.status || 'pending').toLowerCase() === status
-                                  ? 'selected'
-                                  : ''
-                              }
+                              ${String(order.status || 'pending').toLowerCase() === status
+            ? 'selected'
+            : ''
+          }
                             >
                               ${status.replaceAll('_', ' ')}
                             </option>
@@ -595,28 +592,26 @@ export async function AdminPage() {
                       </td>
 
                       <td>
-                        ${
-                          order.created_at
-                            ? new Date(order.created_at).toLocaleString()
-                            : '-'
-                        }
+                        ${order.created_at
+          ? new Date(order.created_at).toLocaleString()
+          : '-'
+        }
                       </td>
 
                     </tr>
                   `).join('')
-                }
+        }
 
-                ${
-                  orders.length === 0
-                    ? `
+                ${orders.length === 0
+          ? `
                       <tr>
                         <td colspan="6" class="admin-empty">
                           No orders found.
                         </td>
                       </tr>
                     `
-                    : ''
-                }
+          : ''
+        }
 
               </tbody>
 
@@ -680,7 +675,7 @@ export async function AdminPage() {
       `;
     }
   };
-    const renderLiveTracking = async (content) => {
+  const renderLiveTracking = async (content) => {
     window.__circuitKartAdminTrackingCleanup?.();
     window.__circuitKartAdminTrackingCleanup = null;
 
@@ -955,40 +950,40 @@ export async function AdminPage() {
 
           ${trackingData.map(item => {
 
-            const driver = getDriverCoordinates(item);
-            const delivery = getDeliveryCoordinates(item);
+        const driver = getDriverCoordinates(item);
+        const delivery = getDeliveryCoordinates(item);
 
-            let distance = null;
+        let distance = null;
 
-            if (driver && delivery) {
-              distance = distanceKm(
-                driver.lat,
-                driver.lng,
-                delivery.lat,
-                delivery.lng
-              );
-            }
+        if (driver && delivery) {
+          distance = distanceKm(
+            driver.lat,
+            driver.lng,
+            delivery.lat,
+            delivery.lng
+          );
+        }
 
-            const online =
-              item.driverLocation &&
-              item.driverLocation.isOnline !== false;
+        const online =
+          item.driverLocation &&
+          item.driverLocation.isOnline !== false;
 
-            const orderId =
-              item.orderId ||
-              item.id ||
-              '';
+        const orderId =
+          item.orderId ||
+          item.id ||
+          '';
 
-            const customerName =
-              item.customerName ||
-              item.contactInfo?.name ||
-              item.shippingInfo?.name ||
-              'Customer';
+        const customerName =
+          item.customerName ||
+          item.contactInfo?.name ||
+          item.shippingInfo?.name ||
+          'Customer';
 
-            const driverName =
-              item.driverName ||
-              'No driver assigned';
+        const driverName =
+          item.driverName ||
+          'No driver assigned';
 
-            return `
+        return `
               <div
                 class="tracking-order-card"
                 data-tracking-order="${orderId}"
@@ -1023,11 +1018,10 @@ export async function AdminPage() {
                     <strong>${customerName}</strong>
 
                     <span>
-                      ${
-                        item.shippingInfo?.address ||
-                        item.shippingInfo?.city ||
-                        'Delivery location'
-                      }
+                      ${item.shippingInfo?.address ||
+          item.shippingInfo?.city ||
+          'Delivery location'
+          }
                     </span>
                   </div>
                 </div>
@@ -1042,10 +1036,9 @@ export async function AdminPage() {
                     <strong>${driverName}</strong>
 
                     <span>
-                      ${
-                        item.driverPhone ||
-                        'No phone number'
-                      }
+                      ${item.driverPhone ||
+          'No phone number'
+          }
                     </span>
                   </div>
 
@@ -1064,44 +1057,40 @@ export async function AdminPage() {
                   <div>
                     <span>Driver location</span>
                     <strong>
-                      ${
-                        driver
-                          ? `${driver.lat.toFixed(5)}, ${driver.lng.toFixed(5)}`
-                          : 'Waiting for GPS'
-                      }
+                      ${driver
+            ? `${driver.lat.toFixed(5)}, ${driver.lng.toFixed(5)}`
+            : 'Waiting for GPS'
+          }
                     </strong>
                   </div>
 
                   <div>
                     <span>Last update</span>
                     <strong>
-                      ${
-                        item.driverLocation
-                          ? formatAge(item.driverLocation.timestamp)
-                          : 'No update'
-                      }
+                      ${item.driverLocation
+            ? formatAge(item.driverLocation.timestamp)
+            : 'No update'
+          }
                     </strong>
                   </div>
 
                   <div>
                     <span>Destination</span>
                     <strong>
-                      ${
-                        delivery
-                          ? `${delivery.lat.toFixed(5)}, ${delivery.lng.toFixed(5)}`
-                          : 'Not available'
-                      }
+                      ${delivery
+            ? `${delivery.lat.toFixed(5)}, ${delivery.lng.toFixed(5)}`
+            : 'Not available'
+          }
                     </strong>
                   </div>
 
                   <div>
                     <span>Distance</span>
                     <strong>
-                      ${
-                        distance !== null
-                          ? `${distance.toFixed(2)} km`
-                          : 'Calculating...'
-                      }
+                      ${distance !== null
+            ? `${distance.toFixed(2)} km`
+            : 'Calculating...'
+          }
                     </strong>
                   </div>
 
@@ -1111,22 +1100,20 @@ export async function AdminPage() {
                   class="admin-btn primary tracking-assign-btn"
                   data-assign-order="${orderId}"
                 >
-                  <i data-lucide="${
-                    item.driverName
-                      ? 'user-cog'
-                      : 'user-plus'
-                  }"></i>
+                  <i data-lucide="${item.driverName
+            ? 'user-cog'
+            : 'user-plus'
+          }"></i>
 
-                  ${
-                    item.driverName
-                      ? 'Reassign Driver'
-                      : 'Assign Driver'
-                  }
+                  ${item.driverName
+            ? 'Reassign Driver'
+            : 'Assign Driver'
+          }
                 </button>
 
               </div>
             `;
-          }).join('')}
+      }).join('')}
 
         </div>
       `;
@@ -1140,7 +1127,7 @@ export async function AdminPage() {
       Object.values(markers).forEach(marker => {
         try {
           map.removeLayer(marker);
-        } catch (_) {}
+        } catch (_) { }
       });
 
       markers = {};
@@ -1181,10 +1168,9 @@ export async function AdminPage() {
             <div class="tracking-popup">
 
               <strong>
-                Driver: ${
-                  item.driverName ||
-                  'Unassigned'
-                }
+                Driver: ${item.driverName ||
+            'Unassigned'
+            }
               </strong>
 
               <div>
@@ -1199,13 +1185,12 @@ export async function AdminPage() {
 
               <div>
                 Updated:
-                ${
-                  item.driverLocation
-                    ? formatAge(
-                        item.driverLocation.timestamp
-                      )
-                    : 'Unknown'
-                }
+                ${item.driverLocation
+              ? formatAge(
+                item.driverLocation.timestamp
+              )
+              : 'Unknown'
+            }
               </div>
 
             </div>
@@ -1252,10 +1237,9 @@ export async function AdminPage() {
 
               <div>
                 Customer:
-                ${
-                  item.customerName ||
-                  'Customer'
-                }
+                ${item.customerName ||
+            'Customer'
+            }
               </div>
 
             </div>
@@ -1380,19 +1364,17 @@ export async function AdminPage() {
 
           <div class="admin-section-actions">
 
-            <span class="tracking-connection-status ${
-              trackingSocketConnected
-                ? 'connected'
-                : 'disconnected'
-            }">
+            <span class="tracking-connection-status ${trackingSocketConnected
+          ? 'connected'
+          : 'disconnected'
+        }">
 
               <span class="tracking-status-dot"></span>
 
-              ${
-                trackingSocketConnected
-                  ? 'Live'
-                  : 'Updating'
-              }
+              ${trackingSocketConnected
+          ? 'Live'
+          : 'Updating'
+        }
 
             </span>
 
@@ -1457,13 +1439,11 @@ export async function AdminPage() {
               <div>
                 <h3>Active Deliveries</h3>
                 <p>
-                  ${
-                    trackingData.length
-                  } active delivery${
-                    trackingData.length === 1
-                      ? ''
-                      : 'ies'
-                  }
+                  ${trackingData.length
+        } active delivery${trackingData.length === 1
+          ? ''
+          : 'ies'
+        }
                 </p>
               </div>
             </div>
@@ -1590,9 +1570,9 @@ export async function AdminPage() {
         trackingData = Array.isArray(data)
           ? data
           : data.orders ||
-            data.active ||
-            data.data ||
-            [];
+          data.active ||
+          data.data ||
+          [];
 
         await renderContent();
 
@@ -1677,11 +1657,10 @@ export async function AdminPage() {
 
             <div>
               <h3>
-                ${
-                  order.driverName
-                    ? 'Reassign Driver'
-                    : 'Assign Driver'
-                }
+                ${order.driverName
+          ? 'Reassign Driver'
+          : 'Assign Driver'
+        }
               </h3>
 
               <p>
@@ -1713,9 +1692,8 @@ export async function AdminPage() {
                 type="text"
                 id="tracking-driver-name"
                 placeholder="Enter driver name"
-                value="${
-                  order.driverName || ''
-                }"
+                value="${order.driverName || ''
+        }"
                 required
               />
 
@@ -1731,9 +1709,8 @@ export async function AdminPage() {
                 type="tel"
                 id="tracking-driver-phone"
                 placeholder="Enter driver phone"
-                value="${
-                  order.driverPhone || ''
-                }"
+                value="${order.driverPhone || ''
+        }"
               />
 
             </div>
@@ -1751,10 +1728,9 @@ export async function AdminPage() {
                   step="any"
                   id="tracking-delivery-lat"
                   placeholder="Latitude"
-                  value="${
-                    order.deliveryLat ??
-                    ''
-                  }"
+                  value="${order.deliveryLat ??
+        ''
+        }"
                 />
 
               </div>
@@ -1770,10 +1746,9 @@ export async function AdminPage() {
                   step="any"
                   id="tracking-delivery-lng"
                   placeholder="Longitude"
-                  value="${
-                    order.deliveryLng ??
-                    ''
-                  }"
+                  value="${order.deliveryLng ??
+        ''
+        }"
                 />
 
               </div>
@@ -2194,10 +2169,9 @@ export async function AdminPage() {
 
               statusElement.innerHTML = `
                 <span class="tracking-status-dot"></span>
-                ${
-                  trackingSocketConnected
-                    ? 'Live'
-                    : 'Updating'
+                ${trackingSocketConnected
+                  ? 'Live'
+                  : 'Updating'
                 }
               `;
             }
@@ -2265,12 +2239,12 @@ export async function AdminPage() {
             'tracking:driver_assigned',
             handleDriverAssigned
           );
-        } catch (_) {}
+        } catch (_) { }
 
         if (map) {
           try {
             map.remove();
-          } catch (_) {}
+          } catch (_) { }
 
           map = null;
         }
@@ -2280,7 +2254,7 @@ export async function AdminPage() {
       };
 
   };
-    const renderProjects = async content => {
+  const renderProjects = async content => {
     try {
       const response = await fetch(
         `${API}/admin/projects`,
@@ -2335,27 +2309,25 @@ export async function AdminPage() {
 
               <tbody>
 
-                ${
-                  projects.map(project => `
+                ${projects.map(project => `
                     <tr>
 
                       <td>
                         <div class="admin-project-cell">
 
-                          ${
-                            project.image
-                              ? `
+                          ${project.image
+          ? `
                                 <img
                                   src="${project.image}"
                                   alt=""
                                 />
                               `
-                              : `
+          : `
                                 <div class="admin-project-placeholder">
                                   <i data-lucide="cpu"></i>
                                 </div>
                               `
-                          }
+        }
 
                           <div>
                             <strong>
@@ -2380,24 +2352,22 @@ export async function AdminPage() {
 
                       <td>
                         ₹${Number(
-                          project.price || 0
-                        ).toLocaleString('en-IN')}
+          project.price || 0
+        ).toLocaleString('en-IN')}
                       </td>
 
                       <td>
                         <span class="
                           admin-status-badge
-                          ${
-                            project.active === 0
-                              ? 'cancelled'
-                              : 'delivered'
-                          }
+                          ${project.active === 0
+          ? 'cancelled'
+          : 'delivered'
+        }
                         ">
-                          ${
-                            project.active === 0
-                              ? 'Inactive'
-                              : 'Active'
-                          }
+                          ${project.active === 0
+          ? 'Inactive'
+          : 'Active'
+        }
                         </span>
                       </td>
 
@@ -2427,11 +2397,10 @@ export async function AdminPage() {
 
                     </tr>
                   `).join('')
-                }
+        }
 
-                ${
-                  projects.length === 0
-                    ? `
+                ${projects.length === 0
+          ? `
                       <tr>
                         <td
                           colspan="6"
@@ -2441,8 +2410,8 @@ export async function AdminPage() {
                         </td>
                       </tr>
                     `
-                    : ''
-                }
+          : ''
+        }
 
               </tbody>
 
@@ -2665,7 +2634,7 @@ export async function AdminPage() {
             return parsed.join(', ');
           }
 
-        } catch (_) {}
+        } catch (_) { }
 
         return value;
       }
@@ -2705,9 +2674,8 @@ export async function AdminPage() {
             <input
               id="edit-project-name"
               type="text"
-              value="${
-                project.name || ''
-              }"
+              value="${project.name || ''
+      }"
               required
             />
           </div>
@@ -2720,9 +2688,8 @@ export async function AdminPage() {
               <input
                 id="edit-project-slug"
                 type="text"
-                value="${
-                  project.slug || ''
-                }"
+                value="${project.slug || ''
+      }"
                 required
               />
             </div>
@@ -2733,9 +2700,8 @@ export async function AdminPage() {
               <input
                 id="edit-project-category"
                 type="text"
-                value="${
-                  project.category || ''
-                }"
+                value="${project.category || ''
+      }"
               />
             </div>
 
@@ -2750,21 +2716,20 @@ export async function AdminPage() {
                 id="edit-project-difficulty"
               >
                 ${[
-                  'Beginner',
-                  'Intermediate',
-                  'Advanced',
-                  'Expert'
-                ].map(level => `
+        'Beginner',
+        'Intermediate',
+        'Advanced',
+        'Expert'
+      ].map(level => `
                   <option
                     value="${level}"
-                    ${
-                      String(
-                        project.difficulty || ''
-                      ).toLowerCase() ===
-                      level.toLowerCase()
-                        ? 'selected'
-                        : ''
-                    }
+                    ${String(
+        project.difficulty || ''
+      ).toLowerCase() ===
+          level.toLowerCase()
+          ? 'selected'
+          : ''
+        }
                   >
                     ${level}
                   </option>
@@ -2780,9 +2745,8 @@ export async function AdminPage() {
                 type="number"
                 min="0"
                 step="0.01"
-                value="${
-                  project.price || 0
-                }"
+                value="${project.price || 0
+      }"
               />
             </div>
 
@@ -2794,9 +2758,8 @@ export async function AdminPage() {
             <input
               id="edit-project-short-description"
               type="text"
-              value="${
-                project.shortDescription || ''
-              }"
+              value="${project.shortDescription || ''
+      }"
             />
           </div>
 
@@ -2806,9 +2769,8 @@ export async function AdminPage() {
             <textarea
               id="edit-project-description"
               rows="5"
-            >${
-              project.description || ''
-            }</textarea>
+            >${project.description || ''
+      }</textarea>
           </div>
 
           <div class="admin-form-group">
@@ -2817,9 +2779,8 @@ export async function AdminPage() {
             <input
               id="edit-project-image"
               type="url"
-              value="${
-                project.image || ''
-              }"
+              value="${project.image || ''
+      }"
             />
           </div>
 
@@ -2829,9 +2790,8 @@ export async function AdminPage() {
             <input
               id="edit-project-controller"
               type="text"
-              value="${
-                project.controller || ''
-              }"
+              value="${project.controller || ''
+      }"
             />
           </div>
 
@@ -2841,11 +2801,10 @@ export async function AdminPage() {
             <input
               id="edit-project-sensors"
               type="text"
-              value="${
-                arrayValue(
-                  project.sensors
-                )
-              }"
+              value="${arrayValue(
+        project.sensors
+      )
+      }"
               placeholder="ESP32, DHT11, PIR"
             />
 
@@ -2860,11 +2819,10 @@ export async function AdminPage() {
             <input
               id="edit-project-communication"
               type="text"
-              value="${
-                arrayValue(
-                  project.communication
-                )
-              }"
+              value="${arrayValue(
+        project.communication
+      )
+      }"
               placeholder="WiFi, Bluetooth, GSM"
             />
           </div>
@@ -2875,11 +2833,10 @@ export async function AdminPage() {
             <textarea
               id="edit-project-features"
               rows="4"
-            >${
-              arrayValue(
-                project.features
-              )
-            }</textarea>
+            >${arrayValue(
+        project.features
+      )
+      }</textarea>
           </div>
 
           <div class="admin-form-group">
@@ -2888,11 +2845,10 @@ export async function AdminPage() {
             <textarea
               id="edit-project-applications"
               rows="4"
-            >${
-              arrayValue(
-                project.applications
-              )
-            }</textarea>
+            >${arrayValue(
+        project.applications
+      )
+      }</textarea>
           </div>
 
           <div class="admin-form-group">
@@ -2901,11 +2857,10 @@ export async function AdminPage() {
             <input
               id="edit-project-tags"
               type="text"
-              value="${
-                arrayValue(
-                  project.tags
-                )
-              }"
+              value="${arrayValue(
+        project.tags
+      )
+      }"
               placeholder="IoT, Arduino, ESP32"
             />
           </div>
@@ -3830,33 +3785,29 @@ export async function AdminPage() {
 
               <tbody>
 
-                ${
-                  components.map(component => `
+                ${components.map(component => `
                     <tr>
 
                       <td>
                         <strong>
-                          ${
-                            component.name ||
-                            component.title ||
-                            '-'
-                          }
+                          ${component.name ||
+        component.title ||
+        '-'
+        }
                         </strong>
                       </td>
 
                       <td>
-                        ${
-                          component.category ||
-                          '-'
-                        }
+                        ${component.category ||
+        '-'
+        }
                       </td>
 
                       <td>
-                        ${
-                          component.stock ??
-                          component.quantity ??
-                          0
-                        }
+                        ${component.stock ??
+        component.quantity ??
+        0
+        }
                       </td>
 
                       <td>
@@ -3871,13 +3822,11 @@ export async function AdminPage() {
                             type="number"
                             min="0"
                             step="0.01"
-                            value="${
-                              component.price ||
-                              0
-                            }"
-                            data-component-price="${
-                              component.id
-                            }"
+                            value="${component.price ||
+        0
+        }"
+                            data-component-price="${component.id
+        }"
                           />
 
                         </div>
@@ -3888,9 +3837,8 @@ export async function AdminPage() {
 
                         <button
                           class="admin-btn small save-component-price"
-                          data-component-id="${
-                            component.id
-                          }"
+                          data-component-id="${component.id
+        }"
                         >
                           <i data-lucide="save"></i>
                           Save
@@ -3900,11 +3848,10 @@ export async function AdminPage() {
 
                     </tr>
                   `).join('')
-                }
+        }
 
-                ${
-                  components.length === 0
-                    ? `
+                ${components.length === 0
+          ? `
                       <tr>
                         <td
                           colspan="5"
@@ -3914,8 +3861,8 @@ export async function AdminPage() {
                         </td>
                       </tr>
                     `
-                    : ''
-                }
+          : ''
+        }
 
               </tbody>
 
@@ -4102,11 +4049,10 @@ export async function AdminPage() {
                   type="number"
                   min="0"
                   step="0.01"
-                  value="${
-                    settings.gst ??
-                    settings.gstRate ??
-                    18
-                  }"
+                  value="${settings.gst ??
+        settings.gstRate ??
+        18
+        }"
                 />
 
               </div>
@@ -4122,11 +4068,10 @@ export async function AdminPage() {
                   type="number"
                   min="0"
                   step="0.01"
-                  value="${
-                    settings.shipping ??
-                    settings.shippingCharge ??
-                    0
-                  }"
+                  value="${settings.shipping ??
+        settings.shippingCharge ??
+        0
+        }"
                 />
 
               </div>
@@ -4144,10 +4089,9 @@ export async function AdminPage() {
                 type="number"
                 min="0"
                 step="0.01"
-                value="${
-                  settings.freeShippingAbove ??
-                  0
-                }"
+                value="${settings.freeShippingAbove ??
+        0
+        }"
               />
 
             </div>
@@ -4334,11 +4278,10 @@ export async function AdminPage() {
                 id="payment-upi"
                 type="text"
                 placeholder="example@upi"
-                value="${
-                  settings.upiId ||
-                  settings.upi ||
-                  ''
-                }"
+                value="${settings.upiId ||
+        settings.upi ||
+        ''
+        }"
               />
 
             </div>
@@ -4353,11 +4296,10 @@ export async function AdminPage() {
                 id="payment-qr"
                 type="url"
                 placeholder="https://..."
-                value="${
-                  settings.qrCode ||
-                  settings.qrCodeUrl ||
-                  ''
-                }"
+                value="${settings.qrCode ||
+        settings.qrCodeUrl ||
+        ''
+        }"
               />
 
             </div>
@@ -4372,10 +4314,9 @@ export async function AdminPage() {
                 id="payment-instructions"
                 rows="5"
                 placeholder="Enter payment instructions"
-              >${
-                settings.paymentInstructions ||
-                ''
-              }</textarea>
+              >${settings.paymentInstructions ||
+        ''
+        }</textarea>
 
             </div>
 
@@ -4504,7 +4445,7 @@ export async function AdminPage() {
       }
     }
   };
-    const renderUsers = async content => {
+  const renderUsers = async content => {
     try {
       const response = await fetch(
         `${API}/admin/feed`,
@@ -4562,8 +4503,7 @@ export async function AdminPage() {
 
               <tbody>
 
-                ${
-                  users.map(user => `
+                ${users.map(user => `
                     <tr>
 
                       <td>
@@ -4575,11 +4515,10 @@ export async function AdminPage() {
 
                           <div>
                             <strong>
-                              ${
-                                user.name ||
-                                user.username ||
-                                'User'
-                              }
+                              ${user.name ||
+        user.username ||
+        'User'
+        }
                             </strong>
                           </div>
 
@@ -4587,45 +4526,40 @@ export async function AdminPage() {
                       </td>
 
                       <td>
-                        ${
-                          user.email ||
-                          '-'
-                        }
+                        ${user.email ||
+        '-'
+        }
                       </td>
 
                       <td>
-                        ${
-                          user.phone ||
-                          '-'
-                        }
+                        ${user.phone ||
+        '-'
+        }
                       </td>
 
                       <td>
                         <span class="admin-status-badge delivered">
-                          ${
-                            user.role ||
-                            'customer'
-                          }
+                          ${user.role ||
+        'customer'
+        }
                         </span>
                       </td>
 
                       <td>
-                        ${
-                          user.created_at
-                            ? new Date(
-                                user.created_at
-                              ).toLocaleDateString()
-                            : '-'
-                        }
+                        ${user.created_at
+          ? new Date(
+            user.created_at
+          ).toLocaleDateString()
+          : '-'
+        }
                       </td>
 
                     </tr>
                   `).join('')
-                }
+        }
 
-                ${
-                  users.length === 0
-                    ? `
+                ${users.length === 0
+          ? `
                       <tr>
                         <td
                           colspan="5"
@@ -4635,8 +4569,8 @@ export async function AdminPage() {
                         </td>
                       </tr>
                     `
-                    : ''
-                }
+          : ''
+        }
 
               </tbody>
 
@@ -4750,75 +4684,67 @@ export async function AdminPage() {
 
               <tbody>
 
-                ${
-                  quotes.map(quote => `
+                ${quotes.map(quote => `
                     <tr>
 
                       <td>
                         <strong>
-                          #${
-                            quote.id ||
-                            quote.quoteId ||
-                            '-'
-                          }
+                          #${quote.id ||
+        quote.quoteId ||
+        '-'
+        }
                         </strong>
                       </td>
 
                       <td>
-                        ${
-                          quote.customerName ||
-                          quote.name ||
-                          '-'
-                        }
+                        ${quote.customerName ||
+        quote.name ||
+        '-'
+        }
                       </td>
 
                       <td>
                         <div
                           class="admin-description-cell"
                         >
-                          ${
-                            quote.description ||
-                            quote.requirements ||
-                            quote.message ||
-                            '-'
-                          }
+                          ${quote.description ||
+        quote.requirements ||
+        quote.message ||
+        '-'
+        }
                         </div>
                       </td>
 
                       <td>
                         <span class="
                           admin-status-badge
-                          ${
-                            String(
-                              quote.status ||
-                              'pending'
-                            ).toLowerCase()
-                          }
+                          ${String(
+          quote.status ||
+          'pending'
+        ).toLowerCase()
+        }
                         ">
-                          ${
-                            quote.status ||
-                            'Pending'
-                          }
+                          ${quote.status ||
+        'Pending'
+        }
                         </span>
                       </td>
 
                       <td>
-                        ${
-                          quote.created_at
-                            ? new Date(
-                                quote.created_at
-                              ).toLocaleString()
-                            : '-'
-                        }
+                        ${quote.created_at
+          ? new Date(
+            quote.created_at
+          ).toLocaleString()
+          : '-'
+        }
                       </td>
 
                     </tr>
                   `).join('')
-                }
+        }
 
-                ${
-                  quotes.length === 0
-                    ? `
+                ${quotes.length === 0
+          ? `
                       <tr>
                         <td
                           colspan="5"
@@ -4828,8 +4754,8 @@ export async function AdminPage() {
                         </td>
                       </tr>
                     `
-                    : ''
-                }
+          : ''
+        }
 
               </tbody>
 
@@ -4929,9 +4855,8 @@ export async function AdminPage() {
 
         <div class="admin-panel">
 
-          ${
-            activity.length
-              ? `
+          ${activity.length
+          ? `
                 <div class="admin-activity-list">
 
                   ${activity.map(item => `
@@ -4940,10 +4865,9 @@ export async function AdminPage() {
                     >
 
                       <div class="admin-activity-icon">
-                        <i data-lucide="${
-                          item.icon ||
-                          'activity'
-                        }"></i>
+                        <i data-lucide="${item.icon ||
+            'activity'
+            }"></i>
                       </div>
 
                       <div
@@ -4951,29 +4875,26 @@ export async function AdminPage() {
                       >
 
                         <strong>
-                          ${
-                            item.title ||
-                            item.action ||
-                            'Activity'
-                          }
+                          ${item.title ||
+            item.action ||
+            'Activity'
+            }
                         </strong>
 
                         <p>
-                          ${
-                            item.description ||
-                            item.message ||
-                            ''
-                          }
+                          ${item.description ||
+            item.message ||
+            ''
+            }
                         </p>
 
                         <span>
-                          ${
-                            item.created_at
-                              ? new Date(
-                                  item.created_at
-                                ).toLocaleString()
-                              : ''
-                          }
+                          ${item.created_at
+              ? new Date(
+                item.created_at
+              ).toLocaleString()
+              : ''
+            }
                         </span>
 
                       </div>
@@ -4983,7 +4904,7 @@ export async function AdminPage() {
 
                 </div>
               `
-              : `
+          : `
                 <div class="admin-empty-state">
 
                   <i data-lucide="activity"></i>
@@ -4999,7 +4920,7 @@ export async function AdminPage() {
 
                 </div>
               `
-          }
+        }
 
         </div>
       `;
