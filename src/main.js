@@ -76,7 +76,9 @@ function renderNavbar() {
       <div class="nav-inner">
 
         <a href="#/" class="logo">
-          <div class="logo-icon">⚡</div>
+          <div class="logo-icon">
+            <img src="/logo.png" alt="CircuitKart Logo" class="brand-logo-img" />
+          </div>
           <div class="logo-text">
             Circuit<span>Kart</span>
           </div>
@@ -339,17 +341,18 @@ function renderFooter() {
               <div
                 class="logo-icon"
                 style="
-                  width:32px;
-                  height:32px;
-                  background:var(--gradient-primary);
+                  width:34px;
+                  height:34px;
                   border-radius:6px;
+                  overflow:hidden;
+                  background:#000;
+                  border:1px solid rgba(255,255,255,0.15);
                   display:flex;
                   align-items:center;
                   justify-content:center;
-                  font-size:16px;
                 "
               >
-                ⚡
+                <img src="/logo.png" alt="CircuitKart" class="brand-logo-img" />
               </div>
 
               CircuitKart

@@ -164,7 +164,9 @@ export function AdminLoginPage(container) {
           <div class="admin-card-header">
 
             <div class="admin-logo-wrap">
-              <div class="admin-logo-icon">⚡</div>
+              <div class="admin-logo-icon" style="overflow:hidden;background:#000;border:1px solid rgba(255,255,255,0.2);padding:0;">
+                <img src="/logo.png" alt="Admin Logo" style="width:100%;height:100%;object-fit:cover;" />
+              </div>
               <div class="admin-logo-ring"></div>
             </div>
 

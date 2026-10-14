@@ -150,7 +150,9 @@ export function LoginPage(container) {
         <!-- Left Panel - Branding -->
         <div class="login-left reveal">
           <div class="login-brand">
-            <div class="logo-icon" style="width: 56px; height: 56px; background: var(--gradient-primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: var(--space-lg);">⚡</div>
+            <div class="logo-icon" style="width: 60px; height: 60px; background: #000; border: 1px solid rgba(255,255,255,0.15); border-radius: 14px; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: var(--space-lg); padding: 0;">
+              <img src="/logo.png" alt="CircuitKart Logo" style="width:100%; height:100%; object-fit:cover;" />
+            </div>
             <h1 class="login-brand-title">Circuit<span>Kart</span></h1>
             <p class="login-brand-sub">Your gateway to professional embedded systems, IoT, and robotics projects.</p>
           </div>

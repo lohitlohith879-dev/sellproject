@@ -36,8 +36,8 @@ export async function AdminPage() {
 
         <aside class="admin-sidebar">
           <div class="admin-brand">
-            <div class="admin-logo">
-              <i data-lucide="cpu"></i>
+            <div class="admin-logo" style="overflow:hidden;background:#000;border:1px solid rgba(255,255,255,0.15);padding:0;">
+              <img src="/logo.png" alt="CircuitKart" style="width:100%;height:100%;object-fit:cover;" />
             </div>
             <div>
               <h2>CircuitKart</h2>
