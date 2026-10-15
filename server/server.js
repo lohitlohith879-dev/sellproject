@@ -833,13 +833,13 @@ function optionalAuth(req, res, next) {
   next();
 }
 
-app.post('/api/orders', optionalAuth, (req, res) => {
+app.post('/api/orders', authMiddleware, requireCustomer, (req, res) => {
   try {
     const { items, total, contactInfo, shippingInfo, paymentMethod } = req.body;
     const orderId = 'ORD-' + Date.now().toString().slice(-6);
     const date = new Date().toISOString();
-    const userId = req.user ? req.user.id : null;
-    const userEmail = req.user ? req.user.email : (contactInfo?.email || 'Guest');
+    const userId = req.user.id;
+    const userEmail = req.user.email;
 
     const stmt = db.prepare(`
       INSERT INTO orders (id, userId, items, total, date, contactInfo, shippingInfo, paymentMethod)

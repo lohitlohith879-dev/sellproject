@@ -201,6 +201,15 @@ function renderNavbar() {
           : ''
         }
                 </button>
+
+                <button
+                  class="btn btn-ghost btn-sm"
+                  title="Sign Out"
+                  onclick="window.logout()"
+                  style="color:#ef4444;"
+                >
+                  <i data-lucide="log-out"></i>
+                </button>
               `
         : `
                 <a
@@ -932,11 +941,11 @@ async function initApp() {
 
 
   // ============================
-  // ROUTE GUARDS
+  // ROUTE GUARDS (MANDATORY AUTHENTICATION)
   // ============================
 
   router.before((path) => {
-    // Strictly protect admin portal
+    // 1. Strictly protect admin portal
     if (path.startsWith('/admin') && path !== '/admin-login') {
       const adminToken = localStorage.getItem('ck_admin_token');
       let adminUser = null;
@@ -948,16 +957,45 @@ async function initApp() {
         window.location.hash = '#/admin-login';
         return false;
       }
+      return true;
     }
 
-    // Protect customer dashboard from unauthenticated visitors
-    if (path === '/dashboard') {
-      const token = localStorage.getItem('ck_token');
-      if (!token) {
+    // 2. Allow standalone Admin Login page without customer session
+    if (path === '/admin-login') {
+      return true;
+    }
+
+    // 3. Mandatory Customer Authentication
+    const customerToken = localStorage.getItem('ck_token');
+    let customerUser = null;
+    try {
+      customerUser = JSON.parse(localStorage.getItem('ck_user') || 'null');
+    } catch (e) {}
+
+    const isCustomerAuthenticated = !!(customerToken && customerUser);
+
+    // If unauthenticated:
+    if (!isCustomerAuthenticated) {
+      if (path !== '/login') {
+        // Save originally requested route (except root) to redirect after login
+        if (path && path !== '/') {
+          sessionStorage.setItem('ck_redirect_after_login', path);
+        } else {
+          sessionStorage.removeItem('ck_redirect_after_login');
+        }
         window.location.hash = '#/login';
         return false;
       }
+      return true;
     }
+
+    // 4. If logged-in customer attempts to access /login, redirect to home/store
+    if (path === '/login') {
+      window.location.hash = '#/';
+      return false;
+    }
+
+    return true;
   });
 
   // ============================

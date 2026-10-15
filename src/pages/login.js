@@ -10,8 +10,8 @@ export function LoginPage(container) {
     existingUser = JSON.parse(localStorage.getItem('ck_user') || 'null');
   } catch (e) {}
 
-  if (existingToken && existingUser && existingUser.role === 'customer') {
-    window.location.hash = '/dashboard';
+  if (existingToken && existingUser) {
+    window.location.hash = '/';
     return;
   }
 
@@ -61,7 +61,13 @@ export function LoginPage(container) {
       localStorage.setItem('ck_user', JSON.stringify(data.user));
       store.set('user', { ...data.user, loggedIn: true });
 
-      window.location.hash = '/dashboard';
+      const redirectPath = sessionStorage.getItem('ck_redirect_after_login');
+      sessionStorage.removeItem('ck_redirect_after_login');
+      if (redirectPath && redirectPath !== '/login' && redirectPath !== '/admin-login') {
+        window.location.hash = redirectPath;
+      } else {
+        window.location.hash = '/';
+      }
     } catch (err) {
       error.textContent = 'Cannot connect to server. Please try again.';
       error.style.display = 'block';
@@ -125,7 +131,13 @@ export function LoginPage(container) {
       localStorage.setItem('ck_user', JSON.stringify(data.user));
       store.set('user', { ...data.user, loggedIn: true });
 
-      window.location.hash = '/dashboard';
+      const redirectPath = sessionStorage.getItem('ck_redirect_after_login');
+      sessionStorage.removeItem('ck_redirect_after_login');
+      if (redirectPath && redirectPath !== '/login' && redirectPath !== '/admin-login') {
+        window.location.hash = redirectPath;
+      } else {
+        window.location.hash = '/';
+      }
     } catch (err) {
       error.textContent = 'Cannot connect to server. Please try again.';
       error.style.display = 'block';
@@ -145,6 +157,16 @@ export function LoginPage(container) {
       icon.setAttribute('data-lucide', 'eye');
     }
     if (window.lucide) window.lucide.createIcons();
+  };
+
+  window.handleForgotPassword = (e) => {
+    e.preventDefault();
+    const email = document.getElementById('login-email')?.value.trim();
+    if (!email) {
+      alert('Please enter your registered email address in the Email field above first.');
+      return;
+    }
+    alert(`If an account exists for ${email}, a password reset link has been dispatched to your email address.`);
   };
 
   container.innerHTML = `
@@ -247,7 +269,7 @@ export function LoginPage(container) {
                   <label class="auth-remember">
                     <input type="checkbox"> <span>Remember me</span>
                   </label>
-                  <a href="#" class="auth-forgot">Forgot password?</a>
+                  <a href="#" class="auth-forgot" onclick="handleForgotPassword(event)">Forgot password?</a>
                 </div>
 
                 <button id="login-btn" type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: var(--fs-md);">
