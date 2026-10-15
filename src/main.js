@@ -500,8 +500,15 @@ function renderFooter() {
             All rights reserved.
           </div>
 
-          <div class="flex gap-md">
-
+          <div class="flex gap-md" style="align-items:center; flex-wrap:wrap;">
+            <a href="https://sellproject-wv5s.vercel.app/" class="hover-text" style="color:var(--text-secondary); font-size:var(--fs-sm); text-decoration:none;">
+              Customer Website
+            </a>
+            <span style="opacity:0.3;">•</span>
+            <a href="https://sellproject-wv5s.vercel.app/#/admin-login" class="hover-text" style="color:var(--text-secondary); font-size:var(--fs-sm); text-decoration:none;">
+              Admin Portal
+            </a>
+            <span style="opacity:0.3;">•</span>
             <span>
               <i
                 data-lucide="shield-check"
@@ -512,7 +519,6 @@ function renderFooter() {
               ></i>
               Secure Checkout
             </span>
-
           </div>
 
         </div>

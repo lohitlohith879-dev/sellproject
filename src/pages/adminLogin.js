@@ -297,14 +297,14 @@ export function AdminLoginPage(container) {
 
         <!-- Back link -->
         <a
-          href="#/login"
+          href="https://sellproject-wv5s.vercel.app/"
           class="admin-back-link reveal delay-2"
         >
           <i
             data-lucide="arrow-left"
             style="width:14px;"
           ></i>
-          Back to Customer Login
+          Back to Customer Website
         </a>
 
       </div>
