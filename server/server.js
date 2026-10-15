@@ -4,7 +4,7 @@ import cors from 'cors';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import db from './db.js';
-import { initSocket, getIo } from './socket/index.js';
+import { initSocket, getIo, isOriginAllowed } from './socket/index.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -15,14 +15,21 @@ const JWT_SECRET = process.env.JWT_SECRET || 'circuitkart-secret-key-2025';
 const app = express();
 const httpServer = createServer(app);
 
-// Use a dynamic port, defaulting to 3000
+// Dynamic port
 const port = process.env.PORT || 3001;
 
 // Setup Socket.IO modular connection
 initSocket(httpServer);
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: (origin, callback) => {
+    callback(null, isOriginAllowed(origin));
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 
 // ---------------------------------------------------------
@@ -289,6 +296,339 @@ app.get('/api/settings', (req, res) => {
     res.json(settings);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch settings' });
+  }
+});
+
+// ---------------------------------------------------------
+// IOT & EMBEDDED SYSTEMS PROJECTS API
+// ---------------------------------------------------------
+
+function parseIotProject(p) {
+  if (!p) return null;
+  const demoConfig = JSON.parse(p.demoTelemetryConfig || '{}');
+  const components = JSON.parse(p.components || '[]');
+  const budgetBreakdown = JSON.parse(p.budgetBreakdown || '[]');
+  const wiringGuide = JSON.parse(p.wiringGuide || '[]');
+  const libraries = JSON.parse(p.libraries || '[]');
+  const testingProcedure = JSON.parse(p.testingProcedure || '[]');
+  const troubleshooting = JSON.parse(p.troubleshooting || '[]');
+  const safetyPrecautions = JSON.parse(p.safetyPrecautions || '[]');
+
+  // Map sensors array into metrics map if needed for frontend flexibility
+  const metrics = demoConfig.metrics || {};
+  if (Array.isArray(demoConfig.sensors) && Object.keys(metrics).length === 0) {
+    demoConfig.sensors.forEach(s => {
+      const key = (s.name || s.type || 'sensor').toLowerCase().replace(/[^a-z0-9]/g, '_');
+      metrics[key] = {
+        label: s.name,
+        value: s.value,
+        unit: s.unit,
+        min: s.min,
+        max: s.max,
+        status: s.status || 'NORMAL'
+      };
+    });
+    demoConfig.metrics = metrics;
+  }
+
+  // Provide actuators map
+  if (!demoConfig.actuators) {
+    demoConfig.actuators = {
+      relay: 'OFF',
+      buzzer: 'OFF'
+    };
+  }
+
+  return {
+    ...p,
+    title: p.name,
+    name: p.name,
+    estimatedCost: p.price,
+    price: p.price,
+    kitPrice: p.kitPrice || p.price,
+    isKitAvailable: (p.kitPrice || p.price) > 0,
+    visits: p.visitsCount || 0,
+    downloads: p.downloadsCount || 0,
+    isActive: p.active === 1,
+    active: p.active === 1,
+    isDemo: p.isDemo === 1,
+    pinout: wiringGuide,
+    wiringGuide: wiringGuide,
+    testingSteps: testingProcedure,
+    testingProcedure: testingProcedure,
+    components: components,
+    budgetBreakdown: budgetBreakdown,
+    libraries: libraries,
+    troubleshooting: troubleshooting,
+    safetyPrecautions: safetyPrecautions,
+    telemetryConfig: demoConfig,
+    demoTelemetryConfig: demoConfig,
+    features: JSON.parse(p.features || '[]')
+  };
+}
+
+// 1. Get all IoT projects with filters
+app.get('/api/iot-projects', (req, res) => {
+  try {
+    const { category, difficulty, search, sort } = req.query;
+    let query = 'SELECT * FROM iot_projects WHERE active = 1';
+    const params = [];
+
+    if (category && category !== 'all' && category !== 'All Categories') {
+      query += ' AND category = ?';
+      params.push(category);
+    }
+    if (difficulty && difficulty !== 'all') {
+      query += ' AND LOWER(difficulty) = LOWER(?)';
+      params.push(difficulty);
+    }
+    if (search) {
+      query += ' AND (name LIKE ? OR description LIKE ? OR platform LIKE ?)';
+      const s = `%${search}%`;
+      params.push(s, s, s);
+    }
+
+    if (sort === 'price-low' || sort === 'cost-asc') {
+      query += ' ORDER BY price ASC';
+    } else if (sort === 'price-high' || sort === 'cost-desc') {
+      query += ' ORDER BY price DESC';
+    } else if (sort === 'rating') {
+      query += ' ORDER BY rating DESC';
+    } else if (sort === 'popular') {
+      query += ' ORDER BY visitsCount DESC, reviewCount DESC';
+    } else {
+      query += ' ORDER BY id ASC';
+    }
+
+    const rows = db.prepare(query).all(...params);
+    const projects = rows.map(parseIotProject);
+    res.json(projects);
+  } catch (err) {
+    console.error('Error fetching iot projects:', err);
+    res.status(500).json({ error: 'Failed to fetch IoT projects' });
+  }
+});
+
+// 2. Get single IoT project by slug
+app.get('/api/iot-projects/:slug', (req, res) => {
+  try {
+    const row = db.prepare('SELECT * FROM iot_projects WHERE slug = ? OR id = ?').get(req.params.slug, req.params.slug);
+    if (!row) {
+      return res.status(404).json({ error: 'IoT Project not found' });
+    }
+    // Increment visit counter
+    db.prepare('UPDATE iot_projects SET visitsCount = visitsCount + 1 WHERE id = ?').run(row.id);
+    row.visitsCount = (row.visitsCount || 0) + 1;
+    res.json(parseIotProject(row));
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch IoT project details' });
+  }
+});
+
+// 3. Download tracking & source code fetch
+app.post('/api/iot-projects/:id/download', (req, res) => {
+  try {
+    const project = db.prepare('SELECT id, name, slug, firmwareCode, downloadsCount FROM iot_projects WHERE id = ?').get(req.params.id);
+    if (!project) return res.status(404).json({ error: 'Project not found' });
+    db.prepare('UPDATE iot_projects SET downloadsCount = downloadsCount + 1 WHERE id = ?').run(project.id);
+    res.json({
+      success: true,
+      downloads: (project.downloadsCount || 0) + 1,
+      downloadsCount: (project.downloadsCount || 0) + 1,
+      filename: `${project.slug}-firmware.ino`,
+      code: project.firmwareCode
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Download failed' });
+  }
+});
+
+// 4. Live Telemetry Data API (Simulation & real state)
+app.get('/api/iot-projects/:id/telemetry', (req, res) => {
+  try {
+    const project = db.prepare('SELECT id, slug, demoTelemetryConfig FROM iot_projects WHERE id = ? OR slug = ?').get(req.params.id, req.params.id);
+    if (!project) return res.status(404).json({ error: 'Project not found' });
+    const parsed = parseIotProject(project);
+    const config = parsed.demoTelemetryConfig;
+    
+    // Add realistic randomized jitter around baseline values for realistic demonstration
+    if (config.metrics) {
+      Object.keys(config.metrics).forEach(k => {
+        const m = config.metrics[k];
+        if (typeof m.value === 'number') {
+          const range = (m.max - m.min) || 10;
+          const jitter = (Math.random() - 0.5) * range * 0.05;
+          m.value = Math.max(m.min || 0, Math.min(m.max || 100, Number((m.value + jitter).toFixed(1))));
+        }
+      });
+    }
+
+    config.timestamp = new Date().toISOString();
+    config.isDemo = true;
+    res.json({
+      telemetry: config,
+      isDemo: true,
+      timestamp: config.timestamp
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to generate telemetry' });
+  }
+});
+
+// 5. Actuator Toggle Simulation
+app.post('/api/iot-projects/:id/actuator', (req, res) => {
+  try {
+    const key = req.body.actuator || req.body.key || 'relay';
+    const state = req.body.state || 'ON';
+    res.json({
+      success: true,
+      key,
+      state,
+      actuators: { [key]: state },
+      timestamp: new Date().toISOString()
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Actuator toggle failed' });
+  }
+});
+
+// 6. Reviews: GET & POST
+app.get('/api/iot-projects/:id/reviews', (req, res) => {
+  try {
+    const reviews = db.prepare('SELECT * FROM iot_reviews WHERE projectId = ? ORDER BY id DESC').all(req.params.id);
+    res.json(reviews);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch reviews' });
+  }
+});
+
+app.post('/api/iot-projects/:id/reviews', authMiddleware, (req, res) => {
+  try {
+    const { rating, comment } = req.body;
+    if (!rating || !comment) return res.status(400).json({ error: 'Rating and comment are required' });
+    const user = req.user;
+    
+    db.prepare('INSERT INTO iot_reviews (projectId, userId, userName, rating, comment) VALUES (?, ?, ?, ?, ?)')
+      .run(req.params.id, user.id, user.name || 'Verified Engineer', Number(rating), comment);
+
+    // Recalculate average rating for project
+    const stats = db.prepare('SELECT AVG(rating) as avgRating, COUNT(*) as count FROM iot_reviews WHERE projectId = ?').get(req.params.id);
+    db.prepare('UPDATE iot_projects SET rating = ?, reviewCount = ? WHERE id = ?')
+      .run(Number(stats.avgRating.toFixed(1)), stats.count, req.params.id);
+
+    res.json({ success: true, rating: stats.avgRating, reviewCount: stats.count });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to post review' });
+  }
+});
+
+// 7. Favorites: Toggle & List
+app.post('/api/iot-projects/:id/favorite', authMiddleware, (req, res) => {
+  try {
+    const existing = db.prepare('SELECT * FROM iot_favorites WHERE userId = ? AND projectId = ?').get(req.user.id, req.params.id);
+    if (existing) {
+      db.prepare('DELETE FROM iot_favorites WHERE userId = ? AND projectId = ?').run(req.user.id, req.params.id);
+      res.json({ favorited: false });
+    } else {
+      db.prepare('INSERT INTO iot_favorites (userId, projectId) VALUES (?, ?)').run(req.user.id, req.params.id);
+      res.json({ favorited: true });
+    }
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to toggle favorite' });
+  }
+});
+
+app.get('/api/iot-projects/user/favorites', authMiddleware, (req, res) => {
+  try {
+    const favs = db.prepare('SELECT projectId FROM iot_favorites WHERE userId = ?').all(req.user.id);
+    res.json(favs.map(f => f.projectId));
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch favorites' });
+  }
+});
+
+// 8. Admin CRUD for IoT Projects
+app.get('/api/admin/iot-projects', authMiddleware, requireAdmin, (req, res) => {
+  try {
+    const rows = db.prepare('SELECT * FROM iot_projects ORDER BY id ASC').all();
+    res.json(rows.map(parseIotProject));
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch admin IoT projects' });
+  }
+});
+
+app.post('/api/admin/iot-projects', authMiddleware, requireAdmin, (req, res) => {
+  try {
+    const p = req.body;
+    const id = p.slug || 'iot-' + Date.now();
+    db.prepare(`
+      INSERT INTO iot_projects (
+        id, name, slug, category, subcategory, difficulty, platform, controller,
+        price, kitPrice, rating, reviewCount, image, shortDescription, description,
+        features, components, budgetBreakdown, wiringGuide, firmwareCode,
+        libraries, testingProcedure, troubleshooting, safetyPrecautions,
+        demoTelemetryConfig, isDemo, active
+      ) VALUES (
+        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+      )
+    `).run(
+      id, p.name, p.slug || id, p.category || 'Arduino Projects', p.subcategory || '',
+      p.difficulty || 'Beginner', p.platform || 'Arduino', p.controller || '',
+      Number(p.price || 0), Number(p.kitPrice || p.price || 0), 5.0, 0, p.image || '',
+      p.shortDescription || '', p.description || '', JSON.stringify(p.features || []),
+      JSON.stringify(p.components || []), JSON.stringify(p.budgetBreakdown || []),
+      JSON.stringify(p.wiringGuide || []), p.firmwareCode || '', JSON.stringify(p.libraries || []),
+      JSON.stringify(p.testingProcedure || []), JSON.stringify(p.troubleshooting || []),
+      JSON.stringify(p.safetyPrecautions || []), JSON.stringify(p.demoTelemetryConfig || {}),
+      p.isDemo ? 1 : 0, p.active !== undefined ? (p.active ? 1 : 0) : 1
+    );
+
+    const desc = `Admin added new IoT Project: ${p.name}`;
+    db.prepare('INSERT INTO activities (type, description, date) VALUES (?, ?, ?)').run('iot-project', desc, new Date().toISOString());
+
+    res.json({ success: true, id });
+  } catch (err) {
+    console.error('Error creating IoT project:', err);
+    res.status(500).json({ error: 'Failed to create IoT project' });
+  }
+});
+
+app.put('/api/admin/iot-projects/:id', authMiddleware, requireAdmin, (req, res) => {
+  try {
+    const p = req.body;
+    db.prepare(`
+      UPDATE iot_projects SET
+        name = ?, category = ?, subcategory = ?, difficulty = ?, platform = ?, controller = ?,
+        price = ?, kitPrice = ?, image = ?, shortDescription = ?, description = ?,
+        features = ?, components = ?, budgetBreakdown = ?, wiringGuide = ?, firmwareCode = ?,
+        libraries = ?, testingProcedure = ?, troubleshooting = ?, safetyPrecautions = ?,
+        demoTelemetryConfig = ?, isDemo = ?, active = ?
+      WHERE id = ?
+    `).run(
+      p.name, p.category, p.subcategory || '', p.difficulty, p.platform, p.controller || '',
+      Number(p.price || 0), Number(p.kitPrice || p.price || 0), p.image || '',
+      p.shortDescription || '', p.description || '', JSON.stringify(p.features || []),
+      JSON.stringify(p.components || []), JSON.stringify(p.budgetBreakdown || []),
+      JSON.stringify(p.wiringGuide || []), p.firmwareCode || '', JSON.stringify(p.libraries || []),
+      JSON.stringify(p.testingProcedure || []), JSON.stringify(p.troubleshooting || []),
+      JSON.stringify(p.safetyPrecautions || []), JSON.stringify(p.demoTelemetryConfig || {}),
+      p.isDemo ? 1 : 0, p.active !== undefined ? (p.active ? 1 : 0) : 1,
+      req.params.id
+    );
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Error updating IoT project:', err);
+    res.status(500).json({ error: 'Failed to update IoT project' });
+  }
+});
+
+app.delete('/api/admin/iot-projects/:id', authMiddleware, requireAdmin, (req, res) => {
+  try {
+    db.prepare('DELETE FROM iot_projects WHERE id = ?').run(req.params.id);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete IoT project' });
   }
 });
 

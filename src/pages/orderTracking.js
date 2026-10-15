@@ -2,7 +2,8 @@
 import { store } from '../store.js';
 import { socketManager } from '../socket/socket.js';
 
-const API = import.meta.env.VITE_API_URL || '';
+const API_URL = (import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+const API = API_URL;
 
 // Haversine formula — returns distance in km
 function haversineKm(lat1, lng1, lat2, lng2) {

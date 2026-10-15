@@ -1,8 +1,20 @@
 import { store } from '../store.js';
 
-const API = import.meta.env.VITE_API_URL || '';
+const API_URL = (import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+const API = API_URL;
 
 export function AdminLoginPage(container) {
+  // If already authenticated as admin, redirect to admin dashboard
+  const existingToken = localStorage.getItem('ck_admin_token');
+  let existingAdmin = null;
+  try {
+    existingAdmin = JSON.parse(localStorage.getItem('ck_admin_user') || 'null');
+  } catch (e) {}
+
+  if (existingToken && existingAdmin && existingAdmin.role === 'admin') {
+    window.location.hash = '/admin';
+    return;
+  }
 
   window.handleAdminLogin = async (e) => {
     e.preventDefault();

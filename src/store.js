@@ -1,6 +1,7 @@
 import { socketManager } from './socket/socket.js';
 
-const API = import.meta.env.VITE_API_URL || '';
+const API_URL = (import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+const API = API_URL;
 
 class Store {
   constructor() {
@@ -661,6 +662,23 @@ class Store {
     } catch (e) {
       console.error(e);
       return false;
+    }
+  }
+
+  // ----------------------------------------------------
+  // BACKEND HEALTH CHECK
+  // ----------------------------------------------------
+
+  async checkHealth() {
+    try {
+      const res = await fetch(`${API}/api/health`);
+      if (res.ok) {
+        return await res.json();
+      }
+      return null;
+    } catch (e) {
+      console.error('Backend health check failed:', e);
+      return null;
     }
   }
 }

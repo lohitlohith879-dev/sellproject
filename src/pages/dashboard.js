@@ -1,6 +1,15 @@
 import { store } from '../store.js';
 
+const API_URL = (import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+const API = API_URL;
+
 export function DashboardPage(container, params) {
+  const token = localStorage.getItem('ck_token');
+  if (!token) {
+    window.location.hash = '/login';
+    return;
+  }
+
   const activeTab = params.tab || 'orders';
 
   window.switchDashboardTab = (tab) => {
@@ -831,7 +840,7 @@ export function DashboardPage(container, params) {
 
         const res =
           await fetch(
-            '/api/users/profile',
+            `${API}/api/users/profile`,
             {
               method: 'PUT',
 

@@ -4,7 +4,8 @@
 
 import { store } from '../store.js';
 
-const API = import.meta.env.VITE_API_URL || '';
+const API_URL = (import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+const API = API_URL;
 
 export async function InvoicePage(container, params = {}) {
 

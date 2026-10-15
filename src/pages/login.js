@@ -1,8 +1,19 @@
 import { store } from '../store.js';
 
-const API = import.meta.env.VITE_API_URL || '';
+const API_URL = (import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+const API = API_URL;
 
 export function LoginPage(container) {
+  const existingToken = localStorage.getItem('ck_token');
+  let existingUser = null;
+  try {
+    existingUser = JSON.parse(localStorage.getItem('ck_user') || 'null');
+  } catch (e) {}
+
+  if (existingToken && existingUser && existingUser.role === 'customer') {
+    window.location.hash = '/dashboard';
+    return;
+  }
 
   window.switchAuthTab = (tab) => {
     document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));

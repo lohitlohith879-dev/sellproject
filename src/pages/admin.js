@@ -2,8 +2,9 @@ import '../styles/admin.css';
 import { store } from '../store.js';
 import { socketManager } from '../socket/socket.js';
 
-const API = import.meta.env.VITE_API_URL
-  ? `${import.meta.env.VITE_API_URL}/api`
+const API_URL = (import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+const API = API_URL
+  ? `${API_URL}/api`
   : '/api';
 
 function authHeaders() {
@@ -17,8 +18,12 @@ export async function AdminPage() {
   const app = document.getElementById('app');
 
   const token = localStorage.getItem('ck_admin_token');
+  let adminUser = null;
+  try {
+    adminUser = JSON.parse(localStorage.getItem('ck_admin_user') || 'null');
+  } catch (e) {}
 
-  if (!token) {
+  if (!token || !adminUser || adminUser.role !== 'admin') {
     window.location.hash = '#/admin-login';
     return;
   }
@@ -69,6 +74,12 @@ export async function AdminPage() {
               data-tab="projects">
               <i data-lucide="cpu"></i>
               <span>Projects</span>
+            </button>
+
+            <button class="admin-nav-item ${activeTab === 'iot-projects' ? 'active' : ''}"
+              data-tab="iot-projects">
+              <i data-lucide="wifi"></i>
+              <span>IoT Projects</span>
             </button>
 
             <button class="admin-nav-item ${activeTab === 'add-project' ? 'active' : ''}"
@@ -196,6 +207,10 @@ export async function AdminPage() {
 
       case 'projects':
         await renderProjects(content);
+        break;
+
+      case 'iot-projects':
+        await renderIotProjects(content);
         break;
 
       case 'add-project':
@@ -5034,6 +5049,436 @@ export async function AdminPage() {
     );
   };
 
+
+  // ============================================================
+  // IOT PROJECTS MANAGEMENT MODULE
+  // ============================================================
+  const renderIotProjects = async (content) => {
+    try {
+      content.innerHTML = `
+        <div class="admin-loading">
+          <div class="spinner"></div>
+          <p>Loading IoT & Embedded Projects...</p>
+        </div>
+      `;
+
+      const response = await fetch(`${API}/admin/iot-projects`, {
+        headers: authHeaders()
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to load IoT projects');
+      }
+
+      const projects = await response.json();
+      const totalVisits = projects.reduce((acc, p) => acc + (p.visits || 0), 0);
+      const totalDownloads = projects.reduce((acc, p) => acc + (p.downloads || 0), 0);
+      const demoCount = projects.filter(p => p.isDemo).length;
+
+      content.innerHTML = `
+        <div class="admin-section-header">
+          <div>
+            <h2>IoT & Embedded Systems Projects (${projects.length})</h2>
+            <p>Manage project specifications, schematics, firmware code, kit availability and live simulation parameters.</p>
+          </div>
+
+          <div style="display:flex;gap:10px;">
+            <button class="admin-refresh-btn" id="refresh-iot-projects">
+              <i data-lucide="refresh-cw"></i>
+              Refresh
+            </button>
+            <button class="btn btn-primary" id="add-iot-project-btn" style="background:#00f3ff;color:#050b14;font-weight:700;display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:6px;border:none;cursor:pointer;">
+              <i data-lucide="plus-circle" style="width:16px;height:16px;"></i>
+              New IoT Project
+            </button>
+          </div>
+        </div>
+
+        <div class="admin-stats-grid" style="margin-bottom:24px;">
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon orders">
+              <i data-lucide="cpu"></i>
+            </div>
+            <div>
+              <span>Total Projects</span>
+              <strong>${projects.length}</strong>
+            </div>
+          </div>
+
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon users">
+              <i data-lucide="flask-conical"></i>
+            </div>
+            <div>
+              <span>Demo Blueprints</span>
+              <strong>${demoCount} / ${projects.length}</strong>
+            </div>
+          </div>
+
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon revenue">
+              <i data-lucide="eye"></i>
+            </div>
+            <div>
+              <span>Total Views</span>
+              <strong>${totalVisits}</strong>
+            </div>
+          </div>
+
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon orders">
+              <i data-lucide="download"></i>
+            </div>
+            <div>
+              <span>Code Downloads</span>
+              <strong>${totalDownloads}</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Project</th>
+                <th>Category</th>
+                <th>Platform</th>
+                <th>Difficulty</th>
+                <th>Est. Cost</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Stats</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${projects.map(p => `
+                <tr data-id="${p.id}">
+                  <td>
+                    <div style="display:flex;align-items:center;gap:12px;">
+                      <img src="${p.image || 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=200'}" 
+                        style="width:44px;height:44px;border-radius:6px;object-fit:cover;border:1px solid rgba(255,255,255,0.1);" />
+                      <div>
+                        <strong style="color:#fff;display:block;">${p.title}</strong>
+                        <span style="font-size:11px;color:#94a3b8;">${p.slug}</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="badge" style="background:rgba(0,243,255,0.1);color:#00f3ff;border:1px solid rgba(0,243,255,0.2);">${p.category}</span></td>
+                  <td><span style="font-family:monospace;font-size:12px;color:#e2e8f0;">${p.platform}</span></td>
+                  <td>
+                    <span class="badge ${p.difficulty === 'Beginner' ? 'badge-green' : p.difficulty === 'Advanced' ? 'badge-red' : 'badge-orange'}">
+                      ${p.difficulty}
+                    </span>
+                  </td>
+                  <td><strong style="color:#00f3ff;">₹${Number(p.estimatedCost || 0).toLocaleString('en-IN')}</strong></td>
+                  <td>
+                    ${p.isDemo ? `
+                      <span class="badge" style="background:rgba(168,85,247,0.15);color:#c084fc;border:1px solid rgba(168,85,247,0.3);">
+                        Demo Data
+                      </span>
+                    ` : `
+                      <span class="badge" style="background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.3);">
+                        Verified
+                      </span>
+                    `}
+                  </td>
+                  <td>
+                    <span class="status-pill ${p.isActive ? 'active' : 'inactive'}" style="cursor:pointer;" 
+                          title="Click to toggle publish status" onclick="window.toggleIotPublish('${p.id}', ${p.isActive ? 0 : 1})">
+                      ${p.isActive ? 'Published' : 'Draft'}
+                    </span>
+                  </td>
+                  <td style="font-size:12px;color:#94a3b8;">
+                    <div><i data-lucide="eye" style="width:12px;height:12px;display:inline;"></i> ${p.visits || 0}</div>
+                    <div><i data-lucide="download" style="width:12px;height:12px;display:inline;"></i> ${p.downloads || 0}</div>
+                  </td>
+                  <td>
+                    <div style="display:flex;gap:6px;">
+                      <a href="#/iot-project/${p.slug}" target="_blank" class="btn-icon" title="View Public Page" style="color:#00f3ff;padding:6px;display:inline-flex;">
+                        <i data-lucide="external-link" style="width:14px;height:14px;"></i>
+                      </a>
+                      <button class="btn-icon edit-iot-btn" data-id="${p.id}" title="Edit Project Specifications" style="color:#f59e0b;padding:6px;background:none;border:none;cursor:pointer;">
+                        <i data-lucide="edit-2" style="width:14px;height:14px;"></i>
+                      </button>
+                      <button class="btn-icon delete-iot-btn" data-id="${p.id}" data-title="${p.title.replace(/"/g, '&quot;')}" title="Delete Project" style="color:#ef4444;padding:6px;background:none;border:none;cursor:pointer;">
+                        <i data-lucide="trash-2" style="width:14px;height:14px;"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Add / Edit Modal Container -->
+        <div id="iot-modal-root"></div>
+      `;
+
+      if (window.lucide) window.lucide.createIcons();
+
+      // Refresh button
+      document.getElementById('refresh-iot-projects')?.addEventListener('click', () => {
+        renderIotProjects(content);
+      });
+
+      // Toggle publish
+      window.toggleIotPublish = async (id, nextState) => {
+        try {
+          const res = await fetch(`${API}/admin/iot-projects/${id}`, {
+            method: 'PUT',
+            headers: authHeaders(),
+            body: JSON.stringify({ isActive: nextState })
+          });
+          if (res.ok) {
+            showAdminToast(nextState ? 'Project published!' : 'Project moved to draft.', 'success');
+            renderIotProjects(content);
+          } else {
+            showAdminToast('Failed to update status', 'error');
+          }
+        } catch (e) {
+          showAdminToast('Network error updating status', 'error');
+        }
+      };
+
+      // Modal open for New Project
+      document.getElementById('add-iot-project-btn')?.addEventListener('click', () => {
+        openIotModal(null, content);
+      });
+
+      // Edit Project buttons
+      document.querySelectorAll('.edit-iot-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const p = projects.find(item => item.id === btn.dataset.id);
+          if (p) openIotModal(p, content);
+        });
+      });
+
+      // Delete Project buttons
+      document.querySelectorAll('.delete-iot-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const title = btn.dataset.title;
+          if (confirm(`Are you sure you want to delete IoT project "${title}"?`)) {
+            try {
+              const res = await fetch(`${API}/admin/iot-projects/${btn.dataset.id}`, {
+                method: 'DELETE',
+                headers: authHeaders()
+              });
+              if (res.ok) {
+                showAdminToast('Project deleted successfully', 'success');
+                renderIotProjects(content);
+              } else {
+                showAdminToast('Failed to delete project', 'error');
+              }
+            } catch (err) {
+              showAdminToast('Network error deleting project', 'error');
+            }
+          }
+        });
+      });
+
+    } catch (err) {
+      console.error(err);
+      content.innerHTML = `
+        <div class="admin-error">
+          <i data-lucide="alert-triangle"></i>
+          <h3>Error Loading IoT Projects</h3>
+          <p>${err.message}</p>
+          <button class="btn btn-primary" onclick="switchAdminTab('iot-projects')">Retry</button>
+        </div>
+      `;
+      if (window.lucide) window.lucide.createIcons();
+    }
+  };
+
+  const openIotModal = (project, content) => {
+    const isEdit = !!project;
+    const modalRoot = document.getElementById('iot-modal-root');
+    if (!modalRoot) return;
+
+    const categories = [
+      'Arduino Projects',
+      'ESP32 and ESP8266 Projects',
+      'Embedded Systems',
+      'Sensor-Based Projects',
+      'Home Automation',
+      'Smart Agriculture',
+      'Robotics',
+      'Industrial IoT',
+      'VLSI and Digital Electronics',
+      'AI + IoT Projects'
+    ];
+
+    modalRoot.innerHTML = `
+      <div class="admin-modal-backdrop" style="position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto;">
+        <div class="admin-modal" style="background:#0b1523;border:1px solid #1e293b;border-radius:12px;width:100%;max-width:850px;max-height:90vh;overflow-y:auto;padding:24px;color:#f8fafc;box-shadow:0 25px 50px -12px rgba(0,0,0,0.7);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border-bottom:1px solid #1e293b;padding-bottom:12px;">
+            <h3 style="margin:0;font-size:1.3rem;color:#00f3ff;display:flex;align-items:center;gap:8px;">
+              <i data-lucide="${isEdit ? 'edit-2' : 'plus-circle'}"></i>
+              ${isEdit ? 'Edit IoT Project' : 'Create New IoT Project'}
+            </h3>
+            <button id="close-iot-modal" style="background:none;border:none;color:#94a3b8;cursor:pointer;padding:4px;">
+              <i data-lucide="x" style="width:20px;height:20px;"></i>
+            </button>
+          </div>
+
+          <form id="iot-project-form">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+              <div>
+                <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:#94a3b8;">Project Title *</label>
+                <input type="text" id="iot-f-title" required value="${project?.title || ''}" class="form-input" style="width:100%;padding:10px;background:#050b14;border:1px solid #1e293b;border-radius:6px;color:#fff;" />
+              </div>
+              <div>
+                <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:#94a3b8;">URL Slug *</label>
+                <input type="text" id="iot-f-slug" required value="${project?.slug || ''}" placeholder="e.g. smart-agriculture-system" class="form-input" style="width:100%;padding:10px;background:#050b14;border:1px solid #1e293b;border-radius:6px;color:#fff;" />
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;">
+              <div>
+                <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:#94a3b8;">Category *</label>
+                <select id="iot-f-cat" class="form-select" style="width:100%;padding:10px;background:#050b14;border:1px solid #1e293b;border-radius:6px;color:#fff;">
+                  ${categories.map(c => `
+                    <option value="${c}" ${project?.category === c ? 'selected' : ''}>${c}</option>
+                  `).join('')}
+                </select>
+              </div>
+
+              <div>
+                <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:#94a3b8;">Difficulty *</label>
+                <select id="iot-f-diff" class="form-select" style="width:100%;padding:10px;background:#050b14;border:1px solid #1e293b;border-radius:6px;color:#fff;">
+                  <option value="Beginner" ${project?.difficulty === 'Beginner' ? 'selected' : ''}>Beginner</option>
+                  <option value="Intermediate" ${project?.difficulty === 'Intermediate' || !project ? 'selected' : ''}>Intermediate</option>
+                  <option value="Advanced" ${project?.difficulty === 'Advanced' ? 'selected' : ''}>Advanced</option>
+                </select>
+              </div>
+
+              <div>
+                <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:#94a3b8;">Platform *</label>
+                <input type="text" id="iot-f-plat" required value="${project?.platform || 'ESP32'}" placeholder="e.g. ESP32, Arduino UNO" class="form-input" style="width:100%;padding:10px;background:#050b14;border:1px solid #1e293b;border-radius:6px;color:#fff;" />
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+              <div>
+                <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:#94a3b8;">Estimated Cost (₹ INR) *</label>
+                <input type="number" id="iot-f-cost" required value="${project?.estimatedCost || 2499}" class="form-input" style="width:100%;padding:10px;background:#050b14;border:1px solid #1e293b;border-radius:6px;color:#fff;" />
+              </div>
+
+              <div>
+                <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:#94a3b8;">Image URL</label>
+                <input type="url" id="iot-f-image" value="${project?.image || ''}" placeholder="https://..." class="form-input" style="width:100%;padding:10px;background:#050b14;border:1px solid #1e293b;border-radius:6px;color:#fff;" />
+              </div>
+            </div>
+
+            <div style="margin-bottom:16px;">
+              <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:#94a3b8;">Short Description *</label>
+              <input type="text" id="iot-f-short" required value="${project?.shortDescription || ''}" class="form-input" style="width:100%;padding:10px;background:#050b14;border:1px solid #1e293b;border-radius:6px;color:#fff;" />
+            </div>
+
+            <div style="margin-bottom:16px;">
+              <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:#94a3b8;">Full Project Overview *</label>
+              <textarea id="iot-f-desc" rows="4" required class="form-textarea" style="width:100%;padding:10px;background:#050b14;border:1px solid #1e293b;border-radius:6px;color:#fff;font-family:sans-serif;">${project?.description || ''}</textarea>
+            </div>
+
+            <div style="margin-bottom:16px;">
+              <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:#94a3b8;">Circuit / Schematic Diagram URL</label>
+              <input type="url" id="iot-f-schematic" value="${project?.circuitDiagram || ''}" placeholder="https://..." class="form-input" style="width:100%;padding:10px;background:#050b14;border:1px solid #1e293b;border-radius:6px;color:#fff;" />
+            </div>
+
+            <div style="margin-bottom:16px;">
+              <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:#94a3b8;">Firmware Source Code (.ino)</label>
+              <textarea id="iot-f-code" rows="6" class="form-textarea" style="width:100%;padding:10px;background:#050b14;border:1px solid #1e293b;border-radius:6px;color:#00f3ff;font-family:monospace;font-size:12px;">${project?.firmwareCode || ''}</textarea>
+            </div>
+
+            <div style="display:flex;gap:24px;margin-bottom:24px;padding:12px;background:#050b14;border:1px solid #1e293b;border-radius:8px;">
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;">
+                <input type="checkbox" id="iot-f-demo" ${project?.isDemo !== false ? 'checked' : ''} />
+                <span>Mark as Sample Demo Content (Simulated Telemetry)</span>
+              </label>
+
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;">
+                <input type="checkbox" id="iot-f-kit" ${project?.isKitAvailable !== false ? 'checked' : ''} />
+                <span>Ready-to-Ship Component Kit Available</span>
+              </label>
+
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;">
+                <input type="checkbox" id="iot-f-active" ${project?.isActive !== false ? 'checked' : ''} />
+                <span>Published & Visible</span>
+              </label>
+            </div>
+
+            <div style="display:flex;justify-content:flex-end;gap:12px;">
+              <button type="button" id="cancel-iot-modal" class="btn btn-secondary" style="padding:10px 20px;border-radius:6px;background:#1e293b;color:#fff;border:none;cursor:pointer;">Cancel</button>
+              <button type="submit" class="btn btn-primary" style="padding:10px 24px;border-radius:6px;background:#00f3ff;color:#050b14;font-weight:700;border:none;cursor:pointer;">
+                ${isEdit ? 'Save Changes' : 'Create Project'}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    `;
+
+    if (window.lucide) window.lucide.createIcons();
+
+    const closeModal = () => modalRoot.innerHTML = '';
+    document.getElementById('close-iot-modal')?.addEventListener('click', closeModal);
+    document.getElementById('cancel-iot-modal')?.addEventListener('click', closeModal);
+
+    // Auto-generate slug from title for new projects
+    const titleInput = document.getElementById('iot-f-title');
+    const slugInput = document.getElementById('iot-f-slug');
+    if (!isEdit && titleInput && slugInput) {
+      titleInput.addEventListener('input', () => {
+        slugInput.value = titleInput.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      });
+    }
+
+    // Submit form
+    document.getElementById('iot-project-form')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const payload = {
+        title: document.getElementById('iot-f-title').value,
+        slug: document.getElementById('iot-f-slug').value,
+        category: document.getElementById('iot-f-cat').value,
+        difficulty: document.getElementById('iot-f-diff').value,
+        platform: document.getElementById('iot-f-plat').value,
+        estimatedCost: Number(document.getElementById('iot-f-cost').value),
+        image: document.getElementById('iot-f-image').value,
+        shortDescription: document.getElementById('iot-f-short').value,
+        description: document.getElementById('iot-f-desc').value,
+        circuitDiagram: document.getElementById('iot-f-schematic').value,
+        firmwareCode: document.getElementById('iot-f-code').value,
+        isDemo: document.getElementById('iot-f-demo').checked ? 1 : 0,
+        isKitAvailable: document.getElementById('iot-f-kit').checked ? 1 : 0,
+        isActive: document.getElementById('iot-f-active').checked ? 1 : 0
+      };
+
+      try {
+        const url = isEdit ? `${API}/admin/iot-projects/${project.id}` : `${API}/admin/iot-projects`;
+        const method = isEdit ? 'PUT' : 'POST';
+
+        const res = await fetch(url, {
+          method,
+          headers: authHeaders(),
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          showAdminToast(`IoT Project ${isEdit ? 'updated' : 'created'} successfully!`, 'success');
+          closeModal();
+          renderIotProjects(content);
+        } else {
+          const err = await res.json();
+          showAdminToast(err.error || 'Failed to save project', 'error');
+        }
+      } catch (err) {
+        showAdminToast('Network error saving project', 'error');
+      }
+    });
+  };
 
   await render();
 }

@@ -14,6 +14,12 @@ import { AdminLoginPage } from './pages/adminLogin.js';
 import { OrderTrackingPage } from './pages/orderTracking.js';
 import { InvoicePage } from './pages/invoice.js';
 import { socketManager } from './socket/socket.js';
+import { IoTProjectsPage } from './pages/iotProjects.js';
+import { IoTProjectDetailPage } from './pages/iotProjectDetail.js';
+import './styles/iotProjects.css';
+
+const API_URL = (import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+const API = API_URL;
 
 // Setup basic app shell
 const app = document.getElementById('app');
@@ -99,12 +105,24 @@ function renderNavbar() {
           <a
             href="#/projects"
             class="nav-link ${router.currentRoute &&
-        router.currentRoute.startsWith('/project')
+        router.currentRoute.startsWith('/project') &&
+        !router.currentRoute.startsWith('/iot-project')
         ? 'active'
         : ''
       }"
           >
             Projects
+          </a>
+
+          <a
+            href="#/iot-projects"
+            class="nav-link ${router.currentRoute &&
+        router.currentRoute.startsWith('/iot-project')
+        ? 'active'
+        : ''
+      }"
+          >
+            IoT Projects
           </a>
 
           <a
@@ -393,6 +411,10 @@ function renderFooter() {
 
             <h4>Projects</h4>
 
+            <a href="#/iot-projects" style="color: #00f3ff; font-weight: 600;">
+              ⚡ IoT Projects Marketplace
+            </a>
+
             <a href="#/projects?category=arduino">
               Arduino
             </a>
@@ -680,7 +702,7 @@ async function initApp() {
 
         const res =
           await fetch(
-            '/api/notifications',
+            `${API}/api/notifications`,
             {
               headers: {
                 Authorization:
@@ -848,7 +870,7 @@ async function initApp() {
           n => {
 
             fetch(
-              `/api/notifications/${n.id}/read`,
+              `${API}/api/notifications/${n.id}/read`,
               {
                 method: 'PATCH',
                 headers: {
@@ -904,6 +926,35 @@ async function initApp() {
 
 
   // ============================
+  // ROUTE GUARDS
+  // ============================
+
+  router.before((path) => {
+    // Strictly protect admin portal
+    if (path.startsWith('/admin') && path !== '/admin-login') {
+      const adminToken = localStorage.getItem('ck_admin_token');
+      let adminUser = null;
+      try {
+        adminUser = JSON.parse(localStorage.getItem('ck_admin_user') || 'null');
+      } catch (e) {}
+
+      if (!adminToken || !adminUser || adminUser.role !== 'admin') {
+        window.location.hash = '#/admin-login';
+        return false;
+      }
+    }
+
+    // Protect customer dashboard from unauthenticated visitors
+    if (path === '/dashboard') {
+      const token = localStorage.getItem('ck_token');
+      if (!token) {
+        window.location.hash = '#/login';
+        return false;
+      }
+    }
+  });
+
+  // ============================
   // ROUTES
   // ============================
 
@@ -920,6 +971,16 @@ async function initApp() {
   router.on(
     '/project/:slug',
     ProjectDetailPage
+  );
+
+  router.on(
+    '/iot-projects',
+    IoTProjectsPage
+  );
+
+  router.on(
+    '/iot-project/:slug',
+    IoTProjectDetailPage
   );
 
   router.on(

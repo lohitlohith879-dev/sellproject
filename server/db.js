@@ -168,11 +168,95 @@ function initDb() {
       comment TEXT,
       createdAt TEXT DEFAULT (datetime('now'))
     );
+
+    CREATE TABLE IF NOT EXISTS iot_projects (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      slug TEXT UNIQUE NOT NULL,
+      category TEXT NOT NULL,
+      subcategory TEXT,
+      difficulty TEXT NOT NULL,
+      platform TEXT NOT NULL,
+      controller TEXT,
+      price REAL NOT NULL,
+      kitPrice REAL NOT NULL,
+      rating REAL DEFAULT 4.8,
+      reviewCount INTEGER DEFAULT 0,
+      image TEXT,
+      shortDescription TEXT,
+      description TEXT,
+      features TEXT,
+      components TEXT,
+      budgetBreakdown TEXT,
+      wiringGuide TEXT,
+      firmwareCode TEXT,
+      libraries TEXT,
+      testingProcedure TEXT,
+      troubleshooting TEXT,
+      safetyPrecautions TEXT,
+      demoTelemetryConfig TEXT,
+      downloadsCount INTEGER DEFAULT 0,
+      visitsCount INTEGER DEFAULT 0,
+      isDemo INTEGER DEFAULT 1,
+      active INTEGER DEFAULT 1,
+      created_at TEXT DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS iot_reviews (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      projectId TEXT NOT NULL,
+      userId INTEGER,
+      userName TEXT NOT NULL,
+      rating INTEGER NOT NULL,
+      comment TEXT NOT NULL,
+      created_at TEXT DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS iot_favorites (
+      userId INTEGER NOT NULL,
+      projectId TEXT NOT NULL,
+      created_at TEXT DEFAULT (datetime('now')),
+      PRIMARY KEY(userId, projectId)
+    );
   `;
 
   db.exec(initSql);
 
   try {
+    // Seed initial IoT Projects if not populated
+    const iotCount = db.prepare('SELECT COUNT(*) as count FROM iot_projects').get().count;
+    if (iotCount === 0) {
+      import('./iotProjectsSeed.js').then(({ initialIotProjects }) => {
+        const insertStmt = db.prepare(`
+          INSERT INTO iot_projects (
+            id, name, slug, category, subcategory, difficulty, platform, controller,
+            price, kitPrice, rating, reviewCount, image, shortDescription, description,
+            features, components, budgetBreakdown, wiringGuide, firmwareCode,
+            libraries, testingProcedure, troubleshooting, safetyPrecautions,
+            demoTelemetryConfig, isDemo, active
+          ) VALUES (
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+          )
+        `);
+
+        for (const p of initialIotProjects) {
+          insertStmt.run(
+            p.id, p.name, p.slug, p.category, p.subcategory || '', p.difficulty, p.platform, p.controller || '',
+            p.price, p.kitPrice || p.price, p.rating || 4.8, p.reviewCount || 0, p.image || '',
+            p.shortDescription || '', p.description || '', JSON.stringify(p.features || []),
+            JSON.stringify(p.components || []), JSON.stringify(p.budgetBreakdown || []),
+            JSON.stringify(p.wiringGuide || []), p.firmwareCode || '', JSON.stringify(p.libraries || []),
+            JSON.stringify(p.testingProcedure || []), JSON.stringify(p.troubleshooting || []),
+            JSON.stringify(p.safetyPrecautions || []), JSON.stringify(p.demoTelemetryConfig || {}),
+            p.isDemo ? 1 : 0, p.active ? 1 : 0
+          );
+        }
+        console.log(`✅ Seeded ${initialIotProjects.length} IoT & Embedded Systems Projects successfully.`);
+      }).catch(err => {
+        console.error('Error seeding IoT projects:', err);
+      });
+    }
+
     // Orders tracking migrations
     const ordersCols = db.prepare("PRAGMA table_info(orders)").all();
     const hasPaymentStatus = ordersCols.some(c => c.name === 'paymentStatus');

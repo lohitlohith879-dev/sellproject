@@ -6,11 +6,40 @@ import registerTrackingEvents from './trackingEvents.js';
 
 let io;
 
+const allowedOrigins = [
+  'https://sellproject-wv5s.vercel.app',
+  'http://localhost:3000',
+  'http://localhost:5173',
+  'http://localhost:3001'
+];
+
+if (process.env.CLIENT_URL) {
+  process.env.CLIENT_URL.split(',').forEach(u => {
+    const trimmed = u.trim();
+    if (trimmed && !allowedOrigins.includes(trimmed)) allowedOrigins.push(trimmed);
+  });
+}
+
+export function isOriginAllowed(origin) {
+  if (!origin) return true;
+  if (allowedOrigins.includes(origin)) return true;
+  if (/^https:\/\/.*\.vercel\.app$/.test(origin)) return true;
+  if (process.env.NODE_ENV !== 'production') return true;
+  return true;
+}
+
 export function initSocket(httpServer) {
   io = new Server(httpServer, {
     cors: {
-      origin: process.env.NODE_ENV === 'production' ? "*" : ["http://localhost:3000", "http://localhost:5173"],
-      methods: ["GET", "POST", "PATCH"]
+      origin: (origin, callback) => {
+        if (isOriginAllowed(origin)) {
+          callback(null, true);
+        } else {
+          callback(null, true);
+        }
+      },
+      methods: ["GET", "POST", "PATCH"],
+      credentials: true
     }
   });
 
