@@ -327,11 +327,77 @@ function initDb() {
       created_at TEXT DEFAULT (datetime('now')),
       updated_at TEXT DEFAULT (datetime('now'))
     );
+
+    CREATE TABLE IF NOT EXISTS hardware_components (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      model TEXT,
+      category TEXT NOT NULL,
+      price REAL NOT NULL,
+      mrp REAL NOT NULL,
+      priceType TEXT DEFAULT 'Estimated',
+      lastVerified TEXT,
+      inStock INTEGER DEFAULT 1,
+      stockCount INTEGER DEFAULT 20,
+      rating REAL DEFAULT 4.5,
+      reviewCount INTEGER DEFAULT 25,
+      image TEXT NOT NULL,
+      gallery TEXT,
+      voltage TEXT,
+      current TEXT,
+      interface TEXT,
+      keySpecs TEXT,
+      pinoutDiagram TEXT,
+      pinConnections TEXT,
+      workingPrinciple TEXT,
+      applications TEXT,
+      compatibility TEXT,
+      exampleCode TEXT,
+      datasheetUrl TEXT,
+      retailers TEXT,
+      created_at TEXT DEFAULT (datetime('now')),
+      updated_at TEXT DEFAULT (datetime('now'))
+    );
   `;
 
   db.exec(initSql);
 
   try {
+    // Seed initial Hardware Components Explorer
+    const hwCount = db.prepare('SELECT COUNT(*) as count FROM hardware_components').get().count;
+    if (hwCount === 0) {
+      import('./hardwareComponentsSeed.js').then(({ initialHardwareComponents }) => {
+        const insertStmt = db.prepare(`
+          INSERT INTO hardware_components (
+            id, name, model, category, price, mrp, priceType, lastVerified,
+            inStock, stockCount, rating, reviewCount, image, gallery,
+            voltage, current, interface, keySpecs, pinoutDiagram, pinConnections,
+            workingPrinciple, applications, compatibility, exampleCode,
+            datasheetUrl, retailers
+          ) VALUES (
+            ?, ?, ?, ?, ?, ?, ?, ?,
+            ?, ?, ?, ?, ?, ?,
+            ?, ?, ?, ?, ?, ?,
+            ?, ?, ?, ?,
+            ?, ?
+          )
+        `);
+
+        for (const c of initialHardwareComponents) {
+          insertStmt.run(
+            c.id, c.name, c.model || '', c.category, c.price, c.mrp, c.priceType || 'Estimated', c.lastVerified || '',
+            c.inStock ? 1 : 0, c.stockCount || 20, c.rating || 4.5, c.reviewCount || 20, c.image, JSON.stringify(c.gallery || []),
+            c.voltage || '', c.current || '', c.interface || '', JSON.stringify(c.keySpecs || {}), c.pinoutDiagram || '', JSON.stringify(c.pinConnections || []),
+            c.workingPrinciple || '', JSON.stringify(c.applications || []), JSON.stringify(c.compatibility || {}), c.exampleCode || '',
+            c.datasheetUrl || '', JSON.stringify(c.retailers || [])
+          );
+        }
+        console.log(`✅ Seeded ${initialHardwareComponents.length} Genuine Hardware Components successfully.`);
+      }).catch(err => {
+        console.error('Error seeding hardware components:', err);
+      });
+    }
+
     // Seed initial Project Dashboards (IoT and Web Development)
     const dashCount = db.prepare('SELECT COUNT(*) as count FROM project_dashboards').get().count;
     if (dashCount === 0) {

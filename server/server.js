@@ -1335,6 +1335,228 @@ app.patch('/api/project-dashboards/:id/publish', authMiddleware, requireAdmin, (
 });
 
 // ---------------------------------------------------------
+// HARDWARE COMPONENTS STORE & EXPLORER API
+// ---------------------------------------------------------
+
+function formatHardwareComponent(row) {
+  if (!row) return null;
+  return {
+    ...row,
+    inStock: Boolean(row.inStock),
+    gallery: JSON.parse(row.gallery || '[]'),
+    keySpecs: JSON.parse(row.keySpecs || '{}'),
+    pinConnections: JSON.parse(row.pinConnections || '[]'),
+    applications: JSON.parse(row.applications || '[]'),
+    compatibility: JSON.parse(row.compatibility || '{}'),
+    retailers: JSON.parse(row.retailers || '[]')
+  };
+}
+
+// GET all hardware components with rich filtering & sorting
+app.get('/api/hardware-components', (req, res) => {
+  try {
+    const { category, q, voltage, priceMin, priceMax, inStockOnly, verifiedOnly, sortBy } = req.query;
+    let query = 'SELECT * FROM hardware_components WHERE 1=1';
+    const params = [];
+
+    if (category && category !== 'all') {
+      query += ' AND LOWER(category) = ?';
+      params.push(category.toLowerCase());
+    }
+
+    if (voltage && voltage !== 'all') {
+      query += ' AND LOWER(voltage) LIKE ?';
+      params.push(`%${voltage.toLowerCase()}%`);
+    }
+
+    if (priceMin) {
+      query += ' AND price >= ?';
+      params.push(Number(priceMin));
+    }
+
+    if (priceMax) {
+      query += ' AND price <= ?';
+      params.push(Number(priceMax));
+    }
+
+    if (inStockOnly === 'true' || inStockOnly === '1') {
+      query += ' AND inStock = 1';
+    }
+
+    if (verifiedOnly === 'true' || verifiedOnly === '1') {
+      query += " AND priceType = 'Verified'";
+    }
+
+    if (q && q.trim()) {
+      const term = `%${q.trim().toLowerCase()}%`;
+      query += ' AND (LOWER(name) LIKE ? OR LOWER(model) LIKE ? OR LOWER(category) LIKE ? OR LOWER(keySpecs) LIKE ? OR LOWER(workingPrinciple) LIKE ?)';
+      params.push(term, term, term, term, term);
+    }
+
+    // Sorting
+    if (sortBy === 'price_asc') {
+      query += ' ORDER BY price ASC';
+    } else if (sortBy === 'price_desc') {
+      query += ' ORDER BY price DESC';
+    } else if (sortBy === 'name_asc') {
+      query += ' ORDER BY name ASC';
+    } else if (sortBy === 'rating_desc') {
+      query += ' ORDER BY rating DESC, reviewCount DESC';
+    } else {
+      query += ' ORDER BY rating DESC, price ASC';
+    }
+
+    const rows = db.prepare(query).all(...params);
+    const components = rows.map(formatHardwareComponent);
+
+    // Compute categories summary with counts
+    const allCategoriesRows = db.prepare('SELECT category, COUNT(*) as count FROM hardware_components GROUP BY category ORDER BY category ASC').all();
+
+    res.json({
+      components,
+      totalCount: components.length,
+      categories: allCategoriesRows
+    });
+  } catch (err) {
+    console.error('Error fetching hardware components:', err);
+    res.status(500).json({ error: 'Failed to fetch hardware components' });
+  }
+});
+
+// GET category list with counts
+app.get('/api/hardware-components/categories', (req, res) => {
+  try {
+    const categories = db.prepare('SELECT category, COUNT(*) as count FROM hardware_components GROUP BY category ORDER BY category ASC').all();
+    res.json({ categories });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch categories' });
+  }
+});
+
+// GET single component by ID
+app.get('/api/hardware-components/:id', (req, res) => {
+  try {
+    const row = db.prepare('SELECT * FROM hardware_components WHERE id = ?').get(req.params.id);
+    if (!row) {
+      return res.status(404).json({ error: 'Component not found' });
+    }
+    res.json(formatHardwareComponent(row));
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch component detail' });
+  }
+});
+
+// Admin: Add new hardware component
+app.post('/api/hardware-components', authMiddleware, requireAdmin, (req, res) => {
+  try {
+    const data = req.body;
+    if (!data.name || !data.category || data.price == null) {
+      return res.status(400).json({ error: 'Name, category, and price are required' });
+    }
+    const id = data.id || data.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') + '-' + Date.now().toString(36);
+
+    db.prepare(`
+      INSERT INTO hardware_components (
+        id, name, model, category, price, mrp, priceType, lastVerified,
+        inStock, stockCount, rating, reviewCount, image, gallery,
+        voltage, current, interface, keySpecs, pinoutDiagram, pinConnections,
+        workingPrinciple, applications, compatibility, exampleCode,
+        datasheetUrl, retailers
+      ) VALUES (
+        ?, ?, ?, ?, ?, ?, ?, ?,
+        ?, ?, ?, ?, ?, ?,
+        ?, ?, ?, ?, ?, ?,
+        ?, ?, ?, ?,
+        ?, ?
+      )
+    `).run(
+      id, data.name, data.model || '', data.category, Number(data.price), Number(data.mrp || Math.round(data.price * 1.35)),
+      data.priceType || 'Verified', data.lastVerified || new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
+      data.inStock ? 1 : 0, Number(data.stockCount || 20), Number(data.rating || 4.5), Number(data.reviewCount || 10),
+      data.image || 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800',
+      JSON.stringify(data.gallery || [data.image || 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800']),
+      data.voltage || '5V', data.current || '50mA', data.interface || 'Digital GPIO',
+      JSON.stringify(data.keySpecs || {}), data.pinoutDiagram || '', JSON.stringify(data.pinConnections || []),
+      data.workingPrinciple || '', JSON.stringify(data.applications || []), JSON.stringify(data.compatibility || { arduino: true, esp32: true }),
+      data.exampleCode || '', data.datasheetUrl || '', JSON.stringify(data.retailers || [])
+    );
+
+    const created = db.prepare('SELECT * FROM hardware_components WHERE id = ?').get(id);
+    res.status(201).json(formatHardwareComponent(created));
+  } catch (err) {
+    console.error('Error creating hardware component:', err);
+    res.status(500).json({ error: 'Failed to create component' });
+  }
+});
+
+// Admin: Update hardware component
+app.put('/api/hardware-components/:id', authMiddleware, requireAdmin, (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = req.body;
+    const existing = db.prepare('SELECT * FROM hardware_components WHERE id = ?').get(id);
+    if (!existing) {
+      return res.status(404).json({ error: 'Component not found' });
+    }
+
+    db.prepare(`
+      UPDATE hardware_components SET
+        name = ?, model = ?, category = ?, price = ?, mrp = ?, priceType = ?,
+        lastVerified = ?, inStock = ?, stockCount = ?, rating = ?, reviewCount = ?,
+        image = ?, gallery = ?, voltage = ?, current = ?, interface = ?,
+        keySpecs = ?, pinoutDiagram = ?, pinConnections = ?, workingPrinciple = ?,
+        applications = ?, compatibility = ?, exampleCode = ?, datasheetUrl = ?,
+        retailers = ?, updated_at = datetime('now')
+      WHERE id = ?
+    `).run(
+      data.name ?? existing.name,
+      data.model ?? existing.model,
+      data.category ?? existing.category,
+      data.price != null ? Number(data.price) : existing.price,
+      data.mrp != null ? Number(data.mrp) : existing.mrp,
+      data.priceType ?? existing.priceType,
+      data.lastVerified ?? existing.lastVerified,
+      data.inStock !== undefined ? (data.inStock ? 1 : 0) : existing.inStock,
+      data.stockCount != null ? Number(data.stockCount) : existing.stockCount,
+      data.rating != null ? Number(data.rating) : existing.rating,
+      data.reviewCount != null ? Number(data.reviewCount) : existing.reviewCount,
+      data.image ?? existing.image,
+      data.gallery ? JSON.stringify(data.gallery) : existing.gallery,
+      data.voltage ?? existing.voltage,
+      data.current ?? existing.current,
+      data.interface ?? existing.interface,
+      data.keySpecs ? JSON.stringify(data.keySpecs) : existing.keySpecs,
+      data.pinoutDiagram ?? existing.pinoutDiagram,
+      data.pinConnections ? JSON.stringify(data.pinConnections) : existing.pinConnections,
+      data.workingPrinciple ?? existing.workingPrinciple,
+      data.applications ? JSON.stringify(data.applications) : existing.applications,
+      data.compatibility ? JSON.stringify(data.compatibility) : existing.compatibility,
+      data.exampleCode ?? existing.exampleCode,
+      data.datasheetUrl ?? existing.datasheetUrl,
+      data.retailers ? JSON.stringify(data.retailers) : existing.retailers,
+      id
+    );
+
+    const updated = db.prepare('SELECT * FROM hardware_components WHERE id = ?').get(id);
+    res.json(formatHardwareComponent(updated));
+  } catch (err) {
+    console.error('Error updating hardware component:', err);
+    res.status(500).json({ error: 'Failed to update component' });
+  }
+});
+
+// Admin: Delete hardware component
+app.delete('/api/hardware-components/:id', authMiddleware, requireAdmin, (req, res) => {
+  try {
+    const { id } = req.params;
+    db.prepare('DELETE FROM hardware_components WHERE id = ?').run(id);
+    res.json({ success: true, message: 'Component deleted' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete component' });
+  }
+});
+
+// ---------------------------------------------------------
 // ADMIN DATA API (CRUD for Projects, Components, Settings)
 // ---------------------------------------------------------
 

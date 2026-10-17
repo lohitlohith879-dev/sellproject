@@ -20,9 +20,12 @@ import { ProjectsHubPage } from './pages/projectsHub.js';
 import { IoTDashboardPage } from './pages/iotDashboard.js';
 import { WebDashboardPage } from './pages/webDashboard.js';
 import { ProjectShowcaseDetailPage } from './pages/projectShowcaseDetail.js';
+import { HardwareExplorerPage } from './pages/hardwareExplorer.js';
+import { ComponentDetailPage } from './pages/componentDetail.js';
 import './styles/iotProjects.css';
 import './styles/flipkartProfile.css';
 import './styles/projectsDashboard.css';
+import './styles/hardwareExplorer.css';
 
 const API_URL = (import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
 const API = API_URL;
@@ -135,6 +138,18 @@ function renderNavbar() {
               </a>
             </div>
           </div>
+
+          <a
+            href="#/components"
+            class="nav-link ${router.currentRoute && router.currentRoute.startsWith('/components')
+        ? 'active'
+        : ''
+      }"
+            style="display:flex; align-items:center; gap:6px;"
+          >
+            <i data-lucide="cpu" style="width:14px; height:14px; color:#00f2fe;"></i>
+            <span>Hardware Store</span>
+          </a>
 
           <a
             href="#/customizer"
@@ -298,6 +313,20 @@ function renderNavbar() {
           "
         >
           All Projects
+        </a>
+
+        <a
+          href="#/components"
+          class="nav-link"
+          style="display:flex; align-items:center; gap:8px; color:#00f2fe;"
+          onclick="
+            document
+              .querySelector('.mobile-menu-btn')
+              .click()
+          "
+        >
+          <i data-lucide="cpu" style="width:16px; height:16px;"></i>
+          <span>Hardware Store & Explorer</span>
         </a>
 
         <a
@@ -1047,6 +1076,35 @@ async function initApp() {
   router.on(
     '/projects',
     ProjectsHubPage
+  );
+
+  // ============================
+  // HARDWARE COMPONENTS STORE ROUTES
+  // ============================
+
+  router.on(
+    '/components',
+    HardwareExplorerPage
+  );
+
+  router.on(
+    '/components/:id',
+    ComponentDetailPage
+  );
+
+  router.on(
+    '/components/category/:category',
+    HardwareExplorerPage
+  );
+
+  router.on(
+    '/hardware-store',
+    HardwareExplorerPage
+  );
+
+  router.on(
+    '/hardware-components',
+    HardwareExplorerPage
   );
 
   router.on(
