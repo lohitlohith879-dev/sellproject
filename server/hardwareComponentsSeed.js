@@ -1,4 +1,4 @@
-// Auto-generated 240+ Genuine Hardware Components Seed
+// Auto-generated 254 Genuine Hardware Components Seed with Local Authentic SVG Assets
 export const initialHardwareComponents = [
   {
     "id": "arduino-uno-r3",
@@ -13,11 +13,12 @@ export const initialHardwareComponents = [
     "stockCount": 66,
     "rating": 4.5,
     "reviewCount": 69,
-    "image": "https://images.unsplash.com/photo-1608555895318-7b4742a08f51?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/arduino-uno-r3-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1608555895318-7b4742a08f51?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1608555895318-7b4742a08f51?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1608555895318-7b4742a08f51?w=800&auto=format&fit=crop&q=80"
+      "/images/components/arduino-uno-r3-front.svg",
+      "/images/components/arduino-uno-r3-angle.svg",
+      "/images/components/arduino-uno-r3-back.svg",
+      "/images/components/arduino-uno-r3-pinout.svg"
     ],
     "voltage": "5V (7-12V Input)",
     "current": "50mA active",
@@ -32,7 +33,7 @@ export const initialHardwareComponents = [
       "SRAM": "2 KB",
       "Clock": "16 MHz"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1608555895318-7b4742a08f51?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/arduino-uno-r3-pinout.svg",
     "pinConnections": [
       {
         "pin": "5V",
@@ -146,11 +147,12 @@ export const initialHardwareComponents = [
     "stockCount": 17,
     "rating": 4.6,
     "reviewCount": 103,
-    "image": "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/arduino-nano-v3-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80"
+      "/images/components/arduino-nano-v3-front.svg",
+      "/images/components/arduino-nano-v3-angle.svg",
+      "/images/components/arduino-nano-v3-back.svg",
+      "/images/components/arduino-nano-v3-pinout.svg"
     ],
     "voltage": "5V (7-12V VIN)",
     "current": "19mA",
@@ -163,7 +165,7 @@ export const initialHardwareComponents = [
       "Clock": "16 MHz",
       "USB Chip": "CH340G"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/arduino-nano-v3-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -263,11 +265,12 @@ export const initialHardwareComponents = [
     "stockCount": 76,
     "rating": 4.7,
     "reviewCount": 182,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/arduino-mega-2560-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+      "/images/components/arduino-mega-2560-front.svg",
+      "/images/components/arduino-mega-2560-angle.svg",
+      "/images/components/arduino-mega-2560-back.svg",
+      "/images/components/arduino-mega-2560-pinout.svg"
     ],
     "voltage": "5V (7-12V Input)",
     "current": "75mA",
@@ -280,7 +283,7 @@ export const initialHardwareComponents = [
       "Flash": "256 KB",
       "SRAM": "8 KB"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/arduino-mega-2560-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -380,11 +383,12 @@ export const initialHardwareComponents = [
     "stockCount": 15,
     "rating": 4.6,
     "reviewCount": 220,
-    "image": "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/arduino-pro-mini-5v-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80"
+      "/images/components/arduino-pro-mini-5v-front.svg",
+      "/images/components/arduino-pro-mini-5v-angle.svg",
+      "/images/components/arduino-pro-mini-5v-back.svg",
+      "/images/components/arduino-pro-mini-5v-pinout.svg"
     ],
     "voltage": "5V",
     "current": "15mA",
@@ -397,7 +401,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/arduino-pro-mini-5v-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -497,11 +501,12 @@ export const initialHardwareComponents = [
     "stockCount": 84,
     "rating": 4.8,
     "reviewCount": 137,
-    "image": "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/arduino-pro-mini-3v3-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80"
+      "/images/components/arduino-pro-mini-3v3-front.svg",
+      "/images/components/arduino-pro-mini-3v3-angle.svg",
+      "/images/components/arduino-pro-mini-3v3-back.svg",
+      "/images/components/arduino-pro-mini-3v3-pinout.svg"
     ],
     "voltage": "3.3V",
     "current": "4.5mA",
@@ -514,7 +519,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/arduino-pro-mini-3v3-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -614,11 +619,12 @@ export const initialHardwareComponents = [
     "stockCount": 36,
     "rating": 4.6,
     "reviewCount": 261,
-    "image": "https://images.unsplash.com/photo-1608555895318-7b4742a08f51?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/arduino-leonardo-r3-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1608555895318-7b4742a08f51?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1608555895318-7b4742a08f51?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1608555895318-7b4742a08f51?w=800&auto=format&fit=crop&q=80"
+      "/images/components/arduino-leonardo-r3-front.svg",
+      "/images/components/arduino-leonardo-r3-angle.svg",
+      "/images/components/arduino-leonardo-r3-back.svg",
+      "/images/components/arduino-leonardo-r3-pinout.svg"
     ],
     "voltage": "5V",
     "current": "45mA",
@@ -631,7 +637,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1608555895318-7b4742a08f51?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/arduino-leonardo-r3-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -731,11 +737,12 @@ export const initialHardwareComponents = [
     "stockCount": 33,
     "rating": 4.9,
     "reviewCount": 28,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/arduino-due-arm-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+      "/images/components/arduino-due-arm-front.svg",
+      "/images/components/arduino-due-arm-angle.svg",
+      "/images/components/arduino-due-arm-back.svg",
+      "/images/components/arduino-due-arm-pinout.svg"
     ],
     "voltage": "3.3V",
     "current": "100mA",
@@ -748,7 +755,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/arduino-due-arm-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -848,11 +855,12 @@ export const initialHardwareComponents = [
     "stockCount": 25,
     "rating": 4.5,
     "reviewCount": 66,
-    "image": "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/arduino-nano-every-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80"
+      "/images/components/arduino-nano-every-front.svg",
+      "/images/components/arduino-nano-every-angle.svg",
+      "/images/components/arduino-nano-every-back.svg",
+      "/images/components/arduino-nano-every-pinout.svg"
     ],
     "voltage": "5V",
     "current": "22mA",
@@ -865,7 +873,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/arduino-nano-every-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -965,11 +973,12 @@ export const initialHardwareComponents = [
     "stockCount": 51,
     "rating": 4.5,
     "reviewCount": 202,
-    "image": "https://images.unsplash.com/photo-1608555895318-7b4742a08f51?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/arduino-mkr-wifi-1010-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1608555895318-7b4742a08f51?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1608555895318-7b4742a08f51?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1608555895318-7b4742a08f51?w=800&auto=format&fit=crop&q=80"
+      "/images/components/arduino-mkr-wifi-1010-front.svg",
+      "/images/components/arduino-mkr-wifi-1010-angle.svg",
+      "/images/components/arduino-mkr-wifi-1010-back.svg",
+      "/images/components/arduino-mkr-wifi-1010-pinout.svg"
     ],
     "voltage": "3.3V",
     "current": "65mA",
@@ -982,7 +991,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1608555895318-7b4742a08f51?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/arduino-mkr-wifi-1010-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -1082,11 +1091,12 @@ export const initialHardwareComponents = [
     "stockCount": 22,
     "rating": 4.6,
     "reviewCount": 79,
-    "image": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/stm32f103c8t6-blue-pill-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80"
+      "/images/components/stm32f103c8t6-blue-pill-front.svg",
+      "/images/components/stm32f103c8t6-blue-pill-angle.svg",
+      "/images/components/stm32f103c8t6-blue-pill-back.svg",
+      "/images/components/stm32f103c8t6-blue-pill-pinout.svg"
     ],
     "voltage": "3.3V",
     "current": "35mA",
@@ -1097,7 +1107,7 @@ export const initialHardwareComponents = [
       "SRAM": "20 KB",
       "ADC": "2x 12-bit ADC (16 channels)"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/stm32f103c8t6-blue-pill-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -1197,11 +1207,12 @@ export const initialHardwareComponents = [
     "stockCount": 42,
     "rating": 4.9,
     "reviewCount": 240,
-    "image": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/stm32f401ccu6-black-pill-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80"
+      "/images/components/stm32f401ccu6-black-pill-front.svg",
+      "/images/components/stm32f401ccu6-black-pill-angle.svg",
+      "/images/components/stm32f401ccu6-black-pill-back.svg",
+      "/images/components/stm32f401ccu6-black-pill-pinout.svg"
     ],
     "voltage": "3.3V (Type-C 5V)",
     "current": "45mA",
@@ -1214,7 +1225,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/stm32f401ccu6-black-pill-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -1314,11 +1325,12 @@ export const initialHardwareComponents = [
     "stockCount": 59,
     "rating": 4.8,
     "reviewCount": 250,
-    "image": "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/raspberry-pi-pico-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80"
+      "/images/components/raspberry-pi-pico-front.svg",
+      "/images/components/raspberry-pi-pico-angle.svg",
+      "/images/components/raspberry-pi-pico-back.svg",
+      "/images/components/raspberry-pi-pico-pinout.svg"
     ],
     "voltage": "3.3V (1.8V to 5.5V VSYS)",
     "current": "18mA",
@@ -1329,7 +1341,7 @@ export const initialHardwareComponents = [
       "Flash": "2 MB QSPI",
       "Unique Feature": "8 programmable I/O (PIO) state machines"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/raspberry-pi-pico-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -1429,11 +1441,12 @@ export const initialHardwareComponents = [
     "stockCount": 25,
     "rating": 4.6,
     "reviewCount": 175,
-    "image": "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/raspberry-pi-pico-w-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80"
+      "/images/components/raspberry-pi-pico-w-front.svg",
+      "/images/components/raspberry-pi-pico-w-angle.svg",
+      "/images/components/raspberry-pi-pico-w-back.svg",
+      "/images/components/raspberry-pi-pico-w-pinout.svg"
     ],
     "voltage": "3.3V (1.8V to 5.5V VSYS)",
     "current": "35mA",
@@ -1446,7 +1459,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/raspberry-pi-pico-w-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -1546,11 +1559,12 @@ export const initialHardwareComponents = [
     "stockCount": 48,
     "rating": 4.6,
     "reviewCount": 172,
-    "image": "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/attiny85-digispark-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80"
+      "/images/components/attiny85-digispark-front.svg",
+      "/images/components/attiny85-digispark-angle.svg",
+      "/images/components/attiny85-digispark-back.svg",
+      "/images/components/attiny85-digispark-pinout.svg"
     ],
     "voltage": "5V USB / 7-35V VIN",
     "current": "12mA",
@@ -1563,7 +1577,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1553406830-ef2513450d76?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/attiny85-digispark-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -1663,11 +1677,12 @@ export const initialHardwareComponents = [
     "stockCount": 74,
     "rating": 4.6,
     "reviewCount": 219,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/teensy-4-0-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+      "/images/components/teensy-4-0-front.svg",
+      "/images/components/teensy-4-0-angle.svg",
+      "/images/components/teensy-4-0-back.svg",
+      "/images/components/teensy-4-0-pinout.svg"
     ],
     "voltage": "3.3V",
     "current": "100mA",
@@ -1680,7 +1695,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/teensy-4-0-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -1780,11 +1795,12 @@ export const initialHardwareComponents = [
     "stockCount": 28,
     "rating": 4.9,
     "reviewCount": 49,
-    "image": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/esp32-devkit-v1-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80"
+      "/images/components/esp32-devkit-v1-front.svg",
+      "/images/components/esp32-devkit-v1-angle.svg",
+      "/images/components/esp32-devkit-v1-back.svg",
+      "/images/components/esp32-devkit-v1-pinout.svg"
     ],
     "voltage": "3.3V (5V Micro-USB Input)",
     "current": "80mA (Peak Tx: 240mA)",
@@ -1797,7 +1813,7 @@ export const initialHardwareComponents = [
       "Wireless": "Wi-Fi 802.11 b/g/n (up to 150 Mbps) + Bluetooth v4.2 BR/EDR and BLE",
       "Peripherals": "12-bit SAR ADC, 2x 8-bit DAC, capacitive touch sensors, Hall sensor, I2C, SPI, UART, PWM, SDIO"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/esp32-devkit-v1-pinout.svg",
     "pinConnections": [
       {
         "pin": "VIN",
@@ -1911,11 +1927,12 @@ export const initialHardwareComponents = [
     "stockCount": 69,
     "rating": 4.5,
     "reviewCount": 103,
-    "image": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/esp32-cam-ai-thinker-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80"
+      "/images/components/esp32-cam-ai-thinker-front.svg",
+      "/images/components/esp32-cam-ai-thinker-angle.svg",
+      "/images/components/esp32-cam-ai-thinker-back.svg",
+      "/images/components/esp32-cam-ai-thinker-pinout.svg"
     ],
     "voltage": "5V (Requires stable 5V 2A)",
     "current": "180mA (Flash LED on: 310mA)",
@@ -1926,7 +1943,7 @@ export const initialHardwareComponents = [
       "Storage": "Built-in MicroSD / TF card socket (FAT32 up to 4GB)",
       "Illumination": "High-intensity onboard flash LED"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/esp32-cam-ai-thinker-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -2026,11 +2043,12 @@ export const initialHardwareComponents = [
     "stockCount": 84,
     "rating": 4.8,
     "reviewCount": 156,
-    "image": "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/esp8266-nodemcu-v3-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80"
+      "/images/components/esp8266-nodemcu-v3-front.svg",
+      "/images/components/esp8266-nodemcu-v3-angle.svg",
+      "/images/components/esp8266-nodemcu-v3-back.svg",
+      "/images/components/esp8266-nodemcu-v3-pinout.svg"
     ],
     "voltage": "3.3V (5V USB)",
     "current": "70mA",
@@ -2041,7 +2059,7 @@ export const initialHardwareComponents = [
       "GPIOs": "11 digital I/O pins",
       "Analog Input": "1 analog input (A0, 0-1.0V max, 0-3.3V with onboard divider)"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/esp8266-nodemcu-v3-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -2141,11 +2159,12 @@ export const initialHardwareComponents = [
     "stockCount": 50,
     "rating": 4.5,
     "reviewCount": 94,
-    "image": "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/esp8266-nodemcu-v2-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80"
+      "/images/components/esp8266-nodemcu-v2-front.svg",
+      "/images/components/esp8266-nodemcu-v2-angle.svg",
+      "/images/components/esp8266-nodemcu-v2-back.svg",
+      "/images/components/esp8266-nodemcu-v2-pinout.svg"
     ],
     "voltage": "3.3V (5V USB)",
     "current": "70mA",
@@ -2154,7 +2173,7 @@ export const initialHardwareComponents = [
       "USB Bridge": "Silicon Labs CP2102",
       "Width": "Narrow footprint leaves one row open on each side of standard breadboard"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/esp8266-nodemcu-v2-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -2254,11 +2273,12 @@ export const initialHardwareComponents = [
     "stockCount": 41,
     "rating": 4.8,
     "reviewCount": 226,
-    "image": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/esp32-s3-devkitc-1-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80"
+      "/images/components/esp32-s3-devkitc-1-front.svg",
+      "/images/components/esp32-s3-devkitc-1-angle.svg",
+      "/images/components/esp32-s3-devkitc-1-back.svg",
+      "/images/components/esp32-s3-devkitc-1-pinout.svg"
     ],
     "voltage": "3.3V (5V Type-C)",
     "current": "90mA",
@@ -2268,7 +2288,7 @@ export const initialHardwareComponents = [
       "Memory": "512 KB SRAM + 16 MB Octal Flash + 8 MB Octal PSRAM",
       "Ports": "Native USB OTG + dedicated USB-to-UART Type-C port"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/esp32-s3-devkitc-1-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -2368,11 +2388,12 @@ export const initialHardwareComponents = [
     "stockCount": 68,
     "rating": 4.4,
     "reviewCount": 107,
-    "image": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/esp32-c3-supermini-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80"
+      "/images/components/esp32-c3-supermini-front.svg",
+      "/images/components/esp32-c3-supermini-angle.svg",
+      "/images/components/esp32-c3-supermini-back.svg",
+      "/images/components/esp32-c3-supermini-pinout.svg"
     ],
     "voltage": "3.3V (Type-C 5V)",
     "current": "25mA",
@@ -2382,7 +2403,7 @@ export const initialHardwareComponents = [
       "Footprint": "Coin-sized 22.5 x 18mm",
       "Connector": "Type-C"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/esp32-c3-supermini-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -2482,11 +2503,12 @@ export const initialHardwareComponents = [
     "stockCount": 19,
     "rating": 4.7,
     "reviewCount": 77,
-    "image": "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/esp8266-esp-01s-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80"
+      "/images/components/esp8266-esp-01s-front.svg",
+      "/images/components/esp8266-esp-01s-angle.svg",
+      "/images/components/esp8266-esp-01s-back.svg",
+      "/images/components/esp8266-esp-01s-pinout.svg"
     ],
     "voltage": "3.3V strictly (NOT 5V tolerant)",
     "current": "70mA (Tx: 170mA)",
@@ -2499,7 +2521,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/esp8266-esp-01s-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -2599,11 +2621,12 @@ export const initialHardwareComponents = [
     "stockCount": 22,
     "rating": 4.6,
     "reviewCount": 115,
-    "image": "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/wemos-d1-mini-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80"
+      "/images/components/wemos-d1-mini-front.svg",
+      "/images/components/wemos-d1-mini-angle.svg",
+      "/images/components/wemos-d1-mini-back.svg",
+      "/images/components/wemos-d1-mini-pinout.svg"
     ],
     "voltage": "3.3V (5V USB)",
     "current": "70mA",
@@ -2616,7 +2639,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/wemos-d1-mini-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -2716,11 +2739,12 @@ export const initialHardwareComponents = [
     "stockCount": 48,
     "rating": 4.5,
     "reviewCount": 130,
-    "image": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/esp32-wrover-ib-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80"
+      "/images/components/esp32-wrover-ib-front.svg",
+      "/images/components/esp32-wrover-ib-angle.svg",
+      "/images/components/esp32-wrover-ib-back.svg",
+      "/images/components/esp32-wrover-ib-pinout.svg"
     ],
     "voltage": "3.3V",
     "current": "80mA",
@@ -2733,7 +2757,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/esp32-wrover-ib-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -2833,11 +2857,12 @@ export const initialHardwareComponents = [
     "stockCount": 56,
     "rating": 4.7,
     "reviewCount": 28,
-    "image": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/esp32-38pin-devkit-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80"
+      "/images/components/esp32-38pin-devkit-front.svg",
+      "/images/components/esp32-38pin-devkit-angle.svg",
+      "/images/components/esp32-38pin-devkit-back.svg",
+      "/images/components/esp32-38pin-devkit-pinout.svg"
     ],
     "voltage": "3.3V / 5V Type-C",
     "current": "80mA",
@@ -2850,7 +2875,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/esp32-38pin-devkit-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -2950,11 +2975,12 @@ export const initialHardwareComponents = [
     "stockCount": 31,
     "rating": 4.5,
     "reviewCount": 86,
-    "image": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/ttgo-t-display-esp32-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/ttgo-t-display-esp32-front.svg",
+      "/images/components/ttgo-t-display-esp32-angle.svg",
+      "/images/components/ttgo-t-display-esp32-back.svg",
+      "/images/components/ttgo-t-display-esp32-pinout.svg"
     ],
     "voltage": "3.3V (LiPo battery socket built-in)",
     "current": "95mA",
@@ -2964,7 +2990,7 @@ export const initialHardwareComponents = [
       "Driver": "ST7789V SPI",
       "Buttons": "2 programmable user buttons"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/ttgo-t-display-esp32-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -3064,11 +3090,12 @@ export const initialHardwareComponents = [
     "stockCount": 45,
     "rating": 4.6,
     "reviewCount": 192,
-    "image": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/seeed-xiao-esp32c3-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80"
+      "/images/components/seeed-xiao-esp32c3-front.svg",
+      "/images/components/seeed-xiao-esp32c3-angle.svg",
+      "/images/components/seeed-xiao-esp32c3-back.svg",
+      "/images/components/seeed-xiao-esp32c3-pinout.svg"
     ],
     "voltage": "3.3V",
     "current": "25mA",
@@ -3077,7 +3104,7 @@ export const initialHardwareComponents = [
       "Size": "21 x 17.5mm",
       "Deep Sleep": "44 uA in deep sleep mode"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/seeed-xiao-esp32c3-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -3177,11 +3204,12 @@ export const initialHardwareComponents = [
     "stockCount": 51,
     "rating": 4.6,
     "reviewCount": 123,
-    "image": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/dfrobot-firebeetle-esp32-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80"
+      "/images/components/dfrobot-firebeetle-esp32-front.svg",
+      "/images/components/dfrobot-firebeetle-esp32-angle.svg",
+      "/images/components/dfrobot-firebeetle-esp32-back.svg",
+      "/images/components/dfrobot-firebeetle-esp32-pinout.svg"
     ],
     "voltage": "3.3V / 3.7V LiPo",
     "current": "Ultra-low 10uA deep sleep",
@@ -3194,7 +3222,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/dfrobot-firebeetle-esp32-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -3294,11 +3322,12 @@ export const initialHardwareComponents = [
     "stockCount": 55,
     "rating": 4.7,
     "reviewCount": 157,
-    "image": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/wt32-sc01-plus-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/wt32-sc01-plus-front.svg",
+      "/images/components/wt32-sc01-plus-angle.svg",
+      "/images/components/wt32-sc01-plus-back.svg",
+      "/images/components/wt32-sc01-plus-pinout.svg"
     ],
     "voltage": "5V Type-C",
     "current": "280mA",
@@ -3308,7 +3337,7 @@ export const initialHardwareComponents = [
       "MCU": "ESP32-S3 Dual-Core 240MHz",
       "Support": "Full LVGL 8.x UI support"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/wt32-sc01-plus-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -3408,11 +3437,12 @@ export const initialHardwareComponents = [
     "stockCount": 31,
     "rating": 4.6,
     "reviewCount": 246,
-    "image": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/esp32-devkit-ch9102-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80"
+      "/images/components/esp32-devkit-ch9102-front.svg",
+      "/images/components/esp32-devkit-ch9102-angle.svg",
+      "/images/components/esp32-devkit-ch9102-back.svg",
+      "/images/components/esp32-devkit-ch9102-pinout.svg"
     ],
     "voltage": "5V Type-C",
     "current": "80mA",
@@ -3425,7 +3455,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/esp32-devkit-ch9102-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -3525,11 +3555,12 @@ export const initialHardwareComponents = [
     "stockCount": 39,
     "rating": 4.9,
     "reviewCount": 68,
-    "image": "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/raspberry-pi-5-8gb-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=800&auto=format&fit=crop&q=80"
+      "/images/components/raspberry-pi-5-8gb-front.svg",
+      "/images/components/raspberry-pi-5-8gb-angle.svg",
+      "/images/components/raspberry-pi-5-8gb-back.svg",
+      "/images/components/raspberry-pi-5-8gb-pinout.svg"
     ],
     "voltage": "5V DC via USB-C (5V/5A PD Recommended)",
     "current": "1.2A idle (up to 5A peak with peripherals)",
@@ -3542,7 +3573,7 @@ export const initialHardwareComponents = [
       "I/O Controller": "RP1 custom I/O controller providing major improvements in peripheral performance",
       "Power Button": "Dedicated onboard power button with soft-off support"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/raspberry-pi-5-8gb-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -3642,11 +3673,12 @@ export const initialHardwareComponents = [
     "stockCount": 76,
     "rating": 4.7,
     "reviewCount": 248,
-    "image": "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/raspberry-pi-5-4gb-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=800&auto=format&fit=crop&q=80"
+      "/images/components/raspberry-pi-5-4gb-front.svg",
+      "/images/components/raspberry-pi-5-4gb-angle.svg",
+      "/images/components/raspberry-pi-5-4gb-back.svg",
+      "/images/components/raspberry-pi-5-4gb-pinout.svg"
     ],
     "voltage": "5V/5A USB-C PD",
     "current": "1.1A idle",
@@ -3656,7 +3688,7 @@ export const initialHardwareComponents = [
       "Memory": "4GB LPDDR4X SDRAM",
       "Video": "Dual 4Kp60 micro-HDMI"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/raspberry-pi-5-4gb-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -3756,11 +3788,12 @@ export const initialHardwareComponents = [
     "stockCount": 22,
     "rating": 4.7,
     "reviewCount": 61,
-    "image": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/raspberry-pi-4-8gb-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80"
+      "/images/components/raspberry-pi-4-8gb-front.svg",
+      "/images/components/raspberry-pi-4-8gb-angle.svg",
+      "/images/components/raspberry-pi-4-8gb-back.svg",
+      "/images/components/raspberry-pi-4-8gb-pinout.svg"
     ],
     "voltage": "5V/3A Type-C",
     "current": "600mA idle",
@@ -3770,7 +3803,7 @@ export const initialHardwareComponents = [
       "RAM": "8GB LPDDR4",
       "Bluetooth": "BLE 5.0"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/raspberry-pi-4-8gb-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -3870,11 +3903,12 @@ export const initialHardwareComponents = [
     "stockCount": 17,
     "rating": 4.5,
     "reviewCount": 256,
-    "image": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/raspberry-pi-4-4gb-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80"
+      "/images/components/raspberry-pi-4-4gb-front.svg",
+      "/images/components/raspberry-pi-4-4gb-angle.svg",
+      "/images/components/raspberry-pi-4-4gb-back.svg",
+      "/images/components/raspberry-pi-4-4gb-pinout.svg"
     ],
     "voltage": "5V/3A Type-C",
     "current": "550mA idle",
@@ -3884,7 +3918,7 @@ export const initialHardwareComponents = [
       "RAM": "4GB LPDDR4",
       "Ethernet": "Gigabit Ethernet with full throughput"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/raspberry-pi-4-4gb-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -3984,11 +4018,12 @@ export const initialHardwareComponents = [
     "stockCount": 42,
     "rating": 4.9,
     "reviewCount": 226,
-    "image": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/raspberry-pi-4-2gb-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80"
+      "/images/components/raspberry-pi-4-2gb-front.svg",
+      "/images/components/raspberry-pi-4-2gb-angle.svg",
+      "/images/components/raspberry-pi-4-2gb-back.svg",
+      "/images/components/raspberry-pi-4-2gb-pinout.svg"
     ],
     "voltage": "5V/3A Type-C",
     "current": "500mA idle",
@@ -4001,7 +4036,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/raspberry-pi-4-2gb-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -4101,11 +4136,12 @@ export const initialHardwareComponents = [
     "stockCount": 60,
     "rating": 4.6,
     "reviewCount": 81,
-    "image": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/raspberry-pi-3b-plus-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80"
+      "/images/components/raspberry-pi-3b-plus-front.svg",
+      "/images/components/raspberry-pi-3b-plus-angle.svg",
+      "/images/components/raspberry-pi-3b-plus-back.svg",
+      "/images/components/raspberry-pi-3b-plus-pinout.svg"
     ],
     "voltage": "5V/2.5A Micro-USB",
     "current": "450mA idle",
@@ -4118,7 +4154,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/raspberry-pi-3b-plus-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -4218,11 +4254,12 @@ export const initialHardwareComponents = [
     "stockCount": 50,
     "rating": 4.8,
     "reviewCount": 47,
-    "image": "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/raspberry-pi-zero-2w-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80"
+      "/images/components/raspberry-pi-zero-2w-front.svg",
+      "/images/components/raspberry-pi-zero-2w-angle.svg",
+      "/images/components/raspberry-pi-zero-2w-back.svg",
+      "/images/components/raspberry-pi-zero-2w-pinout.svg"
     ],
     "voltage": "5V Micro-USB",
     "current": "180mA idle",
@@ -4232,7 +4269,7 @@ export const initialHardwareComponents = [
       "RAM": "512MB LPDDR2",
       "Size": "65mm x 30mm"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/raspberry-pi-zero-2w-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -4332,11 +4369,12 @@ export const initialHardwareComponents = [
     "stockCount": 80,
     "rating": 4.8,
     "reviewCount": 76,
-    "image": "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/raspberry-pi-zero-w-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80"
+      "/images/components/raspberry-pi-zero-w-front.svg",
+      "/images/components/raspberry-pi-zero-w-angle.svg",
+      "/images/components/raspberry-pi-zero-w-back.svg",
+      "/images/components/raspberry-pi-zero-w-pinout.svg"
     ],
     "voltage": "5V Micro-USB",
     "current": "120mA idle",
@@ -4349,7 +4387,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/raspberry-pi-zero-w-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -4449,11 +4487,12 @@ export const initialHardwareComponents = [
     "stockCount": 16,
     "rating": 4.4,
     "reviewCount": 81,
-    "image": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/orange-pi-zero-3-1gb5-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80"
+      "/images/components/orange-pi-zero-3-1gb5-front.svg",
+      "/images/components/orange-pi-zero-3-1gb5-angle.svg",
+      "/images/components/orange-pi-zero-3-1gb5-back.svg",
+      "/images/components/orange-pi-zero-3-1gb5-pinout.svg"
     ],
     "voltage": "5V Type-C 2A",
     "current": "350mA",
@@ -4463,7 +4502,7 @@ export const initialHardwareComponents = [
       "RAM": "1.5GB LPDDR4",
       "Network": "1000M Gigabit LAN port"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/orange-pi-zero-3-1gb5-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -4563,11 +4602,12 @@ export const initialHardwareComponents = [
     "stockCount": 84,
     "rating": 4.9,
     "reviewCount": 109,
-    "image": "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/orange-pi-5-plus-16gb-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=800&auto=format&fit=crop&q=80"
+      "/images/components/orange-pi-5-plus-16gb-front.svg",
+      "/images/components/orange-pi-5-plus-16gb-angle.svg",
+      "/images/components/orange-pi-5-plus-16gb-back.svg",
+      "/images/components/orange-pi-5-plus-16gb-pinout.svg"
     ],
     "voltage": "5V/4A Type-C",
     "current": "800mA idle",
@@ -4577,7 +4617,7 @@ export const initialHardwareComponents = [
       "NPU": "Integrated 6 TOPS Neural Processing Unit for Deep Learning",
       "RAM": "16GB LPDDR4X"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/orange-pi-5-plus-16gb-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -4677,11 +4717,12 @@ export const initialHardwareComponents = [
     "stockCount": 37,
     "rating": 4.8,
     "reviewCount": 61,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/nvidia-jetson-nano-4gb-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+      "/images/components/nvidia-jetson-nano-4gb-front.svg",
+      "/images/components/nvidia-jetson-nano-4gb-angle.svg",
+      "/images/components/nvidia-jetson-nano-4gb-back.svg",
+      "/images/components/nvidia-jetson-nano-4gb-pinout.svg"
     ],
     "voltage": "5V/4A Barrel Jack or 5V/2A Micro-USB",
     "current": "1.2A idle",
@@ -4692,7 +4733,7 @@ export const initialHardwareComponents = [
       "Memory": "4 GB 64-bit LPDDR4 25.6 GB/s",
       "AI Compute": "472 GFLOPS FP16"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/nvidia-jetson-nano-4gb-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -4792,11 +4833,12 @@ export const initialHardwareComponents = [
     "stockCount": 28,
     "rating": 4.8,
     "reviewCount": 128,
-    "image": "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/radxa-rock-5b-8gb-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=800&auto=format&fit=crop&q=80"
+      "/images/components/radxa-rock-5b-8gb-front.svg",
+      "/images/components/radxa-rock-5b-8gb-angle.svg",
+      "/images/components/radxa-rock-5b-8gb-back.svg",
+      "/images/components/radxa-rock-5b-8gb-pinout.svg"
     ],
     "voltage": "USB PD Type-C 9V/12V/15V/20V",
     "current": "900mA idle",
@@ -4805,7 +4847,7 @@ export const initialHardwareComponents = [
       "Processor": "Rockchip RK3588 8-core CPU",
       "Display": "Triple display support with 8Kp60 HDMI"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/radxa-rock-5b-8gb-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -4905,11 +4947,12 @@ export const initialHardwareComponents = [
     "stockCount": 61,
     "rating": 4.6,
     "reviewCount": 75,
-    "image": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/raspberry-pi-compute-module-4-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80"
+      "/images/components/raspberry-pi-compute-module-4-front.svg",
+      "/images/components/raspberry-pi-compute-module-4-angle.svg",
+      "/images/components/raspberry-pi-compute-module-4-back.svg",
+      "/images/components/raspberry-pi-compute-module-4-pinout.svg"
     ],
     "voltage": "5V via carrier board",
     "current": "600mA",
@@ -4922,7 +4965,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/raspberry-pi-compute-module-4-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -5022,11 +5065,12 @@ export const initialHardwareComponents = [
     "stockCount": 83,
     "rating": 4.9,
     "reviewCount": 172,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/hc-sr04-ultrasonic-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/hc-sr04-ultrasonic-front.svg",
+      "/images/components/hc-sr04-ultrasonic-angle.svg",
+      "/images/components/hc-sr04-ultrasonic-back.svg",
+      "/images/components/hc-sr04-ultrasonic-pinout.svg"
     ],
     "voltage": "5V DC",
     "current": "15mA operating (<2mA standby)",
@@ -5040,7 +5084,7 @@ export const initialHardwareComponents = [
       "Echo Output Signal": "Input TTL lever signal and the range in proportion",
       "Ultrasonic Frequency": "40 kHz dual transducer (Transmitter T & Receiver R)"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/hc-sr04-ultrasonic-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -5147,11 +5191,12 @@ export const initialHardwareComponents = [
     "stockCount": 64,
     "rating": 4.8,
     "reviewCount": 170,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/dht11-temp-humidity-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/dht11-temp-humidity-front.svg",
+      "/images/components/dht11-temp-humidity-angle.svg",
+      "/images/components/dht11-temp-humidity-back.svg",
+      "/images/components/dht11-temp-humidity-pinout.svg"
     ],
     "voltage": "3.5V to 5.5V DC",
     "current": "0.5mA to 2.5mA",
@@ -5162,7 +5207,7 @@ export const initialHardwareComponents = [
       "Sampling Rate": "1 Hz (one reading every 1 second)",
       "Sensing Element": "Resistive humidity component & NTC temperature sensor"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/dht11-temp-humidity-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -5262,11 +5307,12 @@ export const initialHardwareComponents = [
     "stockCount": 62,
     "rating": 4.6,
     "reviewCount": 70,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/dht22-am2302-sensor-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/dht22-am2302-sensor-front.svg",
+      "/images/components/dht22-am2302-sensor-angle.svg",
+      "/images/components/dht22-am2302-sensor-back.svg",
+      "/images/components/dht22-am2302-sensor-pinout.svg"
     ],
     "voltage": "3.3V to 6V DC",
     "current": "1mA to 1.5mA",
@@ -5277,7 +5323,7 @@ export const initialHardwareComponents = [
       "Resolution": "0.1% RH, 0.1°C",
       "Sampling Period": "2 seconds (0.5 Hz)"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/dht22-am2302-sensor-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -5377,11 +5423,12 @@ export const initialHardwareComponents = [
     "stockCount": 41,
     "rating": 4.9,
     "reviewCount": 52,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/hc-sr501-pir-sensor-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/hc-sr501-pir-sensor-front.svg",
+      "/images/components/hc-sr501-pir-sensor-angle.svg",
+      "/images/components/hc-sr501-pir-sensor-back.svg",
+      "/images/components/hc-sr501-pir-sensor-pinout.svg"
     ],
     "voltage": "4.5V to 20V DC",
     "current": "50uA quiescent current",
@@ -5392,7 +5439,7 @@ export const initialHardwareComponents = [
       "Delay Time": "5s to 200s (adjustable via trimpot)",
       "Trigger Modes": "L (non-repeatable trigger) / H (repeatable trigger jumper)"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/hc-sr501-pir-sensor-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -5492,11 +5539,12 @@ export const initialHardwareComponents = [
     "stockCount": 37,
     "rating": 4.9,
     "reviewCount": 145,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/mq2-gas-sensor-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/mq2-gas-sensor-front.svg",
+      "/images/components/mq2-gas-sensor-angle.svg",
+      "/images/components/mq2-gas-sensor-back.svg",
+      "/images/components/mq2-gas-sensor-pinout.svg"
     ],
     "voltage": "5V DC heater & circuit",
     "current": "150mA (heater active)",
@@ -5507,7 +5555,7 @@ export const initialHardwareComponents = [
       "Heater Resistance": "31 ohms ±3 ohms",
       "Preheat Time": "Over 24 hours initial burn-in, 2-3 minutes warm-up"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/mq2-gas-sensor-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -5607,11 +5655,12 @@ export const initialHardwareComponents = [
     "stockCount": 49,
     "rating": 4.6,
     "reviewCount": 149,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/mq3-alcohol-sensor-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/mq3-alcohol-sensor-front.svg",
+      "/images/components/mq3-alcohol-sensor-angle.svg",
+      "/images/components/mq3-alcohol-sensor-back.svg",
+      "/images/components/mq3-alcohol-sensor-pinout.svg"
     ],
     "voltage": "5V DC",
     "current": "150mA",
@@ -5619,7 +5668,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Detection": "Alcohol breathalyzer and ethanol vapors (0.05 - 10 mg/L)"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/mq3-alcohol-sensor-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -5719,11 +5768,12 @@ export const initialHardwareComponents = [
     "stockCount": 66,
     "rating": 4.9,
     "reviewCount": 110,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/mq7-carbon-monoxide-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/mq7-carbon-monoxide-front.svg",
+      "/images/components/mq7-carbon-monoxide-angle.svg",
+      "/images/components/mq7-carbon-monoxide-back.svg",
+      "/images/components/mq7-carbon-monoxide-pinout.svg"
     ],
     "voltage": "5V High / 1.4V Low cycle",
     "current": "150mA",
@@ -5731,7 +5781,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Detection": "Carbon Monoxide 10 to 1000 ppm"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/mq7-carbon-monoxide-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -5831,11 +5881,12 @@ export const initialHardwareComponents = [
     "stockCount": 62,
     "rating": 4.7,
     "reviewCount": 103,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/mq135-air-quality-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/mq135-air-quality-front.svg",
+      "/images/components/mq135-air-quality-angle.svg",
+      "/images/components/mq135-air-quality-back.svg",
+      "/images/components/mq135-air-quality-pinout.svg"
     ],
     "voltage": "5V DC",
     "current": "150mA",
@@ -5848,7 +5899,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/mq135-air-quality-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -5948,11 +5999,12 @@ export const initialHardwareComponents = [
     "stockCount": 34,
     "rating": 4.5,
     "reviewCount": 244,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/raindrop-sensor-module-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/raindrop-sensor-module-front.svg",
+      "/images/components/raindrop-sensor-module-angle.svg",
+      "/images/components/raindrop-sensor-module-back.svg",
+      "/images/components/raindrop-sensor-module-pinout.svg"
     ],
     "voltage": "3.3V to 5V DC",
     "current": "15mA",
@@ -5962,7 +6014,7 @@ export const initialHardwareComponents = [
       "Surface Area": "5.0 x 4.0 cm rain plate",
       "Comparator": "Onboard LM393 comparator with threshold adjustment potentiometer"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/raindrop-sensor-module-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -6062,11 +6114,12 @@ export const initialHardwareComponents = [
     "stockCount": 54,
     "rating": 4.9,
     "reviewCount": 94,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/soil-moisture-resistive-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/soil-moisture-resistive-front.svg",
+      "/images/components/soil-moisture-resistive-angle.svg",
+      "/images/components/soil-moisture-resistive-back.svg",
+      "/images/components/soil-moisture-resistive-pinout.svg"
     ],
     "voltage": "3.3V to 5V",
     "current": "15mA",
@@ -6079,7 +6132,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/soil-moisture-resistive-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -6179,11 +6232,12 @@ export const initialHardwareComponents = [
     "stockCount": 34,
     "rating": 4.7,
     "reviewCount": 166,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/capacitive-soil-moisture-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/capacitive-soil-moisture-front.svg",
+      "/images/components/capacitive-soil-moisture-angle.svg",
+      "/images/components/capacitive-soil-moisture-back.svg",
+      "/images/components/capacitive-soil-moisture-pinout.svg"
     ],
     "voltage": "3.3V to 5.5V DC",
     "current": "5mA",
@@ -6193,7 +6247,7 @@ export const initialHardwareComponents = [
       "Durability": "Zero metal trace corrosion even in damp soil for years",
       "Output Voltage": "Dry air ~3.0V, Pure water ~1.2V"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/capacitive-soil-moisture-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -6293,11 +6347,12 @@ export const initialHardwareComponents = [
     "stockCount": 36,
     "rating": 4.6,
     "reviewCount": 221,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/ldr-light-sensor-module-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/ldr-light-sensor-module-front.svg",
+      "/images/components/ldr-light-sensor-module-angle.svg",
+      "/images/components/ldr-light-sensor-module-back.svg",
+      "/images/components/ldr-light-sensor-module-pinout.svg"
     ],
     "voltage": "3.3V to 5V DC",
     "current": "15mA",
@@ -6307,7 +6362,7 @@ export const initialHardwareComponents = [
       "Dark Resistance": "1 Megaohm",
       "Light Resistance": "10-20 Kilohms"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/ldr-light-sensor-module-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -6407,11 +6462,12 @@ export const initialHardwareComponents = [
     "stockCount": 70,
     "rating": 4.8,
     "reviewCount": 91,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/tcrt5000-ir-sensor-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/tcrt5000-ir-sensor-front.svg",
+      "/images/components/tcrt5000-ir-sensor-angle.svg",
+      "/images/components/tcrt5000-ir-sensor-back.svg",
+      "/images/components/tcrt5000-ir-sensor-pinout.svg"
     ],
     "voltage": "3.3V to 5V DC",
     "current": "15mA",
@@ -6421,7 +6477,7 @@ export const initialHardwareComponents = [
       "Detection Range": "1mm to 25mm",
       "Daylight Filter": "Built-in optical filter blocking visible ambient light"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/tcrt5000-ir-sensor-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -6521,11 +6577,12 @@ export const initialHardwareComponents = [
     "stockCount": 71,
     "rating": 4.8,
     "reviewCount": 107,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/mpu-6050-gyro-accel-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/mpu-6050-gyro-accel-front.svg",
+      "/images/components/mpu-6050-gyro-accel-angle.svg",
+      "/images/components/mpu-6050-gyro-accel-back.svg",
+      "/images/components/mpu-6050-gyro-accel-pinout.svg"
     ],
     "voltage": "3.3V to 5V (Onboard ultra-low dropout regulator)",
     "current": "3.8mA operating (5uA sleep)",
@@ -6536,7 +6593,7 @@ export const initialHardwareComponents = [
       "DMP (Digital Motion Processor)": "Onboard hardware motion fusion computing 6-axis Quaternions without taxing host CPU",
       "ADC": "Integrated 16-bit ADCs on all 6 axes"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/mpu-6050-gyro-accel-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -6650,11 +6707,12 @@ export const initialHardwareComponents = [
     "stockCount": 18,
     "rating": 4.8,
     "reviewCount": 74,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/bmp280-pressure-sensor-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/bmp280-pressure-sensor-front.svg",
+      "/images/components/bmp280-pressure-sensor-angle.svg",
+      "/images/components/bmp280-pressure-sensor-back.svg",
+      "/images/components/bmp280-pressure-sensor-pinout.svg"
     ],
     "voltage": "3.3V (5V module includes level regulator)",
     "current": "2.7uA at 1Hz sampling",
@@ -6663,7 +6721,7 @@ export const initialHardwareComponents = [
       "Pressure Range": "300 to 1100 hPa (equiv. +9000m to -500m sea level)",
       "Altitude Precision": "±1 meter relative accuracy"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/bmp280-pressure-sensor-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -6763,11 +6821,12 @@ export const initialHardwareComponents = [
     "stockCount": 29,
     "rating": 4.8,
     "reviewCount": 73,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/bme280-temp-hum-press-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/bme280-temp-hum-press-front.svg",
+      "/images/components/bme280-temp-hum-press-angle.svg",
+      "/images/components/bme280-temp-hum-press-back.svg",
+      "/images/components/bme280-temp-hum-press-pinout.svg"
     ],
     "voltage": "3.3V DC (I2C/SPI)",
     "current": "3.6uA",
@@ -6777,7 +6836,7 @@ export const initialHardwareComponents = [
       "Humidity": "0-100% RH ±3%",
       "Pressure": "300-1100 hPa ±1 hPa"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/bme280-temp-hum-press-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -6877,11 +6936,12 @@ export const initialHardwareComponents = [
     "stockCount": 34,
     "rating": 4.9,
     "reviewCount": 259,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/ina219-current-power-sensor-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/ina219-current-power-sensor-front.svg",
+      "/images/components/ina219-current-power-sensor-angle.svg",
+      "/images/components/ina219-current-power-sensor-back.svg",
+      "/images/components/ina219-current-power-sensor-pinout.svg"
     ],
     "voltage": "3V to 5.5V supply, up to +26V bus voltage",
     "current": "1mA active",
@@ -6892,7 +6952,7 @@ export const initialHardwareComponents = [
       "Power Calculation": "Onboard multiplier calculates power in Watts directly",
       "Precision": "12-bit ADC with 1% total gain error"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/ina219-current-power-sensor-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC / GND",
@@ -6992,11 +7052,12 @@ export const initialHardwareComponents = [
     "stockCount": 59,
     "rating": 4.6,
     "reviewCount": 191,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/pzem-004t-v3-energy-meter-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/pzem-004t-v3-energy-meter-front.svg",
+      "/images/components/pzem-004t-v3-energy-meter-angle.svg",
+      "/images/components/pzem-004t-v3-energy-meter-back.svg",
+      "/images/components/pzem-004t-v3-energy-meter-pinout.svg"
     ],
     "voltage": "80V to 260V AC line voltage (5V DC TTL logic)",
     "current": "15mA logic",
@@ -7009,7 +7070,7 @@ export const initialHardwareComponents = [
       "Grid Frequency": "45 Hz to 65 Hz",
       "Power Factor": "0.00 to 1.00 PF"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/pzem-004t-v3-energy-meter-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -7109,11 +7170,12 @@ export const initialHardwareComponents = [
     "stockCount": 71,
     "rating": 4.8,
     "reviewCount": 249,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/max30102-pulse-oximeter-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/max30102-pulse-oximeter-front.svg",
+      "/images/components/max30102-pulse-oximeter-angle.svg",
+      "/images/components/max30102-pulse-oximeter-back.svg",
+      "/images/components/max30102-pulse-oximeter-pinout.svg"
     ],
     "voltage": "1.8V to 3.3V (5V compatible with onboard LDO)",
     "current": "600uA operating",
@@ -7123,7 +7185,7 @@ export const initialHardwareComponents = [
       "Infrared LED Wavelength": "880 nm",
       "ADC": "18-bit delta-sigma ADC with ambient light cancellation"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/max30102-pulse-oximeter-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -7223,11 +7285,12 @@ export const initialHardwareComponents = [
     "stockCount": 18,
     "rating": 4.8,
     "reviewCount": 79,
-    "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/sound-sensor-microphone-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80"
+      "/images/components/sound-sensor-microphone-front.svg",
+      "/images/components/sound-sensor-microphone-angle.svg",
+      "/images/components/sound-sensor-microphone-back.svg",
+      "/images/components/sound-sensor-microphone-pinout.svg"
     ],
     "voltage": "3.3V to 5V",
     "current": "10mA",
@@ -7240,7 +7303,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/sound-sensor-microphone-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -7340,11 +7403,12 @@ export const initialHardwareComponents = [
     "stockCount": 56,
     "rating": 4.8,
     "reviewCount": 202,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/sw-420-vibration-sensor-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/sw-420-vibration-sensor-front.svg",
+      "/images/components/sw-420-vibration-sensor-angle.svg",
+      "/images/components/sw-420-vibration-sensor-back.svg",
+      "/images/components/sw-420-vibration-sensor-pinout.svg"
     ],
     "voltage": "3.3V to 5V",
     "current": "15mA",
@@ -7357,7 +7421,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/sw-420-vibration-sensor-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -7457,11 +7521,12 @@ export const initialHardwareComponents = [
     "stockCount": 51,
     "rating": 4.8,
     "reviewCount": 113,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/flame-sensor-module-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/flame-sensor-module-front.svg",
+      "/images/components/flame-sensor-module-angle.svg",
+      "/images/components/flame-sensor-module-back.svg",
+      "/images/components/flame-sensor-module-pinout.svg"
     ],
     "voltage": "3.3V to 5V",
     "current": "15mA",
@@ -7474,7 +7539,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/flame-sensor-module-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -7574,11 +7639,12 @@ export const initialHardwareComponents = [
     "stockCount": 73,
     "rating": 4.4,
     "reviewCount": 208,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/hall-effect-sensor-module-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/hall-effect-sensor-module-front.svg",
+      "/images/components/hall-effect-sensor-module-angle.svg",
+      "/images/components/hall-effect-sensor-module-back.svg",
+      "/images/components/hall-effect-sensor-module-pinout.svg"
     ],
     "voltage": "4.5V to 24V",
     "current": "9mA",
@@ -7591,7 +7657,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/hall-effect-sensor-module-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -7691,11 +7757,12 @@ export const initialHardwareComponents = [
     "stockCount": 73,
     "rating": 4.5,
     "reviewCount": 186,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/turbidity-sensor-water-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/turbidity-sensor-water-front.svg",
+      "/images/components/turbidity-sensor-water-angle.svg",
+      "/images/components/turbidity-sensor-water-back.svg",
+      "/images/components/turbidity-sensor-water-pinout.svg"
     ],
     "voltage": "5V DC",
     "current": "30mA",
@@ -7708,7 +7775,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/turbidity-sensor-water-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -7808,11 +7875,12 @@ export const initialHardwareComponents = [
     "stockCount": 33,
     "rating": 4.6,
     "reviewCount": 166,
-    "image": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/ssd1306-oled-096-blue-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/ssd1306-oled-096-blue-front.svg",
+      "/images/components/ssd1306-oled-096-blue-angle.svg",
+      "/images/components/ssd1306-oled-096-blue-back.svg",
+      "/images/components/ssd1306-oled-096-blue-pinout.svg"
     ],
     "voltage": "3.3V to 5V DC (Built-in charge pump)",
     "current": "20mA (full display lit), 0.04W typical",
@@ -7825,7 +7893,7 @@ export const initialHardwareComponents = [
       "Backlight": "Self-illuminating organic pixels (Zero backlight bleed)",
       "Contrast": "Ultra-high > 2000:1"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/ssd1306-oled-096-blue-pinout.svg",
     "pinConnections": [
       {
         "pin": "GND",
@@ -7932,11 +8000,12 @@ export const initialHardwareComponents = [
     "stockCount": 36,
     "rating": 4.7,
     "reviewCount": 223,
-    "image": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/ssd1306-oled-096-yellow-blue-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/ssd1306-oled-096-yellow-blue-front.svg",
+      "/images/components/ssd1306-oled-096-yellow-blue-angle.svg",
+      "/images/components/ssd1306-oled-096-yellow-blue-back.svg",
+      "/images/components/ssd1306-oled-096-yellow-blue-pinout.svg"
     ],
     "voltage": "3.3V to 5V",
     "current": "20mA",
@@ -7945,7 +8014,7 @@ export const initialHardwareComponents = [
       "Resolution": "128x64",
       "Colors": "Top 16 rows Yellow (Header area), Bottom 48 rows Blue"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/ssd1306-oled-096-yellow-blue-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -8045,11 +8114,12 @@ export const initialHardwareComponents = [
     "stockCount": 40,
     "rating": 4.8,
     "reviewCount": 131,
-    "image": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/sh1106-oled-13-white-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/sh1106-oled-13-white-front.svg",
+      "/images/components/sh1106-oled-13-white-angle.svg",
+      "/images/components/sh1106-oled-13-white-back.svg",
+      "/images/components/sh1106-oled-13-white-pinout.svg"
     ],
     "voltage": "3.3V to 5V DC",
     "current": "25mA",
@@ -8060,7 +8130,7 @@ export const initialHardwareComponents = [
       "Driver IC": "Sino Wealth SH1106 (132x64 internal RAM buffer)",
       "Viewing Angle": "> 160 degrees"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/sh1106-oled-13-white-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -8160,11 +8230,12 @@ export const initialHardwareComponents = [
     "stockCount": 69,
     "rating": 4.6,
     "reviewCount": 263,
-    "image": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/lcd-16x2-i2c-blue-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/lcd-16x2-i2c-blue-front.svg",
+      "/images/components/lcd-16x2-i2c-blue-angle.svg",
+      "/images/components/lcd-16x2-i2c-blue-back.svg",
+      "/images/components/lcd-16x2-i2c-blue-pinout.svg"
     ],
     "voltage": "5V DC",
     "current": "50mA (with LED backlight on)",
@@ -8176,7 +8247,7 @@ export const initialHardwareComponents = [
       "Potentiometer": "Onboard trimpot for easy contrast adjustment",
       "Backlight Jumper": "Removable jumper to software/hardware turn off backlight for power saving"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/lcd-16x2-i2c-blue-pinout.svg",
     "pinConnections": [
       {
         "pin": "GND",
@@ -8283,11 +8354,12 @@ export const initialHardwareComponents = [
     "stockCount": 32,
     "rating": 4.6,
     "reviewCount": 35,
-    "image": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/lcd-16x2-parallel-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/lcd-16x2-parallel-front.svg",
+      "/images/components/lcd-16x2-parallel-angle.svg",
+      "/images/components/lcd-16x2-parallel-back.svg",
+      "/images/components/lcd-16x2-parallel-pinout.svg"
     ],
     "voltage": "5V DC",
     "current": "40mA",
@@ -8300,7 +8372,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/lcd-16x2-parallel-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -8400,11 +8472,12 @@ export const initialHardwareComponents = [
     "stockCount": 17,
     "rating": 4.7,
     "reviewCount": 136,
-    "image": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/lcd-20x4-i2c-yellow-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/lcd-20x4-i2c-yellow-front.svg",
+      "/images/components/lcd-20x4-i2c-yellow-angle.svg",
+      "/images/components/lcd-20x4-i2c-yellow-back.svg",
+      "/images/components/lcd-20x4-i2c-yellow-pinout.svg"
     ],
     "voltage": "5V DC",
     "current": "65mA",
@@ -8413,7 +8486,7 @@ export const initialHardwareComponents = [
       "Characters": "20 characters per line across 4 rows (80 characters total)",
       "Backlight": "High-visibility Yellow/Green"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/lcd-20x4-i2c-yellow-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -8513,11 +8586,12 @@ export const initialHardwareComponents = [
     "stockCount": 25,
     "rating": 4.6,
     "reviewCount": 234,
-    "image": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/nextion-35-hmi-display-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/nextion-35-hmi-display-front.svg",
+      "/images/components/nextion-35-hmi-display-angle.svg",
+      "/images/components/nextion-35-hmi-display-back.svg",
+      "/images/components/nextion-35-hmi-display-pinout.svg"
     ],
     "voltage": "5V DC (5V 500mA recommended)",
     "current": "145mA",
@@ -8528,7 +8602,7 @@ export const initialHardwareComponents = [
       "Built-in Processing": "Dedicated ARM MCU handles all graphics, fonts, and buttons with Nextion Editor GUI software",
       "Storage": "16MB Flash memory for fonts, images, and user interfaces"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/nextion-35-hmi-display-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -8628,11 +8702,12 @@ export const initialHardwareComponents = [
     "stockCount": 39,
     "rating": 4.9,
     "reviewCount": 191,
-    "image": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/ili9341-28-tft-touch-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/ili9341-28-tft-touch-front.svg",
+      "/images/components/ili9341-28-tft-touch-angle.svg",
+      "/images/components/ili9341-28-tft-touch-back.svg",
+      "/images/components/ili9341-28-tft-touch-pinout.svg"
     ],
     "voltage": "3.3V to 5V (3.3V logic level)",
     "current": "90mA",
@@ -8642,7 +8717,7 @@ export const initialHardwareComponents = [
       "Touch Controller": "XPT2046 resistive touch controller via secondary SPI chip select",
       "Card Slot": "Integrated SD / TF card slot for image and asset caching"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/ili9341-28-tft-touch-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -8742,11 +8817,12 @@ export const initialHardwareComponents = [
     "stockCount": 80,
     "rating": 4.4,
     "reviewCount": 210,
-    "image": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/st7789-154-ips-display-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/st7789-154-ips-display-front.svg",
+      "/images/components/st7789-154-ips-display-angle.svg",
+      "/images/components/st7789-154-ips-display-back.svg",
+      "/images/components/st7789-154-ips-display-pinout.svg"
     ],
     "voltage": "3.3V DC",
     "current": "40mA",
@@ -8756,7 +8832,7 @@ export const initialHardwareComponents = [
       "Resolution": "240 x 240 pixels",
       "Colors": "262K / 65K RGB"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/st7789-154-ips-display-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -8856,11 +8932,12 @@ export const initialHardwareComponents = [
     "stockCount": 37,
     "rating": 4.8,
     "reviewCount": 47,
-    "image": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/waveshare-213-epaper-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/waveshare-213-epaper-front.svg",
+      "/images/components/waveshare-213-epaper-angle.svg",
+      "/images/components/waveshare-213-epaper-back.svg",
+      "/images/components/waveshare-213-epaper-pinout.svg"
     ],
     "voltage": "3.3V DC",
     "current": "Ultra-low power (0mA static holding power)",
@@ -8869,7 +8946,7 @@ export const initialHardwareComponents = [
       "Resolution": "250 x 122 pixels",
       "Feature": "Displays last image indefinitely without any electrical power (Bistable)"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/waveshare-213-epaper-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -8969,11 +9046,12 @@ export const initialHardwareComponents = [
     "stockCount": 34,
     "rating": 4.8,
     "reviewCount": 204,
-    "image": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/tm1637-4digit-display-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/tm1637-4digit-display-front.svg",
+      "/images/components/tm1637-4digit-display-angle.svg",
+      "/images/components/tm1637-4digit-display-back.svg",
+      "/images/components/tm1637-4digit-display-pinout.svg"
     ],
     "voltage": "3.3V to 5V DC",
     "current": "30mA to 80mA",
@@ -8982,7 +9060,7 @@ export const initialHardwareComponents = [
       "Digits": "4-digits 0.36 inch Red 7-segment display with center colon",
       "Brightness": "8 adjustable software brightness levels"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/tm1637-4digit-display-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -9082,11 +9160,12 @@ export const initialHardwareComponents = [
     "stockCount": 31,
     "rating": 4.7,
     "reviewCount": 134,
-    "image": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/max7219-dot-matrix-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/max7219-dot-matrix-front.svg",
+      "/images/components/max7219-dot-matrix-angle.svg",
+      "/images/components/max7219-dot-matrix-back.svg",
+      "/images/components/max7219-dot-matrix-pinout.svg"
     ],
     "voltage": "5V DC",
     "current": "150mA (full brightness)",
@@ -9095,7 +9174,7 @@ export const initialHardwareComponents = [
       "LEDs": "64 individually controllable bright red LEDs (8x8 array)",
       "Cascade": "Output pins can plug directly into next module for scrolling text"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/max7219-dot-matrix-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -9195,11 +9274,12 @@ export const initialHardwareComponents = [
     "stockCount": 15,
     "rating": 4.9,
     "reviewCount": 34,
-    "image": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/oled-091-i2c-128x32-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/oled-091-i2c-128x32-front.svg",
+      "/images/components/oled-091-i2c-128x32-angle.svg",
+      "/images/components/oled-091-i2c-128x32-back.svg",
+      "/images/components/oled-091-i2c-128x32-pinout.svg"
     ],
     "voltage": "3.3V to 5V",
     "current": "15mA",
@@ -9208,7 +9288,7 @@ export const initialHardwareComponents = [
       "Form Factor": "Ultra-slim 38mm x 12mm banner format",
       "Resolution": "128x32 pixels"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/oled-091-i2c-128x32-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -9308,11 +9388,12 @@ export const initialHardwareComponents = [
     "stockCount": 74,
     "rating": 4.6,
     "reviewCount": 68,
-    "image": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/hdmi-7inch-touch-screen-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/hdmi-7inch-touch-screen-front.svg",
+      "/images/components/hdmi-7inch-touch-screen-angle.svg",
+      "/images/components/hdmi-7inch-touch-screen-back.svg",
+      "/images/components/hdmi-7inch-touch-screen-pinout.svg"
     ],
     "voltage": "5V/2A via Micro-USB",
     "current": "600mA",
@@ -9321,7 +9402,7 @@ export const initialHardwareComponents = [
       "Panel": "IPS wide-angle 1024x600",
       "Touch": "5-point capacitive touch (driver-free on Windows, Linux, Raspberry Pi)"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/hdmi-7inch-touch-screen-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -9421,11 +9502,12 @@ export const initialHardwareComponents = [
     "stockCount": 52,
     "rating": 4.8,
     "reviewCount": 246,
-    "image": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/nokia-5110-lcd-module-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/nokia-5110-lcd-module-front.svg",
+      "/images/components/nokia-5110-lcd-module-angle.svg",
+      "/images/components/nokia-5110-lcd-module-back.svg",
+      "/images/components/nokia-5110-lcd-module-pinout.svg"
     ],
     "voltage": "3.3V DC (NOT 5V tolerant)",
     "current": "5mA",
@@ -9438,7 +9520,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/nokia-5110-lcd-module-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -9538,11 +9620,12 @@ export const initialHardwareComponents = [
     "stockCount": 58,
     "rating": 4.8,
     "reviewCount": 72,
-    "image": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/sg90-micro-servo-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80"
+      "/images/components/sg90-micro-servo-front.svg",
+      "/images/components/sg90-micro-servo-angle.svg",
+      "/images/components/sg90-micro-servo-back.svg",
+      "/images/components/sg90-micro-servo-pinout.svg"
     ],
     "voltage": "4.8V to 6.0V DC",
     "current": "10mA idle, 250mA running, 650mA stall",
@@ -9556,7 +9639,7 @@ export const initialHardwareComponents = [
       "Dimensions": "22.2 x 11.8 x 31 mm",
       "Dead Band Width": "7 microseconds"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/sg90-micro-servo-pinout.svg",
     "pinConnections": [
       {
         "pin": "Brown Wire",
@@ -9656,11 +9739,12 @@ export const initialHardwareComponents = [
     "stockCount": 38,
     "rating": 4.6,
     "reviewCount": 83,
-    "image": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/mg996r-high-torque-servo-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80"
+      "/images/components/mg996r-high-torque-servo-front.svg",
+      "/images/components/mg996r-high-torque-servo-angle.svg",
+      "/images/components/mg996r-high-torque-servo-back.svg",
+      "/images/components/mg996r-high-torque-servo-pinout.svg"
     ],
     "voltage": "4.8V to 7.2V DC",
     "current": "500mA operating, 2.5A stall",
@@ -9672,7 +9756,7 @@ export const initialHardwareComponents = [
       "Weight": "55 grams",
       "Dead Band": "1 microsecond precision deadband"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/mg996r-high-torque-servo-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -9772,11 +9856,12 @@ export const initialHardwareComponents = [
     "stockCount": 70,
     "rating": 4.5,
     "reviewCount": 157,
-    "image": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/mg90s-metal-gear-servo-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80"
+      "/images/components/mg90s-metal-gear-servo-front.svg",
+      "/images/components/mg90s-metal-gear-servo-angle.svg",
+      "/images/components/mg90s-metal-gear-servo-back.svg",
+      "/images/components/mg90s-metal-gear-servo-pinout.svg"
     ],
     "voltage": "4.8V to 6.0V",
     "current": "220mA running",
@@ -9786,7 +9871,7 @@ export const initialHardwareComponents = [
       "Gears": "Metal gears with high shock resistance",
       "Weight": "13.4g"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/mg90s-metal-gear-servo-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -9886,11 +9971,12 @@ export const initialHardwareComponents = [
     "stockCount": 50,
     "rating": 4.8,
     "reviewCount": 240,
-    "image": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/stepper-28byj48-uln2003-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80"
+      "/images/components/stepper-28byj48-uln2003-front.svg",
+      "/images/components/stepper-28byj48-uln2003-angle.svg",
+      "/images/components/stepper-28byj48-uln2003-back.svg",
+      "/images/components/stepper-28byj48-uln2003-pinout.svg"
     ],
     "voltage": "5V DC",
     "current": "240mA total across 4 phases",
@@ -9900,7 +9986,7 @@ export const initialHardwareComponents = [
       "Gear Reduction Ratio": "1:64 reduction gearbox (4096 full steps per 360° output shaft rotation)",
       "Driver Board": "ULN2003 with 4 status LEDs indicating coil energization"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/stepper-28byj48-uln2003-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -10000,11 +10086,12 @@ export const initialHardwareComponents = [
     "stockCount": 51,
     "rating": 4.5,
     "reviewCount": 97,
-    "image": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/nema-17-stepper-motor-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80"
+      "/images/components/nema-17-stepper-motor-front.svg",
+      "/images/components/nema-17-stepper-motor-angle.svg",
+      "/images/components/nema-17-stepper-motor-back.svg",
+      "/images/components/nema-17-stepper-motor-pinout.svg"
     ],
     "voltage": "12V to 24V (Current-controlled via A4988 / DRV8825)",
     "current": "1.5A per phase",
@@ -10016,7 +10103,7 @@ export const initialHardwareComponents = [
       "Inductance": "2.8 mH",
       "Shaft Diameter": "5mm D-shaft"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/nema-17-stepper-motor-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -10116,11 +10203,12 @@ export const initialHardwareComponents = [
     "stockCount": 28,
     "rating": 4.5,
     "reviewCount": 151,
-    "image": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/tt-dc-gearmotor-wheel-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80"
+      "/images/components/tt-dc-gearmotor-wheel-front.svg",
+      "/images/components/tt-dc-gearmotor-wheel-angle.svg",
+      "/images/components/tt-dc-gearmotor-wheel-back.svg",
+      "/images/components/tt-dc-gearmotor-wheel-pinout.svg"
     ],
     "voltage": "3V to 6V DC",
     "current": "150mA no-load, 800mA stall at 6V",
@@ -10130,7 +10218,7 @@ export const initialHardwareComponents = [
       "Speed": "200 RPM at 6V",
       "Wheel": "65mm high-traction rubber wheel included"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/tt-dc-gearmotor-wheel-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -10230,11 +10318,12 @@ export const initialHardwareComponents = [
     "stockCount": 32,
     "rating": 4.7,
     "reviewCount": 244,
-    "image": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/rs-550-high-speed-motor-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80"
+      "/images/components/rs-550-high-speed-motor-front.svg",
+      "/images/components/rs-550-high-speed-motor-angle.svg",
+      "/images/components/rs-550-high-speed-motor-back.svg",
+      "/images/components/rs-550-high-speed-motor-pinout.svg"
     ],
     "voltage": "6V to 18V (12V nominal)",
     "current": "1.2A no-load, up to 10A peak",
@@ -10243,7 +10332,7 @@ export const initialHardwareComponents = [
       "Speed": "20000 RPM at 12V",
       "Shaft": "3.17mm diameter round shaft"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/rs-550-high-speed-motor-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -10343,11 +10432,12 @@ export const initialHardwareComponents = [
     "stockCount": 83,
     "rating": 4.7,
     "reviewCount": 233,
-    "image": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/dc-775-ball-bearing-motor-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80"
+      "/images/components/dc-775-ball-bearing-motor-front.svg",
+      "/images/components/dc-775-ball-bearing-motor-angle.svg",
+      "/images/components/dc-775-ball-bearing-motor-back.svg",
+      "/images/components/dc-775-ball-bearing-motor-pinout.svg"
     ],
     "voltage": "12V to 24V DC",
     "current": "1.5A idle, 15A stall",
@@ -10357,7 +10447,7 @@ export const initialHardwareComponents = [
       "Torque": "Massive starting torque with dual front ball bearings",
       "Cooling": "Internal fan cooling blades"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/dc-775-ball-bearing-motor-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -10457,11 +10547,12 @@ export const initialHardwareComponents = [
     "stockCount": 17,
     "rating": 4.7,
     "reviewCount": 155,
-    "image": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/mini-dc-submersible-pump-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80"
+      "/images/components/mini-dc-submersible-pump-front.svg",
+      "/images/components/mini-dc-submersible-pump-angle.svg",
+      "/images/components/mini-dc-submersible-pump-back.svg",
+      "/images/components/mini-dc-submersible-pump-pinout.svg"
     ],
     "voltage": "2.5V to 6V DC (Works on 5V USB / Arduino power)",
     "current": "130mA to 220mA",
@@ -10471,7 +10562,7 @@ export const initialHardwareComponents = [
       "Lift Head": "40 to 110 cm vertical lift",
       "Operation": "Continuous submersible in water, low noise brushless design"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/mini-dc-submersible-pump-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -10570,11 +10661,12 @@ export const initialHardwareComponents = [
     "stockCount": 47,
     "rating": 4.6,
     "reviewCount": 47,
-    "image": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/r385-diaphragm-water-pump-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80"
+      "/images/components/r385-diaphragm-water-pump-front.svg",
+      "/images/components/r385-diaphragm-water-pump-angle.svg",
+      "/images/components/r385-diaphragm-water-pump-back.svg",
+      "/images/components/r385-diaphragm-water-pump-pinout.svg"
     ],
     "voltage": "6V to 12V DC",
     "current": "0.5A to 0.7A",
@@ -10584,7 +10676,7 @@ export const initialHardwareComponents = [
       "Pumping Head": "3 meters vertical pump head",
       "Flow Rate": "1.5 to 2 Litres/minute"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/r385-diaphragm-water-pump-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -10684,11 +10776,12 @@ export const initialHardwareComponents = [
     "stockCount": 15,
     "rating": 4.4,
     "reviewCount": 50,
-    "image": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/solenoid-valve-12v-half-inch-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80"
+      "/images/components/solenoid-valve-12v-half-inch-front.svg",
+      "/images/components/solenoid-valve-12v-half-inch-angle.svg",
+      "/images/components/solenoid-valve-12v-half-inch-back.svg",
+      "/images/components/solenoid-valve-12v-half-inch-pinout.svg"
     ],
     "voltage": "12V DC",
     "current": "300mA coil current",
@@ -10698,7 +10791,7 @@ export const initialHardwareComponents = [
       "Operating Pressure": "0.02 to 0.8 MPa (water pressure assisted pilot valve)",
       "Response Time": "Open < 0.15s, Close < 0.3s"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/solenoid-valve-12v-half-inch-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -10798,11 +10891,12 @@ export const initialHardwareComponents = [
     "stockCount": 74,
     "rating": 4.5,
     "reviewCount": 170,
-    "image": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/solenoid-actuator-push-pull-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80"
+      "/images/components/solenoid-actuator-push-pull-front.svg",
+      "/images/components/solenoid-actuator-push-pull-angle.svg",
+      "/images/components/solenoid-actuator-push-pull-back.svg",
+      "/images/components/solenoid-actuator-push-pull-pinout.svg"
     ],
     "voltage": "12V DC",
     "current": "300mA",
@@ -10811,7 +10905,7 @@ export const initialHardwareComponents = [
       "Stroke": "10 mm linear travel",
       "Holding Force": "5 Newtons (approx 0.5 kg)"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/solenoid-actuator-push-pull-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -10911,11 +11005,12 @@ export const initialHardwareComponents = [
     "stockCount": 70,
     "rating": 4.9,
     "reviewCount": 46,
-    "image": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/vibration-motor-coin-3v-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80"
+      "/images/components/vibration-motor-coin-3v-front.svg",
+      "/images/components/vibration-motor-coin-3v-angle.svg",
+      "/images/components/vibration-motor-coin-3v-back.svg",
+      "/images/components/vibration-motor-coin-3v-pinout.svg"
     ],
     "voltage": "2.5V to 3.5V DC",
     "current": "70mA",
@@ -10924,7 +11019,7 @@ export const initialHardwareComponents = [
       "Diameter": "10mm, Thickness 2.7mm",
       "Speed": "12000 RPM eccentric weight"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/vibration-motor-coin-3v-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -11024,11 +11119,12 @@ export const initialHardwareComponents = [
     "stockCount": 79,
     "rating": 4.8,
     "reviewCount": 96,
-    "image": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/dc-gear-motor-370-12v-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80"
+      "/images/components/dc-gear-motor-370-12v-front.svg",
+      "/images/components/dc-gear-motor-370-12v-angle.svg",
+      "/images/components/dc-gear-motor-370-12v-back.svg",
+      "/images/components/dc-gear-motor-370-12v-pinout.svg"
     ],
     "voltage": "12V DC",
     "current": "300mA running",
@@ -11037,7 +11133,7 @@ export const initialHardwareComponents = [
       "Output Speed": "100 RPM",
       "Torque": "3.5 kg-cm with hardened steel gears"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/dc-gear-motor-370-12v-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -11137,11 +11233,12 @@ export const initialHardwareComponents = [
     "stockCount": 20,
     "rating": 4.6,
     "reviewCount": 77,
-    "image": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/n20-micro-metal-gearmotor-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80"
+      "/images/components/n20-micro-metal-gearmotor-front.svg",
+      "/images/components/n20-micro-metal-gearmotor-angle.svg",
+      "/images/components/n20-micro-metal-gearmotor-back.svg",
+      "/images/components/n20-micro-metal-gearmotor-pinout.svg"
     ],
     "voltage": "3V to 6V DC",
     "current": "80mA",
@@ -11154,7 +11251,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/n20-micro-metal-gearmotor-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -11254,11 +11351,12 @@ export const initialHardwareComponents = [
     "stockCount": 59,
     "rating": 4.5,
     "reviewCount": 44,
-    "image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/hc-05-bluetooth-module-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80"
+      "/images/components/hc-05-bluetooth-module-front.svg",
+      "/images/components/hc-05-bluetooth-module-angle.svg",
+      "/images/components/hc-05-bluetooth-module-back.svg",
+      "/images/components/hc-05-bluetooth-module-pinout.svg"
     ],
     "voltage": "3.6V to 6V DC (Onboard 3.3V LDO)",
     "current": "30mA connected, 8mA paired",
@@ -11270,7 +11368,7 @@ export const initialHardwareComponents = [
       "Profiles Supported": "Bluetooth Serial Port Profile (SPP)",
       "Key Button": "Dedicated onboard button to enter AT command configuration mode (38400 baud)"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/hc-05-bluetooth-module-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -11383,11 +11481,12 @@ export const initialHardwareComponents = [
     "stockCount": 45,
     "rating": 4.6,
     "reviewCount": 183,
-    "image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/hc-06-bluetooth-slave-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80"
+      "/images/components/hc-06-bluetooth-slave-front.svg",
+      "/images/components/hc-06-bluetooth-slave-angle.svg",
+      "/images/components/hc-06-bluetooth-slave-back.svg",
+      "/images/components/hc-06-bluetooth-slave-pinout.svg"
     ],
     "voltage": "3.6V to 6V",
     "current": "35mA",
@@ -11395,7 +11494,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Role": "Dedicated transparent slave receiver (Pairs automatically with phones)"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/hc-06-bluetooth-slave-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -11495,11 +11594,12 @@ export const initialHardwareComponents = [
     "stockCount": 35,
     "rating": 4.8,
     "reviewCount": 32,
-    "image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/hc-12-wireless-transceiver-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80"
+      "/images/components/hc-12-wireless-transceiver-front.svg",
+      "/images/components/hc-12-wireless-transceiver-angle.svg",
+      "/images/components/hc-12-wireless-transceiver-back.svg",
+      "/images/components/hc-12-wireless-transceiver-pinout.svg"
     ],
     "voltage": "3.2V to 5.5V DC",
     "current": "16mA receiving, 100mA peak transmit",
@@ -11510,7 +11610,7 @@ export const initialHardwareComponents = [
       "Transmit Power": "Max 20dBm (100mW) adjustable in 8 steps",
       "Sensitivity": "-117dBm at 5000bps"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/hc-12-wireless-transceiver-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -11609,11 +11709,12 @@ export const initialHardwareComponents = [
     "stockCount": 73,
     "rating": 4.8,
     "reviewCount": 205,
-    "image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/nrf24l01-transceiver-module-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80"
+      "/images/components/nrf24l01-transceiver-module-front.svg",
+      "/images/components/nrf24l01-transceiver-module-angle.svg",
+      "/images/components/nrf24l01-transceiver-module-back.svg",
+      "/images/components/nrf24l01-transceiver-module-pinout.svg"
     ],
     "voltage": "1.9V to 3.6V DC (5V tolerant logic lines, but VCC MUST be <= 3.6V!)",
     "current": "12.3mA Tx (0dBm), 13.5mA Rx, 900nA deep power down",
@@ -11624,7 +11725,7 @@ export const initialHardwareComponents = [
       "MultiCeiver": "Hardware 6-channel receiver simultaneously listening to 6 independent transmitting nodes",
       "Enhanced ShockBurst": "Hardware packet assembly, automatic acknowledgment (Auto-ACK), and auto-retransmit"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/nrf24l01-transceiver-module-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -11752,11 +11853,12 @@ export const initialHardwareComponents = [
     "stockCount": 27,
     "rating": 4.6,
     "reviewCount": 255,
-    "image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/nrf24l01-pa-lna-antenna-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80"
+      "/images/components/nrf24l01-pa-lna-antenna-front.svg",
+      "/images/components/nrf24l01-pa-lna-antenna-angle.svg",
+      "/images/components/nrf24l01-pa-lna-antenna-back.svg",
+      "/images/components/nrf24l01-pa-lna-antenna-pinout.svg"
     ],
     "voltage": "3.3V DC (Requires dedicated 3.3V regulator for 115mA Tx bursts)",
     "current": "115mA peak Tx",
@@ -11766,7 +11868,7 @@ export const initialHardwareComponents = [
       "Low Noise Amplifier (LNA)": "+10dB receiver gain",
       "Range": "Over 1100 meters line-of-sight"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/nrf24l01-pa-lna-antenna-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -11866,11 +11968,12 @@ export const initialHardwareComponents = [
     "stockCount": 34,
     "rating": 4.8,
     "reviewCount": 109,
-    "image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/sim800l-gprs-gsm-module-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80"
+      "/images/components/sim800l-gprs-gsm-module-front.svg",
+      "/images/components/sim800l-gprs-gsm-module-angle.svg",
+      "/images/components/sim800l-gprs-gsm-module-back.svg",
+      "/images/components/sim800l-gprs-gsm-module-pinout.svg"
     ],
     "voltage": "3.7V to 4.4V DC (Optimal 4.0V - requires 2A current surge capability!)",
     "current": "1mA sleep, 2A burst during network registration",
@@ -11881,7 +11984,7 @@ export const initialHardwareComponents = [
       "Data": "GPRS multi-slot class 12/10, up to 85.6 kbps downlink",
       "Features": "Make/receive phone voice calls, send/receive SMS text messages, HTTP/TCP/UDP data upload"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/sim800l-gprs-gsm-module-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -11980,11 +12083,12 @@ export const initialHardwareComponents = [
     "stockCount": 52,
     "rating": 4.5,
     "reviewCount": 111,
-    "image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/sim900a-mini-gsm-gprs-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80"
+      "/images/components/sim900a-mini-gsm-gprs-front.svg",
+      "/images/components/sim900a-mini-gsm-gprs-angle.svg",
+      "/images/components/sim900a-mini-gsm-gprs-back.svg",
+      "/images/components/sim900a-mini-gsm-gprs-pinout.svg"
     ],
     "voltage": "5V/2A DC input",
     "current": "Up to 2A burst",
@@ -11993,7 +12097,7 @@ export const initialHardwareComponents = [
       "Bands": "Dual-Band 900/1800 MHz (India/Asia/Europe)",
       "Features": "Onboard LM2596 step-down regulator handles current bursts seamlessly"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/sim900a-mini-gsm-gprs-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -12093,11 +12197,12 @@ export const initialHardwareComponents = [
     "stockCount": 71,
     "rating": 4.8,
     "reviewCount": 86,
-    "image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/neo-6m-gps-module-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80"
+      "/images/components/neo-6m-gps-module-front.svg",
+      "/images/components/neo-6m-gps-module-angle.svg",
+      "/images/components/neo-6m-gps-module-back.svg",
+      "/images/components/neo-6m-gps-module-pinout.svg"
     ],
     "voltage": "3.0V to 5.0V DC (Onboard regulator)",
     "current": "45mA tracking",
@@ -12110,7 +12215,7 @@ export const initialHardwareComponents = [
       "Backup Battery": "Rechargeable coin cell preserves ephemeris data in EEPROM for instant warm locks",
       "Antenna": "25 x 25 mm high-sensitivity ceramic patch antenna included"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/neo-6m-gps-module-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -12217,11 +12322,12 @@ export const initialHardwareComponents = [
     "stockCount": 55,
     "rating": 4.7,
     "reviewCount": 240,
-    "image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/neo-8m-gps-glonass-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80"
+      "/images/components/neo-8m-gps-glonass-front.svg",
+      "/images/components/neo-8m-gps-glonass-angle.svg",
+      "/images/components/neo-8m-gps-glonass-back.svg",
+      "/images/components/neo-8m-gps-glonass-pinout.svg"
     ],
     "voltage": "3.3V to 5V",
     "current": "55mA",
@@ -12230,7 +12336,7 @@ export const initialHardwareComponents = [
       "Constellations": "Concurrent reception of GPS, GLONASS, Galileo, BeiDou, and QZSS",
       "Update Rate": "Up to 10 Hz navigation rate"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/neo-8m-gps-glonass-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -12330,11 +12436,12 @@ export const initialHardwareComponents = [
     "stockCount": 69,
     "rating": 4.7,
     "reviewCount": 56,
-    "image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/rf-433mhz-tx-rx-pair-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80"
+      "/images/components/rf-433mhz-tx-rx-pair-front.svg",
+      "/images/components/rf-433mhz-tx-rx-pair-angle.svg",
+      "/images/components/rf-433mhz-tx-rx-pair-back.svg",
+      "/images/components/rf-433mhz-tx-rx-pair-pinout.svg"
     ],
     "voltage": "TX: 3.5V to 12V (Higher voltage = further range), RX: 5V DC",
     "current": "TX: 40mA (12V), RX: 4mA",
@@ -12344,7 +12451,7 @@ export const initialHardwareComponents = [
       "Range": "20 to 100 meters with 17cm wire whip antenna",
       "Modulation": "ASK modulation compatible with RadioHead library"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/rf-433mhz-tx-rx-pair-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -12444,11 +12551,12 @@ export const initialHardwareComponents = [
     "stockCount": 16,
     "rating": 4.9,
     "reviewCount": 258,
-    "image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/sx1278-lora-ra02-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80"
+      "/images/components/sx1278-lora-ra02-front.svg",
+      "/images/components/sx1278-lora-ra02-angle.svg",
+      "/images/components/sx1278-lora-ra02-back.svg",
+      "/images/components/sx1278-lora-ra02-pinout.svg"
     ],
     "voltage": "2.5V to 3.7V DC (3.3V recommended)",
     "current": "120mA Tx (+20dBm), 10.8mA Rx, 0.2uA sleep",
@@ -12459,7 +12567,7 @@ export const initialHardwareComponents = [
       "Range": "Over 5 km urban range, up to 10-15 km line-of-sight in rural settings",
       "Connector": "IPEX / U.FL external antenna jack"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/sx1278-lora-ra02-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -12558,11 +12666,12 @@ export const initialHardwareComponents = [
     "stockCount": 34,
     "rating": 4.6,
     "reviewCount": 196,
-    "image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/cc1101-sub-1ghz-transceiver-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80"
+      "/images/components/cc1101-sub-1ghz-transceiver-front.svg",
+      "/images/components/cc1101-sub-1ghz-transceiver-angle.svg",
+      "/images/components/cc1101-sub-1ghz-transceiver-back.svg",
+      "/images/components/cc1101-sub-1ghz-transceiver-pinout.svg"
     ],
     "voltage": "1.8V to 3.6V",
     "current": "30mA Tx",
@@ -12575,7 +12684,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/cc1101-sub-1ghz-transceiver-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -12675,11 +12784,12 @@ export const initialHardwareComponents = [
     "stockCount": 56,
     "rating": 4.9,
     "reviewCount": 242,
-    "image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/a9g-gsm-gprs-gps-board-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80"
+      "/images/components/a9g-gsm-gprs-gps-board-front.svg",
+      "/images/components/a9g-gsm-gprs-gps-board-angle.svg",
+      "/images/components/a9g-gsm-gprs-gps-board-back.svg",
+      "/images/components/a9g-gsm-gprs-gps-board-pinout.svg"
     ],
     "voltage": "5V via Micro-USB or 3.7V LiPo",
     "current": "Peak 2A",
@@ -12692,7 +12802,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/a9g-gsm-gprs-gps-board-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -12792,11 +12902,12 @@ export const initialHardwareComponents = [
     "stockCount": 35,
     "rating": 4.7,
     "reviewCount": 122,
-    "image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/cc2530-zigbee-module-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80"
+      "/images/components/cc2530-zigbee-module-front.svg",
+      "/images/components/cc2530-zigbee-module-angle.svg",
+      "/images/components/cc2530-zigbee-module-back.svg",
+      "/images/components/cc2530-zigbee-module-pinout.svg"
     ],
     "voltage": "2.0V to 3.6V",
     "current": "25mA",
@@ -12809,7 +12920,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/cc2530-zigbee-module-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -12909,11 +13020,12 @@ export const initialHardwareComponents = [
     "stockCount": 49,
     "rating": 4.5,
     "reviewCount": 127,
-    "image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/ble-cc2541-hm10-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80"
+      "/images/components/ble-cc2541-hm10-front.svg",
+      "/images/components/ble-cc2541-hm10-angle.svg",
+      "/images/components/ble-cc2541-hm10-back.svg",
+      "/images/components/ble-cc2541-hm10-pinout.svg"
     ],
     "voltage": "3.6V to 6V",
     "current": "9mA running, 50uA sleep",
@@ -12926,7 +13038,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/ble-cc2541-hm10-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -13026,11 +13138,12 @@ export const initialHardwareComponents = [
     "stockCount": 67,
     "rating": 4.5,
     "reviewCount": 206,
-    "image": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/tp4056-type-c-charger-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80"
+      "/images/components/tp4056-type-c-charger-front.svg",
+      "/images/components/tp4056-type-c-charger-angle.svg",
+      "/images/components/tp4056-type-c-charger-back.svg",
+      "/images/components/tp4056-type-c-charger-pinout.svg"
     ],
     "voltage": "4.5V to 5.5V input (Type-C USB)",
     "current": "1000mA constant charge current",
@@ -13042,7 +13155,7 @@ export const initialHardwareComponents = [
       "Overcurrent Protection": "3A limit via FS8205A dual N-channel MOSFET",
       "Indicators": "Red LED = Charging, Blue/Green LED = Fully Charged"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/tp4056-type-c-charger-pinout.svg",
     "pinConnections": [
       {
         "pin": "IN+ / IN-",
@@ -13141,11 +13254,12 @@ export const initialHardwareComponents = [
     "stockCount": 34,
     "rating": 4.9,
     "reviewCount": 67,
-    "image": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/lm2596-buck-converter-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80"
+      "/images/components/lm2596-buck-converter-front.svg",
+      "/images/components/lm2596-buck-converter-angle.svg",
+      "/images/components/lm2596-buck-converter-back.svg",
+      "/images/components/lm2596-buck-converter-pinout.svg"
     ],
     "voltage": "Input: 4.0V to 40V DC, Output: 1.25V to 37V DC adjustable",
     "current": "2A continuous (3A max with heatsink)",
@@ -13156,7 +13270,7 @@ export const initialHardwareComponents = [
       "Trimpot": "Multi-turn 3296 precision potentiometer for fine voltage tuning",
       "Protection": "Thermal shutdown and cycle-by-cycle current limit protection"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/lm2596-buck-converter-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -13256,11 +13370,12 @@ export const initialHardwareComponents = [
     "stockCount": 69,
     "rating": 4.5,
     "reviewCount": 194,
-    "image": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/mt3608-boost-converter-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80"
+      "/images/components/mt3608-boost-converter-front.svg",
+      "/images/components/mt3608-boost-converter-angle.svg",
+      "/images/components/mt3608-boost-converter-back.svg",
+      "/images/components/mt3608-boost-converter-pinout.svg"
     ],
     "voltage": "Input: 2V to 24V DC, Output: 5V to 28V DC adjustable",
     "current": "2A peak output",
@@ -13269,7 +13384,7 @@ export const initialHardwareComponents = [
       "Switching Frequency": "1.2 MHz high frequency allows miniature ceramic capacitors",
       "Efficiency": "Up to 93%"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/mt3608-boost-converter-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -13369,11 +13484,12 @@ export const initialHardwareComponents = [
     "stockCount": 41,
     "rating": 4.5,
     "reviewCount": 251,
-    "image": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/xl6009-buck-boost-converter-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80"
+      "/images/components/xl6009-buck-boost-converter-front.svg",
+      "/images/components/xl6009-buck-boost-converter-angle.svg",
+      "/images/components/xl6009-buck-boost-converter-back.svg",
+      "/images/components/xl6009-buck-boost-converter-pinout.svg"
     ],
     "voltage": "Input: 3.8V to 32V, Output: 1.25V to 35V constant (Even if input fluctuates above or below output!)",
     "current": "4A peak MOSFET switch",
@@ -13383,7 +13499,7 @@ export const initialHardwareComponents = [
       "Frequency": "400 kHz",
       "Efficiency": "Up to 94%"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/xl6009-buck-boost-converter-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -13483,11 +13599,12 @@ export const initialHardwareComponents = [
     "stockCount": 61,
     "rating": 4.5,
     "reviewCount": 183,
-    "image": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/mb102-breadboard-power-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80"
+      "/images/components/mb102-breadboard-power-front.svg",
+      "/images/components/mb102-breadboard-power-angle.svg",
+      "/images/components/mb102-breadboard-power-back.svg",
+      "/images/components/mb102-breadboard-power-pinout.svg"
     ],
     "voltage": "6.5V-12V DC (Barrel Jack or USB)",
     "current": "500mA per rail",
@@ -13495,7 +13612,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Dual Rails": "Independent jumpers select 0V, 3.3V, or 5V on top and bottom power rails of standard 830-point breadboard"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/mb102-breadboard-power-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -13595,11 +13712,12 @@ export const initialHardwareComponents = [
     "stockCount": 74,
     "rating": 4.9,
     "reviewCount": 64,
-    "image": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/battery-18650-2600mah-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80"
+      "/images/components/battery-18650-2600mah-front.svg",
+      "/images/components/battery-18650-2600mah-angle.svg",
+      "/images/components/battery-18650-2600mah-back.svg",
+      "/images/components/battery-18650-2600mah-pinout.svg"
     ],
     "voltage": "3.7V nominal (4.2V full charge, 2.75V cut-off)",
     "current": "2600mAh capacity, 5.2A continuous discharge",
@@ -13608,7 +13726,7 @@ export const initialHardwareComponents = [
       "Chemistry": "Lithium Nickel Manganese Cobalt Oxide (NMC)",
       "Cycle Life": "> 500 charge/discharge cycles"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/battery-18650-2600mah-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -13708,11 +13826,12 @@ export const initialHardwareComponents = [
     "stockCount": 76,
     "rating": 4.6,
     "reviewCount": 187,
-    "image": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/bms-3s-12v-20a-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80"
+      "/images/components/bms-3s-12v-20a-front.svg",
+      "/images/components/bms-3s-12v-20a-angle.svg",
+      "/images/components/bms-3s-12v-20a-back.svg",
+      "/images/components/bms-3s-12v-20a-pinout.svg"
     ],
     "voltage": "12.6V charging voltage",
     "current": "20A continuous discharge",
@@ -13720,7 +13839,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Protection": "Overcharge, over-discharge, short circuit, and cell balancing"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/bms-3s-12v-20a-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -13820,11 +13939,12 @@ export const initialHardwareComponents = [
     "stockCount": 79,
     "rating": 4.7,
     "reviewCount": 163,
-    "image": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/smps-12v-5a-60w-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80"
+      "/images/components/smps-12v-5a-60w-front.svg",
+      "/images/components/smps-12v-5a-60w-angle.svg",
+      "/images/components/smps-12v-5a-60w-back.svg",
+      "/images/components/smps-12v-5a-60w-pinout.svg"
     ],
     "voltage": "Input: 110V/220V AC switchable, Output: 12V DC ±5% adjustable",
     "current": "5 Amps continuous",
@@ -13834,7 +13954,7 @@ export const initialHardwareComponents = [
       "Ripple & Noise": "< 100mVp-p",
       "Cooling": "Free air convection in perforated aluminum cage"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/smps-12v-5a-60w-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -13934,11 +14054,12 @@ export const initialHardwareComponents = [
     "stockCount": 76,
     "rating": 4.6,
     "reviewCount": 180,
-    "image": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/hilink-hlk-pm01-5v-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80"
+      "/images/components/hilink-hlk-pm01-5v-front.svg",
+      "/images/components/hilink-hlk-pm01-5v-angle.svg",
+      "/images/components/hilink-hlk-pm01-5v-back.svg",
+      "/images/components/hilink-hlk-pm01-5v-pinout.svg"
     ],
     "voltage": "Input: 90V-264V AC, Output: 5V DC regulated",
     "current": "600mA output",
@@ -13947,7 +14068,7 @@ export const initialHardwareComponents = [
       "Isolation": "3000V AC input to output isolation",
       "Safety": "UL and CE certified compact enclosed brick"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/hilink-hlk-pm01-5v-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -14047,11 +14168,12 @@ export const initialHardwareComponents = [
     "stockCount": 68,
     "rating": 4.7,
     "reviewCount": 218,
-    "image": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/hilink-hlk-pm12-12v-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80"
+      "/images/components/hilink-hlk-pm12-12v-front.svg",
+      "/images/components/hilink-hlk-pm12-12v-angle.svg",
+      "/images/components/hilink-hlk-pm12-12v-back.svg",
+      "/images/components/hilink-hlk-pm12-12v-pinout.svg"
     ],
     "voltage": "Input: 100V-240V AC, Output: 12V DC",
     "current": "250mA output",
@@ -14064,7 +14186,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/hilink-hlk-pm12-12v-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -14164,11 +14286,12 @@ export const initialHardwareComponents = [
     "stockCount": 84,
     "rating": 4.4,
     "reviewCount": 57,
-    "image": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/battery-9v-heavy-duty-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80"
+      "/images/components/battery-9v-heavy-duty-front.svg",
+      "/images/components/battery-9v-heavy-duty-angle.svg",
+      "/images/components/battery-9v-heavy-duty-back.svg",
+      "/images/components/battery-9v-heavy-duty-pinout.svg"
     ],
     "voltage": "9V DC",
     "current": "550mAh",
@@ -14181,7 +14304,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/battery-9v-heavy-duty-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -14281,11 +14404,12 @@ export const initialHardwareComponents = [
     "stockCount": 47,
     "rating": 4.8,
     "reviewCount": 55,
-    "image": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/bms-2s-74v-84v-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80"
+      "/images/components/bms-2s-74v-84v-front.svg",
+      "/images/components/bms-2s-74v-84v-angle.svg",
+      "/images/components/bms-2s-74v-84v-back.svg",
+      "/images/components/bms-2s-74v-84v-pinout.svg"
     ],
     "voltage": "8.4V charge",
     "current": "10A continuous",
@@ -14298,7 +14422,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/bms-2s-74v-84v-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -14398,11 +14522,12 @@ export const initialHardwareComponents = [
     "stockCount": 68,
     "rating": 4.6,
     "reviewCount": 94,
-    "image": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/mini360-dc-buck-converter-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80"
+      "/images/components/mini360-dc-buck-converter-front.svg",
+      "/images/components/mini360-dc-buck-converter-angle.svg",
+      "/images/components/mini360-dc-buck-converter-back.svg",
+      "/images/components/mini360-dc-buck-converter-pinout.svg"
     ],
     "voltage": "Input: 4.75V-23V, Output: 1.0V-17V",
     "current": "1.8A continuous (3A peak)",
@@ -14415,7 +14540,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/mini360-dc-buck-converter-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -14515,11 +14640,12 @@ export const initialHardwareComponents = [
     "stockCount": 61,
     "rating": 4.7,
     "reviewCount": 241,
-    "image": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/xl4015-constant-current-buck-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80"
+      "/images/components/xl4015-constant-current-buck-front.svg",
+      "/images/components/xl4015-constant-current-buck-angle.svg",
+      "/images/components/xl4015-constant-current-buck-back.svg",
+      "/images/components/xl4015-constant-current-buck-pinout.svg"
     ],
     "voltage": "Input: 8V-36V, Output: 1.25V-32V",
     "current": "5A adjustable current limit",
@@ -14532,7 +14658,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/xl4015-constant-current-buck-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -14632,11 +14758,12 @@ export const initialHardwareComponents = [
     "stockCount": 49,
     "rating": 4.7,
     "reviewCount": 27,
-    "image": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/usb-5v-boost-converter-pad-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80"
+      "/images/components/usb-5v-boost-converter-pad-front.svg",
+      "/images/components/usb-5v-boost-converter-pad-angle.svg",
+      "/images/components/usb-5v-boost-converter-pad-back.svg",
+      "/images/components/usb-5v-boost-converter-pad-pinout.svg"
     ],
     "voltage": "Input: 0.9V to 5V (Works on single AA battery!), Output: 5V DC USB",
     "current": "500-600mA",
@@ -14649,7 +14776,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/usb-5v-boost-converter-pad-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -14749,11 +14876,12 @@ export const initialHardwareComponents = [
     "stockCount": 48,
     "rating": 4.5,
     "reviewCount": 134,
-    "image": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/l298n-dual-motor-driver-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80"
+      "/images/components/l298n-dual-motor-driver-front.svg",
+      "/images/components/l298n-dual-motor-driver-angle.svg",
+      "/images/components/l298n-dual-motor-driver-back.svg",
+      "/images/components/l298n-dual-motor-driver-pinout.svg"
     ],
     "voltage": "5V logic, 5V to 35V motor drive voltage",
     "current": "2A continuous per bridge (3A peak)",
@@ -14763,7 +14891,7 @@ export const initialHardwareComponents = [
       "Onboard 5V Regulator": "78M05 enables driving 5V logic from motor power supply when motor voltage is between 7V and 12V",
       "Flyback Protection": "Eight onboard fast-recovery diodes protect MOSFETs against back-EMF inductive spikes"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/l298n-dual-motor-driver-pinout.svg",
     "pinConnections": [
       {
         "pin": "VMS / +12V",
@@ -14883,11 +15011,12 @@ export const initialHardwareComponents = [
     "stockCount": 45,
     "rating": 4.9,
     "reviewCount": 88,
-    "image": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/bts7960-43a-motor-driver-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80"
+      "/images/components/bts7960-43a-motor-driver-front.svg",
+      "/images/components/bts7960-43a-motor-driver-angle.svg",
+      "/images/components/bts7960-43a-motor-driver-back.svg",
+      "/images/components/bts7960-43a-motor-driver-pinout.svg"
     ],
     "voltage": "5.5V to 27V DC motor supply",
     "current": "43A peak current limit with massive aluminum heatsink",
@@ -14896,7 +15025,7 @@ export const initialHardwareComponents = [
       "Semiconductor": "Dual Infineon BTS7960 high-current half-bridge ICs",
       "Features": "Over-temperature shutdown, short-circuit protection, undervoltage lockout, and analog current sensing"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/bts7960-43a-motor-driver-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -14995,11 +15124,12 @@ export const initialHardwareComponents = [
     "stockCount": 31,
     "rating": 4.7,
     "reviewCount": 230,
-    "image": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/l293d-motor-shield-arduino-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80"
+      "/images/components/l293d-motor-shield-arduino-front.svg",
+      "/images/components/l293d-motor-shield-arduino-angle.svg",
+      "/images/components/l293d-motor-shield-arduino-back.svg",
+      "/images/components/l293d-motor-shield-arduino-pinout.svg"
     ],
     "voltage": "4.5V to 25V DC motor voltage",
     "current": "0.6A per bridge (1.2A peak)",
@@ -15007,7 +15137,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Motors": "Can drive 4 bidirectional DC motors or 2 stepper motors + 2 servo motors simultaneously"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/l293d-motor-shield-arduino-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -15107,11 +15237,12 @@ export const initialHardwareComponents = [
     "stockCount": 82,
     "rating": 4.8,
     "reviewCount": 27,
-    "image": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/a4988-stepper-driver-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80"
+      "/images/components/a4988-stepper-driver-front.svg",
+      "/images/components/a4988-stepper-driver-angle.svg",
+      "/images/components/a4988-stepper-driver-back.svg",
+      "/images/components/a4988-stepper-driver-pinout.svg"
     ],
     "voltage": "3V to 5.5V logic, 8V to 35V motor voltage",
     "current": "1A continuous (2A with heatsink and cooling)",
@@ -15120,7 +15251,7 @@ export const initialHardwareComponents = [
       "Microstepping": "Full, 1/2, 1/4, 1/8, and 1/16 step resolutions",
       "Current Limiting": "Adjustable on-board trimpot sets max current output"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/a4988-stepper-driver-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -15220,11 +15351,12 @@ export const initialHardwareComponents = [
     "stockCount": 15,
     "rating": 4.8,
     "reviewCount": 111,
-    "image": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/drv8825-stepper-driver-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80"
+      "/images/components/drv8825-stepper-driver-front.svg",
+      "/images/components/drv8825-stepper-driver-angle.svg",
+      "/images/components/drv8825-stepper-driver-back.svg",
+      "/images/components/drv8825-stepper-driver-pinout.svg"
     ],
     "voltage": "8.2V to 45V motor supply",
     "current": "1.5A continuous (2.5A with heatsink)",
@@ -15232,7 +15364,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Microstepping": "Up to 1/32 microstepping for ultra-silent, ultra-smooth movement in 3D printers and CNCs"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/drv8825-stepper-driver-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -15332,11 +15464,12 @@ export const initialHardwareComponents = [
     "stockCount": 84,
     "rating": 4.5,
     "reviewCount": 212,
-    "image": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/relay-1ch-5v-optocoupler-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80"
+      "/images/components/relay-1ch-5v-optocoupler-front.svg",
+      "/images/components/relay-1ch-5v-optocoupler-angle.svg",
+      "/images/components/relay-1ch-5v-optocoupler-back.svg",
+      "/images/components/relay-1ch-5v-optocoupler-pinout.svg"
     ],
     "voltage": "5V DC coil voltage (3.3V trigger compatible)",
     "current": "70mA coil current",
@@ -15346,7 +15479,7 @@ export const initialHardwareComponents = [
       "Contacts": "Normally Open (NO), Common (COM), Normally Closed (NC)",
       "Isolation": "EL817 optical isolator protects microcontroller from electrical back-EMF arcing"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/relay-1ch-5v-optocoupler-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -15446,11 +15579,12 @@ export const initialHardwareComponents = [
     "stockCount": 37,
     "rating": 4.8,
     "reviewCount": 161,
-    "image": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/relay-2ch-5v-optocoupler-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80"
+      "/images/components/relay-2ch-5v-optocoupler-front.svg",
+      "/images/components/relay-2ch-5v-optocoupler-angle.svg",
+      "/images/components/relay-2ch-5v-optocoupler-back.svg",
+      "/images/components/relay-2ch-5v-optocoupler-pinout.svg"
     ],
     "voltage": "5V DC",
     "current": "140mA total",
@@ -15459,7 +15593,7 @@ export const initialHardwareComponents = [
       "Rating": "AC 250V 10A / DC 30V 10A per channel",
       "Indicators": "Dual red SMD LEDs display switching state"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/relay-2ch-5v-optocoupler-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -15559,11 +15693,12 @@ export const initialHardwareComponents = [
     "stockCount": 57,
     "rating": 4.4,
     "reviewCount": 247,
-    "image": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/relay-4ch-5v-module-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80"
+      "/images/components/relay-4ch-5v-module-front.svg",
+      "/images/components/relay-4ch-5v-module-angle.svg",
+      "/images/components/relay-4ch-5v-module-back.svg",
+      "/images/components/relay-4ch-5v-module-pinout.svg"
     ],
     "voltage": "5V DC (Jumper selects JD-VCC independent relay power)",
     "current": "280mA full engage",
@@ -15571,7 +15706,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Safety": "Standard screw terminal output blocks with full optocoupler galvanic barrier"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/relay-4ch-5v-module-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -15671,11 +15806,12 @@ export const initialHardwareComponents = [
     "stockCount": 61,
     "rating": 4.7,
     "reviewCount": 213,
-    "image": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/relay-8ch-5v-module-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80"
+      "/images/components/relay-8ch-5v-module-front.svg",
+      "/images/components/relay-8ch-5v-module-angle.svg",
+      "/images/components/relay-8ch-5v-module-back.svg",
+      "/images/components/relay-8ch-5v-module-pinout.svg"
     ],
     "voltage": "5V DC",
     "current": "560mA all channels active",
@@ -15683,7 +15819,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Capacity": "Controls 8 separate 250V AC appliances independently"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/relay-8ch-5v-module-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -15783,11 +15919,12 @@ export const initialHardwareComponents = [
     "stockCount": 27,
     "rating": 4.9,
     "reviewCount": 205,
-    "image": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/ssr-25da-solid-state-relay-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80"
+      "/images/components/ssr-25da-solid-state-relay-front.svg",
+      "/images/components/ssr-25da-solid-state-relay-angle.svg",
+      "/images/components/ssr-25da-solid-state-relay-back.svg",
+      "/images/components/ssr-25da-solid-state-relay-pinout.svg"
     ],
     "voltage": "Control: 3-32V DC, Load: 24-380V AC",
     "current": "25A AC max load current",
@@ -15796,7 +15933,7 @@ export const initialHardwareComponents = [
       "Technology": "Zero-crossing triac solid-state switching (No moving mechanical contacts, zero sparks, completely silent)",
       "Isolation": "> 2500V AC dielectric breakdown"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/ssr-25da-solid-state-relay-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -15896,11 +16033,12 @@ export const initialHardwareComponents = [
     "stockCount": 39,
     "rating": 4.4,
     "reviewCount": 236,
-    "image": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/irf520-mosfet-driver-module-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80"
+      "/images/components/irf520-mosfet-driver-module-front.svg",
+      "/images/components/irf520-mosfet-driver-module-angle.svg",
+      "/images/components/irf520-mosfet-driver-module-back.svg",
+      "/images/components/irf520-mosfet-driver-module-pinout.svg"
     ],
     "voltage": "Logic: 3.3V-5V, Load: 0-24V DC",
     "current": "Max 5A (Over 1A requires heatsink)",
@@ -15908,7 +16046,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Switching": "High-speed PWM dimming of high-power DC LED strips and DC motor speed"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/irf520-mosfet-driver-module-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -16008,11 +16146,12 @@ export const initialHardwareComponents = [
     "stockCount": 42,
     "rating": 4.6,
     "reviewCount": 39,
-    "image": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/dual-mos-pwm-trigger-board-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80"
+      "/images/components/dual-mos-pwm-trigger-board-front.svg",
+      "/images/components/dual-mos-pwm-trigger-board-angle.svg",
+      "/images/components/dual-mos-pwm-trigger-board-back.svg",
+      "/images/components/dual-mos-pwm-trigger-board-pinout.svg"
     ],
     "voltage": "Trigger: 3.3V-20V, Load: 5V-36V DC",
     "current": "15A continuous (30A peak 400W)",
@@ -16020,7 +16159,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Resistance": "Ultra-low Rds(on) ensures module stays cool even under high amperage DC loads"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/dual-mos-pwm-trigger-board-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -16120,11 +16259,12 @@ export const initialHardwareComponents = [
     "stockCount": 57,
     "rating": 4.6,
     "reviewCount": 177,
-    "image": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/tb6600-stepper-driver-4a-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80"
+      "/images/components/tb6600-stepper-driver-4a-front.svg",
+      "/images/components/tb6600-stepper-driver-4a-angle.svg",
+      "/images/components/tb6600-stepper-driver-4a-back.svg",
+      "/images/components/tb6600-stepper-driver-4a-pinout.svg"
     ],
     "voltage": "9V to 42V DC",
     "current": "0.5A to 4.0A adjustable via DIP switches",
@@ -16132,7 +16272,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Microstepping": "1, 2, 4, 8, 16, 32 microstep settings with rugged heat dissipation casing"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/tb6600-stepper-driver-4a-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -16232,11 +16372,12 @@ export const initialHardwareComponents = [
     "stockCount": 25,
     "rating": 4.7,
     "reviewCount": 30,
-    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/ne555-timer-ic-dip8-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80"
+      "/images/components/ne555-timer-ic-dip8-front.svg",
+      "/images/components/ne555-timer-ic-dip8-angle.svg",
+      "/images/components/ne555-timer-ic-dip8-back.svg",
+      "/images/components/ne555-timer-ic-dip8-pinout.svg"
     ],
     "voltage": "4.5V to 16V DC",
     "current": "Sink or source up to 200mA",
@@ -16246,7 +16387,7 @@ export const initialHardwareComponents = [
       "Timing": "From microseconds to hours using external resistor & capacitor",
       "Temperature Stability": "0.005% per °C"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/ne555-timer-ic-dip8-pinout.svg",
     "pinConnections": [
       {
         "pin": "Pin 1 (GND)",
@@ -16380,11 +16521,12 @@ export const initialHardwareComponents = [
     "stockCount": 24,
     "rating": 4.9,
     "reviewCount": 36,
-    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/lm358-dual-opamp-ic-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80"
+      "/images/components/lm358-dual-opamp-ic-front.svg",
+      "/images/components/lm358-dual-opamp-ic-angle.svg",
+      "/images/components/lm358-dual-opamp-ic-back.svg",
+      "/images/components/lm358-dual-opamp-ic-pinout.svg"
     ],
     "voltage": "Single Supply: 3V to 32V, Dual Supply: ±1.5V to ±16V",
     "current": "0.7mA drain",
@@ -16393,7 +16535,7 @@ export const initialHardwareComponents = [
       "Channels": "Two independent, high-gain, internally frequency compensated operational amplifiers",
       "Bandwidth": "1 MHz unity gain"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/lm358-dual-opamp-ic-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -16493,11 +16635,12 @@ export const initialHardwareComponents = [
     "stockCount": 81,
     "rating": 4.5,
     "reviewCount": 89,
-    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/lm317-adjustable-regulator-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80"
+      "/images/components/lm317-adjustable-regulator-front.svg",
+      "/images/components/lm317-adjustable-regulator-angle.svg",
+      "/images/components/lm317-adjustable-regulator-back.svg",
+      "/images/components/lm317-adjustable-regulator-pinout.svg"
     ],
     "voltage": "Output: 1.25V to 37V with two external resistors",
     "current": "1.5 Amps max load",
@@ -16506,7 +16649,7 @@ export const initialHardwareComponents = [
       "Regulation": "0.01% typical line and load regulation",
       "Safety": "Thermal overload protection and safe-area compensation"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/lm317-adjustable-regulator-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -16606,11 +16749,12 @@ export const initialHardwareComponents = [
     "stockCount": 31,
     "rating": 4.5,
     "reviewCount": 226,
-    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/7805-voltage-regulator-5v-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80"
+      "/images/components/7805-voltage-regulator-5v-front.svg",
+      "/images/components/7805-voltage-regulator-5v-angle.svg",
+      "/images/components/7805-voltage-regulator-5v-back.svg",
+      "/images/components/7805-voltage-regulator-5v-pinout.svg"
     ],
     "voltage": "Input: 7V to 25V DC, Output: Stable +5.0V DC",
     "current": "1.5A max with heatsink",
@@ -16619,7 +16763,7 @@ export const initialHardwareComponents = [
       "Output Voltage": "5.0V ±4%",
       "Protection": "Internal current limiting and thermal shutdown"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/7805-voltage-regulator-5v-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -16719,11 +16863,12 @@ export const initialHardwareComponents = [
     "stockCount": 43,
     "rating": 4.5,
     "reviewCount": 72,
-    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/7812-voltage-regulator-12v-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80"
+      "/images/components/7812-voltage-regulator-12v-front.svg",
+      "/images/components/7812-voltage-regulator-12v-angle.svg",
+      "/images/components/7812-voltage-regulator-12v-back.svg",
+      "/images/components/7812-voltage-regulator-12v-pinout.svg"
     ],
     "voltage": "Input: 14.5V to 30V, Output: +12.0V DC",
     "current": "1.5A",
@@ -16736,7 +16881,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/7812-voltage-regulator-12v-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -16836,11 +16981,12 @@ export const initialHardwareComponents = [
     "stockCount": 24,
     "rating": 4.9,
     "reviewCount": 51,
-    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/irfz44n-n-channel-mosfet-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80"
+      "/images/components/irfz44n-n-channel-mosfet-front.svg",
+      "/images/components/irfz44n-n-channel-mosfet-angle.svg",
+      "/images/components/irfz44n-n-channel-mosfet-back.svg",
+      "/images/components/irfz44n-n-channel-mosfet-pinout.svg"
     ],
     "voltage": "Drain-to-Source Voltage: 55V",
     "current": "Continuous Drain Current: 49A at 25°C",
@@ -16850,7 +16996,7 @@ export const initialHardwareComponents = [
       "Switching Speed": "Extremely fast nano-second switching capability",
       "Power Dissipation": "94 Watts"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/irfz44n-n-channel-mosfet-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -16950,11 +17096,12 @@ export const initialHardwareComponents = [
     "stockCount": 67,
     "rating": 4.5,
     "reviewCount": 115,
-    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/transistor-2n2222-npn-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80"
+      "/images/components/transistor-2n2222-npn-front.svg",
+      "/images/components/transistor-2n2222-npn-angle.svg",
+      "/images/components/transistor-2n2222-npn-back.svg",
+      "/images/components/transistor-2n2222-npn-pinout.svg"
     ],
     "voltage": "Collector-Emitter Voltage: 40V",
     "current": "Collector Current: 800mA continuous",
@@ -16963,7 +17110,7 @@ export const initialHardwareComponents = [
       "DC Current Gain (hFE)": "100 to 300",
       "Transition Frequency": "250 MHz"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/transistor-2n2222-npn-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -17063,11 +17210,12 @@ export const initialHardwareComponents = [
     "stockCount": 28,
     "rating": 4.9,
     "reviewCount": 209,
-    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/transistor-bc547-npn-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80"
+      "/images/components/transistor-bc547-npn-front.svg",
+      "/images/components/transistor-bc547-npn-angle.svg",
+      "/images/components/transistor-bc547-npn-back.svg",
+      "/images/components/transistor-bc547-npn-pinout.svg"
     ],
     "voltage": "Vceo: 45V",
     "current": "100mA continuous",
@@ -17076,7 +17224,7 @@ export const initialHardwareComponents = [
       "Current Gain": "200 to 450",
       "Noise Figure": "2 dB typical"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/transistor-bc547-npn-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -17176,11 +17324,12 @@ export const initialHardwareComponents = [
     "stockCount": 31,
     "rating": 4.9,
     "reviewCount": 203,
-    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/diode-1n4007-rectifier-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80"
+      "/images/components/diode-1n4007-rectifier-front.svg",
+      "/images/components/diode-1n4007-rectifier-angle.svg",
+      "/images/components/diode-1n4007-rectifier-back.svg",
+      "/images/components/diode-1n4007-rectifier-pinout.svg"
     ],
     "voltage": "Peak Repetitive Reverse Voltage: 1000V",
     "current": "Average Forward Rectified Current: 1.0A",
@@ -17189,7 +17338,7 @@ export const initialHardwareComponents = [
       "Forward Voltage Drop": "1.1V at 1A",
       "Non-Repetitive Peak Surge Current": "30A (8.3ms half sine pulse)"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/diode-1n4007-rectifier-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -17289,11 +17438,12 @@ export const initialHardwareComponents = [
     "stockCount": 39,
     "rating": 4.4,
     "reviewCount": 262,
-    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/diode-1n4148-switching-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80"
+      "/images/components/diode-1n4148-switching-front.svg",
+      "/images/components/diode-1n4148-switching-angle.svg",
+      "/images/components/diode-1n4148-switching-back.svg",
+      "/images/components/diode-1n4148-switching-pinout.svg"
     ],
     "voltage": "Breakdown Voltage: 100V",
     "current": "Forward Current: 300mA",
@@ -17301,7 +17451,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Reverse Recovery Time": "Ultra-fast 4 nanoseconds"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/diode-1n4148-switching-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -17401,11 +17551,12 @@ export const initialHardwareComponents = [
     "stockCount": 57,
     "rating": 4.7,
     "reviewCount": 196,
-    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/resistor-kit-600pcs-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80"
+      "/images/components/resistor-kit-600pcs-front.svg",
+      "/images/components/resistor-kit-600pcs-angle.svg",
+      "/images/components/resistor-kit-600pcs-back.svg",
+      "/images/components/resistor-kit-600pcs-pinout.svg"
     ],
     "voltage": "Max Working Voltage: 250V",
     "current": "1/4 Watt (0.25W)",
@@ -17414,7 +17565,7 @@ export const initialHardwareComponents = [
       "Values Included": "10R, 22R, 47R, 100R, 150R, 220R, 270R, 330R, 470R, 510R, 680R, 1K, 2K, 2.2K, 3.3K, 4.7K, 5.1K, 6.8K, 10K, 20K, 47K, 51K, 68K, 100K, 220K, 300K, 470K, 680K, 1M",
       "Tolerance": "±1% Precision Metal Film"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/resistor-kit-600pcs-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -17514,11 +17665,12 @@ export const initialHardwareComponents = [
     "stockCount": 74,
     "rating": 4.6,
     "reviewCount": 43,
-    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/capacitor-electrolytic-kit-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80"
+      "/images/components/capacitor-electrolytic-kit-front.svg",
+      "/images/components/capacitor-electrolytic-kit-angle.svg",
+      "/images/components/capacitor-electrolytic-kit-back.svg",
+      "/images/components/capacitor-electrolytic-kit-pinout.svg"
     ],
     "voltage": "16V to 50V DC",
     "current": "Low ESR Radial",
@@ -17527,7 +17679,7 @@ export const initialHardwareComponents = [
       "Capacitance Range": "1uF, 2.2uF, 4.7uF, 10uF, 22uF, 47uF, 100uF, 220uF, 470uF, 1000uF (12 pieces each)",
       "Temp": "-40°C to +105°C"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/capacitor-electrolytic-kit-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -17627,11 +17779,12 @@ export const initialHardwareComponents = [
     "stockCount": 20,
     "rating": 4.6,
     "reviewCount": 69,
-    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/capacitor-ceramic-kit-300pcs-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80"
+      "/images/components/capacitor-ceramic-kit-300pcs-front.svg",
+      "/images/components/capacitor-ceramic-kit-300pcs-angle.svg",
+      "/images/components/capacitor-ceramic-kit-300pcs-back.svg",
+      "/images/components/capacitor-ceramic-kit-300pcs-pinout.svg"
     ],
     "voltage": "50V DC",
     "current": "High Frequency Decoupling",
@@ -17644,7 +17797,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/capacitor-ceramic-kit-300pcs-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -17744,11 +17897,12 @@ export const initialHardwareComponents = [
     "stockCount": 69,
     "rating": 4.7,
     "reviewCount": 72,
-    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/led-assorted-5mm-100pcs-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80"
+      "/images/components/led-assorted-5mm-100pcs-front.svg",
+      "/images/components/led-assorted-5mm-100pcs-angle.svg",
+      "/images/components/led-assorted-5mm-100pcs-back.svg",
+      "/images/components/led-assorted-5mm-100pcs-pinout.svg"
     ],
     "voltage": "Red/Yellow: 1.8V-2.2V, Green/Blue/White: 3.0V-3.2V",
     "current": "20mA max forward current",
@@ -17756,7 +17910,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Quantities": "20x Red, 20x Green, 20x Blue, 20x Yellow, 20x White in clear storage compartment box"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/led-assorted-5mm-100pcs-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -17856,11 +18010,12 @@ export const initialHardwareComponents = [
     "stockCount": 29,
     "rating": 4.6,
     "reviewCount": 233,
-    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/potentiometer-10k-5pcs-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80"
+      "/images/components/potentiometer-10k-5pcs-front.svg",
+      "/images/components/potentiometer-10k-5pcs-angle.svg",
+      "/images/components/potentiometer-10k-5pcs-back.svg",
+      "/images/components/potentiometer-10k-5pcs-pinout.svg"
     ],
     "voltage": "Max 200V AC",
     "current": "0.125W rating",
@@ -17869,7 +18024,7 @@ export const initialHardwareComponents = [
       "Resistance": "10K ohms Linear (B taper)",
       "Shaft": "15mm knurled split shaft with 5 knob caps"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/potentiometer-10k-5pcs-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -17969,11 +18124,12 @@ export const initialHardwareComponents = [
     "stockCount": 44,
     "rating": 4.5,
     "reviewCount": 142,
-    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/pc817-optocoupler-dip4-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80"
+      "/images/components/pc817-optocoupler-dip4-front.svg",
+      "/images/components/pc817-optocoupler-dip4-angle.svg",
+      "/images/components/pc817-optocoupler-dip4-back.svg",
+      "/images/components/pc817-optocoupler-dip4-pinout.svg"
     ],
     "voltage": "Isolation Voltage: 5000 Vrms",
     "current": "Collector current 50mA",
@@ -17982,7 +18138,7 @@ export const initialHardwareComponents = [
       "CTR (Current Transfer Ratio)": "50% to 600%",
       "Response Time": "4 microseconds rise/fall"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/pc817-optocoupler-dip4-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -18082,11 +18238,12 @@ export const initialHardwareComponents = [
     "stockCount": 68,
     "rating": 4.7,
     "reviewCount": 40,
-    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/74hc595-shift-register-ic-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80"
+      "/images/components/74hc595-shift-register-ic-front.svg",
+      "/images/components/74hc595-shift-register-ic-angle.svg",
+      "/images/components/74hc595-shift-register-ic-back.svg",
+      "/images/components/74hc595-shift-register-ic-pinout.svg"
     ],
     "voltage": "2V to 6V DC",
     "current": "35mA per pin output sink/source",
@@ -18095,7 +18252,7 @@ export const initialHardwareComponents = [
       "Function": "Expands 3 microcontroller GPIO pins into 8 independent digital outputs (daisy chainable to 16, 24, 32+ pins)",
       "Storage Register": "8-bit D-type storage latch with 3-state outputs"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/74hc595-shift-register-ic-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -18195,11 +18352,12 @@ export const initialHardwareComponents = [
     "stockCount": 68,
     "rating": 4.8,
     "reviewCount": 176,
-    "image": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/rc522-rfid-reader-kit-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80"
+      "/images/components/rc522-rfid-reader-kit-front.svg",
+      "/images/components/rc522-rfid-reader-kit-angle.svg",
+      "/images/components/rc522-rfid-reader-kit-back.svg",
+      "/images/components/rc522-rfid-reader-kit-pinout.svg"
     ],
     "voltage": "3.3V DC strictly (DO NOT CONNECT 5V TO VCC!)",
     "current": "13mA to 26mA operating (10uA sleep)",
@@ -18210,7 +18368,7 @@ export const initialHardwareComponents = [
       "Read Distance": "Up to 50mm (dependent on antenna geometry)",
       "Included Accessories": "1x S50 White Smart Card + 1x S50 Key Fob Tag + Straight & Right-Angle Header Pins"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/rc522-rfid-reader-kit-pinout.svg",
     "pinConnections": [
       {
         "pin": "3.3V",
@@ -18338,11 +18496,12 @@ export const initialHardwareComponents = [
     "stockCount": 27,
     "rating": 4.8,
     "reviewCount": 37,
-    "image": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/pn532-nfc-rfid-module-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80"
+      "/images/components/pn532-nfc-rfid-module-front.svg",
+      "/images/components/pn532-nfc-rfid-module-angle.svg",
+      "/images/components/pn532-nfc-rfid-module-back.svg",
+      "/images/components/pn532-nfc-rfid-module-pinout.svg"
     ],
     "voltage": "3.3V to 5V DC (Built-in level shifter)",
     "current": "100mA operating",
@@ -18352,7 +18511,7 @@ export const initialHardwareComponents = [
       "NFC Support": "ISO/IEC 14443 Type A & B, FeliCa, and full NFC Forum tag types 1 to 4",
       "Phone Interaction": "Directly reads and writes NFC data from Apple iPhone and Android NFC smartphones"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/pn532-nfc-rfid-module-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -18452,11 +18611,12 @@ export const initialHardwareComponents = [
     "stockCount": 55,
     "rating": 4.7,
     "reviewCount": 112,
-    "image": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/em18-rfid-reader-module-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80"
+      "/images/components/em18-rfid-reader-module-front.svg",
+      "/images/components/em18-rfid-reader-module-angle.svg",
+      "/images/components/em18-rfid-reader-module-back.svg",
+      "/images/components/em18-rfid-reader-module-pinout.svg"
     ],
     "voltage": "5V DC",
     "current": "35mA",
@@ -18466,7 +18626,7 @@ export const initialHardwareComponents = [
       "Card Types": "EM4100 / TK4100 passive RFID cards & tags",
       "Buzzer Driver": "Direct buzzer and LED indication output pins"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/em18-rfid-reader-module-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -18566,11 +18726,12 @@ export const initialHardwareComponents = [
     "stockCount": 78,
     "rating": 4.7,
     "reviewCount": 136,
-    "image": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/r307-fingerprint-scanner-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80"
+      "/images/components/r307-fingerprint-scanner-front.svg",
+      "/images/components/r307-fingerprint-scanner-angle.svg",
+      "/images/components/r307-fingerprint-scanner-back.svg",
+      "/images/components/r307-fingerprint-scanner-pinout.svg"
     ],
     "voltage": "4.2V to 6.0V DC (5V typical)",
     "current": "50mA operating (Peak 120mA)",
@@ -18581,7 +18742,7 @@ export const initialHardwareComponents = [
       "Matching Speed": "< 0.3 seconds verification time",
       "Optics": "High-transmittance prism with blue/green LED illumination ring"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/r307-fingerprint-scanner-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -18680,11 +18841,12 @@ export const initialHardwareComponents = [
     "stockCount": 51,
     "rating": 4.7,
     "reviewCount": 188,
-    "image": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/as608-fingerprint-sensor-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80"
+      "/images/components/as608-fingerprint-sensor-front.svg",
+      "/images/components/as608-fingerprint-sensor-angle.svg",
+      "/images/components/as608-fingerprint-sensor-back.svg",
+      "/images/components/as608-fingerprint-sensor-pinout.svg"
     ],
     "voltage": "3.3V DC (Direct ESP32/Raspberry Pi compatible)",
     "current": "60mA",
@@ -18693,7 +18855,7 @@ export const initialHardwareComponents = [
       "Storage": "300 fingerprints onboard",
       "Resolution": "500 DPI optical scanning"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/as608-fingerprint-sensor-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -18793,11 +18955,12 @@ export const initialHardwareComponents = [
     "stockCount": 55,
     "rating": 4.7,
     "reviewCount": 32,
-    "image": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/pn532-breakout-antenna-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80"
+      "/images/components/pn532-breakout-antenna-front.svg",
+      "/images/components/pn532-breakout-antenna-angle.svg",
+      "/images/components/pn532-breakout-antenna-back.svg",
+      "/images/components/pn532-breakout-antenna-pinout.svg"
     ],
     "voltage": "3.3V-5V",
     "current": "90mA",
@@ -18810,7 +18973,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/pn532-breakout-antenna-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -18910,11 +19073,12 @@ export const initialHardwareComponents = [
     "stockCount": 54,
     "rating": 4.9,
     "reviewCount": 110,
-    "image": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/rfid-cards-125khz-10pcs-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80"
+      "/images/components/rfid-cards-125khz-10pcs-front.svg",
+      "/images/components/rfid-cards-125khz-10pcs-angle.svg",
+      "/images/components/rfid-cards-125khz-10pcs-back.svg",
+      "/images/components/rfid-cards-125khz-10pcs-pinout.svg"
     ],
     "voltage": "Passive (powered by RF field)",
     "current": "0mA",
@@ -18923,7 +19087,7 @@ export const initialHardwareComponents = [
       "Pre-programmed": "Unique 10-digit ID printed on each card",
       "Read Distance": "2-10 cm"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/rfid-cards-125khz-10pcs-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -19023,11 +19187,12 @@ export const initialHardwareComponents = [
     "stockCount": 41,
     "rating": 4.4,
     "reviewCount": 236,
-    "image": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/rfid-key-fobs-1356mhz-10pcs-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80"
+      "/images/components/rfid-key-fobs-1356mhz-10pcs-front.svg",
+      "/images/components/rfid-key-fobs-1356mhz-10pcs-angle.svg",
+      "/images/components/rfid-key-fobs-1356mhz-10pcs-back.svg",
+      "/images/components/rfid-key-fobs-1356mhz-10pcs-pinout.svg"
     ],
     "voltage": "Passive",
     "current": "0mA",
@@ -19035,7 +19200,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Memory": "1KB EEPROM organized in 16 sectors with dual passwords per sector"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/rfid-key-fobs-1356mhz-10pcs-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -19135,11 +19300,12 @@ export const initialHardwareComponents = [
     "stockCount": 37,
     "rating": 4.5,
     "reviewCount": 27,
-    "image": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/fpm10a-optical-fingerprint-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80"
+      "/images/components/fpm10a-optical-fingerprint-front.svg",
+      "/images/components/fpm10a-optical-fingerprint-angle.svg",
+      "/images/components/fpm10a-optical-fingerprint-back.svg",
+      "/images/components/fpm10a-optical-fingerprint-pinout.svg"
     ],
     "voltage": "3.6V to 6V DC",
     "current": "100mA peak",
@@ -19152,7 +19318,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/fpm10a-optical-fingerprint-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -19252,11 +19418,12 @@ export const initialHardwareComponents = [
     "stockCount": 28,
     "rating": 4.5,
     "reviewCount": 211,
-    "image": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/pn7150-nfc-controller-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80"
+      "/images/components/pn7150-nfc-controller-front.svg",
+      "/images/components/pn7150-nfc-controller-angle.svg",
+      "/images/components/pn7150-nfc-controller-back.svg",
+      "/images/components/pn7150-nfc-controller-pinout.svg"
     ],
     "voltage": "3.3V DC",
     "current": "40mA",
@@ -19269,7 +19436,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/pn7150-nfc-controller-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -19369,11 +19536,12 @@ export const initialHardwareComponents = [
     "stockCount": 69,
     "rating": 4.6,
     "reviewCount": 54,
-    "image": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/rc522-mini-rfid-board-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80"
+      "/images/components/rc522-mini-rfid-board-front.svg",
+      "/images/components/rc522-mini-rfid-board-angle.svg",
+      "/images/components/rc522-mini-rfid-board-back.svg",
+      "/images/components/rc522-mini-rfid-board-pinout.svg"
     ],
     "voltage": "3.3V DC",
     "current": "15mA",
@@ -19386,7 +19554,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/rc522-mini-rfid-board-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -19486,11 +19654,12 @@ export const initialHardwareComponents = [
     "stockCount": 24,
     "rating": 4.6,
     "reviewCount": 50,
-    "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/2wd-smart-robot-car-kit-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/2wd-smart-robot-car-kit-front.svg",
+      "/images/components/2wd-smart-robot-car-kit-angle.svg",
+      "/images/components/2wd-smart-robot-car-kit-back.svg",
+      "/images/components/2wd-smart-robot-car-kit-pinout.svg"
     ],
     "voltage": "3V to 6V DC",
     "current": "300mA operating",
@@ -19502,7 +19671,7 @@ export const initialHardwareComponents = [
       "Speed Encoders": "2x 20-slot speed encoder discs for optical tachometer velocity measurement",
       "Battery Holder": "1x 4xAA battery holder with wire leads included"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/2wd-smart-robot-car-kit-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -19601,11 +19770,12 @@ export const initialHardwareComponents = [
     "stockCount": 73,
     "rating": 4.7,
     "reviewCount": 49,
-    "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/4wd-smart-robot-car-kit-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/4wd-smart-robot-car-kit-front.svg",
+      "/images/components/4wd-smart-robot-car-kit-angle.svg",
+      "/images/components/4wd-smart-robot-car-kit-back.svg",
+      "/images/components/4wd-smart-robot-car-kit-pinout.svg"
     ],
     "voltage": "4.5V to 9V DC",
     "current": "600mA running",
@@ -19613,7 +19783,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Design": "Dual-layer acrylic sandwich deck provides ample surface area for motor drivers, battery packs, LIDAR, and cameras"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/4wd-smart-robot-car-kit-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -19713,11 +19883,12 @@ export const initialHardwareComponents = [
     "stockCount": 31,
     "rating": 4.5,
     "reviewCount": 145,
-    "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/pca9685-16ch-pwm-servo-driver-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/pca9685-16ch-pwm-servo-driver-front.svg",
+      "/images/components/pca9685-16ch-pwm-servo-driver-angle.svg",
+      "/images/components/pca9685-16ch-pwm-servo-driver-back.svg",
+      "/images/components/pca9685-16ch-pwm-servo-driver-pinout.svg"
     ],
     "voltage": "3.3V to 5V logic, up to 6V servo power terminal",
     "current": "10mA logic, up to 10A servo rail with external cap",
@@ -19728,7 +19899,7 @@ export const initialHardwareComponents = [
       "Free-Running": "Internal clock generator means MCU only writes position changes once — zero jitter from software delays!",
       "Cascading": "Up to 62 driver boards can be chained on a single I2C bus controlling 992 servos"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/pca9685-16ch-pwm-servo-driver-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC / GND",
@@ -19827,11 +19998,12 @@ export const initialHardwareComponents = [
     "stockCount": 43,
     "rating": 4.9,
     "reviewCount": 130,
-    "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/pan-tilt-bracket-kit-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/pan-tilt-bracket-kit-front.svg",
+      "/images/components/pan-tilt-bracket-kit-angle.svg",
+      "/images/components/pan-tilt-bracket-kit-back.svg",
+      "/images/components/pan-tilt-bracket-kit-pinout.svg"
     ],
     "voltage": "Passive mechanical nylon bracket",
     "current": "0mA",
@@ -19840,7 +20012,7 @@ export const initialHardwareComponents = [
       "Degrees of Freedom": "2-Axis (Horizontal Pan 180° + Vertical Tilt 180°)",
       "Mounting": "Camera / Ultrasonic sensor cradle"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/pan-tilt-bracket-kit-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -19940,11 +20112,12 @@ export const initialHardwareComponents = [
     "stockCount": 53,
     "rating": 4.7,
     "reviewCount": 51,
-    "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/mecanum-wheels-80mm-set-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/mecanum-wheels-80mm-set-front.svg",
+      "/images/components/mecanum-wheels-80mm-set-angle.svg",
+      "/images/components/mecanum-wheels-80mm-set-back.svg",
+      "/images/components/mecanum-wheels-80mm-set-pinout.svg"
     ],
     "voltage": "Passive mechanical wheels",
     "current": "0mA",
@@ -19953,7 +20126,7 @@ export const initialHardwareComponents = [
       "Technology": "Mecanum wheel with 9 polyurethane rollers set at 45° angle",
       "Omni-Directional Movement": "Allows vehicle to move instantly in any direction (forward, backward, sideways crab-walk, diagonally, or 360° spinning) without turning wheels"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/mecanum-wheels-80mm-set-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -20053,11 +20226,12 @@ export const initialHardwareComponents = [
     "stockCount": 60,
     "rating": 4.8,
     "reviewCount": 241,
-    "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/robotic-arm-4dof-kit-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/robotic-arm-4dof-kit-front.svg",
+      "/images/components/robotic-arm-4dof-kit-angle.svg",
+      "/images/components/robotic-arm-4dof-kit-back.svg",
+      "/images/components/robotic-arm-4dof-kit-pinout.svg"
     ],
     "voltage": "Uses 4x SG90 / MG90S servos",
     "current": "Up to 2A during coordinated movement",
@@ -20065,7 +20239,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Axes": "Waist base rotation, shoulder pitch, elbow pitch, and claw gripper clamping"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/robotic-arm-4dof-kit-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -20165,11 +20339,12 @@ export const initialHardwareComponents = [
     "stockCount": 64,
     "rating": 4.8,
     "reviewCount": 113,
-    "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/tank-robot-chassis-tracks-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/tank-robot-chassis-tracks-front.svg",
+      "/images/components/tank-robot-chassis-tracks-angle.svg",
+      "/images/components/tank-robot-chassis-tracks-back.svg",
+      "/images/components/tank-robot-chassis-tracks-pinout.svg"
     ],
     "voltage": "6V to 12V DC",
     "current": "1A",
@@ -20177,7 +20352,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "All-Terrain": "Overcomes carpet, grass, sand, and obstacles with continuous rubber tracks"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/tank-robot-chassis-tracks-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -20277,11 +20452,12 @@ export const initialHardwareComponents = [
     "stockCount": 54,
     "rating": 4.8,
     "reviewCount": 69,
-    "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/line-tracking-sensor-1ch-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/line-tracking-sensor-1ch-front.svg",
+      "/images/components/line-tracking-sensor-1ch-angle.svg",
+      "/images/components/line-tracking-sensor-1ch-back.svg",
+      "/images/components/line-tracking-sensor-1ch-pinout.svg"
     ],
     "voltage": "3.3V-5V",
     "current": "10mA",
@@ -20294,7 +20470,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/line-tracking-sensor-1ch-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -20394,11 +20570,12 @@ export const initialHardwareComponents = [
     "stockCount": 28,
     "rating": 4.8,
     "reviewCount": 164,
-    "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/tracking-sensor-5ch-array-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/tracking-sensor-5ch-array-front.svg",
+      "/images/components/tracking-sensor-5ch-array-angle.svg",
+      "/images/components/tracking-sensor-5ch-array-back.svg",
+      "/images/components/tracking-sensor-5ch-array-pinout.svg"
     ],
     "voltage": "3.3V to 5V DC",
     "current": "40mA",
@@ -20406,7 +20583,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Spacing": "Optimized sensor pitch detects 15mm-25mm black track tape with high stability"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/tracking-sensor-5ch-array-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -20506,11 +20683,12 @@ export const initialHardwareComponents = [
     "stockCount": 38,
     "rating": 4.7,
     "reviewCount": 242,
-    "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/hmc5883l-digital-compass-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/hmc5883l-digital-compass-front.svg",
+      "/images/components/hmc5883l-digital-compass-angle.svg",
+      "/images/components/hmc5883l-digital-compass-back.svg",
+      "/images/components/hmc5883l-digital-compass-pinout.svg"
     ],
     "voltage": "3.3V to 5V DC",
     "current": "100uA",
@@ -20519,7 +20697,7 @@ export const initialHardwareComponents = [
       "Heading Accuracy": "1 to 2 degrees compass heading accuracy",
       "Resolution": "16-bit ADC output"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/hmc5883l-digital-compass-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -20619,11 +20797,12 @@ export const initialHardwareComponents = [
     "stockCount": 84,
     "rating": 4.8,
     "reviewCount": 141,
-    "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/tank-treads-rubber-pair-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/tank-treads-rubber-pair-front.svg",
+      "/images/components/tank-treads-rubber-pair-angle.svg",
+      "/images/components/tank-treads-rubber-pair-back.svg",
+      "/images/components/tank-treads-rubber-pair-pinout.svg"
     ],
     "voltage": "Passive",
     "current": "0mA",
@@ -20636,7 +20815,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/tank-treads-rubber-pair-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -20736,11 +20915,12 @@ export const initialHardwareComponents = [
     "stockCount": 57,
     "rating": 4.7,
     "reviewCount": 172,
-    "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/aluminum-robot-gripper-claw-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/aluminum-robot-gripper-claw-front.svg",
+      "/images/components/aluminum-robot-gripper-claw-angle.svg",
+      "/images/components/aluminum-robot-gripper-claw-back.svg",
+      "/images/components/aluminum-robot-gripper-claw-pinout.svg"
     ],
     "voltage": "4.8V-7.2V",
     "current": "1A peak",
@@ -20749,7 +20929,7 @@ export const initialHardwareComponents = [
       "Claw Opening": "Up to 55mm aperture",
       "Material": "Black anodized 2mm thick aviation aluminum alloy"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/aluminum-robot-gripper-claw-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -20849,11 +21029,12 @@ export const initialHardwareComponents = [
     "stockCount": 70,
     "rating": 4.5,
     "reviewCount": 148,
-    "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/ultrasonic-bracket-mount-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/ultrasonic-bracket-mount-front.svg",
+      "/images/components/ultrasonic-bracket-mount-angle.svg",
+      "/images/components/ultrasonic-bracket-mount-back.svg",
+      "/images/components/ultrasonic-bracket-mount-pinout.svg"
     ],
     "voltage": "Passive",
     "current": "0mA",
@@ -20866,7 +21047,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/ultrasonic-bracket-mount-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -20966,11 +21147,12 @@ export const initialHardwareComponents = [
     "stockCount": 41,
     "rating": 4.5,
     "reviewCount": 175,
-    "image": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/ov2640-camera-module-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80"
+      "/images/components/ov2640-camera-module-front.svg",
+      "/images/components/ov2640-camera-module-angle.svg",
+      "/images/components/ov2640-camera-module-back.svg",
+      "/images/components/ov2640-camera-module-pinout.svg"
     ],
     "voltage": "1.7V to 3.3V DC",
     "current": "40mA active",
@@ -20981,7 +21163,7 @@ export const initialHardwareComponents = [
       "Compression": "Hardware JPEG compression engine onboard eliminates MCU processing overhead",
       "Lens": "24-pin ribbon connector 66-degree focal angle"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/ov2640-camera-module-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -21080,11 +21262,12 @@ export const initialHardwareComponents = [
     "stockCount": 35,
     "rating": 4.7,
     "reviewCount": 194,
-    "image": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/ov7670-vga-camera-fifo-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80"
+      "/images/components/ov7670-vga-camera-fifo-front.svg",
+      "/images/components/ov7670-vga-camera-fifo-angle.svg",
+      "/images/components/ov7670-vga-camera-fifo-back.svg",
+      "/images/components/ov7670-vga-camera-fifo-pinout.svg"
     ],
     "voltage": "3.3V DC",
     "current": "60mA",
@@ -21092,7 +21275,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Memory": "384KB AL422B FIFO memory buffers full VGA frames so slower microcontrollers like Arduino UNO can read frames at their own pace"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/ov7670-vga-camera-fifo-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -21192,11 +21375,12 @@ export const initialHardwareComponents = [
     "stockCount": 50,
     "rating": 4.4,
     "reviewCount": 254,
-    "image": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/rpi-camera-module-v2-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80"
+      "/images/components/rpi-camera-module-v2-front.svg",
+      "/images/components/rpi-camera-module-v2-angle.svg",
+      "/images/components/rpi-camera-module-v2-back.svg",
+      "/images/components/rpi-camera-module-v2-pinout.svg"
     ],
     "voltage": "3.3V via CSI ribbon cable",
     "current": "250mA",
@@ -21206,7 +21390,7 @@ export const initialHardwareComponents = [
       "Video Modes": "1080p30, 720p60, and 640x480p90 high-speed video recording",
       "Still Picture": "3280 x 2464 pixel static image resolution"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/rpi-camera-module-v2-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -21306,11 +21490,12 @@ export const initialHardwareComponents = [
     "stockCount": 75,
     "rating": 4.5,
     "reviewCount": 111,
-    "image": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/rpi-camera-module-3-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80"
+      "/images/components/rpi-camera-module-3-front.svg",
+      "/images/components/rpi-camera-module-3-angle.svg",
+      "/images/components/rpi-camera-module-3-back.svg",
+      "/images/components/rpi-camera-module-3-pinout.svg"
     ],
     "voltage": "3.3V CSI",
     "current": "300mA",
@@ -21320,7 +21505,7 @@ export const initialHardwareComponents = [
       "Auto-Focus": "Phase Detection Autofocus (PDAF) motor built-in",
       "HDR": "High Dynamic Range mode"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/rpi-camera-module-3-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -21420,11 +21605,12 @@ export const initialHardwareComponents = [
     "stockCount": 22,
     "rating": 4.7,
     "reviewCount": 233,
-    "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/inmp441-mems-microphone-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80"
+      "/images/components/inmp441-mems-microphone-front.svg",
+      "/images/components/inmp441-mems-microphone-angle.svg",
+      "/images/components/inmp441-mems-microphone-back.svg",
+      "/images/components/inmp441-mems-microphone-pinout.svg"
     ],
     "voltage": "1.8V to 3.3V DC (DO NOT CONNECT 5V!)",
     "current": "1.4mA low operating current",
@@ -21435,7 +21621,7 @@ export const initialHardwareComponents = [
       "Frequency Response": "Flat broadband response from 60 Hz to 15 kHz",
       "Direct Digital Output": "Zero analog ADC conversion noise — outputs raw PCM digital audio directly into ESP32 / Raspberry Pi"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/inmp441-mems-microphone-pinout.svg",
     "pinConnections": [
       {
         "pin": "VDD",
@@ -21555,11 +21741,12 @@ export const initialHardwareComponents = [
     "stockCount": 34,
     "rating": 4.4,
     "reviewCount": 194,
-    "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/max98357a-i2s-amplifier-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80"
+      "/images/components/max98357a-i2s-amplifier-front.svg",
+      "/images/components/max98357a-i2s-amplifier-angle.svg",
+      "/images/components/max98357a-i2s-amplifier-back.svg",
+      "/images/components/max98357a-i2s-amplifier-pinout.svg"
     ],
     "voltage": "2.5V to 5.5V DC",
     "current": "Up to 3.2W into 4 ohm speaker at 5V",
@@ -21568,7 +21755,7 @@ export const initialHardwareComponents = [
       "Efficiency": "92% high efficiency Class D",
       "Noise": "Filterless design with click-and-pop suppression"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/max98357a-i2s-amplifier-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -21668,11 +21855,12 @@ export const initialHardwareComponents = [
     "stockCount": 31,
     "rating": 4.4,
     "reviewCount": 172,
-    "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/pam8403-audio-amplifier-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80"
+      "/images/components/pam8403-audio-amplifier-front.svg",
+      "/images/components/pam8403-audio-amplifier-angle.svg",
+      "/images/components/pam8403-audio-amplifier-back.svg",
+      "/images/components/pam8403-audio-amplifier-pinout.svg"
     ],
     "voltage": "2.5V to 5V DC (USB 5V powered)",
     "current": "3A peak",
@@ -21681,7 +21869,7 @@ export const initialHardwareComponents = [
       "Output Power": "3W + 3W into 4 ohm stereo speakers",
       "Size": "Thumb-sized 1.85 x 2.11 cm"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/pam8403-audio-amplifier-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -21781,11 +21969,12 @@ export const initialHardwareComponents = [
     "stockCount": 38,
     "rating": 4.5,
     "reviewCount": 78,
-    "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/dfplayer-mini-mp3-module-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80"
+      "/images/components/dfplayer-mini-mp3-module-front.svg",
+      "/images/components/dfplayer-mini-mp3-module-angle.svg",
+      "/images/components/dfplayer-mini-mp3-module-back.svg",
+      "/images/components/dfplayer-mini-mp3-module-pinout.svg"
     ],
     "voltage": "3.3V to 5.0V DC",
     "current": "20mA idle, up to 1A driving speaker directly",
@@ -21796,7 +21985,7 @@ export const initialHardwareComponents = [
       "Direct Drive": "Onboard 3W mono amplifier can drive an 8-ohm 3W speaker directly without external amp",
       "DAC Output": "Dual stereo DAC outputs for external headphones or amplifiers"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/dfplayer-mini-mp3-module-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -21895,11 +22084,12 @@ export const initialHardwareComponents = [
     "stockCount": 34,
     "rating": 4.9,
     "reviewCount": 134,
-    "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/max4466-mic-amplifier-gain-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80"
+      "/images/components/max4466-mic-amplifier-gain-front.svg",
+      "/images/components/max4466-mic-amplifier-gain-angle.svg",
+      "/images/components/max4466-mic-amplifier-gain-back.svg",
+      "/images/components/max4466-mic-amplifier-gain-pinout.svg"
     ],
     "voltage": "2.4V to 5.5V DC",
     "current": "24uA quiescent",
@@ -21908,7 +22098,7 @@ export const initialHardwareComponents = [
       "Gain": "Adjustable from 25x to 125x using onboard trimmer potentiometer",
       "Op-Amp": "Low-noise rail-to-rail audio operational amplifier"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/max4466-mic-amplifier-gain-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -22008,11 +22198,12 @@ export const initialHardwareComponents = [
     "stockCount": 50,
     "rating": 4.7,
     "reviewCount": 171,
-    "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/isd1820-voice-record-module-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80"
+      "/images/components/isd1820-voice-record-module-front.svg",
+      "/images/components/isd1820-voice-record-module-angle.svg",
+      "/images/components/isd1820-voice-record-module-back.svg",
+      "/images/components/isd1820-voice-record-module-pinout.svg"
     ],
     "voltage": "3V to 5V DC",
     "current": "25mA",
@@ -22021,7 +22212,7 @@ export const initialHardwareComponents = [
       "Recording Time": "10 to 20 seconds non-volatile flash storage",
       "Included": "Electret mic on board + 8-ohm 0.5W mini loudspeaker"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/isd1820-voice-record-module-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -22121,11 +22312,12 @@ export const initialHardwareComponents = [
     "stockCount": 51,
     "rating": 4.4,
     "reviewCount": 48,
-    "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/tda2030a-audio-amp-board-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80"
+      "/images/components/tda2030a-audio-amp-board-front.svg",
+      "/images/components/tda2030a-audio-amp-board-angle.svg",
+      "/images/components/tda2030a-audio-amp-board-back.svg",
+      "/images/components/tda2030a-audio-amp-board-pinout.svg"
     ],
     "voltage": "6V to 12V DC single supply",
     "current": "Up to 3A",
@@ -22134,7 +22326,7 @@ export const initialHardwareComponents = [
       "Power": "18W into 4 ohms",
       "Potentiometer": "Onboard 10K rotary volume control"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/tda2030a-audio-amp-board-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -22234,11 +22426,12 @@ export const initialHardwareComponents = [
     "stockCount": 46,
     "rating": 4.5,
     "reviewCount": 65,
-    "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/pcm5102a-i2s-dac-decoder-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80"
+      "/images/components/pcm5102a-i2s-dac-decoder-front.svg",
+      "/images/components/pcm5102a-i2s-dac-decoder-angle.svg",
+      "/images/components/pcm5102a-i2s-dac-decoder-back.svg",
+      "/images/components/pcm5102a-i2s-dac-decoder-pinout.svg"
     ],
     "voltage": "3.3V to 5V DC",
     "current": "30mA",
@@ -22247,7 +22440,7 @@ export const initialHardwareComponents = [
       "Dynamic Range": "112 dB SNR",
       "Resolution": "32-bit high resolution stereo audio up to 384kHz sampling"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/pcm5102a-i2s-dac-decoder-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -22347,11 +22540,12 @@ export const initialHardwareComponents = [
     "stockCount": 55,
     "rating": 4.5,
     "reviewCount": 161,
-    "image": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/transformer-12-0-12-1a-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80"
+      "/images/components/transformer-12-0-12-1a-front.svg",
+      "/images/components/transformer-12-0-12-1a-angle.svg",
+      "/images/components/transformer-12-0-12-1a-back.svg",
+      "/images/components/transformer-12-0-12-1a-pinout.svg"
     ],
     "voltage": "Primary: 230V AC 50Hz, Secondary: 12V-0-12V AC (24V across outer taps)",
     "current": "1 Amp continuous secondary current",
@@ -22362,7 +22556,7 @@ export const initialHardwareComponents = [
       "Insulation Breakdown Voltage": "> 2000V AC isolation test between primary and secondary windings",
       "Mounting": "Heavy-duty steel base mounting chassis with screw eyelets"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/transformer-12-0-12-1a-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -22461,11 +22655,12 @@ export const initialHardwareComponents = [
     "stockCount": 43,
     "rating": 4.4,
     "reviewCount": 163,
-    "image": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/transformer-9-0-9-500ma-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80"
+      "/images/components/transformer-9-0-9-500ma-front.svg",
+      "/images/components/transformer-9-0-9-500ma-angle.svg",
+      "/images/components/transformer-9-0-9-500ma-back.svg",
+      "/images/components/transformer-9-0-9-500ma-pinout.svg"
     ],
     "voltage": "Primary: 230V AC, Secondary: 9V-0-9V AC",
     "current": "500mA",
@@ -22473,7 +22668,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Output": "Ideal for building standard 5V and 9V rectified DC linear power boards"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/transformer-9-0-9-500ma-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -22573,11 +22768,12 @@ export const initialHardwareComponents = [
     "stockCount": 66,
     "rating": 4.8,
     "reviewCount": 65,
-    "image": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/transformer-0-12-2a-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80"
+      "/images/components/transformer-0-12-2a-front.svg",
+      "/images/components/transformer-0-12-2a-angle.svg",
+      "/images/components/transformer-0-12-2a-back.svg",
+      "/images/components/transformer-0-12-2a-pinout.svg"
     ],
     "voltage": "Primary: 220-240V AC, Secondary: 12V AC",
     "current": "2 Amps (24VA capacity)",
@@ -22585,7 +22781,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Power": "24 Watts power rating with low heat generation under sustained continuous load"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/transformer-0-12-2a-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -22685,11 +22881,12 @@ export const initialHardwareComponents = [
     "stockCount": 56,
     "rating": 4.7,
     "reviewCount": 139,
-    "image": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/zmct103c-current-transformer-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80"
+      "/images/components/zmct103c-current-transformer-front.svg",
+      "/images/components/zmct103c-current-transformer-angle.svg",
+      "/images/components/zmct103c-current-transformer-back.svg",
+      "/images/components/zmct103c-current-transformer-pinout.svg"
     ],
     "voltage": "5V DC logic for onboard op-amp",
     "current": "Measures 0 to 5A AC mains current",
@@ -22699,7 +22896,7 @@ export const initialHardwareComponents = [
       "Phase Error": "< 15 minutes",
       "Linearity": "0.2% precision"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/zmct103c-current-transformer-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -22799,11 +22996,12 @@ export const initialHardwareComponents = [
     "stockCount": 78,
     "rating": 4.8,
     "reviewCount": 246,
-    "image": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/high-voltage-arc-generator-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80"
+      "/images/components/high-voltage-arc-generator-front.svg",
+      "/images/components/high-voltage-arc-generator-angle.svg",
+      "/images/components/high-voltage-arc-generator-back.svg",
+      "/images/components/high-voltage-arc-generator-pinout.svg"
     ],
     "voltage": "Input: 3.7V to 6V DC (18650 cell), Output: ~400,000V pulse arc",
     "current": "2A to 4A input current",
@@ -22812,7 +23010,7 @@ export const initialHardwareComponents = [
       "Arc Distance": "10mm to 20mm intense plasma spark",
       "Application": "High-voltage igniters, negative ion generators, physics science fair demonstrations"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/high-voltage-arc-generator-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -22912,11 +23110,12 @@ export const initialHardwareComponents = [
     "stockCount": 82,
     "rating": 4.6,
     "reviewCount": 61,
-    "image": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/step-down-220v-110v-converter-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80"
+      "/images/components/step-down-220v-110v-converter-front.svg",
+      "/images/components/step-down-220v-110v-converter-angle.svg",
+      "/images/components/step-down-220v-110v-converter-back.svg",
+      "/images/components/step-down-220v-110v-converter-pinout.svg"
     ],
     "voltage": "Input: 220V/240V AC, Output: 110V/120V AC",
     "current": "Up to 100W",
@@ -22929,7 +23128,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/step-down-220v-110v-converter-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -23029,11 +23228,12 @@ export const initialHardwareComponents = [
     "stockCount": 32,
     "rating": 4.7,
     "reviewCount": 141,
-    "image": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/digital-ac-voltmeter-ammeter-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80"
+      "/images/components/digital-ac-voltmeter-ammeter-front.svg",
+      "/images/components/digital-ac-voltmeter-ammeter-angle.svg",
+      "/images/components/digital-ac-voltmeter-ammeter-back.svg",
+      "/images/components/digital-ac-voltmeter-ammeter-pinout.svg"
     ],
     "voltage": "AC 80V to 300V operating & measuring",
     "current": "0 to 99.9A AC with included precision CT ring",
@@ -23041,7 +23241,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Displays": "Red 0.39-inch LED for AC Voltage, Green 0.39-inch LED for AC Current"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/digital-ac-voltmeter-ammeter-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -23141,11 +23341,12 @@ export const initialHardwareComponents = [
     "stockCount": 79,
     "rating": 4.5,
     "reviewCount": 198,
-    "image": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/din-rail-ac-contactor-25a-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80"
+      "/images/components/din-rail-ac-contactor-25a-front.svg",
+      "/images/components/din-rail-ac-contactor-25a-angle.svg",
+      "/images/components/din-rail-ac-contactor-25a-back.svg",
+      "/images/components/din-rail-ac-contactor-25a-pinout.svg"
     ],
     "voltage": "Coil: 220V/230V AC, Contacts: Up to 400V AC",
     "current": "25 Amps continuous load",
@@ -23158,7 +23359,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/din-rail-ac-contactor-25a-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -23258,11 +23459,12 @@ export const initialHardwareComponents = [
     "stockCount": 73,
     "rating": 4.5,
     "reviewCount": 29,
-    "image": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/toroidal-transformer-100w-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80"
+      "/images/components/toroidal-transformer-100w-front.svg",
+      "/images/components/toroidal-transformer-100w-angle.svg",
+      "/images/components/toroidal-transformer-100w-back.svg",
+      "/images/components/toroidal-transformer-100w-pinout.svg"
     ],
     "voltage": "Primary: 230V AC, Secondary: Dual 24V AC (24-0-24)",
     "current": "2.1A per secondary",
@@ -23270,7 +23472,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Advantage": "Ultra-low stray magnetic hum field, 95% efficiency, ideal for high-end audio power amplifiers"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/toroidal-transformer-100w-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -23370,11 +23572,12 @@ export const initialHardwareComponents = [
     "stockCount": 71,
     "rating": 4.4,
     "reviewCount": 250,
-    "image": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/zmpt101b-ac-voltage-sensor-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80"
+      "/images/components/zmpt101b-ac-voltage-sensor-front.svg",
+      "/images/components/zmpt101b-ac-voltage-sensor-angle.svg",
+      "/images/components/zmpt101b-ac-voltage-sensor-back.svg",
+      "/images/components/zmpt101b-ac-voltage-sensor-pinout.svg"
     ],
     "voltage": "5V DC power for onboard LM358 op-amp, measures AC voltage up to 250V AC",
     "current": "15mA",
@@ -23383,7 +23586,7 @@ export const initialHardwareComponents = [
       "Isolation": "4000V isolation between mains input and microcontroller output",
       "Calibration": "Multi-turn potentiometer adjusts signal amplitude gain"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/zmpt101b-ac-voltage-sensor-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -23483,11 +23686,12 @@ export const initialHardwareComponents = [
     "stockCount": 73,
     "rating": 4.8,
     "reviewCount": 137,
-    "image": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/solid-state-transformer-flyback-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80"
+      "/images/components/solid-state-transformer-flyback-front.svg",
+      "/images/components/solid-state-transformer-flyback-angle.svg",
+      "/images/components/solid-state-transformer-flyback-back.svg",
+      "/images/components/solid-state-transformer-flyback-pinout.svg"
     ],
     "voltage": "Switching frequency 50kHz to 200kHz",
     "current": "12V 1.5A secondary",
@@ -23500,7 +23704,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/solid-state-transformer-flyback-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -23600,11 +23804,12 @@ export const initialHardwareComponents = [
     "stockCount": 30,
     "rating": 4.8,
     "reviewCount": 106,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/st-link-v2-programmer-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/st-link-v2-programmer-front.svg",
+      "/images/components/st-link-v2-programmer-angle.svg",
+      "/images/components/st-link-v2-programmer-back.svg",
+      "/images/components/st-link-v2-programmer-pinout.svg"
     ],
     "voltage": "5V USB Powered (Outputs both 3.3V and 5V power pins)",
     "current": "100mA",
@@ -23614,7 +23819,7 @@ export const initialHardwareComponents = [
       "Features": "Full-speed USB 2.0 communication, single-step debugging, hardware breakpoints, memory inspection",
       "Software Compatibility": "STM32CubeIDE, Keil MDK-ARM, IAR EWARM, OpenOCD, VS Code PlatformIO"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/st-link-v2-programmer-pinout.svg",
     "pinConnections": [
       {
         "pin": "3.3V",
@@ -23727,11 +23932,12 @@ export const initialHardwareComponents = [
     "stockCount": 70,
     "rating": 4.8,
     "reviewCount": 237,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/ft232rl-usb-ttl-adapter-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/ft232rl-usb-ttl-adapter-front.svg",
+      "/images/components/ft232rl-usb-ttl-adapter-angle.svg",
+      "/images/components/ft232rl-usb-ttl-adapter-back.svg",
+      "/images/components/ft232rl-usb-ttl-adapter-pinout.svg"
     ],
     "voltage": "USB 5V (Selectable 3.3V or 5V VCC and I/O logic via onboard jumper)",
     "current": "50mA",
@@ -23742,7 +23948,7 @@ export const initialHardwareComponents = [
       "Data Rates": "300 baud to 3 Mbaud",
       "LEDs": "TX and RX activity indicator LEDs"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/ft232rl-usb-ttl-adapter-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -23842,11 +24048,12 @@ export const initialHardwareComponents = [
     "stockCount": 79,
     "rating": 4.5,
     "reviewCount": 126,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/cp2102-usb-ttl-module-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/cp2102-usb-ttl-module-front.svg",
+      "/images/components/cp2102-usb-ttl-module-angle.svg",
+      "/images/components/cp2102-usb-ttl-module-back.svg",
+      "/images/components/cp2102-usb-ttl-module-pinout.svg"
     ],
     "voltage": "3.3V and 5V dual power outputs",
     "current": "100mA LDO",
@@ -23855,7 +24062,7 @@ export const initialHardwareComponents = [
       "Driver": "Silicon Labs VCP drivers supported across Windows, Linux, and macOS out of the box",
       "Baud": "Up to 1 Mbps"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/cp2102-usb-ttl-module-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -23955,11 +24162,12 @@ export const initialHardwareComponents = [
     "stockCount": 74,
     "rating": 4.7,
     "reviewCount": 179,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/ch341a-eeprom-bios-programmer-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/ch341a-eeprom-bios-programmer-front.svg",
+      "/images/components/ch341a-eeprom-bios-programmer-angle.svg",
+      "/images/components/ch341a-eeprom-bios-programmer-back.svg",
+      "/images/components/ch341a-eeprom-bios-programmer-pinout.svg"
     ],
     "voltage": "5V USB (3.3V/5V SPI logic)",
     "current": "150mA",
@@ -23968,7 +24176,7 @@ export const initialHardwareComponents = [
       "Chips Supported": "24Cxx I2C EEPROMs and 25xxx SPI flash chips (Winbond W25Q32, W25Q64, W25Q128, etc.)",
       "Application": "Motherboard BIOS recovery, router firmware flashing, ESP8266 flash chip upgrading"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/ch341a-eeprom-bios-programmer-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -24068,11 +24276,12 @@ export const initialHardwareComponents = [
     "stockCount": 57,
     "rating": 4.8,
     "reviewCount": 216,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/usbasp-avr-programmer-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/usbasp-avr-programmer-front.svg",
+      "/images/components/usbasp-avr-programmer-angle.svg",
+      "/images/components/usbasp-avr-programmer-back.svg",
+      "/images/components/usbasp-avr-programmer-pinout.svg"
     ],
     "voltage": "5V USB (Jumper selects 3.3V or 5V target supply)",
     "current": "100mA",
@@ -24080,7 +24289,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Support": "Directly burns bootloader to blank ATmega328P, ATmega2560, and ATtiny chips using AVRDUDE or Arduino IDE"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/usbasp-avr-programmer-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -24180,11 +24389,12 @@ export const initialHardwareComponents = [
     "stockCount": 62,
     "rating": 4.5,
     "reviewCount": 99,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/logic-analyzer-24mhz-8ch-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/logic-analyzer-24mhz-8ch-front.svg",
+      "/images/components/logic-analyzer-24mhz-8ch-angle.svg",
+      "/images/components/logic-analyzer-24mhz-8ch-back.svg",
+      "/images/components/logic-analyzer-24mhz-8ch-pinout.svg"
     ],
     "voltage": "5V USB (Inputs are 5V / 3.3V / 2.5V / 1.8V TTL compatible)",
     "current": "80mA",
@@ -24194,7 +24404,7 @@ export const initialHardwareComponents = [
       "Protocol Decoders": "Automatically decodes I2C, SPI, UART, CAN, 1-Wire, I2S, Manchester, and MIDI in software (Sigrok / PulseView / Logic software)",
       "Bandwidth": "Sufficient to debug 400kHz I2C and 12MHz SPI bus transactions with sub-microsecond timing accuracy"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/logic-analyzer-24mhz-8ch-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -24293,11 +24503,12 @@ export const initialHardwareComponents = [
     "stockCount": 39,
     "rating": 4.6,
     "reviewCount": 85,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/esp-prog-jtag-debugger-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/esp-prog-jtag-debugger-front.svg",
+      "/images/components/esp-prog-jtag-debugger-angle.svg",
+      "/images/components/esp-prog-jtag-debugger-back.svg",
+      "/images/components/esp-prog-jtag-debugger-pinout.svg"
     ],
     "voltage": "5V USB",
     "current": "150mA",
@@ -24305,7 +24516,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Debugging": "Full hardware breakpoint, watchpoint, and stepping support in OpenOCD / VS Code for ESP32 and ESP32-S3"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/esp-prog-jtag-debugger-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -24405,11 +24616,12 @@ export const initialHardwareComponents = [
     "stockCount": 77,
     "rating": 4.6,
     "reviewCount": 197,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/jlink-ob-arm-debugger-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/jlink-ob-arm-debugger-front.svg",
+      "/images/components/jlink-ob-arm-debugger-angle.svg",
+      "/images/components/jlink-ob-arm-debugger-back.svg",
+      "/images/components/jlink-ob-arm-debugger-pinout.svg"
     ],
     "voltage": "3.3V target",
     "current": "60mA",
@@ -24417,7 +24629,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Speed": "Up to 4 MHz SWD download speed, supported natively in SEGGER J-Flash"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/jlink-ob-arm-debugger-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -24517,11 +24729,12 @@ export const initialHardwareComponents = [
     "stockCount": 64,
     "rating": 4.7,
     "reviewCount": 214,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/pickit3-pic-programmer-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/pickit3-pic-programmer-front.svg",
+      "/images/components/pickit3-pic-programmer-angle.svg",
+      "/images/components/pickit3-pic-programmer-back.svg",
+      "/images/components/pickit3-pic-programmer-pinout.svg"
     ],
     "voltage": "USB 5V (Target supply 2.0V to 6.0V)",
     "current": "100mA",
@@ -24529,7 +24742,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Software": "MPLAB X IDE and MPLAB IPE compatible"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/pickit3-pic-programmer-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -24629,11 +24842,12 @@ export const initialHardwareComponents = [
     "stockCount": 77,
     "rating": 4.6,
     "reviewCount": 175,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/daplink-cmsis-dap-debugger-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/daplink-cmsis-dap-debugger-front.svg",
+      "/images/components/daplink-cmsis-dap-debugger-angle.svg",
+      "/images/components/daplink-cmsis-dap-debugger-back.svg",
+      "/images/components/daplink-cmsis-dap-debugger-pinout.svg"
     ],
     "voltage": "3.3V / 5V Type-C",
     "current": "70mA",
@@ -24641,7 +24855,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Convenience": "Shows up as a USB flash drive — simply drag and drop a .bin file to flash MCU instantly!"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/daplink-cmsis-dap-debugger-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -24741,11 +24955,12 @@ export const initialHardwareComponents = [
     "stockCount": 36,
     "rating": 4.7,
     "reviewCount": 238,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/pl2303hx-usb-ttl-cable-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/pl2303hx-usb-ttl-cable-front.svg",
+      "/images/components/pl2303hx-usb-ttl-cable-angle.svg",
+      "/images/components/pl2303hx-usb-ttl-cable-back.svg",
+      "/images/components/pl2303hx-usb-ttl-cable-pinout.svg"
     ],
     "voltage": "5V USB / 3.3V Logic",
     "current": "50mA",
@@ -24758,7 +24973,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/pl2303hx-usb-ttl-cable-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -24858,11 +25073,12 @@ export const initialHardwareComponents = [
     "stockCount": 59,
     "rating": 4.7,
     "reviewCount": 109,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/mb102-breadboard-830-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+      "/images/components/mb102-breadboard-830-front.svg",
+      "/images/components/mb102-breadboard-830-angle.svg",
+      "/images/components/mb102-breadboard-830-back.svg",
+      "/images/components/mb102-breadboard-830-pinout.svg"
     ],
     "voltage": "Max 30V DC / 3A rating",
     "current": "3A max",
@@ -24873,7 +25089,7 @@ export const initialHardwareComponents = [
       "Interlocking Tabs": "Side dovetail tabs allow snapping multiple breadboards together to form larger prototyping decks",
       "Wire Compatibility": "Accepts 20-29 AWG (0.3-0.8mm) solid copper and Dupont jumper wires"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/mb102-breadboard-830-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -24972,11 +25188,12 @@ export const initialHardwareComponents = [
     "stockCount": 80,
     "rating": 4.7,
     "reviewCount": 157,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/breadboard-mini-400-point-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+      "/images/components/breadboard-mini-400-point-front.svg",
+      "/images/components/breadboard-mini-400-point-angle.svg",
+      "/images/components/breadboard-mini-400-point-back.svg",
+      "/images/components/breadboard-mini-400-point-pinout.svg"
     ],
     "voltage": "30V max",
     "current": "2A",
@@ -24985,7 +25202,7 @@ export const initialHardwareComponents = [
       "Tie Points": "400 points (300 in center grid + 100 on 2 power rails)",
       "Size": "Compact 82 x 55 mm"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/breadboard-mini-400-point-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -25085,11 +25302,12 @@ export const initialHardwareComponents = [
     "stockCount": 60,
     "rating": 4.9,
     "reviewCount": 44,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/dupont-wires-male-female-40pcs-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+      "/images/components/dupont-wires-male-female-40pcs-front.svg",
+      "/images/components/dupont-wires-male-female-40pcs-angle.svg",
+      "/images/components/dupont-wires-male-female-40pcs-back.svg",
+      "/images/components/dupont-wires-male-female-40pcs-pinout.svg"
     ],
     "voltage": "Up to 300V dielectric rating",
     "current": "1A per wire",
@@ -25100,7 +25318,7 @@ export const initialHardwareComponents = [
       "Core Material": "Multi-strand tinned copper wire providing extreme flexibility without breaking",
       "Connectors": "Molded DuPont terminations with anti-slip grip"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/dupont-wires-male-female-40pcs-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -25200,11 +25418,12 @@ export const initialHardwareComponents = [
     "stockCount": 83,
     "rating": 4.6,
     "reviewCount": 144,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/dupont-wires-male-male-40pcs-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+      "/images/components/dupont-wires-male-male-40pcs-front.svg",
+      "/images/components/dupont-wires-male-male-40pcs-angle.svg",
+      "/images/components/dupont-wires-male-male-40pcs-back.svg",
+      "/images/components/dupont-wires-male-male-40pcs-pinout.svg"
     ],
     "voltage": "300V",
     "current": "1A",
@@ -25217,7 +25436,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/dupont-wires-male-male-40pcs-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -25317,11 +25536,12 @@ export const initialHardwareComponents = [
     "stockCount": 70,
     "rating": 4.9,
     "reviewCount": 173,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/dupont-wires-female-female-40pcs-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+      "/images/components/dupont-wires-female-female-40pcs-front.svg",
+      "/images/components/dupont-wires-female-female-40pcs-angle.svg",
+      "/images/components/dupont-wires-female-female-40pcs-back.svg",
+      "/images/components/dupont-wires-female-female-40pcs-pinout.svg"
     ],
     "voltage": "300V",
     "current": "1A",
@@ -25334,7 +25554,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/dupont-wires-female-female-40pcs-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -25434,11 +25654,12 @@ export const initialHardwareComponents = [
     "stockCount": 84,
     "rating": 4.7,
     "reviewCount": 214,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/pcb-copper-clad-single-sided-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+      "/images/components/pcb-copper-clad-single-sided-front.svg",
+      "/images/components/pcb-copper-clad-single-sided-angle.svg",
+      "/images/components/pcb-copper-clad-single-sided-back.svg",
+      "/images/components/pcb-copper-clad-single-sided-pinout.svg"
     ],
     "voltage": "High voltage insulation dielectric FR4",
     "current": "35um copper thickness (1 oz)",
@@ -25447,7 +25668,7 @@ export const initialHardwareComponents = [
       "Base Material": "FR-4 flame retardant glass-reinforced epoxy laminate",
       "Dimensions": "100mm x 150mm x 1.6mm"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/pcb-copper-clad-single-sided-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -25547,11 +25768,12 @@ export const initialHardwareComponents = [
     "stockCount": 17,
     "rating": 4.5,
     "reviewCount": 192,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/pcb-universal-perfboard-10pcs-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+      "/images/components/pcb-universal-perfboard-10pcs-front.svg",
+      "/images/components/pcb-universal-perfboard-10pcs-angle.svg",
+      "/images/components/pcb-universal-perfboard-10pcs-back.svg",
+      "/images/components/pcb-universal-perfboard-10pcs-pinout.svg"
     ],
     "voltage": "Standard PCB rating",
     "current": "Pre-tinned through-plated vias",
@@ -25560,7 +25782,7 @@ export const initialHardwareComponents = [
       "Included Sizes": "2x 2x8cm, 2x 3x7cm, 2x 4x6cm, 2x 5x7cm, 2x 6x8cm",
       "Hole Plating": "Through-hole plated with solder mask prevent bridges"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/pcb-universal-perfboard-10pcs-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -25660,11 +25882,12 @@ export const initialHardwareComponents = [
     "stockCount": 34,
     "rating": 4.6,
     "reviewCount": 203,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/male-pin-headers-10pcs-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+      "/images/components/male-pin-headers-10pcs-front.svg",
+      "/images/components/male-pin-headers-10pcs-angle.svg",
+      "/images/components/male-pin-headers-10pcs-back.svg",
+      "/images/components/male-pin-headers-10pcs-pinout.svg"
     ],
     "voltage": "500V AC isolation",
     "current": "3A max",
@@ -25673,7 +25896,7 @@ export const initialHardwareComponents = [
       "Pin Length": "11.5mm total length (6mm above plastic insulator, 3mm solder tail)",
       "Contact Plating": "Gold/tin flashed brass contacts"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/male-pin-headers-10pcs-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -25773,11 +25996,12 @@ export const initialHardwareComponents = [
     "stockCount": 66,
     "rating": 4.7,
     "reviewCount": 134,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/female-socket-headers-10pcs-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+      "/images/components/female-socket-headers-10pcs-front.svg",
+      "/images/components/female-socket-headers-10pcs-angle.svg",
+      "/images/components/female-socket-headers-10pcs-back.svg",
+      "/images/components/female-socket-headers-10pcs-pinout.svg"
     ],
     "voltage": "500V",
     "current": "3A",
@@ -25790,7 +26014,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/female-socket-headers-10pcs-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -25890,11 +26114,12 @@ export const initialHardwareComponents = [
     "stockCount": 64,
     "rating": 4.6,
     "reviewCount": 190,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/screw-terminal-2pin-10pcs-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+      "/images/components/screw-terminal-2pin-10pcs-front.svg",
+      "/images/components/screw-terminal-2pin-10pcs-angle.svg",
+      "/images/components/screw-terminal-2pin-10pcs-back.svg",
+      "/images/components/screw-terminal-2pin-10pcs-pinout.svg"
     ],
     "voltage": "Rated 300V AC",
     "current": "16 Amps rating",
@@ -25903,7 +26128,7 @@ export const initialHardwareComponents = [
       "Wire Range": "14-22 AWG wire size",
       "Interlocking": "Side rails allow sliding multiple 2-pin blocks together to create 4-pin, 6-pin, 8-pin blocks"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/screw-terminal-2pin-10pcs-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -26003,11 +26228,12 @@ export const initialHardwareComponents = [
     "stockCount": 19,
     "rating": 4.9,
     "reviewCount": 129,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/screw-terminal-3pin-10pcs-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+      "/images/components/screw-terminal-3pin-10pcs-front.svg",
+      "/images/components/screw-terminal-3pin-10pcs-angle.svg",
+      "/images/components/screw-terminal-3pin-10pcs-back.svg",
+      "/images/components/screw-terminal-3pin-10pcs-pinout.svg"
     ],
     "voltage": "300V AC",
     "current": "16A",
@@ -26020,7 +26246,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/screw-terminal-3pin-10pcs-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -26120,11 +26346,12 @@ export const initialHardwareComponents = [
     "stockCount": 83,
     "rating": 4.7,
     "reviewCount": 185,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/dc-barrel-jack-panel-5pcs-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+      "/images/components/dc-barrel-jack-panel-5pcs-front.svg",
+      "/images/components/dc-barrel-jack-panel-5pcs-angle.svg",
+      "/images/components/dc-barrel-jack-panel-5pcs-back.svg",
+      "/images/components/dc-barrel-jack-panel-5pcs-pinout.svg"
     ],
     "voltage": "Up to 30V DC",
     "current": "5A rating",
@@ -26137,7 +26364,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/dc-barrel-jack-panel-5pcs-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -26237,11 +26464,12 @@ export const initialHardwareComponents = [
     "stockCount": 54,
     "rating": 4.6,
     "reviewCount": 129,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/jst-xh-connector-kit-230pcs-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+      "/images/components/jst-xh-connector-kit-230pcs-front.svg",
+      "/images/components/jst-xh-connector-kit-230pcs-angle.svg",
+      "/images/components/jst-xh-connector-kit-230pcs-back.svg",
+      "/images/components/jst-xh-connector-kit-230pcs-pinout.svg"
     ],
     "voltage": "250V AC/DC",
     "current": "3A AC/DC",
@@ -26249,7 +26477,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Contents": "20x 2-pin, 20x 3-pin, 10x 4-pin, 10x 5-pin housings + 150x female crimp terminals"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/jst-xh-connector-kit-230pcs-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -26349,11 +26577,12 @@ export const initialHardwareComponents = [
     "stockCount": 23,
     "rating": 4.6,
     "reviewCount": 33,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/heat-shrink-tubing-164pcs-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+      "/images/components/heat-shrink-tubing-164pcs-front.svg",
+      "/images/components/heat-shrink-tubing-164pcs-angle.svg",
+      "/images/components/heat-shrink-tubing-164pcs-back.svg",
+      "/images/components/heat-shrink-tubing-164pcs-pinout.svg"
     ],
     "voltage": "600V rated insulation",
     "current": "Flame retardant VW-1",
@@ -26362,7 +26591,7 @@ export const initialHardwareComponents = [
       "Shrink Ratio": "2:1 shrinkage",
       "Diameters": "1.0mm, 2.0mm, 3.0mm, 4.0mm, 6.0mm, 8.0mm, 10.0mm, 14.0mm in 5 colors"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/heat-shrink-tubing-164pcs-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -26462,11 +26691,12 @@ export const initialHardwareComponents = [
     "stockCount": 57,
     "rating": 4.4,
     "reviewCount": 89,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/alligator-clips-test-leads-10pcs-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+      "/images/components/alligator-clips-test-leads-10pcs-front.svg",
+      "/images/components/alligator-clips-test-leads-10pcs-angle.svg",
+      "/images/components/alligator-clips-test-leads-10pcs-back.svg",
+      "/images/components/alligator-clips-test-leads-10pcs-pinout.svg"
     ],
     "voltage": "50V max",
     "current": "3A",
@@ -26479,7 +26709,7 @@ export const initialHardwareComponents = [
       "Mounting Type": "Breadboard / PCB Through-Hole",
       "Compliance": "RoHS Compliant"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/alligator-clips-test-leads-10pcs-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -26579,11 +26809,12 @@ export const initialHardwareComponents = [
     "stockCount": 47,
     "rating": 4.7,
     "reviewCount": 202,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/esp32-iot-starter-kit-30sensors-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+      "/images/components/esp32-iot-starter-kit-30sensors-front.svg",
+      "/images/components/esp32-iot-starter-kit-30sensors-angle.svg",
+      "/images/components/esp32-iot-starter-kit-30sensors-back.svg",
+      "/images/components/esp32-iot-starter-kit-30sensors-pinout.svg"
     ],
     "voltage": "5V USB / 9V Battery",
     "current": "Complete bundled educational kit",
@@ -26594,7 +26825,7 @@ export const initialHardwareComponents = [
       "Prototyping Gear": "MB-102 Breadboard, 65 jumper wires, 120 resistors, 30 LEDs, pushbuttons, potentiometer, active buzzer",
       "Learning Material": "Includes PDF guide with 35 detailed circuit schematics, Arduino C++ and MicroPython source code"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/esp32-iot-starter-kit-30sensors-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -26693,11 +26924,12 @@ export const initialHardwareComponents = [
     "stockCount": 21,
     "rating": 4.9,
     "reviewCount": 237,
-    "image": "https://images.unsplash.com/photo-1608555895318-7b4742a08f51?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/arduino-uno-super-starter-kit-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1608555895318-7b4742a08f51?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1608555895318-7b4742a08f51?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1608555895318-7b4742a08f51?w=800&auto=format&fit=crop&q=80"
+      "/images/components/arduino-uno-super-starter-kit-front.svg",
+      "/images/components/arduino-uno-super-starter-kit-angle.svg",
+      "/images/components/arduino-uno-super-starter-kit-back.svg",
+      "/images/components/arduino-uno-super-starter-kit-pinout.svg"
     ],
     "voltage": "5V USB / 9V Battery",
     "current": "Full kit with plastic organizer toolbox",
@@ -26707,7 +26939,7 @@ export const initialHardwareComponents = [
       "Components": "16x2 I2C LCD, 28BYJ-48 Stepper with ULN2003, SG90 Servo, RC522 RFID, 4x4 Keypad matrix, DS1302 RTC, Sound sensor, Ultrasonic sensor, Relay",
       "Box": "Double-layer sturdy plastic toolbox with dividers"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1608555895318-7b4742a08f51?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/arduino-uno-super-starter-kit-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -26807,11 +27039,12 @@ export const initialHardwareComponents = [
     "stockCount": 22,
     "rating": 4.8,
     "reviewCount": 223,
-    "image": "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/home-automation-diy-kit-nodemcu-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80"
+      "/images/components/home-automation-diy-kit-nodemcu-front.svg",
+      "/images/components/home-automation-diy-kit-nodemcu-angle.svg",
+      "/images/components/home-automation-diy-kit-nodemcu-back.svg",
+      "/images/components/home-automation-diy-kit-nodemcu-pinout.svg"
     ],
     "voltage": "5V DC USB power, switches 230V AC home appliances",
     "current": "500mA",
@@ -26822,7 +27055,7 @@ export const initialHardwareComponents = [
       "Sensors": "DHT11 Temp & Humidity sensor + LDR light sensor for automated twilight triggering",
       "App Control": "Pre-configured Blynk Cloud and Sinric Pro voice integration"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/home-automation-diy-kit-nodemcu-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -26922,11 +27155,12 @@ export const initialHardwareComponents = [
     "stockCount": 58,
     "rating": 4.5,
     "reviewCount": 28,
-    "image": "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/rpi-pico-ultimate-sensor-kit-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80"
+      "/images/components/rpi-pico-ultimate-sensor-kit-front.svg",
+      "/images/components/rpi-pico-ultimate-sensor-kit-angle.svg",
+      "/images/components/rpi-pico-ultimate-sensor-kit-back.svg",
+      "/images/components/rpi-pico-ultimate-sensor-kit-pinout.svg"
     ],
     "voltage": "5V USB",
     "current": "Kit",
@@ -26935,7 +27169,7 @@ export const initialHardwareComponents = [
       "Board": "Raspberry Pi Pico with presoldered headers",
       "Sensors": "20 modular plug-in sensor breakouts with 3-pin cables"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/rpi-pico-ultimate-sensor-kit-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -27035,11 +27269,12 @@ export const initialHardwareComponents = [
     "stockCount": 18,
     "rating": 4.7,
     "reviewCount": 133,
-    "image": "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/smart-agriculture-iot-kit-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80"
+      "/images/components/smart-agriculture-iot-kit-front.svg",
+      "/images/components/smart-agriculture-iot-kit-angle.svg",
+      "/images/components/smart-agriculture-iot-kit-back.svg",
+      "/images/components/smart-agriculture-iot-kit-pinout.svg"
     ],
     "voltage": "5V USB / 12V DC input",
     "current": "Up to 1.5A when pump activates",
@@ -27047,7 +27282,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Automation": "Reads capacitive soil moisture sensor, displays live percentages on 0.96\" OLED, automatically triggers submersible mini water pump via relay when soil dries, and logs telemetry to ThingSpeak IoT cloud"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/smart-agriculture-iot-kit-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -27147,11 +27382,12 @@ export const initialHardwareComponents = [
     "stockCount": 60,
     "rating": 4.6,
     "reviewCount": 260,
-    "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/robot-car-2in1-autonomous-kit-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80"
+      "/images/components/robot-car-2in1-autonomous-kit-front.svg",
+      "/images/components/robot-car-2in1-autonomous-kit-angle.svg",
+      "/images/components/robot-car-2in1-autonomous-kit-back.svg",
+      "/images/components/robot-car-2in1-autonomous-kit-pinout.svg"
     ],
     "voltage": "7.4V (2x 18650 Li-ion battery pack included)",
     "current": "1A driving",
@@ -27159,7 +27395,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Sensors": "Ultrasonic HC-SR04 on SG90 servo pan mechanism + TCRT5000 dual tracking sensor bar on front bumper"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/robot-car-2in1-autonomous-kit-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -27259,11 +27495,12 @@ export const initialHardwareComponents = [
     "stockCount": 63,
     "rating": 4.5,
     "reviewCount": 249,
-    "image": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/weather-station-iot-kit-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80"
+      "/images/components/weather-station-iot-kit-front.svg",
+      "/images/components/weather-station-iot-kit-angle.svg",
+      "/images/components/weather-station-iot-kit-back.svg",
+      "/images/components/weather-station-iot-kit-pinout.svg"
     ],
     "voltage": "5V USB / 5V Solar Panel ready",
     "current": "80mA",
@@ -27271,7 +27508,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Metrics Tracked": "Temperature (°C), Humidity (%RH), Barometric Pressure (hPa), Altitude (meters), Rain intensity (analog), and Light level (Lux)"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1610444391694-1b15112521c7?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/weather-station-iot-kit-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -27371,11 +27608,12 @@ export const initialHardwareComponents = [
     "stockCount": 28,
     "rating": 4.5,
     "reviewCount": 124,
-    "image": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/rfid-attendance-iot-kit-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80"
+      "/images/components/rfid-attendance-iot-kit-front.svg",
+      "/images/components/rfid-attendance-iot-kit-angle.svg",
+      "/images/components/rfid-attendance-iot-kit-back.svg",
+      "/images/components/rfid-attendance-iot-kit-pinout.svg"
     ],
     "voltage": "5V USB",
     "current": "120mA",
@@ -27383,7 +27621,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Feature": "Taps card, verifies UID, beeps buzzer, shows name on LCD, and uploads timestamped attendance record directly to Google Sheets database via Google Apps Script API!"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1563770660941-10a12e3e9d89?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/rfid-attendance-iot-kit-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -27483,11 +27721,12 @@ export const initialHardwareComponents = [
     "stockCount": 75,
     "rating": 4.9,
     "reviewCount": 97,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/healthcare-pulse-spo2-iot-kit-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/healthcare-pulse-spo2-iot-kit-front.svg",
+      "/images/components/healthcare-pulse-spo2-iot-kit-angle.svg",
+      "/images/components/healthcare-pulse-spo2-iot-kit-back.svg",
+      "/images/components/healthcare-pulse-spo2-iot-kit-pinout.svg"
     ],
     "voltage": "5V USB",
     "current": "90mA",
@@ -27495,7 +27734,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Health Metrics": "Real-time blood oxygen saturation (SpO2 %) and pulse heart rate (BPM) monitoring with audible abnormal heart rate alarm"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/healthcare-pulse-spo2-iot-kit-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -27595,11 +27834,12 @@ export const initialHardwareComponents = [
     "stockCount": 27,
     "rating": 4.8,
     "reviewCount": 54,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/solar-tracker-dual-axis-kit-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80"
+      "/images/components/solar-tracker-dual-axis-kit-front.svg",
+      "/images/components/solar-tracker-dual-axis-kit-angle.svg",
+      "/images/components/solar-tracker-dual-axis-kit-back.svg",
+      "/images/components/solar-tracker-dual-axis-kit-pinout.svg"
     ],
     "voltage": "5V/2A input",
     "current": "1A moving",
@@ -27607,7 +27847,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Efficiency Gain": "Increases solar photovoltaic panel energy harvest by up to 35% compared to static solar panels"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/solar-tracker-dual-axis-kit-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -27707,11 +27947,12 @@ export const initialHardwareComponents = [
     "stockCount": 58,
     "rating": 4.8,
     "reviewCount": 95,
-    "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/iot-smart-energy-meter-kit-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80"
+      "/images/components/iot-smart-energy-meter-kit-front.svg",
+      "/images/components/iot-smart-energy-meter-kit-angle.svg",
+      "/images/components/iot-smart-energy-meter-kit-back.svg",
+      "/images/components/iot-smart-energy-meter-kit-pinout.svg"
     ],
     "voltage": "230V AC Line / 5V DC ESP32 power",
     "current": "100A AC non-invasive clamp CT",
@@ -27719,7 +27960,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Real-time Telemetry": "Measures Voltage (V), Current (A), Power (W), Energy (kWh), and Power Factor with automatic electricity bill calculation in INR (₹)"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/iot-smart-energy-meter-kit-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -27819,11 +28060,12 @@ export const initialHardwareComponents = [
     "stockCount": 29,
     "rating": 4.8,
     "reviewCount": 64,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/digital-multimeter-dt830d-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/digital-multimeter-dt830d-front.svg",
+      "/images/components/digital-multimeter-dt830d-angle.svg",
+      "/images/components/digital-multimeter-dt830d-back.svg",
+      "/images/components/digital-multimeter-dt830d-pinout.svg"
     ],
     "voltage": "9V 6F22 Battery powered (included)",
     "current": "Measures DC current up to 10A",
@@ -27836,7 +28078,7 @@ export const initialHardwareComponents = [
       "Continuity Buzzer": "Audible beeper alerts when resistance is below 50 ohms for fast trace continuity tracing",
       "Diode & Transistor Tester": "Displays forward voltage drop of diodes and hFE of NPN/PNP transistors"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/digital-multimeter-dt830d-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -27935,11 +28177,12 @@ export const initialHardwareComponents = [
     "stockCount": 59,
     "rating": 4.5,
     "reviewCount": 62,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/aneng-an8008-truerms-multimeter-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/aneng-an8008-truerms-multimeter-front.svg",
+      "/images/components/aneng-an8008-truerms-multimeter-angle.svg",
+      "/images/components/aneng-an8008-truerms-multimeter-back.svg",
+      "/images/components/aneng-an8008-truerms-multimeter-pinout.svg"
     ],
     "voltage": "Powered by 2x AAA batteries",
     "current": "True-RMS AC/DC 10A current",
@@ -27948,7 +28191,7 @@ export const initialHardwareComponents = [
       "True-RMS": "Accurate AC voltage and current measurement on non-sinusoidal inverter and PWM waveforms",
       "Features": "Square wave generator output (50Hz to 5000Hz), capacitance measurement up to 9.999mF, frequency counter up to 9.999MHz"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/aneng-an8008-truerms-multimeter-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -28048,11 +28291,12 @@ export const initialHardwareComponents = [
     "stockCount": 60,
     "rating": 4.5,
     "reviewCount": 151,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/soldering-iron-kit-60w-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/soldering-iron-kit-60w-front.svg",
+      "/images/components/soldering-iron-kit-60w-angle.svg",
+      "/images/components/soldering-iron-kit-60w-back.svg",
+      "/images/components/soldering-iron-kit-60w-pinout.svg"
     ],
     "voltage": "220V AC 50Hz",
     "current": "60 Watts ceramic heater",
@@ -28062,7 +28306,7 @@ export const initialHardwareComponents = [
       "Tips Included": "5 interchangeable copper-core plated tips (Chisel, Conical, Needle, Knife, Bevel)",
       "Stand": "Sturdy metal safety holder stand with cellulose cleaning sponge"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/soldering-iron-kit-60w-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -28162,11 +28406,12 @@ export const initialHardwareComponents = [
     "stockCount": 61,
     "rating": 4.6,
     "reviewCount": 163,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/smd-rework-station-858d-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/smd-rework-station-858d-front.svg",
+      "/images/components/smd-rework-station-858d-angle.svg",
+      "/images/components/smd-rework-station-858d-back.svg",
+      "/images/components/smd-rework-station-858d-pinout.svg"
     ],
     "voltage": "220V AC",
     "current": "700 Watts heating element",
@@ -28176,7 +28421,7 @@ export const initialHardwareComponents = [
       "Airflow": "Brushless vortex fan delivers up to 120 Litres/min",
       "Auto-Sleep Standby": "Handle sensor automatically cools down element when placed back on cradle"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/smd-rework-station-858d-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -28276,11 +28521,12 @@ export const initialHardwareComponents = [
     "stockCount": 48,
     "rating": 4.9,
     "reviewCount": 46,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/dso138-mini-oscilloscope-kit-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/dso138-mini-oscilloscope-kit-front.svg",
+      "/images/components/dso138-mini-oscilloscope-kit-angle.svg",
+      "/images/components/dso138-mini-oscilloscope-kit-back.svg",
+      "/images/components/dso138-mini-oscilloscope-kit-pinout.svg"
     ],
     "voltage": "9V DC (8-12V)",
     "current": "120mA",
@@ -28291,7 +28537,7 @@ export const initialHardwareComponents = [
       "Trigger Modes": "Auto, Normal, Single with rising/falling edge selection",
       "On-Screen Measurements": "Frequency, Vpp, Vmax, Vmin, Vavg, Vrms"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/dso138-mini-oscilloscope-kit-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -28391,11 +28637,12 @@ export const initialHardwareComponents = [
     "stockCount": 50,
     "rating": 4.9,
     "reviewCount": 140,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/lcr-t4-transistor-tester-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/lcr-t4-transistor-tester-front.svg",
+      "/images/components/lcr-t4-transistor-tester-angle.svg",
+      "/images/components/lcr-t4-transistor-tester-back.svg",
+      "/images/components/lcr-t4-transistor-tester-pinout.svg"
     ],
     "voltage": "9V battery",
     "current": "25mA",
@@ -28404,7 +28651,7 @@ export const initialHardwareComponents = [
       "Auto-Detection": "One-button automatic detection of NPN/PNP transistors, N/P-channel MOSFETs, JFETs, diodes, thyristors, resistors, inductors, and capacitors with pinout schematic drawn on screen!",
       "Capacitor ESR": "Measures equivalent series resistance (ESR) from 2uF to 50mF"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/lcr-t4-transistor-tester-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -28504,11 +28751,12 @@ export const initialHardwareComponents = [
     "stockCount": 55,
     "rating": 4.4,
     "reviewCount": 204,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/wire-stripper-cutter-pliers-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/wire-stripper-cutter-pliers-front.svg",
+      "/images/components/wire-stripper-cutter-pliers-angle.svg",
+      "/images/components/wire-stripper-cutter-pliers-back.svg",
+      "/images/components/wire-stripper-cutter-pliers-pinout.svg"
     ],
     "voltage": "Insulated handles up to 1000V",
     "current": "Hand Tool",
@@ -28516,7 +28764,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Notches": "0.6mm, 0.8mm, 1.0mm, 1.3mm, 1.6mm, 2.0mm, 2.6mm calibrated stripping holes clean-cuts insulation without nicking conductor copper"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/wire-stripper-cutter-pliers-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -28616,11 +28864,12 @@ export const initialHardwareComponents = [
     "stockCount": 45,
     "rating": 4.8,
     "reviewCount": 31,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/anti-static-esd-tweezers-6pcs-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/anti-static-esd-tweezers-6pcs-front.svg",
+      "/images/components/anti-static-esd-tweezers-6pcs-angle.svg",
+      "/images/components/anti-static-esd-tweezers-6pcs-back.svg",
+      "/images/components/anti-static-esd-tweezers-6pcs-pinout.svg"
     ],
     "voltage": "Electrostatic Discharge (ESD) Safe",
     "current": "Hand Tool",
@@ -28628,7 +28877,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Tips": "Includes ultra-fine pointed, curved 45°, flat broad, and rounded precision tips for 0805, 0603, and 0402 SMD handling"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/anti-static-esd-tweezers-6pcs-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -28728,11 +28977,12 @@ export const initialHardwareComponents = [
     "stockCount": 37,
     "rating": 4.6,
     "reviewCount": 192,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/helping-hands-magnifier-stand-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/helping-hands-magnifier-stand-front.svg",
+      "/images/components/helping-hands-magnifier-stand-angle.svg",
+      "/images/components/helping-hands-magnifier-stand-back.svg",
+      "/images/components/helping-hands-magnifier-stand-pinout.svg"
     ],
     "voltage": "Passive",
     "current": "0mA",
@@ -28741,7 +28991,7 @@ export const initialHardwareComponents = [
       "Lens": "2.5X optical glass magnifying lens (60mm diameter)",
       "Clips": "Dual adjustable alligator clips firmly hold PCBs during soldering"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/helping-hands-magnifier-stand-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -28841,11 +29091,12 @@ export const initialHardwareComponents = [
     "stockCount": 78,
     "rating": 4.5,
     "reviewCount": 99,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/automatic-wire-cable-stripper-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/automatic-wire-cable-stripper-front.svg",
+      "/images/components/automatic-wire-cable-stripper-angle.svg",
+      "/images/components/automatic-wire-cable-stripper-back.svg",
+      "/images/components/automatic-wire-cable-stripper-pinout.svg"
     ],
     "voltage": "Hand Tool",
     "current": "0mA",
@@ -28854,7 +29105,7 @@ export const initialHardwareComponents = [
       "Action": "One-squeeze automatic stripping from 10 to 24 AWG (0.2 to 6.0 mm²)",
       "Crimper": "Built-in crimping terminal dies for insulated and non-insulated lugs"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/automatic-wire-cable-stripper-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -28954,11 +29205,12 @@ export const initialHardwareComponents = [
     "stockCount": 30,
     "rating": 4.7,
     "reviewCount": 132,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/solder-wire-50g-rosin-core-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/solder-wire-50g-rosin-core-front.svg",
+      "/images/components/solder-wire-50g-rosin-core-angle.svg",
+      "/images/components/solder-wire-50g-rosin-core-back.svg",
+      "/images/components/solder-wire-50g-rosin-core-pinout.svg"
     ],
     "voltage": "Consumable",
     "current": "50 grams spool",
@@ -28967,7 +29219,7 @@ export const initialHardwareComponents = [
       "Composition": "60% Tin (Sn) / 40% Lead (Pb) with 2.0% activated rosin core flux",
       "Melting Point": "183°C (361°F) creates bright, shiny, high-integrity solder joints"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/solder-wire-50g-rosin-core-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -29067,11 +29319,12 @@ export const initialHardwareComponents = [
     "stockCount": 70,
     "rating": 4.7,
     "reviewCount": 76,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/desoldering-pump-sucker-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/desoldering-pump-sucker-front.svg",
+      "/images/components/desoldering-pump-sucker-angle.svg",
+      "/images/components/desoldering-pump-sucker-back.svg",
+      "/images/components/desoldering-pump-sucker-pinout.svg"
     ],
     "voltage": "Manual Spring-Loaded Vacuum",
     "current": "0mA",
@@ -29079,7 +29332,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Operation": "High-powered spring vacuum plunger instantly sucks molten solder from through-hole PCB component leads"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/desoldering-pump-sucker-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",
@@ -29179,11 +29432,12 @@ export const initialHardwareComponents = [
     "stockCount": 35,
     "rating": 4.7,
     "reviewCount": 56,
-    "image": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "image": "/images/components/usb-power-meter-tester-front.svg",
     "gallery": [
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80"
+      "/images/components/usb-power-meter-tester-front.svg",
+      "/images/components/usb-power-meter-tester-angle.svg",
+      "/images/components/usb-power-meter-tester-back.svg",
+      "/images/components/usb-power-meter-tester-pinout.svg"
     ],
     "voltage": "Input: 3V to 30V DC",
     "current": "0A to 5.1A (0.01A resolution)",
@@ -29191,7 +29445,7 @@ export const initialHardwareComponents = [
     "keySpecs": {
       "Displays": "Voltage (V), Current (A), Elapsed Time, Battery Energy Capacity (mAh and mWh) with non-volatile memory"
     },
-    "pinoutDiagram": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&auto=format&fit=crop&q=80",
+    "pinoutDiagram": "/images/components/usb-power-meter-tester-pinout.svg",
     "pinConnections": [
       {
         "pin": "VCC",

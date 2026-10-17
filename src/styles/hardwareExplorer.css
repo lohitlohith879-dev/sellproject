@@ -1371,3 +1371,165 @@
     font-size: 1.6rem;
   }
 }
+
+/* ============================================================
+   REAL COMPONENT VIEW GALLERY & ANGLE SWITCHER STYLING
+   ============================================================ */
+
+.hw-view-angle-tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(7, 11, 20, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 6px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+
+.hw-angle-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: #cbd5e1;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+
+.hw-angle-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.hw-angle-tab-btn.active {
+  background: rgba(0, 242, 254, 0.16);
+  border-color: var(--hw-cyan);
+  color: var(--hw-cyan);
+  box-shadow: 0 0 14px rgba(0, 242, 254, 0.25);
+  font-weight: 700;
+}
+
+.hw-view-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(13, 21, 39, 0.85);
+  backdrop-filter: blur(8px);
+  color: var(--hw-cyan);
+  border: 1px solid rgba(0, 242, 254, 0.35);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  z-index: 5;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.hw-thumb-strip {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 6px 2px;
+}
+
+.hw-thumb-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: #ffffff;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  padding: 6px 8px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  flex: 1;
+  min-width: 80px;
+  max-width: 105px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.hw-thumb-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 242, 254, 0.6);
+  box-shadow: 0 6px 16px rgba(0, 242, 254, 0.25);
+}
+
+.hw-thumb-card.active {
+  border-color: var(--hw-cyan);
+  box-shadow: 0 0 16px rgba(0, 242, 254, 0.45);
+  background: #f8fafc;
+}
+
+.hw-thumb-img {
+  width: 100%;
+  height: 52px;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+
+.hw-thumb-card:hover .hw-thumb-img {
+  transform: scale(1.08);
+}
+
+.hw-thumb-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+/* Quick Angle Switcher Dots on Catalog Card */
+.hw-card-angle-dots {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(6px);
+  padding: 3px 8px;
+  border-radius: 999px;
+  z-index: 4;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.hw-card:hover .hw-card-angle-dots {
+  opacity: 1;
+}
+
+.hw-card-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hw-card-dot:hover,
+.hw-card-dot.active {
+  background: var(--hw-cyan);
+  transform: scale(1.3);
+  box-shadow: 0 0 6px var(--hw-cyan);
+}
+

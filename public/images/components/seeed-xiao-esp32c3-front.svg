@@ -1,0 +1,222 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 500" width="640" height="500">
+  <defs>
+    
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="rgba(15, 23, 42, 0.22)"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="metalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="40%" stop-color="#cbd5e1"/>
+      <stop offset="70%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#64748b"/>
+    </linearGradient>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e2e8f0"/>
+      <stop offset="50%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+    <linearGradient id="copperGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="50%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#eab308"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+    <linearGradient id="relayGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="lcdBacklight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ade80"/>
+      <stop offset="100%" stop-color="#22c55e"/>
+    </linearGradient>
+    <linearGradient id="heatsinkGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="50%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="pcbUno" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00878f"/>
+      <stop offset="100%" stop-color="#00666d"/>
+    </linearGradient>
+    <linearGradient id="pcbEsp" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="pcbRpi" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="100%" stop-color="#166534"/>
+    </linearGradient>
+    <linearGradient id="pcbSensor" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="pcbRelay" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#b91c1c"/>
+      <stop offset="100%" stop-color="#991b1b"/>
+    </linearGradient>
+  
+  </defs>
+
+  <!-- Clean Studio Backdrop (Pure White for Real Product Photography Aesthetic) -->
+  <rect width="640" height="500" fill="#ffffff"/>
+
+  <!-- Realistic Cast Soft Ground Shadow -->
+  <ellipse cx="320" cy="445" rx="250" ry="26" fill="rgba(15, 23, 42, 0.09)"/>
+
+  <!-- Main Physical Hardware Component -->
+  <g  filter="url(#shadow)">
+    <!-- Main PCB Base Board -->
+    <rect x="80" y="75" width="480" height="340" rx="20" fill="url(#pcbEsp)" stroke="#334155" stroke-width="3"/>
+    
+    <!-- 4 Corner Mounting Holes with Copper Pads -->
+    <circle cx="108" cy="103" r="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2.5"/>
+    <circle cx="108" cy="103" r="6" fill="#cbd5e1"/>
+    
+    <circle cx="532" cy="103" r="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2.5"/>
+    <circle cx="532" cy="103" r="6" fill="#cbd5e1"/>
+
+    <circle cx="108" cy="387" r="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2.5"/>
+    <circle cx="108" cy="387" r="6" fill="#cbd5e1"/>
+
+    <circle cx="532" cy="387" r="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2.5"/>
+    <circle cx="532" cy="387" r="6" fill="#cbd5e1"/>
+
+    <!-- Inner Board Hardware Layout -->
+    
+      <!-- Gold Zigzag PCB Wi-Fi Antenna -->
+      <g stroke="url(#copperGrad)" stroke-width="3" fill="none">
+        <path d="M 230 110 L 245 90 L 265 90 L 275 110 L 295 110 L 305 90 L 325 90 L 335 110 L 355 110 L 365 90 L 385 90 L 395 110"/>
+        <rect x="230" y="115" width="180" height="8" rx="2" fill="url(#copperGrad)"/>
+      </g>
+
+      <!-- Metallic RF Shield Can -->
+      <rect x="220" y="150" width="200" height="170" rx="10" fill="url(#shieldGrad)" stroke="#334155" stroke-width="2.5"/>
+      <rect x="230" y="160" width="180" height="150" rx="6" fill="#1e293b" opacity="0.3"/>
+      <circle cx="238" cy="168" r="3" fill="#cbd5e1"/>
+      <text x="320" y="205" fill="#f8fafc" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="bold" text-anchor="middle">ESP-WROOM-32</text>
+      <text x="320" y="228" fill="#38bdf8" font-family="monospace" font-size="11" text-anchor="middle">Wi-Fi + BLE DUAL-CORE</text>
+      <text x="320" y="250" fill="#94a3b8" font-family="monospace" font-size="9" text-anchor="middle">FCC ID: 2AC7Z-ESPWROOM32</text>
+      <text x="320" y="270" fill="#94a3b8" font-family="monospace" font-size="9" text-anchor="middle">KCC-CRM-es5-ESPWROOM32</text>
+
+      <!-- USB Port on Bottom -->
+      <rect x="285" y="380" width="70" height="40" rx="4" fill="url(#metalGrad)" stroke="#475569" stroke-width="2"/>
+      <rect x="295" y="390" width="50" height="20" rx="2" fill="#0f172a"/>
+
+      <!-- EN & BOOT Buttons -->
+      <rect x="180" y="360" width="28" height="28" rx="4" fill="#334155" stroke="#64748b" stroke-width="1.5"/>
+      <circle cx="194" cy="374" r="8" fill="#f8fafc"/>
+      <text x="194" y="352" fill="#ffffff" font-family="monospace" font-size="9" text-anchor="middle">EN</text>
+
+      <rect x="430" y="360" width="28" height="28" rx="4" fill="#334155" stroke="#64748b" stroke-width="1.5"/>
+      <circle cx="444" cy="374" r="8" fill="#f8fafc"/>
+      <text x="444" y="352" fill="#ffffff" font-family="monospace" font-size="9" text-anchor="middle">BOOT</text>
+
+      <!-- USB-UART Bridge IC (CP2102) -->
+      <rect x="295" y="335" width="50" height="35" rx="3" fill="#0f172a" stroke="#475569" stroke-width="1.5"/>
+      <text x="320" y="356" fill="#cbd5e1" font-family="monospace" font-size="9" text-anchor="middle">CP2102</text>
+
+      <!-- Dual Header Strips Left & Right -->
+      <g fill="#1e293b" stroke="#0f172a" stroke-width="1">
+        
+          <rect x="125" y="120" width="16" height="14" rx="2"/>
+          <circle cx="133" cy="127" r="3" fill="url(#goldGrad)"/>
+          <rect x="495" y="120" width="16" height="14" rx="2"/>
+          <circle cx="503" cy="127" r="3" fill="url(#goldGrad)"/>
+        
+          <rect x="125" y="138" width="16" height="14" rx="2"/>
+          <circle cx="133" cy="145" r="3" fill="url(#goldGrad)"/>
+          <rect x="495" y="138" width="16" height="14" rx="2"/>
+          <circle cx="503" cy="145" r="3" fill="url(#goldGrad)"/>
+        
+          <rect x="125" y="156" width="16" height="14" rx="2"/>
+          <circle cx="133" cy="163" r="3" fill="url(#goldGrad)"/>
+          <rect x="495" y="156" width="16" height="14" rx="2"/>
+          <circle cx="503" cy="163" r="3" fill="url(#goldGrad)"/>
+        
+          <rect x="125" y="174" width="16" height="14" rx="2"/>
+          <circle cx="133" cy="181" r="3" fill="url(#goldGrad)"/>
+          <rect x="495" y="174" width="16" height="14" rx="2"/>
+          <circle cx="503" cy="181" r="3" fill="url(#goldGrad)"/>
+        
+          <rect x="125" y="192" width="16" height="14" rx="2"/>
+          <circle cx="133" cy="199" r="3" fill="url(#goldGrad)"/>
+          <rect x="495" y="192" width="16" height="14" rx="2"/>
+          <circle cx="503" cy="199" r="3" fill="url(#goldGrad)"/>
+        
+          <rect x="125" y="210" width="16" height="14" rx="2"/>
+          <circle cx="133" cy="217" r="3" fill="url(#goldGrad)"/>
+          <rect x="495" y="210" width="16" height="14" rx="2"/>
+          <circle cx="503" cy="217" r="3" fill="url(#goldGrad)"/>
+        
+          <rect x="125" y="228" width="16" height="14" rx="2"/>
+          <circle cx="133" cy="235" r="3" fill="url(#goldGrad)"/>
+          <rect x="495" y="228" width="16" height="14" rx="2"/>
+          <circle cx="503" cy="235" r="3" fill="url(#goldGrad)"/>
+        
+          <rect x="125" y="246" width="16" height="14" rx="2"/>
+          <circle cx="133" cy="253" r="3" fill="url(#goldGrad)"/>
+          <rect x="495" y="246" width="16" height="14" rx="2"/>
+          <circle cx="503" cy="253" r="3" fill="url(#goldGrad)"/>
+        
+          <rect x="125" y="264" width="16" height="14" rx="2"/>
+          <circle cx="133" cy="271" r="3" fill="url(#goldGrad)"/>
+          <rect x="495" y="264" width="16" height="14" rx="2"/>
+          <circle cx="503" cy="271" r="3" fill="url(#goldGrad)"/>
+        
+          <rect x="125" y="282" width="16" height="14" rx="2"/>
+          <circle cx="133" cy="289" r="3" fill="url(#goldGrad)"/>
+          <rect x="495" y="282" width="16" height="14" rx="2"/>
+          <circle cx="503" cy="289" r="3" fill="url(#goldGrad)"/>
+        
+          <rect x="125" y="300" width="16" height="14" rx="2"/>
+          <circle cx="133" cy="307" r="3" fill="url(#goldGrad)"/>
+          <rect x="495" y="300" width="16" height="14" rx="2"/>
+          <circle cx="503" cy="307" r="3" fill="url(#goldGrad)"/>
+        
+          <rect x="125" y="318" width="16" height="14" rx="2"/>
+          <circle cx="133" cy="325" r="3" fill="url(#goldGrad)"/>
+          <rect x="495" y="318" width="16" height="14" rx="2"/>
+          <circle cx="503" cy="325" r="3" fill="url(#goldGrad)"/>
+        
+          <rect x="125" y="336" width="16" height="14" rx="2"/>
+          <circle cx="133" cy="343" r="3" fill="url(#goldGrad)"/>
+          <rect x="495" y="336" width="16" height="14" rx="2"/>
+          <circle cx="503" cy="343" r="3" fill="url(#goldGrad)"/>
+        
+          <rect x="125" y="354" width="16" height="14" rx="2"/>
+          <circle cx="133" cy="361" r="3" fill="url(#goldGrad)"/>
+          <rect x="495" y="354" width="16" height="14" rx="2"/>
+          <circle cx="503" cy="361" r="3" fill="url(#goldGrad)"/>
+        
+          <rect x="125" y="372" width="16" height="14" rx="2"/>
+          <circle cx="133" cy="379" r="3" fill="url(#goldGrad)"/>
+          <rect x="495" y="372" width="16" height="14" rx="2"/>
+          <circle cx="503" cy="379" r="3" fill="url(#goldGrad)"/>
+        
+      </g>
+    
+
+    <!-- Brand Silkscreen -->
+    <text x="540" y="340" fill="rgba(255,255,255,0.75)" font-family="-apple-system, sans-serif" font-size="12" font-weight="bold" text-anchor="end">Seeed 102010465</text>
+    <text x="540" y="358" fill="rgba(255,255,255,0.4)" font-family="monospace" font-size="9" text-anchor="end">CIRCUITKART GENUINE</text>
+  </g>
+
+  <!-- View Angle Tag in Bottom Right -->
+  <rect x="420" y="450" width="200" height="34" rx="8" fill="#0f172a" stroke="rgba(0,0,0,0.12)"/>
+  <text x="520" y="472" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold" text-anchor="middle">HERO FRONT VIEW</text>
+</svg>

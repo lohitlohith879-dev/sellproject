@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 500" width="640" height="500">
+  <defs>
+    
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="rgba(15, 23, 42, 0.22)"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="metalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="40%" stop-color="#cbd5e1"/>
+      <stop offset="70%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#64748b"/>
+    </linearGradient>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e2e8f0"/>
+      <stop offset="50%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+    <linearGradient id="copperGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="50%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#eab308"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+    <linearGradient id="relayGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="lcdBacklight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ade80"/>
+      <stop offset="100%" stop-color="#22c55e"/>
+    </linearGradient>
+    <linearGradient id="heatsinkGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="50%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="pcbUno" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00878f"/>
+      <stop offset="100%" stop-color="#00666d"/>
+    </linearGradient>
+    <linearGradient id="pcbEsp" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="pcbRpi" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="100%" stop-color="#166534"/>
+    </linearGradient>
+    <linearGradient id="pcbSensor" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="pcbRelay" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#b91c1c"/>
+      <stop offset="100%" stop-color="#991b1b"/>
+    </linearGradient>
+  
+  </defs>
+
+  <!-- Clean Studio Backdrop (Pure White for Real Product Photography Aesthetic) -->
+  <rect width="640" height="500" fill="#ffffff"/>
+
+  <!-- Realistic Cast Soft Ground Shadow -->
+  <ellipse cx="320" cy="445" rx="250" ry="26" fill="rgba(15, 23, 42, 0.09)"/>
+
+  <!-- Main Physical Hardware Component -->
+  <g transform="scale(-1, 1) translate(-640, 0)" filter="url(#shadow)">
+    <!-- Main PCB Base Board -->
+    <rect x="80" y="75" width="480" height="340" rx="20" fill="url(#pcbEsp)" stroke="#334155" stroke-width="3"/>
+    
+    <!-- 4 Corner Mounting Holes with Copper Pads -->
+    <circle cx="108" cy="103" r="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2.5"/>
+    <circle cx="108" cy="103" r="6" fill="#cbd5e1"/>
+    
+    <circle cx="532" cy="103" r="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2.5"/>
+    <circle cx="532" cy="103" r="6" fill="#cbd5e1"/>
+
+    <circle cx="108" cy="387" r="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2.5"/>
+    <circle cx="108" cy="387" r="6" fill="#cbd5e1"/>
+
+    <circle cx="532" cy="387" r="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2.5"/>
+    <circle cx="532" cy="387" r="6" fill="#cbd5e1"/>
+
+    <!-- Inner Board Hardware Layout -->
+    
+      <!-- Ground plane hatching & solder vias -->
+      <g fill="#e2e8f0" stroke="#64748b" stroke-width="1">
+        <circle cx="140" cy="100" r="4"/><circle cx="140" cy="100" r="1.5" fill="#f59e0b"/><circle cx="166" cy="100" r="4"/><circle cx="166" cy="100" r="1.5" fill="#f59e0b"/><circle cx="192" cy="100" r="4"/><circle cx="192" cy="100" r="1.5" fill="#f59e0b"/><circle cx="218" cy="100" r="4"/><circle cx="218" cy="100" r="1.5" fill="#f59e0b"/><circle cx="244" cy="100" r="4"/><circle cx="244" cy="100" r="1.5" fill="#f59e0b"/><circle cx="270" cy="100" r="4"/><circle cx="270" cy="100" r="1.5" fill="#f59e0b"/><circle cx="296" cy="100" r="4"/><circle cx="296" cy="100" r="1.5" fill="#f59e0b"/><circle cx="322" cy="100" r="4"/><circle cx="322" cy="100" r="1.5" fill="#f59e0b"/><circle cx="348" cy="100" r="4"/><circle cx="348" cy="100" r="1.5" fill="#f59e0b"/><circle cx="374" cy="100" r="4"/><circle cx="374" cy="100" r="1.5" fill="#f59e0b"/><circle cx="400" cy="100" r="4"/><circle cx="400" cy="100" r="1.5" fill="#f59e0b"/><circle cx="426" cy="100" r="4"/><circle cx="426" cy="100" r="1.5" fill="#f59e0b"/><circle cx="452" cy="100" r="4"/><circle cx="452" cy="100" r="1.5" fill="#f59e0b"/><circle cx="478" cy="100" r="4"/><circle cx="478" cy="100" r="1.5" fill="#f59e0b"/>
+        <circle cx="140" cy="380" r="4"/><circle cx="140" cy="380" r="1.5" fill="#f59e0b"/><circle cx="166" cy="380" r="4"/><circle cx="166" cy="380" r="1.5" fill="#f59e0b"/><circle cx="192" cy="380" r="4"/><circle cx="192" cy="380" r="1.5" fill="#f59e0b"/><circle cx="218" cy="380" r="4"/><circle cx="218" cy="380" r="1.5" fill="#f59e0b"/><circle cx="244" cy="380" r="4"/><circle cx="244" cy="380" r="1.5" fill="#f59e0b"/><circle cx="270" cy="380" r="4"/><circle cx="270" cy="380" r="1.5" fill="#f59e0b"/><circle cx="296" cy="380" r="4"/><circle cx="296" cy="380" r="1.5" fill="#f59e0b"/><circle cx="322" cy="380" r="4"/><circle cx="322" cy="380" r="1.5" fill="#f59e0b"/><circle cx="348" cy="380" r="4"/><circle cx="348" cy="380" r="1.5" fill="#f59e0b"/><circle cx="374" cy="380" r="4"/><circle cx="374" cy="380" r="1.5" fill="#f59e0b"/><circle cx="400" cy="380" r="4"/><circle cx="400" cy="380" r="1.5" fill="#f59e0b"/><circle cx="426" cy="380" r="4"/><circle cx="426" cy="380" r="1.5" fill="#f59e0b"/><circle cx="452" cy="380" r="4"/><circle cx="452" cy="380" r="1.5" fill="#f59e0b"/><circle cx="478" cy="380" r="4"/><circle cx="478" cy="380" r="1.5" fill="#f59e0b"/>
+        <circle cx="240" cy="240" r="3.5"/><circle cx="240" cy="240" r="1" fill="#f59e0b"/><circle cx="260" cy="240" r="3.5"/><circle cx="260" cy="240" r="1" fill="#f59e0b"/><circle cx="280" cy="240" r="3.5"/><circle cx="280" cy="240" r="1" fill="#f59e0b"/><circle cx="300" cy="240" r="3.5"/><circle cx="300" cy="240" r="1" fill="#f59e0b"/><circle cx="320" cy="240" r="3.5"/><circle cx="320" cy="240" r="1" fill="#f59e0b"/><circle cx="340" cy="240" r="3.5"/><circle cx="340" cy="240" r="1" fill="#f59e0b"/><circle cx="360" cy="240" r="3.5"/><circle cx="360" cy="240" r="1" fill="#f59e0b"/><circle cx="380" cy="240" r="3.5"/><circle cx="380" cy="240" r="1" fill="#f59e0b"/>
+      </g>
+      <!-- Copper ground routing tracks -->
+      <path d="M 140 100 L 140 240 L 240 240 M 480 380 L 480 240 L 400 240 M 200 100 L 200 180 L 300 180" fill="none" stroke="rgba(245, 158, 11, 0.4)" stroke-width="2"/>
+      
+      <!-- Silkscreen Certification Stamps on Underside -->
+      <g fill="rgba(255,255,255,0.45)" font-family="monospace">
+        <text x="320" y="200" font-size="16" font-weight="bold" text-anchor="middle">PCB REAR SOLDER MASK</text>
+        <text x="320" y="225" font-size="12" text-anchor="middle">FC • CE • RoHS COMPLIANT • Pb-FREE</text>
+        <text x="320" y="290" font-size="14" font-weight="bold" text-anchor="middle">ESP32-S3-WROOM-1 (16MB Flash, 8MB PSRAM)</text>
+        <text x="320" y="310" font-size="11" text-anchor="middle">CIRCUITKART GENUINE HARDWARE</text>
+      </g>
+    
+
+    <!-- Brand Silkscreen -->
+    <text x="540" y="340" fill="rgba(255,255,255,0.75)" font-family="-apple-system, sans-serif" font-size="12" font-weight="bold" text-anchor="end">ESP32-S3-WROOM-1 (16MB Flash, 8MB PSRAM)</text>
+    <text x="540" y="358" fill="rgba(255,255,255,0.4)" font-family="monospace" font-size="9" text-anchor="end">CIRCUITKART GENUINE</text>
+  </g>
+
+  <!-- View Angle Tag in Bottom Right -->
+  <rect x="420" y="450" width="200" height="34" rx="8" fill="#0f172a" stroke="rgba(0,0,0,0.12)"/>
+  <text x="520" y="472" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold" text-anchor="middle">UNDERSIDE SOLDER MASK</text>
+</svg>
