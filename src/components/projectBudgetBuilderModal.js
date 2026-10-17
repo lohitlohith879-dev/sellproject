@@ -89,7 +89,7 @@ export function openProjectBudgetBuilderModal(bomItems, onUpdateItem, onRemoveIt
                     <tr>
                       <td>
                         <div style="width:44px; height:44px; background:#ffffff; border-radius:8px; padding:3px; display:flex; align-items:center; justify-content:center;">
-                          <img src="${item.image}" alt="${item.name}" style="max-width:100%; max-height:100%; object-fit:contain;" onerror="this.src='/images/components/${item.id}-front.svg'" />
+                          <img src="${item.image}" alt="${item.name}" style="max-width:100%; max-height:100%; object-fit:contain;" />
                         </div>
                       </td>
                       <td>

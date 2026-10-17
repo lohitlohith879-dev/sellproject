@@ -49,7 +49,7 @@ export function openComponentComparisonModal(components, onRemove, onClear) {
                 ${components.map(c => `
                   <th style="padding:16px 20px; min-width:200px; text-align:center; vertical-align:top; border-left:1px solid rgba(255,255,255,0.06);">
                     <div style="position:relative; width:120px; height:120px; background:#ffffff; border-radius:12px; margin:0 auto 12px; padding:10px; display:flex; align-items:center; justify-content:center;">
-                      <img src="${c.image}" alt="${c.name}" style="max-width:100%; max-height:100%; object-fit:contain;" onerror="this.src='/images/components/${c.id}-front.svg'" />
+                      <img src="${c.image}" alt="${c.name}" style="max-width:100%; max-height:100%; object-fit:contain;" />
                       <button data-remove-id="${c.id}" title="Remove" style="position:absolute; top:-6px; right:-6px; background:#ef4444; color:#fff; border:none; border-radius:50%; width:22px; height:22px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:bold;">
                         ✕
                       </button>

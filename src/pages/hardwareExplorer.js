@@ -346,24 +346,16 @@ export async function HardwareExplorerPage(container, params = {}) {
 
                     return `
                       <div class="hw-card" data-component-id="${c.id}">
-                        <!-- White-Background Product Image with Quick Angle Preview Dots -->
+                        <!-- White-Background Product Image -->
                         <div class="hw-card-img-wrap" onclick="location.hash='#/components/${c.id}'">
                           <img
                             src="${c.image}"
                             alt="${c.name}"
                             class="hw-card-img"
                             loading="lazy"
-                            onerror="this.src='/images/components/${c.id}-front.svg'"
+                            onerror="this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80'"
                           />
                           
-                          <!-- Quick Angle Dots (Front, 3D, Back, Pinout) -->
-                          <div class="hw-card-angle-dots" onclick="event.stopPropagation()">
-                            <span class="hw-card-dot active" title="Front View" onclick="window.previewCardAngle(event, '${c.id}', 'front')"></span>
-                            <span class="hw-card-dot" title="3D Perspective" onclick="window.previewCardAngle(event, '${c.id}', 'angle')"></span>
-                            <span class="hw-card-dot" title="Underside PCB" onclick="window.previewCardAngle(event, '${c.id}', 'back')"></span>
-                            <span class="hw-card-dot" title="Pinout Blueprint" onclick="window.previewCardAngle(event, '${c.id}', 'pinout')"></span>
-                          </div>
-
                           <!-- Price Verified/Estimated Tag -->
                           <div class="hw-badge-price-status ${c.priceType === 'Verified' ? 'verified' : 'estimated'}">
                             ${c.priceType === 'Verified' ? '✓ Verified Price' : 'Estimated'}
@@ -516,7 +508,7 @@ export async function HardwareExplorerPage(container, params = {}) {
           if (matches.length > 0) {
             searchDropdown.innerHTML = matches.map(m => `
               <a href="#/components/${m.id}" class="hw-search-preview-item">
-                <img src="${m.image}" alt="${m.name}" class="hw-search-thumb" onerror="this.src='/images/components/${m.id}-front.svg'" />
+                <img src="${m.image}" alt="${m.name}" class="hw-search-thumb" />
                 <div class="hw-search-info">
                   <div class="p-name">${m.name}</div>
                   <div class="p-cat">${m.category} • ${m.model || ''}</div>
@@ -686,17 +678,6 @@ export async function HardwareExplorerPage(container, params = {}) {
     }
   };
 
-  window.previewCardAngle = (e, id, angle) => {
-    e.stopPropagation();
-    const card = document.querySelector(`.hw-card[data-component-id="${id}"]`);
-    if (!card) return;
-    const img = card.querySelector('.hw-card-img');
-    if (img) img.src = `/images/components/${id}-${angle}.svg`;
-    card.querySelectorAll('.hw-card-dot').forEach((dot, idx) => {
-      dot.classList.toggle('active', ['front', 'angle', 'back', 'pinout'][idx] === angle);
-    });
-  };
-
   window.openProjectBomModal = () => {
     openProjectBudgetBuilderModal(
       bomItems,
@@ -720,4 +701,3 @@ export async function HardwareExplorerPage(container, params = {}) {
 
   render();
 }
-
