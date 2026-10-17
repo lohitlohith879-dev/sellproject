@@ -298,11 +298,72 @@ function initDb() {
       created_at TEXT DEFAULT (datetime('now')),
       FOREIGN KEY(userId) REFERENCES users(id)
     );
+
+    CREATE TABLE IF NOT EXISTS project_dashboards (
+      id TEXT PRIMARY KEY,
+      title TEXT NOT NULL,
+      slug TEXT UNIQUE NOT NULL,
+      category TEXT NOT NULL,
+      subcategory TEXT,
+      description TEXT,
+      shortDescription TEXT,
+      coverImage TEXT,
+      screenshots TEXT,
+      hardwareComponents TEXT,
+      technologies TEXT,
+      status TEXT DEFAULT 'Completed',
+      githubUrl TEXT,
+      demoVideoUrl TEXT,
+      liveWebsiteUrl TEXT,
+      overview TEXT,
+      problemStatement TEXT,
+      proposedSolution TEXT,
+      componentList TEXT,
+      circuitDiagram TEXT,
+      workingPrinciple TEXT,
+      results TEXT,
+      features TEXT,
+      published INTEGER DEFAULT 1,
+      created_at TEXT DEFAULT (datetime('now')),
+      updated_at TEXT DEFAULT (datetime('now'))
+    );
   `;
 
   db.exec(initSql);
 
   try {
+    // Seed initial Project Dashboards (IoT and Web Development)
+    const dashCount = db.prepare('SELECT COUNT(*) as count FROM project_dashboards').get().count;
+    if (dashCount === 0) {
+      import('./projectDashboardsSeed.js').then(({ initialProjectDashboards }) => {
+        const insertStmt = db.prepare(`
+          INSERT INTO project_dashboards (
+            id, title, slug, category, subcategory, description, shortDescription,
+            coverImage, screenshots, hardwareComponents, technologies, status,
+            githubUrl, demoVideoUrl, liveWebsiteUrl, overview, problemStatement,
+            proposedSolution, componentList, circuitDiagram, workingPrinciple,
+            results, features, published
+          ) VALUES (
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+          )
+        `);
+
+        for (const p of initialProjectDashboards) {
+          insertStmt.run(
+            p.id, p.title, p.slug, p.category, p.subcategory || '', p.description || '', p.shortDescription || '',
+            p.coverImage || '', p.screenshots || '[]', p.hardwareComponents || '', p.technologies || '[]',
+            p.status || 'Completed', p.githubUrl || '', p.demoVideoUrl || '', p.liveWebsiteUrl || '',
+            p.overview || '', p.problemStatement || '', p.proposedSolution || '', p.componentList || '[]',
+            p.circuitDiagram || '', p.workingPrinciple || '', p.results || '', p.features || '[]',
+            p.published !== undefined ? p.published : 1
+          );
+        }
+        console.log(`✅ Seeded ${initialProjectDashboards.length} Project Dashboards (IoT & Web) successfully.`);
+      }).catch(err => {
+        console.error('Error seeding project dashboards:', err);
+      });
+    }
+
     // Seed initial IoT Projects if not populated
     const iotCount = db.prepare('SELECT COUNT(*) as count FROM iot_projects').get().count;
     if (iotCount === 0) {

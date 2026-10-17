@@ -16,8 +16,13 @@ import { InvoicePage } from './pages/invoice.js';
 import { socketManager } from './socket/socket.js';
 import { IoTProjectsPage } from './pages/iotProjects.js';
 import { IoTProjectDetailPage } from './pages/iotProjectDetail.js';
+import { ProjectsHubPage } from './pages/projectsHub.js';
+import { IoTDashboardPage } from './pages/iotDashboard.js';
+import { WebDashboardPage } from './pages/webDashboard.js';
+import { ProjectShowcaseDetailPage } from './pages/projectShowcaseDetail.js';
 import './styles/iotProjects.css';
 import './styles/flipkartProfile.css';
+import './styles/projectsDashboard.css';
 
 const API_URL = (import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
 const API = API_URL;
@@ -103,28 +108,33 @@ function renderNavbar() {
             Home
           </a>
 
-          <a
-            href="#/projects"
-            class="nav-link ${router.currentRoute &&
-        router.currentRoute.startsWith('/project') &&
-        !router.currentRoute.startsWith('/iot-project')
+          <div class="nav-dropdown">
+            <a
+              href="#/projects"
+              class="nav-link nav-dropdown-trigger ${router.currentRoute &&
+        router.currentRoute.startsWith('/project')
         ? 'active'
         : ''
       }"
-          >
-            Projects
-          </a>
-
-          <a
-            href="#/iot-projects"
-            class="nav-link ${router.currentRoute &&
-        router.currentRoute.startsWith('/iot-project')
-        ? 'active'
-        : ''
-      }"
-          >
-            IoT Projects
-          </a>
+            >
+              <span>Projects</span>
+              <i data-lucide="chevron-down" style="width:13px; height:13px;"></i>
+            </a>
+            <div class="nav-dropdown-menu">
+              <a href="#/projects" class="nav-dropdown-item">
+                <i data-lucide="layers"></i>
+                <span>All Projects</span>
+              </a>
+              <a href="#/projects/iot" class="nav-dropdown-item">
+                <i data-lucide="cpu"></i>
+                <span>IoT Projects</span>
+              </a>
+              <a href="#/projects/web" class="nav-dropdown-item">
+                <i data-lucide="globe"></i>
+                <span>Web Development Projects</span>
+              </a>
+            </div>
+          </div>
 
           <a
             href="#/customizer"
@@ -287,7 +297,33 @@ function renderNavbar() {
               .click()
           "
         >
-          Projects
+          All Projects
+        </a>
+
+        <a
+          href="#/projects/iot"
+          class="nav-link"
+          style="padding-left:24px; font-size:0.9rem; color:#00f2fe;"
+          onclick="
+            document
+              .querySelector('.mobile-menu-btn')
+              .click()
+          "
+        >
+          ⚡ IoT Projects
+        </a>
+
+        <a
+          href="#/projects/web"
+          class="nav-link"
+          style="padding-left:24px; font-size:0.9rem; color:#c084fc;"
+          onclick="
+            document
+              .querySelector('.mobile-menu-btn')
+              .click()
+          "
+        >
+          🌐 Web Development Projects
         </a>
 
         <a
@@ -1010,7 +1046,32 @@ async function initApp() {
 
   router.on(
     '/projects',
+    ProjectsHubPage
+  );
+
+  router.on(
+    '/projects/all',
     ProjectsPage
+  );
+
+  router.on(
+    '/projects/iot',
+    IoTDashboardPage
+  );
+
+  router.on(
+    '/projects/iot/:id',
+    (container, params) => ProjectShowcaseDetailPage(container, params, 'iot')
+  );
+
+  router.on(
+    '/projects/web',
+    WebDashboardPage
+  );
+
+  router.on(
+    '/projects/web/:id',
+    (container, params) => ProjectShowcaseDetailPage(container, params, 'web')
   );
 
   router.on(

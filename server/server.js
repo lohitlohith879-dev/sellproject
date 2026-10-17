@@ -987,6 +987,354 @@ app.delete('/api/admin/iot-projects/:id', authMiddleware, requireAdmin, (req, re
 });
 
 // ---------------------------------------------------------
+// PROJECT DASHBOARDS API (IoT & Web Development Management)
+// ---------------------------------------------------------
+
+// Helper to parse project JSON fields
+function formatProjectDashboard(p) {
+  if (!p) return null;
+  let screenshots = [];
+  let hardwareComponents = [];
+  let technologies = [];
+  let componentList = [];
+  let features = [];
+
+  try { screenshots = typeof p.screenshots === 'string' ? JSON.parse(p.screenshots || '[]') : p.screenshots || []; } catch(e) {}
+  try {
+    if (typeof p.hardwareComponents === 'string') {
+      hardwareComponents = p.hardwareComponents.startsWith('[') ? JSON.parse(p.hardwareComponents) : p.hardwareComponents.split(',').map(s => s.trim()).filter(Boolean);
+    } else {
+      hardwareComponents = p.hardwareComponents || [];
+    }
+  } catch(e) {}
+  try {
+    if (typeof p.technologies === 'string') {
+      technologies = p.technologies.startsWith('[') ? JSON.parse(p.technologies) : p.technologies.split(',').map(s => s.trim()).filter(Boolean);
+    } else {
+      technologies = p.technologies || [];
+    }
+  } catch(e) {}
+  try { componentList = typeof p.componentList === 'string' ? JSON.parse(p.componentList || '[]') : p.componentList || []; } catch(e) {}
+  try {
+    if (typeof p.features === 'string') {
+      features = p.features.startsWith('[') ? JSON.parse(p.features) : p.features.split(',').map(s => s.trim()).filter(Boolean);
+    } else {
+      features = p.features || [];
+    }
+  } catch(e) {}
+
+  return {
+    ...p,
+    screenshots,
+    hardwareComponents,
+    technologies,
+    componentList,
+    features,
+    published: p.published === 1
+  };
+}
+
+// Compute statistics across projects
+function computeProjectStats(projects) {
+  const total = projects.length;
+  const completed = projects.filter(p => (p.status || '').toLowerCase() === 'completed').length;
+  const ongoing = projects.filter(p => (p.status || '').toLowerCase() === 'in progress').length;
+  const planned = projects.filter(p => (p.status || '').toLowerCase() === 'planned').length;
+  
+  const techSet = new Set();
+  projects.forEach(p => {
+    (p.technologies || []).forEach(t => { if (t) techSet.add(t); });
+  });
+
+  return {
+    total,
+    completed,
+    ongoing,
+    planned,
+    technologiesCount: techSet.size,
+    technologiesList: Array.from(techSet).sort()
+  };
+}
+
+// GET all projects or filter by category/search/tech/status
+app.get('/api/project-dashboards', (req, res) => {
+  try {
+    const { category, status, tech, q } = req.query;
+    let query = 'SELECT * FROM project_dashboards WHERE published = 1';
+    const params = [];
+
+    if (category && category !== 'all') {
+      query += ' AND LOWER(category) = ?';
+      params.push(category.toLowerCase());
+    }
+
+    if (status && status !== 'all') {
+      query += ' AND LOWER(status) = ?';
+      params.push(status.toLowerCase());
+    }
+
+    query += ' ORDER BY created_at DESC';
+    let rows = db.prepare(query).all(...params);
+    let projects = rows.map(formatProjectDashboard);
+
+    if (tech && tech !== 'all') {
+      const techLower = tech.toLowerCase();
+      projects = projects.filter(p => p.technologies.some(t => t.toLowerCase() === techLower));
+    }
+
+    if (q && q.trim()) {
+      const queryStr = q.trim().toLowerCase();
+      projects = projects.filter(p => 
+        (p.title || '').toLowerCase().includes(queryStr) ||
+        (p.shortDescription || '').toLowerCase().includes(queryStr) ||
+        (p.description || '').toLowerCase().includes(queryStr) ||
+        p.technologies.some(t => t.toLowerCase().includes(queryStr)) ||
+        p.hardwareComponents.some(h => (typeof h === 'string' ? h : h.name || '').toLowerCase().includes(queryStr))
+      );
+    }
+
+    const stats = computeProjectStats(projects);
+    res.json({ projects, stats });
+  } catch (err) {
+    console.error('Error fetching project dashboards:', err);
+    res.status(500).json({ error: 'Failed to fetch projects' });
+  }
+});
+
+// GET by category specifically
+app.get('/api/project-dashboards/cat/:category', (req, res) => {
+  try {
+    const category = req.params.category.toLowerCase();
+    if (!['iot', 'web'].includes(category)) {
+      return res.status(400).json({ error: 'Invalid category. Must be iot or web' });
+    }
+    const rows = db.prepare('SELECT * FROM project_dashboards WHERE LOWER(category) = ? AND published = 1 ORDER BY created_at DESC').all(category);
+    const projects = rows.map(formatProjectDashboard);
+    const stats = computeProjectStats(projects);
+    res.json({ projects, stats });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch category projects' });
+  }
+});
+
+// GET single project by ID or slug
+app.get('/api/project-dashboards/item/:idOrSlug', (req, res) => {
+  try {
+    const param = req.params.idOrSlug;
+    const row = db.prepare('SELECT * FROM project_dashboards WHERE id = ? OR slug = ?').get(param, param);
+    if (!row) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+    res.json(formatProjectDashboard(row));
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch project detail' });
+  }
+});
+
+// Admin: Create new project
+app.post('/api/project-dashboards', authMiddleware, requireAdmin, (req, res) => {
+  try {
+    const {
+      title,
+      category,
+      subcategory,
+      description,
+      shortDescription,
+      coverImage,
+      screenshots,
+      hardwareComponents,
+      technologies,
+      status,
+      githubUrl,
+      demoVideoUrl,
+      liveWebsiteUrl,
+      overview,
+      problemStatement,
+      proposedSolution,
+      componentList,
+      circuitDiagram,
+      workingPrinciple,
+      results,
+      features,
+      published
+    } = req.body;
+
+    if (!title || !category) {
+      return res.status(400).json({ error: 'Title and category (iot or web) are required.' });
+    }
+
+    const cleanCategory = category.toLowerCase().trim() === 'web' ? 'web' : 'iot';
+    const slugBase = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    const id = `${cleanCategory}-${slugBase}-${Date.now().toString().slice(-4)}`;
+    const slug = `${slugBase}-${Date.now().toString().slice(-4)}`;
+
+    const stmt = db.prepare(`
+      INSERT INTO project_dashboards (
+        id, title, slug, category, subcategory, description, shortDescription,
+        coverImage, screenshots, hardwareComponents, technologies, status,
+        githubUrl, demoVideoUrl, liveWebsiteUrl, overview, problemStatement,
+        proposedSolution, componentList, circuitDiagram, workingPrinciple,
+        results, features, published, created_at, updated_at
+      ) VALUES (
+        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now')
+      )
+    `);
+
+    stmt.run(
+      id,
+      title,
+      slug,
+      cleanCategory,
+      subcategory || '',
+      description || '',
+      shortDescription || description || '',
+      coverImage || '',
+      typeof screenshots === 'string' ? screenshots : JSON.stringify(screenshots || []),
+      typeof hardwareComponents === 'string' ? hardwareComponents : JSON.stringify(hardwareComponents || []),
+      typeof technologies === 'string' ? technologies : JSON.stringify(technologies || []),
+      status || 'Completed',
+      githubUrl || '',
+      demoVideoUrl || '',
+      liveWebsiteUrl || '',
+      overview || '',
+      problemStatement || '',
+      proposedSolution || '',
+      typeof componentList === 'string' ? componentList : JSON.stringify(componentList || []),
+      circuitDiagram || '',
+      workingPrinciple || '',
+      results || '',
+      typeof features === 'string' ? features : JSON.stringify(features || []),
+      published !== undefined ? (published ? 1 : 0) : 1
+    );
+
+    const created = db.prepare('SELECT * FROM project_dashboards WHERE id = ?').get(id);
+    res.status(201).json(formatProjectDashboard(created));
+  } catch (err) {
+    console.error('Error creating project dashboard:', err);
+    res.status(500).json({ error: 'Failed to create project: ' + err.message });
+  }
+});
+
+// Admin: Update project
+app.put('/api/project-dashboards/:id', authMiddleware, requireAdmin, (req, res) => {
+  try {
+    const id = req.params.id;
+    const existing = db.prepare('SELECT id FROM project_dashboards WHERE id = ?').get(id);
+    if (!existing) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+
+    const {
+      title,
+      category,
+      subcategory,
+      description,
+      shortDescription,
+      coverImage,
+      screenshots,
+      hardwareComponents,
+      technologies,
+      status,
+      githubUrl,
+      demoVideoUrl,
+      liveWebsiteUrl,
+      overview,
+      problemStatement,
+      proposedSolution,
+      componentList,
+      circuitDiagram,
+      workingPrinciple,
+      results,
+      features,
+      published
+    } = req.body;
+
+    const stmt = db.prepare(`
+      UPDATE project_dashboards SET
+        title = COALESCE(?, title),
+        category = COALESCE(?, category),
+        subcategory = COALESCE(?, subcategory),
+        description = COALESCE(?, description),
+        shortDescription = COALESCE(?, shortDescription),
+        coverImage = COALESCE(?, coverImage),
+        screenshots = COALESCE(?, screenshots),
+        hardwareComponents = COALESCE(?, hardwareComponents),
+        technologies = COALESCE(?, technologies),
+        status = COALESCE(?, status),
+        githubUrl = COALESCE(?, githubUrl),
+        demoVideoUrl = COALESCE(?, demoVideoUrl),
+        liveWebsiteUrl = COALESCE(?, liveWebsiteUrl),
+        overview = COALESCE(?, overview),
+        problemStatement = COALESCE(?, problemStatement),
+        proposedSolution = COALESCE(?, proposedSolution),
+        componentList = COALESCE(?, componentList),
+        circuitDiagram = COALESCE(?, circuitDiagram),
+        workingPrinciple = COALESCE(?, workingPrinciple),
+        results = COALESCE(?, results),
+        features = COALESCE(?, features),
+        published = COALESCE(?, published),
+        updated_at = datetime('now')
+      WHERE id = ?
+    `);
+
+    stmt.run(
+      title,
+      category ? category.toLowerCase().trim() : null,
+      subcategory,
+      description,
+      shortDescription,
+      coverImage,
+      screenshots ? (typeof screenshots === 'string' ? screenshots : JSON.stringify(screenshots)) : null,
+      hardwareComponents ? (typeof hardwareComponents === 'string' ? hardwareComponents : JSON.stringify(hardwareComponents)) : null,
+      technologies ? (typeof technologies === 'string' ? technologies : JSON.stringify(technologies)) : null,
+      status,
+      githubUrl,
+      demoVideoUrl,
+      liveWebsiteUrl,
+      overview,
+      problemStatement,
+      proposedSolution,
+      componentList ? (typeof componentList === 'string' ? componentList : JSON.stringify(componentList)) : null,
+      circuitDiagram,
+      workingPrinciple,
+      results,
+      features ? (typeof features === 'string' ? features : JSON.stringify(features)) : null,
+      published !== undefined ? (published ? 1 : 0) : null,
+      id
+    );
+
+    const updated = db.prepare('SELECT * FROM project_dashboards WHERE id = ?').get(id);
+    res.json(formatProjectDashboard(updated));
+  } catch (err) {
+    console.error('Error updating project dashboard:', err);
+    res.status(500).json({ error: 'Failed to update project' });
+  }
+});
+
+// Admin: Delete project
+app.delete('/api/project-dashboards/:id', authMiddleware, requireAdmin, (req, res) => {
+  try {
+    db.prepare('DELETE FROM project_dashboards WHERE id = ?').run(req.params.id);
+    res.json({ success: true, message: 'Project deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete project' });
+  }
+});
+
+// Admin: Toggle publish
+app.patch('/api/project-dashboards/:id/publish', authMiddleware, requireAdmin, (req, res) => {
+  try {
+    const current = db.prepare('SELECT published FROM project_dashboards WHERE id = ?').get(req.params.id);
+    if (!current) return res.status(404).json({ error: 'Project not found' });
+    const newPub = current.published === 1 ? 0 : 1;
+    db.prepare('UPDATE project_dashboards SET published = ?, updated_at = datetime("now") WHERE id = ?').run(newPub, req.params.id);
+    res.json({ success: true, published: newPub === 1 });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to toggle publication' });
+  }
+});
+
+// ---------------------------------------------------------
 // ADMIN DATA API (CRUD for Projects, Components, Settings)
 // ---------------------------------------------------------
 
