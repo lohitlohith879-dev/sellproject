@@ -1,11 +1,51 @@
-import Database from 'better-sqlite3';
+import { DatabaseSync } from 'node:sqlite';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const dbPath = process.env.DB_PATH || join(__dirname, 'circuitkart.db');
 
-const db = new Database(dbPath);
+const rawDb = new DatabaseSync(dbPath);
+
+function wrapStatement(stmt) {
+  return {
+    run(...args) {
+      if (args.length === 1 && Array.isArray(args[0])) return stmt.run(...args[0]);
+      return stmt.run(...args);
+    },
+    get(...args) {
+      if (args.length === 1 && Array.isArray(args[0])) return stmt.get(...args[0]);
+      return stmt.get(...args);
+    },
+    all(...args) {
+      if (args.length === 1 && Array.isArray(args[0])) return stmt.all(...args[0]);
+      return stmt.all(...args);
+    }
+  };
+}
+
+const origPrepare = rawDb.prepare.bind(rawDb);
+rawDb.prepare = (sql) => wrapStatement(origPrepare(sql));
+rawDb.pragma = (sql) => {
+  try {
+    return rawDb.prepare('PRAGMA ' + sql).all();
+  } catch {
+    return rawDb.exec('PRAGMA ' + sql);
+  }
+};
+rawDb.transaction = (fn) => (...args) => {
+  rawDb.exec('BEGIN IMMEDIATE');
+  try {
+    const res = fn(...args);
+    rawDb.exec('COMMIT');
+    return res;
+  } catch (err) {
+    rawDb.exec('ROLLBACK');
+    throw err;
+  }
+};
+
+const db = rawDb;
 db.pragma('journal_mode = WAL');
 
 function initDb() {
@@ -218,6 +258,46 @@ function initDb() {
       created_at TEXT DEFAULT (datetime('now')),
       PRIMARY KEY(userId, projectId)
     );
+
+    CREATE TABLE IF NOT EXISTS user_addresses (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      userId INTEGER NOT NULL,
+      name TEXT NOT NULL,
+      phone TEXT NOT NULL,
+      pincode TEXT NOT NULL,
+      locality TEXT,
+      address TEXT NOT NULL,
+      city TEXT NOT NULL,
+      state TEXT NOT NULL,
+      landmark TEXT,
+      alternatePhone TEXT,
+      type TEXT DEFAULT 'HOME',
+      isDefault INTEGER DEFAULT 0,
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY(userId) REFERENCES users(id)
+    );
+
+    CREATE TABLE IF NOT EXISTS user_wishlist (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      userId INTEGER NOT NULL,
+      projectId TEXT NOT NULL,
+      projectType TEXT DEFAULT 'regular',
+      created_at TEXT DEFAULT (datetime('now')),
+      UNIQUE(userId, projectId)
+    );
+
+    CREATE TABLE IF NOT EXISTS user_payment_methods (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      userId INTEGER NOT NULL,
+      type TEXT NOT NULL,
+      title TEXT NOT NULL,
+      maskedNumber TEXT NOT NULL,
+      expiry TEXT,
+      holderName TEXT,
+      isDefault INTEGER DEFAULT 0,
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY(userId) REFERENCES users(id)
+    );
   `;
 
   db.exec(initSql);
@@ -290,10 +370,20 @@ function initDb() {
     const hasPhone = usersCols.some(c => c.name === 'phone');
     const hasCollege = usersCols.some(c => c.name === 'college');
     const hasAddress = usersCols.some(c => c.name === 'address');
+    const hasGender = usersCols.some(c => c.name === 'gender');
+    const hasDob = usersCols.some(c => c.name === 'dob');
+    const hasAvatar = usersCols.some(c => c.name === 'avatar');
+    const hasPhoneVerified = usersCols.some(c => c.name === 'phone_verified');
+    const hasMembership = usersCols.some(c => c.name === 'membership');
 
     if (!hasPhone) db.prepare("ALTER TABLE users ADD COLUMN phone TEXT").run();
     if (!hasCollege) db.prepare("ALTER TABLE users ADD COLUMN college TEXT").run();
     if (!hasAddress) db.prepare("ALTER TABLE users ADD COLUMN address TEXT").run();
+    if (!hasGender) db.prepare("ALTER TABLE users ADD COLUMN gender TEXT").run();
+    if (!hasDob) db.prepare("ALTER TABLE users ADD COLUMN dob TEXT").run();
+    if (!hasAvatar) db.prepare("ALTER TABLE users ADD COLUMN avatar TEXT").run();
+    if (!hasPhoneVerified) db.prepare("ALTER TABLE users ADD COLUMN phone_verified INTEGER DEFAULT 1").run();
+    if (!hasMembership) db.prepare("ALTER TABLE users ADD COLUMN membership TEXT DEFAULT 'Plus Member'").run();
 
     console.log('Database schemas verified/migrated successfully.');
   } catch (err) {

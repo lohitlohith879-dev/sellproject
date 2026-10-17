@@ -17,6 +17,7 @@ import { socketManager } from './socket/socket.js';
 import { IoTProjectsPage } from './pages/iotProjects.js';
 import { IoTProjectDetailPage } from './pages/iotProjectDetail.js';
 import './styles/iotProjects.css';
+import './styles/flipkartProfile.css';
 
 const API_URL = (import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
 const API = API_URL;
@@ -1049,6 +1050,11 @@ async function initApp() {
 
   router.on(
     '/dashboard',
+    DashboardPage
+  );
+
+  router.on(
+    '/profile',
     DashboardPage
   );
 

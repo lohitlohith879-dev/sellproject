@@ -160,7 +160,7 @@ app.post('/api/auth/login', async (req, res) => {
 
 // GET CURRENT USER (protected)
 app.get('/api/auth/me', authMiddleware, (req, res) => {
-  const user = db.prepare('SELECT id, name, email, role, phone, college, address, created_at FROM users WHERE id = ?').get(req.user.id);
+  const user = db.prepare('SELECT id, name, email, role, phone, college, address, gender, dob, avatar, phone_verified, membership, created_at FROM users WHERE id = ?').get(req.user.id);
   if (!user) return res.status(404).json({ error: 'User not found' });
   res.json({ user });
 });
@@ -168,7 +168,7 @@ app.get('/api/auth/me', authMiddleware, (req, res) => {
 // GET USER PROFILE
 app.get('/api/users/profile', authMiddleware, (req, res) => {
   try {
-    const user = db.prepare('SELECT id, name, email, role, phone, college, address, created_at FROM users WHERE id = ?').get(req.user.id);
+    const user = db.prepare('SELECT id, name, email, role, phone, college, address, gender, dob, avatar, phone_verified, membership, created_at FROM users WHERE id = ?').get(req.user.id);
     if (!user) return res.status(404).json({ error: 'User not found' });
     res.json(user);
   } catch (error) {
@@ -179,17 +179,29 @@ app.get('/api/users/profile', authMiddleware, (req, res) => {
 // UPDATE USER PROFILE
 app.put('/api/users/profile', authMiddleware, (req, res) => {
   try {
-    const { name, phone, college, address } = req.body;
+    const { name, phone, college, address, gender, dob, avatar } = req.body;
     db.prepare(`
       UPDATE users SET
         name = COALESCE(?, name),
         phone = COALESCE(?, phone),
         college = COALESCE(?, college),
-        address = COALESCE(?, address)
+        address = COALESCE(?, address),
+        gender = COALESCE(?, gender),
+        dob = COALESCE(?, dob),
+        avatar = COALESCE(?, avatar)
       WHERE id = ?
-    `).run(name || null, phone || null, college || null, address || null, req.user.id);
+    `).run(
+      name !== undefined ? name : null,
+      phone !== undefined ? phone : null,
+      college !== undefined ? college : null,
+      address !== undefined ? address : null,
+      gender !== undefined ? gender : null,
+      dob !== undefined ? dob : null,
+      avatar !== undefined ? avatar : null,
+      req.user.id
+    );
 
-    const updatedUser = db.prepare('SELECT id, name, email, role, phone, college, address, created_at FROM users WHERE id = ?').get(req.user.id);
+    const updatedUser = db.prepare('SELECT id, name, email, role, phone, college, address, gender, dob, avatar, phone_verified, membership, created_at FROM users WHERE id = ?').get(req.user.id);
 
     // Notify admins of profile update
     const date = new Date().toISOString();
@@ -204,6 +216,348 @@ app.put('/api/users/profile', authMiddleware, (req, res) => {
   } catch (error) {
     console.error('Error updating profile:', error);
     res.status(500).json({ error: 'Failed to update profile' });
+  }
+});
+
+// CHANGE PASSWORD
+app.post('/api/users/change-password', authMiddleware, async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ error: 'Current password and new password are required' });
+    }
+    if (newPassword.length < 6) {
+      return res.status(400).json({ error: 'New password must be at least 6 characters long' });
+    }
+
+    const user = db.prepare('SELECT password_hash FROM users WHERE id = ?').get(req.user.id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    const isValid = await bcrypt.compare(currentPassword, user.password_hash);
+    if (!isValid) {
+      return res.status(400).json({ error: 'Current password does not match' });
+    }
+
+    const newHash = await bcrypt.hash(newPassword, 10);
+    db.prepare('UPDATE users SET password_hash = ? WHERE id = ?').run(newHash, req.user.id);
+
+    res.json({ success: true, message: 'Password updated successfully' });
+  } catch (err) {
+    console.error('Change password error:', err);
+    res.status(500).json({ error: 'Failed to update password' });
+  }
+});
+
+// ADDRESSES API
+app.get('/api/users/addresses', authMiddleware, (req, res) => {
+  try {
+    const addresses = db.prepare('SELECT * FROM user_addresses WHERE userId = ? ORDER BY isDefault DESC, id DESC').all(req.user.id);
+    res.json(addresses);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch addresses' });
+  }
+});
+
+app.post('/api/users/addresses', authMiddleware, (req, res) => {
+  try {
+    const { name, phone, pincode, locality, address, city, state, landmark, alternatePhone, type, isDefault } = req.body;
+    if (!name || !phone || !pincode || !address || !city || !state) {
+      return res.status(400).json({ error: 'Name, phone, pincode, address, city, and state are required.' });
+    }
+
+    // If marked default or first address, clear others
+    const count = db.prepare('SELECT COUNT(*) as count FROM user_addresses WHERE userId = ?').get(req.user.id).count;
+    const shouldBeDefault = isDefault || count === 0 ? 1 : 0;
+    if (shouldBeDefault) {
+      db.prepare('UPDATE user_addresses SET isDefault = 0 WHERE userId = ?').run(req.user.id);
+    }
+
+    const result = db.prepare(`
+      INSERT INTO user_addresses (userId, name, phone, pincode, locality, address, city, state, landmark, alternatePhone, type, isDefault)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(
+      req.user.id, name, phone, pincode, locality || '', address, city, state,
+      landmark || '', alternatePhone || '', type || 'HOME', shouldBeDefault
+    );
+
+    const newAddress = db.prepare('SELECT * FROM user_addresses WHERE id = ?').get(result.lastInsertRowid);
+    res.status(201).json(newAddress);
+  } catch (err) {
+    console.error('Error adding address:', err);
+    res.status(500).json({ error: 'Failed to add address' });
+  }
+});
+
+app.put('/api/users/addresses/:id', authMiddleware, (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, phone, pincode, locality, address, city, state, landmark, alternatePhone, type, isDefault } = req.body;
+
+    const existing = db.prepare('SELECT * FROM user_addresses WHERE id = ? AND userId = ?').get(id, req.user.id);
+    if (!existing) return res.status(404).json({ error: 'Address not found' });
+
+    if (isDefault) {
+      db.prepare('UPDATE user_addresses SET isDefault = 0 WHERE userId = ?').run(req.user.id);
+    }
+
+    db.prepare(`
+      UPDATE user_addresses SET
+        name = COALESCE(?, name),
+        phone = COALESCE(?, phone),
+        pincode = COALESCE(?, pincode),
+        locality = COALESCE(?, locality),
+        address = COALESCE(?, address),
+        city = COALESCE(?, city),
+        state = COALESCE(?, state),
+        landmark = COALESCE(?, landmark),
+        alternatePhone = COALESCE(?, alternatePhone),
+        type = COALESCE(?, type),
+        isDefault = COALESCE(?, isDefault)
+      WHERE id = ? AND userId = ?
+    `).run(
+      name, phone, pincode, locality, address, city, state,
+      landmark, alternatePhone, type, isDefault !== undefined ? (isDefault ? 1 : 0) : null,
+      id, req.user.id
+    );
+
+    const updated = db.prepare('SELECT * FROM user_addresses WHERE id = ?').get(id);
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update address' });
+  }
+});
+
+app.delete('/api/users/addresses/:id', authMiddleware, (req, res) => {
+  try {
+    const { id } = req.params;
+    const existing = db.prepare('SELECT * FROM user_addresses WHERE id = ? AND userId = ?').get(id, req.user.id);
+    if (!existing) return res.status(404).json({ error: 'Address not found' });
+
+    db.prepare('DELETE FROM user_addresses WHERE id = ? AND userId = ?').run(id, req.user.id);
+
+    // If the deleted address was default, make another one default
+    if (existing.isDefault) {
+      const remaining = db.prepare('SELECT id FROM user_addresses WHERE userId = ? ORDER BY id DESC LIMIT 1').get(req.user.id);
+      if (remaining) {
+        db.prepare('UPDATE user_addresses SET isDefault = 1 WHERE id = ?').run(remaining.id);
+      }
+    }
+
+    res.json({ success: true, message: 'Address removed' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete address' });
+  }
+});
+
+app.patch('/api/users/addresses/:id/default', authMiddleware, (req, res) => {
+  try {
+    const { id } = req.params;
+    const existing = db.prepare('SELECT * FROM user_addresses WHERE id = ? AND userId = ?').get(id, req.user.id);
+    if (!existing) return res.status(404).json({ error: 'Address not found' });
+
+    db.prepare('UPDATE user_addresses SET isDefault = 0 WHERE userId = ?').run(req.user.id);
+    db.prepare('UPDATE user_addresses SET isDefault = 1 WHERE id = ?').run(id);
+
+    res.json({ success: true, message: 'Default address updated' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to set default address' });
+  }
+});
+
+// WISHLIST API
+app.get('/api/users/wishlist', authMiddleware, (req, res) => {
+  try {
+    const wishlistRows = db.prepare('SELECT * FROM user_wishlist WHERE userId = ? ORDER BY id DESC').all(req.user.id);
+    const regularProjects = db.prepare('SELECT * FROM projects').all();
+    const iotProjects = db.prepare('SELECT * FROM iot_projects').all();
+
+    const items = wishlistRows.map(row => {
+      let project = null;
+      if (row.projectType === 'iot') {
+        const p = iotProjects.find(i => String(i.id) === String(row.projectId) || i.slug === row.projectId);
+        if (p) {
+          project = {
+            id: p.id,
+            slug: p.slug,
+            name: p.name,
+            price: p.price,
+            rating: p.rating || 4.8,
+            image: p.image || '',
+            category: p.category || 'IoT',
+            type: 'iot'
+          };
+        }
+      } else {
+        const p = regularProjects.find(i => String(i.id) === String(row.projectId) || i.slug === row.projectId);
+        if (p) {
+          project = {
+            id: p.id,
+            slug: p.slug,
+            name: p.name,
+            price: p.price,
+            rating: p.rating || 4.7,
+            image: p.image || '',
+            category: p.category || 'Embedded',
+            type: 'regular'
+          };
+        }
+      }
+
+      if (!project) {
+        // Fallback placeholder if project not found
+        project = {
+          id: row.projectId,
+          slug: row.projectId,
+          name: 'Electronic Kit #' + row.projectId,
+          price: 1499,
+          rating: 4.8,
+          image: '',
+          category: 'Hardware',
+          type: row.projectType || 'regular'
+        };
+      }
+
+      return {
+        wishlistId: row.id,
+        projectId: row.projectId,
+        projectType: row.projectType,
+        created_at: row.created_at,
+        ...project
+      };
+    });
+
+    res.json(items);
+  } catch (err) {
+    console.error('Wishlist fetch error:', err);
+    res.status(500).json({ error: 'Failed to fetch wishlist' });
+  }
+});
+
+app.post('/api/users/wishlist', authMiddleware, (req, res) => {
+  try {
+    const { projectId, projectType } = req.body;
+    if (!projectId) return res.status(400).json({ error: 'Project ID is required' });
+
+    db.prepare(`
+      INSERT INTO user_wishlist (userId, projectId, projectType)
+      VALUES (?, ?, ?)
+      ON CONFLICT(userId, projectId) DO NOTHING
+    `).run(req.user.id, projectId, projectType || 'regular');
+
+    res.json({ success: true, message: 'Added to wishlist' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to add to wishlist' });
+  }
+});
+
+app.delete('/api/users/wishlist/:projectId', authMiddleware, (req, res) => {
+  try {
+    const { projectId } = req.params;
+    db.prepare('DELETE FROM user_wishlist WHERE userId = ? AND (projectId = ? OR id = ?)').run(req.user.id, projectId, projectId);
+    res.json({ success: true, message: 'Removed from wishlist' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to remove from wishlist' });
+  }
+});
+
+// PAYMENT METHODS API (Masked / Safe display only)
+app.get('/api/users/payment-methods', authMiddleware, (req, res) => {
+  try {
+    const methods = db.prepare('SELECT id, type, title, maskedNumber, expiry, holderName, isDefault, created_at FROM user_payment_methods WHERE userId = ? ORDER BY isDefault DESC, id DESC').all(req.user.id);
+    res.json(methods);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch payment methods' });
+  }
+});
+
+app.post('/api/users/payment-methods', authMiddleware, (req, res) => {
+  try {
+    const { type, title, maskedNumber, expiry, holderName, isDefault } = req.body;
+    if (!type || !title || !maskedNumber) {
+      return res.status(400).json({ error: 'Payment details required' });
+    }
+
+    if (isDefault) {
+      db.prepare('UPDATE user_payment_methods SET isDefault = 0 WHERE userId = ?').run(req.user.id);
+    }
+
+    const result = db.prepare(`
+      INSERT INTO user_payment_methods (userId, type, title, maskedNumber, expiry, holderName, isDefault)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `).run(req.user.id, type, title, maskedNumber, expiry || '', holderName || '', isDefault ? 1 : 0);
+
+    const created = db.prepare('SELECT id, type, title, maskedNumber, expiry, holderName, isDefault FROM user_payment_methods WHERE id = ?').get(result.lastInsertRowid);
+    res.status(201).json(created);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to save payment method' });
+  }
+});
+
+app.delete('/api/users/payment-methods/:id', authMiddleware, (req, res) => {
+  try {
+    const { id } = req.params;
+    db.prepare('DELETE FROM user_payment_methods WHERE id = ? AND userId = ?').run(id, req.user.id);
+    res.json({ success: true, message: 'Payment method removed' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to remove payment method' });
+  }
+});
+
+// REWARDS & COUPONS API
+app.get('/api/users/rewards', authMiddleware, (req, res) => {
+  try {
+    // Calculate SuperCoins based on completed orders
+    const orders = db.prepare("SELECT total, status FROM orders WHERE userId = ?").all(req.user.id);
+    const deliveredTotal = orders
+      .filter(o => o.status === 'delivered')
+      .reduce((sum, o) => sum + (o.total || 0), 0);
+
+    // Base coins 100 for registration + 10% on delivered orders up to 500
+    const superCoins = 100 + Math.min(Math.floor(deliveredTotal * 0.05), 500);
+
+    const coupons = [
+      {
+        code: 'CIRCUIT100',
+        title: '₹100 Instant Discount',
+        desc: 'Valid on orders above ₹999 on IoT & Embedded kits',
+        discount: 100,
+        minOrder: 999,
+        expiry: '31 Dec 2026',
+        category: 'All Categories'
+      },
+      {
+        code: 'MAKER15',
+        title: '15% Off on DIY Projects',
+        desc: 'Special discount for student makers and engineers',
+        discount: '15%',
+        minOrder: 1499,
+        expiry: '15 Nov 2026',
+        category: 'Robotics & ESP32'
+      },
+      {
+        code: 'FREESHIP',
+        title: 'Free Express Shipping',
+        desc: 'Enjoy free delivery across India on any order',
+        discount: 'Free Delivery',
+        minOrder: 499,
+        expiry: '28 Feb 2026',
+        category: 'Hardware & Kits'
+      }
+    ];
+
+    res.json({
+      superCoins,
+      membershipTier: 'CircuitKart Plus Member',
+      perks: [
+        'Free Express Delivery on all orders',
+        '2x SuperCoins earn rate',
+        'Early access to new IoT project releases',
+        'Direct 1-on-1 priority tech support for circuit design'
+      ],
+      coupons
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch rewards' });
   }
 });
 
